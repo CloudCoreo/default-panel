@@ -1,10 +1,190 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
-  <head>  
-    <link rel="stylesheet" type="text/css" href="./css/style.css" />
-  </head>
-  <body>
-    <div id = "jsoneditor"></div>   
-    <script type="text/javascript" src="./js/script.js"></script>
-  </body>
+<head>
+    <title>Default Panel</title>
+    <link rel="stylesheet" href="./css/deploy.css">
+    <link rel="stylesheet" href="./css/audit.css">
+</head>
+<body>
+<div id="backdrop">
+    Loading...
+</div>
+<div class="ccthis"></div>
+<div class="modal-window hidden">
+    <div class="modal-content">
+        <span class="close noselect">x</span>
+        <img src="./images/visualization1.png" alt="">
+    </div>
+</div>
+<div class="container">
+    <div class="options-container">
+        <div class="custom-radio-btns-group">
+            <div class="resource-type-toggle">
+                <label name="resource-type-deploy" class="custom-radio-button active"><input for="resource-type-deploy"
+                                                                                             name="resource-type"
+                                                                                             type="radio"
+                                                                                             value="deploy">Deploy</label>
+                <label name="resource-type-audit" class="custom-radio-button"><input for="resource-type-audit"
+                                                                                     name="resource-type" type="radio"
+                                                                                     value="audit">Audit</label>
+                <label name="view-type-map" class="custom-radio-button"><input for="view-type-map"
+                                                                                     name="resource-type" type="radio"
+                                                                                     value="map">Map</label>
+            </div>
+        </div>
+        <div class="custom-dropdown noselect">
+            <div class="dropdown-button">
+                <div>SORT BY</div>
+                <div class="chosen-item-text">Most Recent</div>
+                <input type="hidden" class="chosen-item-value" id="chosen-sorting" value="most_recent">
+                <input type="hidden" class="chosen-item-is-reverse" id="is-reverse" value="true">
+            </div>
+            <ul class="deploy hidden">
+                <li data-value="resource_timestamp">Most Recent</li>
+                <li data-value="resource_type">Resource Type</li>
+                <li data-value="cloud_service">Cloud Service</li>
+                <li data-value="action">Action</li>
+                <li data-value="status">Status</li>
+            </ul>
+            <ul class="audit hidden">
+                <li data-value="level">Severity Level</li>
+                <li data-value="category">Category</li>
+                <li data-value="service">Service</li>
+                <li data-value="region">Region</li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="messages alerts hidden layout-margin-bottom-8">
+        <div class="messages-container">
+            <span class="amount"></span>
+            <span class="message">resources not executed</span>
+        </div>
+    </div>
+    <div class="view-options">
+        <div class="resources-amount"></div>
+    </div>
+
+    <div class="data-container">
+        <div class="deploy">
+            <div class="resources-list"></div>
+            <div class="pagination"></div>
+        </div>
+        <div class="audit flex-row hidden">
+            <div class="left-column">
+                <div class="layout-margin-top layout-padding-left pie"></div>
+            </div>
+            <div class="list"></div>
+        </div>
+        <div class="map layout-padding hidden">
+            <div class="map-cont"></div>
+            <div class="layout-margin-top separator-top map-history flex-row"></div>
+        </div>
+    </div>
+</div>
+<div class="hidden">
+    <div id="error-tpl">
+        <div class="error">
+            <div class="label">Error Message:</div>
+            <div class="error-details"><span class="error-label">Error message: </span>{{:error_message}}</div>
+            <div class="error-type"><span class="error-label">Error type: </span> {{:error_type}}</div>
+            <div class="error-resource"><span class="error-label">Resource error: </span> {{:resource_error}}</div>
+        </div>
+    </div>
+
+    <div id="list-header-tmpl">
+        <div class="flex-row align-center">
+            <div class="subheader flex-grow">{{:name}}</div>
+            <div id="high-counter" class="font-12 medium-grey">{{:resultsCount}} RESULTS</div>
+        </div>
+    </div>
+
+    <div id="show-all-btn-tmpl">
+        <div class="show-all">
+            View all
+        </div>
+    </div>
+
+    <div id="resource-row-tmpl">
+        <div class="resource-row">
+            <div class="view-row {{:engineStatusClass}}">
+                <div class="type">{{:resourceType}}</div>
+                <div class="name">{{:resourceName}}</div>
+                <div class="status">{{:engineStatus}}</div>
+                <div class="action">{{:action}}</div>
+                <div class="status-timestamp">{{:timestamp}}</div>
+            </div>
+            <div class="expandable-row hidden">
+                <div class="logs">
+                    <div class="inputs logs-output">
+                        <div class="label">Inputs:</div>
+                    </div>
+                    <div class="outputs logs-output">
+                        <div class="label">Outputs:</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="row-tmpl">
+        <div class="flex-column row bg-white">
+            <div class="flex-column layout-padding ">
+                <div class="flex-row row-header flex-wrap">
+                    <div class="flex-column flex-grow layout-padding-right">
+                        <div class="title">{{:title}}</div>
+                        <div class="violation-id">AlertId: {{:id}}</div>
+                    </div>
+                    <div class="medium-grey layout-padding-right">{{:level}}</div>
+                    <div class="medium-grey">{{:resources.length}} Resources</div>
+                </div>
+                <div class="details-btn link">+ view details</div>
+            </div>
+            <div class="row-body hidden" style="display: none;">
+                <div class="flex-row separator-top flex-wrap">
+                    <div class="flex-column separator-right flex-grow">
+                        <div class="layout-padding">
+                            <div class="layout-margin-bottom-8">
+                                <i>Category</i><br/>
+                                {{:category}}
+                            </div>
+                            <div>
+                                <i>Description</i><br/>
+                                {{:description}}
+                            </div>
+                        </div>
+                        <div class="bg-light-grey layout-padding">
+                            <i>Suggested Fix</i><br/>
+                            {{:fix}}
+                        </div>
+                    </div>
+                    <div class="flex-column row-right-column layout-padding">
+                        <div class="link flex resources-link" violation="{{:id}}" sortKey="{{:sortKey}}" reportId="{{:reportId}}">
+                            {{:resources.length}} Resources
+                            <img src="./images/right-chevron.svg" class="fa right"/>
+                        </div>
+                        <div class="link flex more-info-link">
+                            <a href="{{:link}}" target="_blank">more info</a>
+                            <img src="./images/right-chevron.svg" class="fa right"/>
+                        </div>
+                        <div class="separator-top layout-margin-top-8 layout-margin-bottom-8"></div>
+                        <div class="link flex share-link">
+                            <img src="./images/envelope.svg" class="fa left"/>
+                            share
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="./js/jquery-2.2.4.min.js"></script>
+<script type="text/javascript" src="./js/jsrender.min.js"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script type="text/javascript" src="./js/pie.js"></script>
+<script type="text/javascript" src="./js/map.js"></script>
+<script type="text/javascript" src="./js/deploy.js"></script>
+<script type="text/javascript" src="./js/audit.js"></script>
+<script type="text/javascript" src="./js/script.js"></script>
+</body>
 </html>

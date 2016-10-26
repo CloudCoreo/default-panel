@@ -1,0 +1,221 @@
+[
+  {
+    "outputs": [
+      {
+        "value": "cc_580dbc6acf8_cloudtrail-service-disabled",
+        "name": "ec2_name"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "choice",
+        "value": "define",
+        "name": "action"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Cloudtrail Service is disabled",
+        "name": "display_name"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "cloudtrail",
+        "name": "service"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          0
+        ],
+        "name": "alert_when"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "trails"
+        ],
+        "name": "objectives"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "http://kb.cloudcoreo.com/cloudtrail-service-disabled.html",
+        "name": "link"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Warning",
+        "name": "level"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "=="
+        ],
+        "name": "operators"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "CloudTrail logging is not enabled for this region. It should be enabled.",
+        "name": "description"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Audit",
+        "name": "category"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Enable CloudTrail logs",
+        "name": "suggested_action"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [],
+        "name": "call_modifiers"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "count"
+        ],
+        "name": "formulas"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "trail_list"
+        ],
+        "name": "audit_objects"
+      }
+    ],
+    "dataType": "ADVISOR_RESOURCE",
+    "resourceName": "cloudtrail-service-disabled",
+    "resourceType": "coreo_aws_advisor_alert",
+    "timestamp": "2016-10-24T07:49:18.000Z",
+    "executionNumber": 1,
+    "resourceId": "ec5559e43e286f771f7c434f2d6f6a75ae29bb3c071a3775c7dcb06a183cdd3a",
+    "namespace": "ROOT::AASDASD-SADASD",
+    "engineStatus": "OK",
+    "runId": "3dbdb404-d58f-41b8-8d84-6f802c1cc5f0",
+    "stackName": "AASDASD-SADASD"
+  },
+  {
+    "outputs": [
+      {
+        "value": "cc_580dbc6acf8_advise-cloudtrail",
+        "name": "ec2_name"
+      },
+      {
+        "value": 0,
+        "name": "number_ignored_violations"
+      },
+      {
+        "value": 0,
+        "name": "number_violations"
+      },
+      {
+        "value": 3,
+        "name": "number_checks"
+      },
+      {
+        "value": "{}",
+        "name": "report"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "choice",
+        "value": "advise",
+        "name": "action"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "us-east-1",
+          "us-west-1",
+          "us-west-2"
+        ],
+        "name": "regions"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "cloudtrail-service-disabled"
+        ],
+        "name": "alerts"
+      }
+    ],
+    "dataType": "ADVISOR_RESOURCE",
+    "resourceName": "advise-cloudtrail",
+    "resourceType": "coreo_aws_advisor_cloudtrail",
+    "timestamp": "2016-10-24T07:49:28.000Z",
+    "executionNumber": 2,
+    "resourceId": "796a019f27764ad62f5b02a9a3d66d830f200cf486c7662d1796928ac0c96a54",
+    "namespace": "ROOT::AASDASD-SADASD",
+    "engineStatus": "OK",
+    "runId": "3dbdb404-d58f-41b8-8d84-6f802c1cc5f0",
+    "stackName": "AASDASD-SADASD"
+  },
+  {
+    "outputs": [
+      {
+        "value": {
+          "error_message": "Missing final '@domain'",
+          "error_type": "AWS::SimpleEmailService::Errors::InvalidParameterValue",
+          "resource_error": "action :notify on coreo_uni_util_notify[advise-cloudtrail]"
+        },
+        "name": "error"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "choice",
+        "value": "notify",
+        "name": "action"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "email",
+        "name": "type"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "json",
+        "name": "payload_type"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "{\"stack name\":\"aasdasd\",\n \"instance name\":\"sadasd\",\n \"number_of_checks\":\"3\",\n \"number_of_violations\":\"0\",\n \"number_violations_ignored\":\"0\",\n \"violations\": {} }",
+        "name": "payload"
+      },
+      {
+        "type": "PLA-1366",
+        "value": {
+          "subject": "CloudCoreo cloudtrail advisor alerts on aasdasd :: sadasd",
+          "to": "testexample.asdasdasdas"
+        },
+        "name": "endpoint"
+      },
+      {
+        "type": "PLA-1366",
+        "value": false,
+        "name": "allow_empty"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "change",
+        "name": "send_on"
+      }
+    ],
+    "dataType": "DEPLOY_RESOURCE",
+    "resourceName": "advise-cloudtrail",
+    "resourceType": "coreo_uni_util_notify",
+    "timestamp": "2016-10-24T07:49:36.000Z",
+    "executionNumber": 3,
+    "resourceId": "e3e058b202cd576a87af21b3ad649e58669ddd205f2f98b17b6e317ff22964fa",
+    "namespace": "ROOT::AASDASD-SADASD",
+    "engineStatus": "PROVIDER_ERROR",
+    "runId": "3dbdb404-d58f-41b8-8d84-6f802c1cc5f0",
+    "stackName": "aasdasd-sadasd"
+  }
+]

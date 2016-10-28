@@ -19,6 +19,8 @@ $(document).ready(function () {
 
     function renderMapData(sortKey) {
         var alerts = auditData.getViolationsList();
+        if (!alerts) return;
+
         var color = auditData.getColors();
         var mapData = {};
         

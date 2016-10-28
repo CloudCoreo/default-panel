@@ -107,6 +107,15 @@ window.audit = (function () {
     }
 
     function renderResourcesList(sortKey) {
+        if (!alerts) {
+            return;
+        }
+
+        if (!alerts.length) {
+            $('#no-violations-view').removeClass('hidden');
+            return;
+        }
+
         var data = [];
         var listOfAlerts = organizeDataForCurrentRender(sortKey);
         var visibleCount;
@@ -151,6 +160,12 @@ window.audit = (function () {
     }
 
     function fillViolationsList(violations, reports) {
+        if(Object.keys(violations).length) {
+            $('#no-violation-resources').removeClass('hidden');
+            alerts = undefined;
+            return;
+        }
+
         reports.forEach(function (reportData) {
             var report = JSON.parse(reportData.outputs.report);
             var reportId = reportData.resourceName;

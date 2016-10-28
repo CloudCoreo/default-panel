@@ -156,6 +156,11 @@ window.deploy = (function () {
             resources.push(resource);
             resource = {};
         });
+
+        if(!resources.length) {
+            $('#no-deploy-resources').removeClass('hidden');
+            return;
+        }
         sort('resource_timestamp', false);
     }
 

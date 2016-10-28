@@ -160,7 +160,7 @@ window.audit = (function () {
     }
 
     function fillViolationsList(violations, reports) {
-        if(Object.keys(violations).length) {
+        if(!Object.keys(violations).length) {
             $('#no-violation-resources').removeClass('hidden');
             alerts = undefined;
             return;

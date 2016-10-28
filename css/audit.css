@@ -127,9 +127,7 @@ html, body {
 }
 
 .md-shadow{
-    -webkit-box-shadow: 0px 0px 1px 0px rgba(107,107,107,0.36);
-    -moz-box-shadow: 0px 0px 1px 0px rgba(107,107,107,0.36);
-    box-shadow: 0px 0px 1px 0px rgba(107,107,107,0.36);
+    box-shadow: rgba(0, 0, 0, 0.2) 0 1px 25px -10px;
 }
 
 .bg-white {

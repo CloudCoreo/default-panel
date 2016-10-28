@@ -76,12 +76,12 @@ body {
 }
 
 .data-container {
-    background: white;
-    box-shadow: rgba(0, 0, 0, 0.2) 0 1px 25px -10px;
     display: flex;
     flex-direction: column;
     margin-bottom: 16px;
 }
+
+
 
 .view-options {
     display: flex;

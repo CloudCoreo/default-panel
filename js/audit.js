@@ -25,12 +25,13 @@ window.audit = (function () {
         violationTpl = $.templates("#row-tmpl"),
         showAllBtnTpl = $("#show-all-btn-tmpl").html();
 
-    function onShowViolationResourcesListClick(elem) {
+    function onShowViolationResourcesListClick(elem, listOfAlerts) {
         var _this = $(elem);
         var violationId = _this.attr('violation');
         var sortKey = _this.attr('sortKey');
         var reportId = _this.attr('reportId');
-        redirectToAuditResources(reportId, violationId, JSON.stringify(listOfAlerts[sortKey].alerts[violationId].resources));
+        var resources = JSON.stringify(listOfAlerts[sortKey].alerts[violationId].resources);
+        redirectToAuditResources(reportId, violationId, resources);
     }
 
     function onShowAllBtnClick(elem) {
@@ -62,7 +63,7 @@ window.audit = (function () {
 
     function refreshClickHandlers(listOfAlerts) {
         $('.resources-link').click(function () {
-            onShowViolationResourcesListClick(this)
+            onShowViolationResourcesListClick(this, listOfAlerts)
         });
         $('.more-info-link').click(function () {
 
@@ -98,6 +99,7 @@ window.audit = (function () {
 
             if (!listOfAlerts[key].alerts[alert.id]) {
                 listOfAlerts[key].alerts[alert.id] = alert;
+                listOfAlerts[key].alerts[alert.id].sortKey = key;
                 listOfAlerts[key].alerts[alert.id].resources = [];
             }
             listOfAlerts[key].alerts[alert.id].resources.push(alert.resource);

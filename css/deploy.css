@@ -242,13 +242,13 @@ body {
 .data-container .resources-list .resource-row {
     display: flex;
     flex-direction: column;
+    border-top: 1px solid #e0e0e0;
 }
 
 .data-container .resources-list .resource-row .view-row {
     display: flex;
     flex-direction: row;
-    border-top: 1px solid #e0e0e0;
-    padding: 10px;
+    margin: 10px;
     cursor: pointer;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -258,7 +258,7 @@ body {
     user-select: none;
 }
 
-.data-container .resources-list .resource-row:last-child .view-row {
+.data-container .resources-list .resource-row:last-child {
     border-bottom: 1px solid #e0e0e0;
 }
 
@@ -313,7 +313,7 @@ body {
 .data-container .resources-list .resource-row .expandable-row {
     background: #f2f2f2;
     margin: 5px;
-    padding: 0px 15px;
+    padding: 0 15px;
 }
 
 .data-container .resources-list .resource-row .expandable-row .message {
@@ -470,6 +470,7 @@ body {
     .data-container .resources-list .resource-row .view-row .status {
         position: absolute;
         right: 0;
+        top: 5px;
         text-align: right;
         margin: 10px 0;
     }

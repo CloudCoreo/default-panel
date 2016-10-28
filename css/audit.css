@@ -5,6 +5,7 @@ html, body {
     background: #F2F2F2;
     min-height: 300px;
     height: 100%;
+    overflow: visible;
 }
 
 .flex {

@@ -23,12 +23,12 @@ $(document).ready(function () {
 
         var color = auditData.getColors();
         var mapData = {};
-        
-        alerts.forEach(function(alert) {
+
+        alerts.forEach(function (alert) {
             var key = alert[sortKey];
-            
-            if(!mapData[alert.region]) mapData[alert.region] = {};
-            if (!mapData[alert.region][key])  mapData[alert.region][key] = {value: 0, color: color[key]};
+
+            if (!mapData[alert.region]) mapData[alert.region] = {};
+            if (!mapData[alert.region][key])  mapData[alert.region][key] = { value: 0, color: color[key] };
             ++mapData[alert.region][key].value;
         });
 
@@ -36,13 +36,13 @@ $(document).ready(function () {
         map.drawMapHistory(mapData, '.map-history');
     }
 
-    function setupHandlers(){
+    function setupHandlers() {
         $('#chosen-sorting').change(function () {
             var sortBy = $(this).val();
             var isReverse = $('.chosen-item-is-reverse').val() === 'true';
 
-            if(currentView === viewTypes.deploy) deployData.renderResourcesList(sortBy, isReverse);
-            if(currentView === viewTypes.audit) auditData.renderResourcesList(sortBy);
+            if (currentView === viewTypes.deploy) deployData.renderResourcesList(sortBy, isReverse);
+            if (currentView === viewTypes.audit) auditData.renderResourcesList(sortBy);
         });
 
         $('.dropdown-button').click(function () {
@@ -84,7 +84,12 @@ $(document).ready(function () {
             $('.' + inputValue).removeClass('hidden');
             currentView = inputValue;
 
-            $('.custom-dropdown .chosen-item-text').html(currentSortBy[currentView]);
+            if (currentView === 'map') {
+                $('.custom-dropdown').hide();
+            } else {
+                $('.custom-dropdown').show();
+                $('.custom-dropdown .chosen-item-text').html(currentSortBy[currentView]);
+            }
 
             if (inputValue) {
                 $(this).addClass('active').siblings().removeClass('active');
@@ -96,8 +101,8 @@ $(document).ready(function () {
         setupHandlers();
         d3.json("./tmp-data/world-countries.json", function (collection) {
             map = new ResourcesMap(collection, '.map-cont');
-            deployData = new deploy(data);
-            auditData = new audit(data, 'level');
+            deployData = new Deploy(data);
+            auditData = new Audit(data, 'level');
 
             renderMapData('level');
 
@@ -106,7 +111,7 @@ $(document).ready(function () {
     }
 
     if (typeof ccThisCont === 'undefined') {
-        d3.json("./tmp-data/tmp.json", function (data) {
+        d3.json("./tmp-data/deploy-tmp.json", function (data) {
             init(data)
         });
     } else {

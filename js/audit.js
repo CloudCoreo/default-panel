@@ -1,4 +1,4 @@
-window.audit = (function () {
+window.Audit = (function () {
     var alerts = [];
     var alertData = {
         level: {},

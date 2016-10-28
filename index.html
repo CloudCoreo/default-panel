@@ -16,97 +16,128 @@
         <img src="./images/visualization1.png" alt="">
     </div>
 </div>
-<div class="container">
-    <div class="options-container">
-        <div class="custom-radio-btns-group">
-            <div class="resource-type-toggle">
-                <label name="resource-type-deploy" class="custom-radio-button active"><input for="resource-type-deploy"
-                                                                                             name="resource-type"
-                                                                                             type="radio"
-                                                                                             value="deploy">Deploy</label>
-                <label name="resource-type-audit" class="custom-radio-button"><input for="resource-type-audit"
-                                                                                     name="resource-type" type="radio"
-                                                                                     value="audit">Audit</label>
-                <label name="view-type-map" class="custom-radio-button"><input for="view-type-map"
-                                                                                     name="resource-type" type="radio"
-                                                                                     value="map">Map</label>
-            </div>
-        </div>
-        <div class="custom-dropdown noselect">
-            <div class="dropdown-button">
-                <div>SORT BY</div>
-                <div class="chosen-item-text">Most Recent</div>
-                <input type="hidden" class="chosen-item-value" id="chosen-sorting" value="most_recent">
-                <input type="hidden" class="chosen-item-is-reverse" id="is-reverse" value="true">
-            </div>
-            <ul class="deploy hidden">
-                <li data-value="resource_timestamp">Most Recent</li>
-                <li data-value="resource_type">Resource Type</li>
-                <li data-value="cloud_service">Cloud Service</li>
-                <li data-value="action">Action</li>
-                <li data-value="status">Status</li>
-            </ul>
-            <ul class="audit hidden">
-                <li data-value="level">Severity Level</li>
-                <li data-value="category">Category</li>
-                <li data-value="service">Service</li>
-                <li data-value="region">Region</li>
-            </ul>
-        </div>
-
-    </div>
-    <div class="messages alerts hidden layout-margin-bottom-8">
+<div class="main-container">
+    <div class="messages error hidden">
         <div class="messages-container">
-            <span class="amount"></span>
-            <span class="message">resources not executed</span>
-        </div>
-    </div>
-    <div class="view-options">
-        <div class="resources-amount"></div>
-    </div>
-
-    <div class="data-container">
-        <div class="deploy bg-white">
-            <div class="resources-list"></div>
-            <div class="pagination"></div>
-        </div>
-        <div class="deploy">
-            <div id="no-deploy-resources" class="hidden">This execution has no deploy resources.</div>
-        </div>
-        <div class="audit flex-row hidden">
-            <div class="left-column">
-                <div class="layout-padding pie"></div>
+            <div class="message-left-part">
+                <span class="message-status">ERROR</span>
+                <span class="amount"></span>
+                <span class="message">resources not executed</span>
             </div>
-            <div class="list"></div>
+            <div class="message-right-part">
+                Next execution: <span>23h 24m 12s</span>
+            </div>
         </div>
-        <div class="audit hidden">
-            <div id="no-violation-resources" class="hidden">This execution has no audit resources.</div>
-            <div id="no-violations-view" class="hidden">
-                <div class="no-violations-cont md-shadow">
-                    <div class="header">
-                        BEST PRACTICE VIOLATIONS<br/>
-                        <span>ZERO, NIP, NADA</span>
-                    </div>
-                    <div class="data">
-                        <div class="flex-grow">
-                            <div class="circle"></div>
+    </div>
+    <div class="messages alert hidden">
+        <div class="messages-container">
+            <div class="message-left-part">
+                <span class="message-status">ALERTS</span>
+                <span class="amount"></span>
+                <span class="message"></span>
+            </div>
+            <div class="message-right-part">
+                Next execution: <span>23h 24m 12s</span>
+            </div>
+        </div>
+    </div>
+    <div class="messages ok hidden">
+        <div class="messages-container">
+            <div class="message-left-part">
+                <span class="message-status">OK</span>
+            </div>
+            <div class="message-right-part">
+                Next execution: <span>23h 24m 12s</span>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="options-container">
+            <div class="custom-radio-btns-group">
+                <div class="resource-type-toggle">
+                    <label name="resource-type-deploy" class="custom-radio-button active"><input
+                            for="resource-type-deploy"
+                            name="resource-type"
+                            type="radio"
+                            value="deploy">Deploy</label>
+                    <label name="resource-type-audit" class="custom-radio-button"><input for="resource-type-audit"
+                                                                                         name="resource-type"
+                                                                                         type="radio"
+                                                                                         value="audit">Audit</label>
+                    <label name="view-type-map" class="custom-radio-button"><input for="view-type-map"
+                                                                                   name="resource-type" type="radio"
+                                                                                   value="map">Map</label>
+                </div>
+            </div>
+            <div class="custom-dropdown noselect">
+                <div class="dropdown-button">
+                    <div>SORT BY</div>
+                    <div class="chosen-item-text">Most Recent</div>
+                    <input type="hidden" class="chosen-item-value" id="chosen-sorting" value="most_recent">
+                    <input type="hidden" class="chosen-item-is-reverse" id="is-reverse" value="true">
+                </div>
+                <ul class="deploy hidden">
+                    <li data-value="resource_timestamp">Most Recent</li>
+                    <li data-value="resource_type">Resource Type</li>
+                    <li data-value="action">Action</li>
+                    <li data-value="status">Status</li>
+                </ul>
+                <ul class="audit hidden">
+                    <li data-value="level">Severity Level</li>
+                    <li data-value="category">Category</li>
+                    <li data-value="service">Service</li>
+                    <li data-value="region">Region</li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="view-options">
+            <div class="resources-amount"></div>
+        </div>
+
+        <div class="data-container">
+            <div class="deploy bg-white">
+                <div class="resources-list"></div>
+                <div class="pagination"></div>
+            </div>
+            <div class="deploy">
+                <div id="no-deploy-resources" class="hidden">This execution has no deploy resources.</div>
+            </div>
+            <div class="audit flex-row hidden">
+                <div class="left-column">
+                    <div class="layout-padding pie"></div>
+                </div>
+                <div class="list"></div>
+            </div>
+            <div class="audit hidden">
+                <div id="no-violation-resources" class="hidden">This execution has no audit resources.</div>
+                <div id="no-violations-view" class="hidden">
+                    <div class="no-violations-cont md-shadow">
+                        <div class="header">
+                            BEST PRACTICE VIOLATIONS<br/>
+                            <span>ZERO, NIP, NADA</span>
                         </div>
-                        <div class="flex-column flex-grow">
-                            <div class="history-title">Infrastructure Status</div>
-                            <div class=" flex-row separator-top">
-                                <div class="history"></div>
-                                <div class="info">100% AWESOME</div>
+                        <div class="data">
+                            <div class="flex-grow">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="flex-column flex-grow">
+                                <div class="history-title">Infrastructure Status</div>
+                                <div class=" flex-row separator-top">
+                                    <div class="history"></div>
+                                    <div class="info">100% AWESOME</div>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="tip">A tip of the hat to you, DevOps Jedi.</div>
                 </div>
-                <div class="tip">A tip of the hat to you, DevOps Jedi.</div>
             </div>
-        </div>
 
-        <div class="map layout-padding hidden bg-white">
-            <div class="map-cont"></div>
-            <div class="layout-margin-top separator-top map-history flex-row"></div>
+            <div class="map layout-padding hidden bg-white">
+                <div class="map-cont"></div>
+                <div class="layout-margin-top separator-top map-history flex-row"></div>
+            </div>
         </div>
     </div>
 </div>
@@ -157,7 +188,6 @@
     </div>
 
 
-
     <div id="row-tmpl">
         <div class="flex-column row bg-white">
             <div class="flex-column layout-padding ">
@@ -190,7 +220,8 @@
                         </div>
                     </div>
                     <div class="flex-column row-right-column layout-padding">
-                        <div class="link flex resources-link" violation="{{:id}}" sortKey="{{:sortKey}}" reportId="{{:reportId}}">
+                        <div class="link flex resources-link" violation="{{:id}}" sortKey="{{:sortKey}}"
+                             reportId="{{:reportId}}">
                             {{:resources.length}} Resources
                             <img src="./images/right-chevron.svg" class="fa right"/>
                         </div>

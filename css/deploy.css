@@ -49,6 +49,10 @@ body {
     max-width: 100%
 }
 
+.main-container {
+    height: 100%;
+}
+
 .container {
     display: flex;
     flex-direction: column;

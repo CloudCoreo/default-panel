@@ -26,7 +26,6 @@ html, body {
 }
 
 .left-column {
-    width: 20%;
     min-width: 300px;
 }
 
@@ -49,6 +48,10 @@ html, body {
 }
 .layout-margin-top-8 {
     margin-top: 8px;
+}
+
+.layout-margin-bottom-20 {
+    margin-bottom: 20px;
 }
 .layout-margin-bottom-8 {
     margin-bottom: 8px;
@@ -302,6 +305,45 @@ html, body {
 .no-violations-cont .info {
     line-height: 45px;
     margin: 20px 0;
+}
+
+.advisor-error {
+    padding: 10px;
+    border: 1px solid #E4E4E4;
+}
+
+.advisor-error .view-row {
+    display: flex;
+    flex-direction: row;
+    color: #E53E2B;
+    cursor: pointer;
+}
+
+.advisor-error .view-row div{
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.advisor-error .logs {
+    display: flex;
+    flex-direction: row;
+    background: #f2f2f2;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+.advisor-error .logs > div {
+    width: 50%;
+    padding: 10px;
+}
+.advisor-error .logs .logs-output b {
+    color: #E53E2B;
+}
+
+.advisor-error .logs .label {
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 10px;
 }
 
 @media (max-width: 600px) {

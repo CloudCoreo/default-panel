@@ -36,24 +36,6 @@ window.Deploy = (function () {
         });
     }
 
-    function formatDate(date) {
-        var d = new Date(date),
-            month = '' + (d.getMonth() + 1),
-            day = '' + d.getDate(),
-            year = d.getFullYear(),
-            hour = d.getHours(),
-            minute = d.getMinutes(),
-            seconds = d.getSeconds();
-
-        if (month.length < 2) month = '0' + month;
-        if (day.length < 2) day = '0' + day;
-        if (hour.length < 2) hour = '0' + hour;
-        if (minute.length < 2) minute = '0' + minute;
-        if (seconds.length < 2) seconds = '0' + seconds;
-
-        return [day, month, year].join('/') + ' ' + [hour, minute, seconds].join(':');
-    }
-
     function appendLogs(data, appendTo) {
         Object.keys(data).forEach(function (key) {
             var inputOutputRecordHtml = '';
@@ -164,7 +146,7 @@ window.Deploy = (function () {
                     resource[resourceData] = resourceProperty;
                 }
                 else if (resourceData == 'timestamp') {
-                    resource.timestamp = formatDate(resourceProperty);
+                    resource.timestamp = utils.formatDate(resourceProperty);
                 }
                 else {
                     resource[resourceData] = resourceProperty;
@@ -176,6 +158,7 @@ window.Deploy = (function () {
 
         if (!resources.length) {
             $('#no-deploy-resources').removeClass('hidden');
+            $('.resources-list').addClass('hidden');
             return;
         }
         sort('resource_timestamp', false);

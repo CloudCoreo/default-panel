@@ -107,7 +107,10 @@
                 <div class="left-column">
                     <div class="layout-padding pie"></div>
                 </div>
-                <div class="list"></div>
+                <div class="flex-grow">
+                    <div id="advisor-errors"></div>
+                    <div class="list"></div>
+                </div>
             </div>
             <div class="audit hidden">
                 <div id="no-violation-resources" class="hidden">This execution has no audit resources.</div>
@@ -188,12 +191,36 @@
     </div>
 
     <div id="violation-error-tpl">
-        <div class="flex-row bg-white">
-            <div>{{:resourceType}}</div>
-            <div>{{:resourceName}}</div>
-            <div><b>Error</b></div>
-            <div>{{:action}}</div>
-            <div>{{:timestamp}}</div>
+        <div class="advisor-error">
+            <div class="view-row">
+                <div>{{:resourceType}}</div>
+                <div>{{:resourceName}}</div>
+                <div><b>Error</b></div>
+                <div>{{:inputs.action}}</div>
+                <div class="medium-grey">{{:timestamp}}</div>
+            </div>
+            <div class="expandable-row hidden" style="display: none;">
+                <div class="logs">
+                    <div class="inputs logs-output">
+                        <div class="label">Inputs:</div>
+                        {{for rawInputs}}
+                            <div class="flex-row">
+                                <div>{{:name}}: </div><div class="layout-padding-left">{{:value}}</div>
+                            </div>
+                        {{/for}}
+                    </div>
+                    <div class="outputs logs-output">
+                        <div class="label"><b>Error Message</b></div>
+                        {{for rawOutputs}}
+                            <div class="flex-column">
+                                <div>{{:value.error_message}}</div>
+                                <div>Error type: {{:value.error_type}}</div>
+                                <div>Error resource: {{:value.resource_error}}</div>
+                            </div>
+                        {{/for}}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -252,6 +279,7 @@
 <script type="text/javascript" src="./js/jquery-2.2.4.min.js"></script>
 <script type="text/javascript" src="./js/jsrender.min.js"></script>
 <script src="https://d3js.org/d3.v4.min.js"></script>
+<script type="text/javascript" src="./js/utils.js"></script>
 <script type="text/javascript" src="./js/pie.js"></script>
 <script type="text/javascript" src="./js/map.js"></script>
 <script type="text/javascript" src="./js/deploy.js"></script>

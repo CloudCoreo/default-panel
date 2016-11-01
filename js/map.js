@@ -36,6 +36,13 @@ var regionsList = {
         longitude: -83.9481084,
         countryId: 'USA'
     },
+    'us-east-2': {
+        region: 'US East',
+        city: 'Ohio',
+        latitude: 40.1685993,
+        longitude: -84.9182274,
+        countryId: 'USA'
+    },
     'us-west-1': {
         region: 'US West',
         city: 'N. California',
@@ -79,7 +86,7 @@ function drawMap(collection, mapCont) {
             var centroid = path.centroid(d);
             x = centroid[ 0 ];
             y = centroid[ 1 ] * 1.3;
-            k = 4;
+            k = 3;
             centered = d;
         } else {
             x = w / 2;

@@ -111,7 +111,7 @@ $(document).ready(function () {
     }
 
     if (typeof ccThisCont === 'undefined') {
-        d3.json("./tmp-data/deploy-tmp.json", function (data) {
+        d3.json("./tmp-data/tmp.json", function (data) {
             init(data)
         });
     } else {

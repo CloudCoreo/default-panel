@@ -1,4 +1,4 @@
-window.audit = (function () {
+window.Audit = (function () {
     var alerts = [];
     var alertData = {
         level: {},
@@ -20,17 +20,27 @@ window.audit = (function () {
         RainbowTones: d3.scaleOrdinal(['#582a7f', '#bf4a95', '#2dbf74', '#39c4cc', '#2b7ae5', '#c4c4c4', '#6b6b6b', '#272e39'])
     };
 
+    var containers = {
+        mainDataContainerSelector: '.list',
+        noAuditResourcesMessageSelector: '#no-violation-resources',
+        noViolationsMessageSelector: '#no-violations-view',
+        pieChartSelector: '.pie',
+        errorsContSelector: '#advisor-errors'
+    };
+
     var pie;
     var headerTpl = $.templates("#list-header-tmpl"),
         violationTpl = $.templates("#row-tmpl"),
-        showAllBtnTpl = $("#show-all-btn-tmpl").html();
+        showAllBtnTpl = $("#show-all-btn-tmpl").html(),
+        errorTpl = $.templates("#violation-error-tpl");
 
-    function onShowViolationResourcesListClick(elem) {
+    function onShowViolationResourcesListClick(elem, listOfAlerts) {
         var _this = $(elem);
         var violationId = _this.attr('violation');
         var sortKey = _this.attr('sortKey');
         var reportId = _this.attr('reportId');
-        redirectToAuditResources(reportId, violationId, JSON.stringify(listOfAlerts[sortKey].alerts[violationId].resources));
+        var resources = JSON.stringify(listOfAlerts[sortKey].alerts[violationId].resources);
+        redirectToAuditResources(reportId, violationId, resources);
     }
 
     function onShowAllBtnClick(elem) {
@@ -62,7 +72,7 @@ window.audit = (function () {
 
     function refreshClickHandlers(listOfAlerts) {
         $('.resources-link').click(function () {
-            onShowViolationResourcesListClick(this)
+            onShowViolationResourcesListClick(this, listOfAlerts)
         });
         $('.more-info-link').click(function () {
 
@@ -98,6 +108,7 @@ window.audit = (function () {
 
             if (!listOfAlerts[key].alerts[alert.id]) {
                 listOfAlerts[key].alerts[alert.id] = alert;
+                listOfAlerts[key].alerts[alert.id].sortKey = key;
                 listOfAlerts[key].alerts[alert.id].resources = [];
             }
             listOfAlerts[key].alerts[alert.id].resources.push(alert.resource);
@@ -106,51 +117,96 @@ window.audit = (function () {
         return listOfAlerts;
     }
 
-    function renderResourcesList(sortKey) {
-        var data = [];
-        var listOfAlerts = organizeDataForCurrentRender(sortKey);
-        var visibleCount;
-        var visibleList;
-        var restList;
+    function renderErrorsPanel(errors) {
+        if (!errors.length) return;
 
-        $('.list').html('');
+        var errorsList = '';
+        errors.forEach(function(error) {
+            error.timestamp = utils.formatDate(error.timestamp);
+            errorsList += errorTpl.render(error);
+        });
+
+        var html =
+            '<div class="bg-white layout-padding flex-column layout-margin-bottom-20 md-shadow">' +
+                '<div class="subheader flex-grow">Error</div>'+
+                errorsList +
+            '</div>';
+
+        $(containers.errorsContSelector).html(html);
+        $('.advisor-error .view-row').click(function () {
+            var _this = $(this);
+            var body = _this.next();
+            if (body.hasClass('hidden')) {
+                body.removeClass('hidden');
+                body.slideDown();
+            } else {
+                body.slideUp(function () {
+                    body.addClass('hidden');
+                });
+            }
+        });
+    }
+
+    function getListSectionHTML(violations, sectionSummary) {
+        var visibleList = '';
+        var restList = '';
+        var visibleCount = 0;
+        var headerData = {name: sectionSummary.label, resultsCount: sectionSummary.value};
+        var header = headerTpl.render(headerData);
+
+        Object.keys(violations).forEach(function (vId) {
+            var rendered = violationTpl.render(violations[vId]);
+            if (visibleCount < 5) visibleList += rendered;
+            else restList += rendered;
+            visibleCount++;
+        });
+
+        var html =
+            '<div class="' + headerData.name + ' bg-white layout-padding" style="margin-bottom: 20px;">' +
+                header +
+                '<div style="border-color: ' + sectionSummary.color + '">' +
+                    visibleList +
+                    '<div class="hidden" style="border-color: inherit;">' + restList + '</div>' +
+                    ((visibleCount > 5) ? showAllBtnTpl : '') +
+                '</div>' +
+            '</div>';
+
+        return html;
+    }
+
+    function renderResourcesList(sortKey) {
+        if (!alerts) {
+            return;
+        }
+
+        if (!alerts.length) {
+            $(containers.noViolationsMessageSelector).removeClass('hidden');
+            return;
+        }
+
+        var pieData = [];
+        var listOfAlerts = organizeDataForCurrentRender(sortKey);
+
+        $(containers.mainDataContainerSelector).html('');
 
         Object.keys(listOfAlerts).forEach(function (key) {
-            var currentColor = listOfAlerts[key].color;
-            var headerData = {name: key, resultsCount: alertData[sortKey][key]};
-            var header = headerTpl.render(headerData);
+            var sectionSummary = {label: key, value: alertData[sortKey][key], color: listOfAlerts[key].color};
+            var listSection = getListSectionHTML(listOfAlerts[key].alerts, sectionSummary);
+            $(containers.mainDataContainerSelector).append(listSection);
 
-            data.push({label: headerData.name, value: headerData.resultsCount, color: currentColor});
-
-            visibleList = '';
-            restList = '';
-            visibleCount = 0;
-
-            var groupedAlerts = listOfAlerts[key];
-            Object.keys(groupedAlerts.alerts).forEach(function (alertId) {
-                var rendered = violationTpl.render(groupedAlerts.alerts[alertId]);
-
-                if (visibleCount < 5) visibleList += rendered;
-                else restList += rendered;
-                visibleCount++;
-            });
-
-            var html = '<div class="' + key + ' bg-white layout-padding" style="margin-bottom: 20px;">' +
-                header +
-                '<div style="border-color: ' + currentColor + '">' +
-                visibleList +
-                '<div class="hidden" style="border-color: inherit;">' + restList + '</div>' +
-                ((visibleCount > 5) ? showAllBtnTpl : '') +
-                '</div>' +
-                '</div>';
-
-            $('.list').append(html);
+            pieData.push(sectionSummary);
         });
-        pie.drawPie(data);
+        pie.drawPie(pieData);
         refreshClickHandlers(listOfAlerts);
     }
 
     function fillViolationsList(violations, reports) {
+        if(!Object.keys(violations).length) {
+            $(containers.noAuditResourcesMessageSelector).removeClass('hidden');
+            alerts = undefined;
+            return;
+        }
+
         reports.forEach(function (reportData) {
             var report = JSON.parse(reportData.outputs.report);
             var reportId = reportData.resourceName;
@@ -159,7 +215,7 @@ window.audit = (function () {
                 Object.keys(report[resId].violations).forEach(function (violationKey) {
                     var rowData = report[resId].violations[violationKey];
                     var alert = {
-                        title: rowData.display_name,
+                        title: rowData.display_name || violationKey,
                         id: violationKey,
                         level: rowData.level,
                         category: rowData.category,
@@ -195,10 +251,12 @@ window.audit = (function () {
         });
     }
 
+
+
     function initResourcesList(data) {
         var newData = [];
         var reports = [];
-
+        var errors = [];
         data.forEach(function (elem) {
             if (elem.dataType !== 'ADVISOR_RESOURCE') return;
 
@@ -210,7 +268,7 @@ window.audit = (function () {
             newObj.namespace = elem.namespace;
             newObj.runId = elem.runId;
             newObj.stackName = elem.stackName;
-
+            newObj.timestamp = elem.timestamp;
             newObj.inputs = {};
             newObj.outputs = {};
 
@@ -221,20 +279,29 @@ window.audit = (function () {
                 newObj.outputs[output.name] = output.value;
             });
 
-            if (!newObj.outputs.report) newData[newObj.resourceName] = newObj;
-            else reports.push(newObj);
+            if (newObj.outputs.error){
+                newObj.rawInputs = elem.inputs;
+                newObj.rawOutputs = elem.outputs;
+                errors.push(newObj);
+            }
+            else if (newObj.outputs.report) reports.push(newObj);
+            else newData[newObj.resourceName] = newObj;
         });
 
         fillViolationsList(newData, reports);
+        renderErrorsPanel(errors);
     }
 
     function init(data, sortKey) {
-        pie = new ResourcesPie('.pie');
+        pie = new ResourcesPie(containers.pieChartSelector);
         initResourcesList(data);
         renderResourcesList(sortKey);
     }
 
-    function audit(data, sortKey) {
+    function audit(data, sortKey, selectors) {
+        if(selectors) {
+            containers = selectors;
+        }
         init(data, sortKey);
     }
 

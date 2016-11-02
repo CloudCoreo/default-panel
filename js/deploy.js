@@ -1,10 +1,11 @@
-window.deploy = (function () {
+window.Deploy = (function () {
     var resources = [];
     var numberOfNotExecutedResources = 0;
+    var resourcesAlerts = false;
     var initialData;
 
     function renderResourcesList() {
-        // $('.resources-list').html('');
+        $('.resources-list').html('');
         //$('.resources-list').html('<pre>' + JSON.stringify(initialData, null, 4) + '</pre>');
         var rowTmpl = $.templates('#resource-row-tmpl');
         Object.keys(resources).forEach(function (resource) {
@@ -16,7 +17,13 @@ window.deploy = (function () {
         appendNumberOfResultsLabel();
         initializeRowsActions();
         if (numberOfNotExecutedResources > 0) {
-            appendNumberNotExecutedResources();
+            appendNumberNotExecutedResourcesNotification();
+        }
+        if (resourcesAlerts) {
+            appendResourcesAlertsNotifiacation();
+        }
+        if (numberOfNotExecutedResources <= 0 && !resourcesAlerts) {
+            appendSuccessulBuildNotification();
         }
     }
 
@@ -29,23 +36,6 @@ window.deploy = (function () {
         });
     }
 
-    function formatDate(date) {
-        var d = new Date(date),
-            month = '' + (d.getMonth() + 1),
-            day = '' + d.getDate(),
-            year = d.getFullYear(),
-            hour = d.getHours(),
-            minute = d.getMinutes(),
-            seconds = d.getSeconds();
-
-        if (month.length < 2) month = '0' + month;
-        if (day.length < 2) day = '0' + day;
-        if (hour.length < 2) hour = '0' + hour;
-        if (minute.length < 2) minute = '0' + minute;
-        if (seconds.length < 2) seconds = '0' + seconds;
-
-        return [day, month, year].join('/') + ' ' + [hour, minute, seconds].join(':');
-    }
     function appendLogs(data, appendTo) {
         Object.keys(data).forEach(function (key) {
             var inputOutputRecordHtml = '';
@@ -69,9 +59,18 @@ window.deploy = (function () {
         $('.resources-amount').html(resources.length + ' results');
     }
 
-    function appendNumberNotExecutedResources() {
-        $('.alerts.messages').removeClass('hidden');
-        $('.alerts.messages .amount').html(numberOfNotExecutedResources);
+    function appendNumberNotExecutedResourcesNotification() {
+        $('.error.messages').removeClass('hidden');
+        $('.error.messages .message-left-part .message-status').html('ERROR');
+        $('.error.messages .amount').html(numberOfNotExecutedResources);
+    }
+
+    function appendResourcesAlertsNotifiacation() {
+        $('.alert.messages').removeClass('hidden');
+    }
+
+    function appendSuccessulBuildNotification() {
+        $('.ok.messages').removeClass('hidden');
     }
 
     function sortResourcesByResourceType(isReverse) {
@@ -147,7 +146,7 @@ window.deploy = (function () {
                     resource[resourceData] = resourceProperty;
                 }
                 else if (resourceData == 'timestamp') {
-                    resource.timestamp = formatDate(resourceProperty);
+                    resource.timestamp = utils.formatDate(resourceProperty);
                 }
                 else {
                     resource[resourceData] = resourceProperty;
@@ -156,6 +155,12 @@ window.deploy = (function () {
             resources.push(resource);
             resource = {};
         });
+
+        if (!resources.length) {
+            $('#no-deploy-resources').removeClass('hidden');
+            $('.resources-list').addClass('hidden');
+            return;
+        }
         sort('resource_timestamp', false);
     }
 

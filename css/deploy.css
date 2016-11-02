@@ -49,6 +49,10 @@ body {
     max-width: 100%
 }
 
+.main-container {
+    height: 100%;
+}
+
 .container {
     display: flex;
     flex-direction: column;
@@ -76,8 +80,6 @@ body {
 }
 
 .data-container {
-    background: white;
-    box-shadow: rgba(0, 0, 0, 0.2) 0 1px 25px -10px;
     display: flex;
     flex-direction: column;
     margin-bottom: 16px;
@@ -95,26 +97,76 @@ body {
     font-size: 12px;
 }
 
-.messages-container {
-    margin: 10px 10px 10px 40px;
+.messages {
+    position: relative;
+    flex-grow: 1;
+    margin: 0;
+    top: -1px;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
 }
 
-.messages.alerts:before {
+.messages .messages-container {
+    width: 100%;
+    margin: 10px 10px 10px 35px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.messages .messages-container .message-right-part {
+    color: grey;
+}
+
+.messages.ok {
+    background: lightgrey;
+    border-bottom: 1px solid grey;
+}
+
+.messages.alert {
+    background: rgba(255, 129, 14, 0.15);
+    border-bottom: 1px solid orange;
+}
+
+.messages:before {
     content: '';
     position: absolute;
     width: 20px;
     height: 20px;
-    background: url(../images/alert.png) no-repeat;
     left: 8px;
     top: 8px;
 }
 
-.messages {
-    border: 1px red solid;
-    border-radius: 3px;
+.messages.alert:before {
+    background: url(../images/alert.png) no-repeat;
+}
+
+.messages.error:before {
+    background: url(../images/error.png) no-repeat;
+}
+
+.messages.error .message-status {
+    content: 'ERROR';
+}
+
+.messages.ok .messages-container .message-left-part .message-status,
+.messages.alert .messages-container .message-left-part .message-status,
+.messages.error .messages-container .message-left-part .message-status {
+    font-weight: bold;
+}
+
+.messages.ok .messages-container .message-left-part .message-status {
+    color: #0dbf7f;
+}
+
+.messages.error .messages-container .message-left-part .message-status {
+    color: red;
+}
+
+.messages.error {
     background: rgba(229, 62, 43, 0.15);
-    position: relative;
-    flex-grow: 1;
+    border-bottom: 1px red solid;
 }
 
 .custom-dropdown {
@@ -194,13 +246,13 @@ body {
 .data-container .resources-list .resource-row {
     display: flex;
     flex-direction: column;
+    border-top: 1px solid #e0e0e0;
 }
 
 .data-container .resources-list .resource-row .view-row {
     display: flex;
     flex-direction: row;
-    border-top: 1px solid #e0e0e0;
-    padding: 10px;
+    margin: 10px;
     cursor: pointer;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -210,7 +262,7 @@ body {
     user-select: none;
 }
 
-.data-container .resources-list .resource-row:last-child .view-row {
+.data-container .resources-list .resource-row:last-child {
     border-bottom: 1px solid #e0e0e0;
 }
 
@@ -265,7 +317,7 @@ body {
 .data-container .resources-list .resource-row .expandable-row {
     background: #f2f2f2;
     margin: 5px;
-    padding: 0px 15px;
+    padding: 0 15px;
 }
 
 .data-container .resources-list .resource-row .expandable-row .message {
@@ -337,7 +389,7 @@ body {
 
 .custom-radio-btns-group .resource-type-toggle {
     margin: 0;
-    padding: 0;
+    padding: 11px 0;
     display: flex;
 }
 
@@ -346,7 +398,6 @@ body {
     font-style: normal;
     font-size: 14px;
     color: #6B6B6B;
-    line-height: 0;
     cursor: pointer;
     margin-left: 8px;
     min-width: 140px;
@@ -384,16 +435,6 @@ body {
     display: none !important;
 }
 
-/*.custom-radio-btns-group .custom-radio-button:hover {*/
-/*background: rgba(167, 167, 167, 0.51);*/
-/*}*/
-
-/*.custom-radio-btns-group .custom-radio-button.active {*/
-/*color: #FFFFFF;*/
-/*background: -webkit-linear-gradient(90deg, rgba(43, 122, 229, 1) 0%, rgba(43, 122, 229, 1) 0%, rgba(78, 152, 255, 1) 100%, rgba(78, 152, 255, 1) 100%);*/
-/*background: -moz-linear-gradient(0deg, rgba(43, 122, 229, 1) 0%, rgba(43, 122, 229, 1) 0%, rgba(78, 152, 255, 1) 100%, rgba(78, 152, 255, 1) 100%);*/
-/*background: linear-gradient(0deg, rgba(43, 122, 229, 1) 0%, rgba(43, 122, 229, 1) 0%, rgba(78, 152, 255, 1) 100%, rgba(78, 152, 255, 1) 100%);*/
-/*}*/
 @media screen and (max-width: 1024px) {
     .options-container {
         justify-content: space-between;
@@ -424,12 +465,6 @@ body {
         margin: 0;
     }
 
-    .messages.alerts {
-        width: 100%;
-        margin: 10px;
-        max-width: 100%;
-    }
-
     .data-container .resources-list .resource-row .view-row {
         flex-direction: column;
         position: relative;
@@ -439,6 +474,7 @@ body {
     .data-container .resources-list .resource-row .view-row .status {
         position: absolute;
         right: 0;
+        top: 5px;
         text-align: right;
         margin: 10px 0;
     }

@@ -1,158 +1,22 @@
 [
   {
-    "outputs": [
-      {
-        "value": "cc_581312a15e7_cloudtrail-service-disabled",
-        "name": "ec2_name"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "choice",
-        "value": "define",
-        "name": "action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "cloudtrail",
-        "name": "service"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          0
-        ],
-        "name": "alert_when"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "trails"
-        ],
-        "name": "objectives"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Warning",
-        "name": "level"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "=="
-        ],
-        "name": "operators"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "CloudTrail logging is not enabled for this region. It should be enabled.",
-        "name": "description"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Audit",
-        "name": "category"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Enable CloudTrail logs",
-        "name": "suggested_action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [],
-        "name": "call_modifiers"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "count"
-        ],
-        "name": "formulas"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "trail_list"
-        ],
-        "name": "audit_objects"
-      }
-    ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "cloudtrail-service-disabled",
+    "timestamp": "2016-11-04T06:06:30.000Z",
+    "stackName": "AUDIT-AWS-RDS-TAGS-EXAMPLE-LALALA",
+    "runId": "948ae1c1-aaa6-4d2c-84dc-3b2cb3ad2d05",
     "resourceType": "coreo_aws_advisor_alert",
-    "timestamp": "2016-10-28T08:58:04.000Z",
-    "executionNumber": 1,
-    "resourceId": "ad8061ce08842b11d3876a9bfb5dec7ade279011e341d8f3abd8cab5808a594e",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-CLOUDTRAIL",
-    "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-CLOUDTRAIL"
-  },
-  {
+    "resourceName": "rds-no-auto-minor-version-upgrade",
+    "resourceId": "7cc81af852482eee3eb2e6a4eb32f72cb356475e2800fd67c95656b392fe9dbc",
     "outputs": [
       {
-        "value": "cc_581312a15e7_advise-cloudtrail",
+        "value": "cc_58130d715e7_rds-no-auto-minor-version-upgrade",
         "name": "ec2_name"
       },
       {
-        "value": 0,
-        "name": "number_ignored_violations"
-      },
-      {
-        "value": 0,
-        "name": "number_violations"
-      },
-      {
-        "value": 3,
-        "name": "number_checks"
-      },
-      {
-        "value": "{}",
-        "name": "report"
+        "value": true,
+        "name": "included"
       }
     ],
-    "inputs": [
-      {
-        "type": "choice",
-        "value": "advise",
-        "name": "action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "us-east-1",
-          "us-west-1",
-          "us-west-2"
-        ],
-        "name": "regions"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "cloudtrail-service-disabled"
-        ],
-        "name": "alerts"
-      }
-    ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "advise-cloudtrail",
-    "resourceType": "coreo_aws_advisor_cloudtrail",
-    "timestamp": "2016-10-28T08:58:14.000Z",
-    "executionNumber": 2,
-    "resourceId": "ffe0a6e7eba957bb0e08e5654ce42ef98e2a2c0f6065021c7be293f5feaf8c42",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-CLOUDTRAIL",
-    "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-CLOUDTRAIL"
-  },
-  {
-    "outputs": [
-      {
-        "value": "cc_581312a15e7_ec2-ip-address-whitelisted",
-        "name": "ec2_name"
-      }
-    ],
+    "namespace": "ROOT::AUDIT-AWS-RDS-TAGS-EXAMPLE-LALALA",
     "inputs": [
       {
         "type": "choice",
@@ -161,1330 +25,27 @@
       },
       {
         "type": "PLA-1366",
-        "value": "ec2",
+        "value": "rds",
         "name": "service"
       },
       {
         "type": "PLA-1366",
         "value": [
-          "(?-mix:\\/32)"
+          false
         ],
         "name": "alert_when"
       },
       {
         "type": "PLA-1366",
         "value": [
-          "security_groups"
+          "db_instances"
         ],
         "name": "objectives"
       },
       {
         "type": "PLA-1366",
-        "value": "Warning",
-        "name": "level"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "=~"
-        ],
-        "name": "operators"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Specific IP address added to Security Group",
-        "name": "description"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Security",
-        "name": "category"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Review Security Group to ensure that the host ip address added is to allowed access.",
-        "name": "suggested_action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [],
-        "name": "call_modifiers"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "security_group_info.ip_permissions.ip_ranges.cidr_ip"
-        ],
-        "name": "audit_objects"
-      }
-    ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "ec2-ip-address-whitelisted",
-    "resourceType": "coreo_aws_advisor_alert",
-    "timestamp": "2016-10-28T08:58:16.000Z",
-    "executionNumber": 4,
-    "resourceId": "1c6f1b55eea828161d6daf2f89228b838cbeabb9974eb61fd78f6c7c7f256ceb",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-EC2",
-    "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-EC2"
-  },
-  {
-    "outputs": [
-      {
-        "value": "cc_581312a15e7_ec2-unrestricted-traffic",
-        "name": "ec2_name"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "choice",
-        "value": "define",
-        "name": "action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "ec2",
-        "name": "service"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "0.0.0.0/0"
-        ],
-        "name": "alert_when"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "security_groups"
-        ],
-        "name": "objectives"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Warning",
-        "name": "level"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "=="
-        ],
-        "name": "operators"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "All IP addresses are allowed to access resources in a specific security group.",
-        "name": "description"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Security",
-        "name": "category"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Restrict access to the minimum specific set of IP address or ports necessary.",
-        "name": "suggested_action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [],
-        "name": "call_modifiers"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "security_group_info.ip_permissions.ip_ranges.cidr_ip"
-        ],
-        "name": "audit_objects"
-      }
-    ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "ec2-unrestricted-traffic",
-    "resourceType": "coreo_aws_advisor_alert",
-    "timestamp": "2016-10-28T08:58:18.000Z",
-    "executionNumber": 5,
-    "resourceId": "f48973a83281f0f1c6815c626a32d6d5d17694f51579212ee981ddf1835a5d46",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-EC2",
-    "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-EC2"
-  },
-  {
-    "outputs": [
-      {
-        "value": "cc_581312a15e7_ec2-TCP-1521-0.0.0.0/0",
-        "name": "ec2_name"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "choice",
-        "value": "define",
-        "name": "action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "ec2",
-        "name": "service"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "tcp",
-          1521,
-          "0.0.0.0/0"
-        ],
-        "name": "alert_when"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          "",
-          "security_groups"
-        ],
-        "name": "objectives"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Warning",
-        "name": "level"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "==",
-          "==",
-          "=="
-        ],
-        "name": "operators"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Important TCP port is open and/or open to the world.",
-        "name": "description"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Security",
-        "name": "category"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Only open those ports that must be open for your service to operate. Consider deleting or modifying the affected security group.",
-        "name": "suggested_action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [],
-        "name": "call_modifiers"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "security_group_info.ip_permissions.ip_protocol",
-          "security_group_info.ip_permissions.from_port",
-          "security_group_info.ip_permissions.ip_ranges.cidr_ip"
-        ],
-        "name": "audit_objects"
-      }
-    ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "ec2-TCP-1521-0.0.0.0/0",
-    "resourceType": "coreo_aws_advisor_alert",
-    "timestamp": "2016-10-28T08:58:19.000Z",
-    "executionNumber": 6,
-    "resourceId": "0e90bb10ec5cf4aed8b5a68a335587e3c347460a0c7ac32d853e66c862f4ea5a",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-EC2",
-    "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-EC2"
-  },
-  {
-    "outputs": [
-      {
-        "value": "cc_581312a15e7_ec2-TCP-3306-0.0.0.0/0",
-        "name": "ec2_name"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "choice",
-        "value": "define",
-        "name": "action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "ec2",
-        "name": "service"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "tcp",
-          3306,
-          "0.0.0.0/0"
-        ],
-        "name": "alert_when"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          "",
-          "security_groups"
-        ],
-        "name": "objectives"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Warning",
-        "name": "level"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "==",
-          "==",
-          "=="
-        ],
-        "name": "operators"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Important TCP port is open and/or open to the world.",
-        "name": "description"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Security",
-        "name": "category"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Only open those ports that must be open for your service to operate. Consider deleting or modifying the affected security group.",
-        "name": "suggested_action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [],
-        "name": "call_modifiers"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "security_group_info.ip_permissions.ip_protocol",
-          "security_group_info.ip_permissions.from_port",
-          "security_group_info.ip_permissions.ip_ranges.cidr_ip"
-        ],
-        "name": "audit_objects"
-      }
-    ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "ec2-TCP-3306-0.0.0.0/0",
-    "resourceType": "coreo_aws_advisor_alert",
-    "timestamp": "2016-10-28T08:58:21.000Z",
-    "executionNumber": 7,
-    "resourceId": "a2697af92392cb65f268a337d875e79bbdbe90c943b2688657dd8cbe2d9444b3",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-EC2",
-    "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-EC2"
-  },
-  {
-    "outputs": [
-      {
-        "value": "cc_581312a15e7_ec2-TCP-5432-0.0.0.0/0",
-        "name": "ec2_name"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "choice",
-        "value": "define",
-        "name": "action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "ec2",
-        "name": "service"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "tcp",
-          5432,
-          "0.0.0.0/0"
-        ],
-        "name": "alert_when"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          "",
-          "security_groups"
-        ],
-        "name": "objectives"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Warning",
-        "name": "level"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "==",
-          "==",
-          "=="
-        ],
-        "name": "operators"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Important TCP port is open and/or open to the world.",
-        "name": "description"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Security",
-        "name": "category"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Only open those ports that must be open for your service to operate. Consider deleting or modifying the affected security group.",
-        "name": "suggested_action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [],
-        "name": "call_modifiers"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "security_group_info.ip_permissions.ip_protocol",
-          "security_group_info.ip_permissions.from_port",
-          "security_group_info.ip_permissions.ip_ranges.cidr_ip"
-        ],
-        "name": "audit_objects"
-      }
-    ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "ec2-TCP-5432-0.0.0.0/0",
-    "resourceType": "coreo_aws_advisor_alert",
-    "timestamp": "2016-10-28T08:58:23.000Z",
-    "executionNumber": 8,
-    "resourceId": "ceb88a6e0cb7fde9201627d802e5546cfd101255bacbe2a3eaef33d57542b844",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-EC2",
-    "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-EC2"
-  },
-  {
-    "outputs": [
-      {
-        "value": "cc_581312a15e7_ec2-TCP-27017-0.0.0.0/0",
-        "name": "ec2_name"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "choice",
-        "value": "define",
-        "name": "action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "ec2",
-        "name": "service"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "tcp",
-          27017,
-          "0.0.0.0/0"
-        ],
-        "name": "alert_when"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          "",
-          "security_groups"
-        ],
-        "name": "objectives"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Warning",
-        "name": "level"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "==",
-          "==",
-          "=="
-        ],
-        "name": "operators"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Important TCP port is open and/or open to the world.",
-        "name": "description"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Security",
-        "name": "category"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Only open those ports that must be open for your service to operate. Consider deleting or modifying the affected security group.",
-        "name": "suggested_action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [],
-        "name": "call_modifiers"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "security_group_info.ip_permissions.ip_protocol",
-          "security_group_info.ip_permissions.from_port",
-          "security_group_info.ip_permissions.ip_ranges.cidr_ip"
-        ],
-        "name": "audit_objects"
-      }
-    ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "ec2-TCP-27017-0.0.0.0/0",
-    "resourceType": "coreo_aws_advisor_alert",
-    "timestamp": "2016-10-28T08:58:24.000Z",
-    "executionNumber": 9,
-    "resourceId": "20d01f87af79071aa43635ab40f758778091f7605a50ae25e8aacb461ffbe491",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-EC2",
-    "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-EC2"
-  },
-  {
-    "outputs": [
-      {
-        "value": "cc_581312a15e7_ec2-TCP-1433-0.0.0.0/0",
-        "name": "ec2_name"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "choice",
-        "value": "define",
-        "name": "action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "ec2",
-        "name": "service"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "tcp",
-          1433,
-          "0.0.0.0/0"
-        ],
-        "name": "alert_when"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          "",
-          "security_groups"
-        ],
-        "name": "objectives"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Warning",
-        "name": "level"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "==",
-          "==",
-          "=="
-        ],
-        "name": "operators"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Important TCP port is open and/or open to the world.",
-        "name": "description"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Security",
-        "name": "category"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Only open those ports that must be open for your service to operate. Consider deleting or modifying the affected security group.",
-        "name": "suggested_action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [],
-        "name": "call_modifiers"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "security_group_info.ip_permissions.ip_protocol",
-          "security_group_info.ip_permissions.from_port",
-          "security_group_info.ip_permissions.ip_ranges.cidr_ip"
-        ],
-        "name": "audit_objects"
-      }
-    ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "ec2-TCP-1433-0.0.0.0/0",
-    "resourceType": "coreo_aws_advisor_alert",
-    "timestamp": "2016-10-28T08:58:26.000Z",
-    "executionNumber": 10,
-    "resourceId": "8f39f1d5428add5f49a9037a7a4e85d5965dbd9153c3bd13f4ab09f3d7c8bacf",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-EC2",
-    "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-EC2"
-  },
-  {
-    "outputs": [
-      {
-        "value": "cc_581312a15e7_ec2-TCP-3389-0.0.0.0/0",
-        "name": "ec2_name"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "choice",
-        "value": "define",
-        "name": "action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "ec2",
-        "name": "service"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "tcp",
-          3389,
-          "0.0.0.0/0"
-        ],
-        "name": "alert_when"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          "",
-          "security_groups"
-        ],
-        "name": "objectives"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Warning",
-        "name": "level"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "==",
-          "==",
-          "=="
-        ],
-        "name": "operators"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Important TCP port is open and/or open to the world.",
-        "name": "description"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Security",
-        "name": "category"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Only open those ports that must be open for your service to operate. Consider deleting or modifying the affected security group.",
-        "name": "suggested_action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [],
-        "name": "call_modifiers"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "security_group_info.ip_permissions.ip_protocol",
-          "security_group_info.ip_permissions.from_port",
-          "security_group_info.ip_permissions.ip_ranges.cidr_ip"
-        ],
-        "name": "audit_objects"
-      }
-    ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "ec2-TCP-3389-0.0.0.0/0",
-    "resourceType": "coreo_aws_advisor_alert",
-    "timestamp": "2016-10-28T08:58:28.000Z",
-    "executionNumber": 11,
-    "resourceId": "8f1d8fbf982c71e80a4fa44e175a63af31b82f47f874b4e73975244d8bb24b8d",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-EC2",
-    "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-EC2"
-  },
-  {
-    "outputs": [
-      {
-        "value": "cc_581312a15e7_ec2-TCP-22-0.0.0.0/0",
-        "name": "ec2_name"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "choice",
-        "value": "define",
-        "name": "action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "ec2",
-        "name": "service"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "tcp",
-          22,
-          "0.0.0.0/0"
-        ],
-        "name": "alert_when"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          "",
-          "security_groups"
-        ],
-        "name": "objectives"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Warning",
-        "name": "level"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "==",
-          "==",
-          "=="
-        ],
-        "name": "operators"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Important TCP port is open and/or open to the world.",
-        "name": "description"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Security",
-        "name": "category"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Only open those ports that must be open for your service to operate. Consider deleting or modifying the affected security group.",
-        "name": "suggested_action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [],
-        "name": "call_modifiers"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "security_group_info.ip_permissions.ip_protocol",
-          "security_group_info.ip_permissions.from_port",
-          "security_group_info.ip_permissions.ip_ranges.cidr_ip"
-        ],
-        "name": "audit_objects"
-      }
-    ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "ec2-TCP-22-0.0.0.0/0",
-    "resourceType": "coreo_aws_advisor_alert",
-    "timestamp": "2016-10-28T08:58:29.000Z",
-    "executionNumber": 12,
-    "resourceId": "ac1b1374dabbee6ab801ef3d273ea7db67e8dec2d4e47332b989518ed070c97e",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-EC2",
-    "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-EC2"
-  },
-  {
-    "outputs": [
-      {
-        "value": "cc_581312a15e7_ec2-TCP-5439-0.0.0.0/0",
-        "name": "ec2_name"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "choice",
-        "value": "define",
-        "name": "action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "ec2",
-        "name": "service"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "tcp",
-          5439,
-          "0.0.0.0/0"
-        ],
-        "name": "alert_when"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          "",
-          "security_groups"
-        ],
-        "name": "objectives"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Warning",
-        "name": "level"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "==",
-          "==",
-          "=="
-        ],
-        "name": "operators"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Important TCP port is open and/or open to the world.",
-        "name": "description"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Security",
-        "name": "category"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Only open those ports that must be open for your service to operate. Consider deleting or modifying the affected security group.",
-        "name": "suggested_action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [],
-        "name": "call_modifiers"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "security_group_info.ip_permissions.ip_protocol",
-          "security_group_info.ip_permissions.from_port",
-          "security_group_info.ip_permissions.ip_ranges.cidr_ip"
-        ],
-        "name": "audit_objects"
-      }
-    ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "ec2-TCP-5439-0.0.0.0/0",
-    "resourceType": "coreo_aws_advisor_alert",
-    "timestamp": "2016-10-28T08:58:31.000Z",
-    "executionNumber": 13,
-    "resourceId": "b2ffbcf8e50bb2f96f7bad7f56fe9bceee3d48891065f00ee454bba6a17a443a",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-EC2",
-    "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-EC2"
-  },
-  {
-    "outputs": [
-      {
-        "value": "cc_581312a15e7_ec2-TCP-23",
-        "name": "ec2_name"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "choice",
-        "value": "define",
-        "name": "action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "ec2",
-        "name": "service"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "tcp",
-          23
-        ],
-        "name": "alert_when"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          "security_groups"
-        ],
-        "name": "objectives"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Warning",
-        "name": "level"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "==",
-          "=="
-        ],
-        "name": "operators"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Important TCP port is open and/or open to the world.",
-        "name": "description"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Security",
-        "name": "category"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Only open those ports that must be open for your service to operate. Consider deleting or modifying the affected security group.",
-        "name": "suggested_action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [],
-        "name": "call_modifiers"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "security_group_info.ip_permissions.ip_protocol",
-          "security_group_info.ip_permissions.from_port"
-        ],
-        "name": "audit_objects"
-      }
-    ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "ec2-TCP-23",
-    "resourceType": "coreo_aws_advisor_alert",
-    "timestamp": "2016-10-28T08:58:33.000Z",
-    "executionNumber": 14,
-    "resourceId": "05ffefe08e2f70be77088eea8e41cd1a57e21e9939c64d2e09fe0c18fdb00d1c",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-EC2",
-    "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-EC2"
-  },
-  {
-    "outputs": [
-      {
-        "value": "cc_581312a15e7_ec2-TCP-21",
-        "name": "ec2_name"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "choice",
-        "value": "define",
-        "name": "action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "ec2",
-        "name": "service"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "tcp",
-          21
-        ],
-        "name": "alert_when"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          "security_groups"
-        ],
-        "name": "objectives"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Warning",
-        "name": "level"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "==",
-          "=="
-        ],
-        "name": "operators"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Important TCP port is open and/or open to the world.",
-        "name": "description"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Security",
-        "name": "category"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Only open those ports that must be open for your service to operate. Consider deleting or modifying the affected security group.",
-        "name": "suggested_action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [],
-        "name": "call_modifiers"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "security_group_info.ip_permissions.ip_protocol",
-          "security_group_info.ip_permissions.from_port"
-        ],
-        "name": "audit_objects"
-      }
-    ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "ec2-TCP-21",
-    "resourceType": "coreo_aws_advisor_alert",
-    "timestamp": "2016-10-28T08:58:35.000Z",
-    "executionNumber": 15,
-    "resourceId": "1d4f4fbeda5a6249930f7c85578e568510311b6e3472ab4b1c8d8c5da96d1145",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-EC2",
-    "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-EC2"
-  },
-  {
-    "outputs": [
-      {
-        "value": "cc_581312a15e7_ec2-TCP-20",
-        "name": "ec2_name"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "choice",
-        "value": "define",
-        "name": "action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "ec2",
-        "name": "service"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "tcp",
-          20
-        ],
-        "name": "alert_when"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          "security_groups"
-        ],
-        "name": "objectives"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Warning",
-        "name": "level"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "==",
-          "=="
-        ],
-        "name": "operators"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Important TCP port is open and/or open to the world.",
-        "name": "description"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Security",
-        "name": "category"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Only open those ports that must be open for your service to operate. Consider deleting or modifying the affected security group.",
-        "name": "suggested_action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [],
-        "name": "call_modifiers"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "security_group_info.ip_permissions.ip_protocol",
-          "security_group_info.ip_permissions.from_port"
-        ],
-        "name": "audit_objects"
-      }
-    ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "ec2-TCP-20",
-    "resourceType": "coreo_aws_advisor_alert",
-    "timestamp": "2016-10-28T08:58:36.000Z",
-    "executionNumber": 16,
-    "resourceId": "114e3ebb91a294b6dda3ca58d562229771bd9d050d07c40e6040a6aa5941fa38",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-EC2",
-    "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-EC2"
-  },
-  {
-    "outputs": [
-      {
-        "value": "cc_581312a15e7_ec2-ports-range",
-        "name": "ec2_name"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "choice",
-        "value": "define",
-        "name": "action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "ec2",
-        "name": "service"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "object[:to_port]"
-        ],
-        "name": "alert_when"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "security_groups"
-        ],
-        "name": "objectives"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Warning",
-        "name": "level"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "!="
-        ],
-        "name": "operators"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Security group specifies a port range rather than individual ports.",
-        "name": "description"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Security",
-        "name": "category"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Only add rules to your Security group that specify individual ports and don't use port ranges unless they are required.",
-        "name": "suggested_action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [],
-        "name": "call_modifiers"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "security_group_info.ip_permissions.from_port"
-        ],
-        "name": "audit_objects"
-      }
-    ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "ec2-ports-range",
-    "resourceType": "coreo_aws_advisor_alert",
-    "timestamp": "2016-10-28T08:58:38.000Z",
-    "executionNumber": 17,
-    "resourceId": "035c77e882dd8af04868d40f92463580e86520f319480cf1d3934347f552ee9f",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-EC2",
-    "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-EC2"
-  },
-  {
-    "outputs": [
-      {
-        "value": "cc_581312a15e7_advise-ec2",
-        "name": "ec2_name"
-      },
-      {
-        "value": 0,
-        "name": "number_ignored_violations"
-      },
-      {
-        "value": 24,
-        "name": "number_violations"
-      },
-      {
-        "value": 1336,
-        "name": "number_checks"
-      },
-      {
-        "value": "{\"sg-2eb55653\":{\"violations\":{\"ec2-unrestricted-traffic\":{\"violating_object\":{\"cidr_ip\":\"0.0.0.0/0\"},\"description\":\"All IP addresses are allowed to access resources in a specific security group.\",\"category\":\"Security\",\"suggested_action\":\"Restrict access to the minimum specific set of IP address or ports necessary.\",\"level\":\"Warning\",\"region\":\"us-east-1\"},\"ec2-TCP-22-0.0.0.0/0\":{\"violating_object\":{\"cidr_ip\":\"0.0.0.0/0\"},\"description\":\"Important TCP port is open and/or open to the world.\",\"category\":\"Security\",\"suggested_action\":\"Only open those ports that must be open for your service to operate. Consider deleting or modifying the affected security group.\",\"level\":\"Warning\",\"region\":\"us-east-1\"}},\"tags\":[{\"resource_id\":\"sg-2eb55653\",\"resource_type\":\"security-group\",\"key\":\"Name\",\"value\":\"unit-test-instance-sg\"},{\"resource_id\":\"sg-2eb55653\",\"resource_type\":\"security-group\",\"key\":\"test\",\"value\":\"ec2\"},{\"resource_id\":\"sg-2eb55653\",\"resource_type\":\"security-group\",\"key\":\"working\",\"value\":\"maybe\"}]},\"sg-7e8aac04\":{\"violations\":{\"ec2-unrestricted-traffic\":{\"violating_object\":{\"cidr_ip\":\"0.0.0.0/0\"},\"description\":\"All IP addresses are allowed to access resources in a specific security group.\",\"category\":\"Security\",\"suggested_action\":\"Restrict access to the minimum specific set of IP address or ports necessary.\",\"level\":\"Warning\",\"region\":\"us-east-1\"},\"ec2-TCP-22-0.0.0.0/0\":{\"violating_object\":{\"cidr_ip\":\"0.0.0.0/0\"},\"description\":\"Important TCP port is open and/or open to the world.\",\"category\":\"Security\",\"suggested_action\":\"Only open those ports that must be open for your service to operate. Consider deleting or modifying the affected security group.\",\"level\":\"Warning\",\"region\":\"us-east-1\"}},\"tags\":[]},\"sg-8abb50f7\":{\"violations\":{\"ec2-unrestricted-traffic\":{\"violating_object\":{\"cidr_ip\":\"0.0.0.0/0\"},\"description\":\"All IP addresses are allowed to access resources in a specific security group.\",\"category\":\"Security\",\"suggested_action\":\"Restrict access to the minimum specific set of IP address or ports necessary.\",\"level\":\"Warning\",\"region\":\"us-east-1\"},\"ec2-TCP-22-0.0.0.0/0\":{\"violating_object\":{\"cidr_ip\":\"0.0.0.0/0\"},\"description\":\"Important TCP port is open and/or open to the world.\",\"category\":\"Security\",\"suggested_action\":\"Only open those ports that must be open for your service to operate. Consider deleting or modifying the affected security group.\",\"level\":\"Warning\",\"region\":\"us-east-1\"}},\"tags\":[{\"resource_id\":\"sg-8abb50f7\",\"resource_type\":\"security-group\",\"key\":\"Name\",\"value\":\"kkkjjj-instance-sg\"},{\"resource_id\":\"sg-8abb50f7\",\"resource_type\":\"security-group\",\"key\":\"test\",\"value\":\"ec2\"},{\"resource_id\":\"sg-8abb50f7\",\"resource_type\":\"security-group\",\"key\":\"working\",\"value\":\"maybe\"}]},\"sg-8cd6b0f6\":{\"violations\":{\"ec2-unrestricted-traffic\":{\"violating_object\":{\"cidr_ip\":\"0.0.0.0/0\"},\"description\":\"All IP addresses are allowed to access resources in a specific security group.\",\"category\":\"Security\",\"suggested_action\":\"Restrict access to the minimum specific set of IP address or ports necessary.\",\"level\":\"Warning\",\"region\":\"us-east-1\"}},\"tags\":[{\"resource_id\":\"sg-8cd6b0f6\",\"resource_type\":\"security-group\",\"key\":\"Name\",\"value\":\"dmvpn-elb-sg\"}]},\"sg-a7992fdd\":{\"violations\":{\"ec2-unrestricted-traffic\":{\"violating_object\":{\"cidr_ip\":\"0.0.0.0/0\"},\"description\":\"All IP addresses are allowed to access resources in a specific security group.\",\"category\":\"Security\",\"suggested_action\":\"Restrict access to the minimum specific set of IP address or ports necessary.\",\"level\":\"Warning\",\"region\":\"us-east-1\"}},\"tags\":[{\"resource_id\":\"sg-a7992fdd\",\"resource_type\":\"security-group\",\"key\":\"Name\",\"value\":\"vpn-dev-elb-sg\"}]},\"sg-b9992fc3\":{\"violations\":{\"ec2-unrestricted-traffic\":{\"violating_object\":{\"cidr_ip\":\"0.0.0.0/0\"},\"description\":\"All IP addresses are allowed to access resources in a specific security group.\",\"category\":\"Security\",\"suggested_action\":\"Restrict access to the minimum specific set of IP address or ports necessary.\",\"level\":\"Warning\",\"region\":\"us-east-1\"}},\"tags\":[{\"resource_id\":\"sg-b9992fc3\",\"resource_type\":\"security-group\",\"key\":\"Name\",\"value\":\"dev-elb-sg\"}]},\"sg-d2992fa8\":{\"violations\":{\"ec2-unrestricted-traffic\":{\"violating_object\":{\"cidr_ip\":\"0.0.0.0/0\"},\"description\":\"All IP addresses are allowed to access resources in a specific security group.\",\"category\":\"Security\",\"suggested_action\":\"Restrict access to the minimum specific set of IP address or ports necessary.\",\"level\":\"Warning\",\"region\":\"us-east-1\"},\"ec2-ports-range\":{\"violating_object\":{\"groups\":[],\"ip_ranges\":[{\"cidr_ip\":\"0.0.0.0/0\"}],\"ip_protocol\":\"tcp\",\"from_port\":0,\"to_port\":65535},\"description\":\"Security group specifies a port range rather than individual ports.\",\"category\":\"Security\",\"suggested_action\":\"Only add rules to your Security group that specify individual ports and don't use port ranges unless they are required.\",\"level\":\"Warning\",\"region\":\"us-east-1\"}},\"tags\":[{\"resource_id\":\"sg-d2992fa8\",\"resource_type\":\"security-group\",\"key\":\"Name\",\"value\":\"NAT-sg\"}]},\"sg-e6bd4a9b\":{\"violations\":{\"ec2-unrestricted-traffic\":{\"violating_object\":{\"cidr_ip\":\"0.0.0.0/0\"},\"description\":\"All IP addresses are allowed to access resources in a specific security group.\",\"category\":\"Security\",\"suggested_action\":\"Restrict access to the minimum specific set of IP address or ports necessary.\",\"level\":\"Warning\",\"region\":\"us-east-1\"},\"ec2-TCP-22-0.0.0.0/0\":{\"violating_object\":{\"cidr_ip\":\"0.0.0.0/0\"},\"description\":\"Important TCP port is open and/or open to the world.\",\"category\":\"Security\",\"suggested_action\":\"Only open those ports that must be open for your service to operate. Consider deleting or modifying the affected security group.\",\"level\":\"Warning\",\"region\":\"us-east-1\"}},\"tags\":[{\"resource_id\":\"sg-e6bd4a9b\",\"resource_type\":\"security-group\",\"key\":\"Name\",\"value\":\"my-instance-sg\"},{\"resource_id\":\"sg-e6bd4a9b\",\"resource_type\":\"security-group\",\"key\":\"test\",\"value\":\"ec2\"},{\"resource_id\":\"sg-e6bd4a9b\",\"resource_type\":\"security-group\",\"key\":\"working\",\"value\":\"maybe\"}]},\"sg-7186300b\":{\"violations\":{\"ec2-ports-range\":{\"violating_object\":{\"groups\":[],\"ip_ranges\":[{\"cidr_ip\":\"10.0.0.0/8\"}],\"ip_protocol\":\"udp\",\"from_port\":1,\"to_port\":65535},\"description\":\"Security group specifies a port range rather than individual ports.\",\"category\":\"Security\",\"suggested_action\":\"Only add rules to your Security group that specify individual ports and don't use port ranges unless they are required.\",\"level\":\"Warning\",\"region\":\"us-east-1\"}},\"tags\":[{\"resource_id\":\"sg-7186300b\",\"resource_type\":\"security-group\",\"key\":\"Name\",\"value\":\"devkube\"}]},\"sg-af8036d5\":{\"violations\":{\"ec2-ports-range\":{\"violating_object\":{\"groups\":[],\"ip_ranges\":[{\"cidr_ip\":\"10.0.0.0/8\"}],\"ip_protocol\":\"tcp\",\"from_port\":27017,\"to_port\":27030},\"description\":\"Security group specifies a port range rather than individual ports.\",\"category\":\"Security\",\"suggested_action\":\"Only add rules to your Security group that specify individual ports and don't use port ranges unless they are required.\",\"level\":\"Warning\",\"region\":\"us-east-1\"}},\"tags\":[{\"resource_id\":\"sg-af8036d5\",\"resource_type\":\"security-group\",\"key\":\"Name\",\"value\":\"mongodb\"}]},\"sg-9643fbef\":{\"violations\":{\"ec2-ip-address-whitelisted\":{\"violating_object\":{\"cidr_ip\":\"192.168.99.99/32\"},\"description\":\"Specific IP address added to Security Group\",\"category\":\"Security\",\"suggested_action\":\"Review Security Group to ensure that the host ip address added is to allowed access.\",\"level\":\"Warning\",\"region\":\"us-west-2\"}},\"tags\":[]},\"sg-624bd91b\":{\"violations\":{\"ec2-unrestricted-traffic\":{\"violating_object\":{\"cidr_ip\":\"0.0.0.0/0\"},\"description\":\"All IP addresses are allowed to access resources in a specific security group.\",\"category\":\"Security\",\"suggested_action\":\"Restrict access to the minimum specific set of IP address or ports necessary.\",\"level\":\"Warning\",\"region\":\"us-west-2\"},\"ec2-ports-range\":{\"violating_object\":{\"groups\":[],\"ip_ranges\":[{\"cidr_ip\":\"0.0.0.0/0\"}],\"ip_protocol\":\"tcp\",\"from_port\":0,\"to_port\":65535},\"description\":\"Security group specifies a port range rather than individual ports.\",\"category\":\"Security\",\"suggested_action\":\"Only add rules to your Security group that specify individual ports and don't use port ranges unless they are required.\",\"level\":\"Warning\",\"region\":\"us-west-2\"}},\"tags\":[{\"resource_id\":\"sg-624bd91b\",\"resource_type\":\"security-group\",\"key\":\"Name\",\"value\":\"dm1-op-NAT-sg\"}]},\"sg-b34ddfca\":{\"violations\":{\"ec2-unrestricted-traffic\":{\"violating_object\":{\"cidr_ip\":\"0.0.0.0/0\"},\"description\":\"All IP addresses are allowed to access resources in a specific security group.\",\"category\":\"Security\",\"suggested_action\":\"Restrict access to the minimum specific set of IP address or ports necessary.\",\"level\":\"Warning\",\"region\":\"us-west-2\"}},\"tags\":[{\"resource_id\":\"sg-b34ddfca\",\"resource_type\":\"security-group\",\"key\":\"Name\",\"value\":\"dm1-op-vpn-elb-sg\"}]},\"sg-d845fda1\":{\"violations\":{\"ec2-unrestricted-traffic\":{\"violating_object\":{\"cidr_ip\":\"0.0.0.0/0\"},\"description\":\"All IP addresses are allowed to access resources in a specific security group.\",\"category\":\"Security\",\"suggested_action\":\"Restrict access to the minimum specific set of IP address or ports necessary.\",\"level\":\"Warning\",\"region\":\"us-west-2\"},\"ec2-ports-range\":{\"violating_object\":{\"groups\":[],\"ip_ranges\":[{\"cidr_ip\":\"0.0.0.0/0\"}],\"ip_protocol\":\"tcp\",\"from_port\":1001,\"to_port\":1019},\"description\":\"Security group specifies a port range rather than individual ports.\",\"category\":\"Security\",\"suggested_action\":\"Only add rules to your Security group that specify individual ports and don't use port ranges unless they are required.\",\"level\":\"Warning\",\"region\":\"us-west-2\"}},\"tags\":[]},\"sg-7445fd0d\":{\"violations\":{\"ec2-unrestricted-traffic\":{\"violating_object\":{\"cidr_ip\":\"0.0.0.0/0\"},\"description\":\"All IP addresses are allowed to access resources in a specific security group.\",\"category\":\"Security\",\"suggested_action\":\"Restrict access to the minimum specific set of IP address or ports necessary.\",\"level\":\"Warning\",\"region\":\"us-west-2\"},\"ec2-TCP-1521-0.0.0.0/0\":{\"violating_object\":{\"cidr_ip\":\"0.0.0.0/0\"},\"description\":\"Important TCP port is open and/or open to the world.\",\"category\":\"Security\",\"suggested_action\":\"Only open those ports that must be open for your service to operate. Consider deleting or modifying the affected security group.\",\"level\":\"Warning\",\"region\":\"us-west-2\"}},\"tags\":[]},\"sg-e344fc9a\":{\"violations\":{\"ec2-unrestricted-traffic\":{\"violating_object\":{\"cidr_ip\":\"0.0.0.0/0\"},\"description\":\"All IP addresses are allowed to access resources in a specific security group.\",\"category\":\"Security\",\"suggested_action\":\"Restrict access to the minimum specific set of IP address or ports necessary.\",\"level\":\"Warning\",\"region\":\"us-west-2\"}},\"tags\":[]}}",
-        "name": "report"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "choice",
-        "value": "advise",
-        "name": "action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "us-east-1",
-          "us-west-1",
-          "us-west-2"
-        ],
-        "name": "regions"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "ec2-ip-address-whitelisted",
-          "ec2-unrestricted-traffic",
-          "ec2-TCP-1521-0.0.0.0/0",
-          "ec2-TCP-3306-0.0.0.0/0",
-          "ec2-TCP-5432-0.0.0.0/0",
-          "ec2-TCP-27017-0.0.0.0/0",
-          "ec2-TCP-1433-0.0.0.0/0",
-          "ec2-TCP-3389-0.0.0.0/0",
-          "ec2-TCP-22-0.0.0.0/0",
-          "ec2-TCP-5439-0.0.0.0/0",
-          "ec2-TCP-23",
-          "ec2-TCP-21",
-          "ec2-TCP-20",
-          "ec2-ports-range"
-        ],
-        "name": "alerts"
-      }
-    ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "advise-ec2",
-    "resourceType": "coreo_aws_advisor_ec2",
-    "timestamp": "2016-10-28T08:59:10.000Z",
-    "executionNumber": 18,
-    "resourceId": "6048c132de2b593cb5b2c4cbf1822fa2c7c8ed8af686626e27d9f128f79ea263",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-EC2",
-    "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-EC2"
-  },
-  {
-    "outputs": [
-      {
-        "value": "cc_581312a15e7_elb-old-ssl-policy",
-        "name": "ec2_name"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "choice",
-        "value": "define",
-        "name": "action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "elb",
-        "name": "service"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "(?i-mx:ELBSecurityPolicy-2016-08)"
-        ],
-        "name": "alert_when"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "load_balancers"
-        ],
-        "name": "objectives"
+        "value": "http://kb.cloudcoreo.com/mydoc_rds-no-auto-minor-version-upgrade.html",
+        "name": "link"
       },
       {
         "type": "PLA-1366",
@@ -1494,23 +55,23 @@
       {
         "type": "PLA-1366",
         "value": [
-          "!~"
+          "=="
         ],
         "name": "operators"
       },
       {
         "type": "PLA-1366",
-        "value": "Elastic Load Balancing (ELB) SSL policy is not the latest Amazon predefined SSL policy or is a custom ELB SSL policy.",
+        "value": "RDS is not set to automatically upgrade minor versions on your database instance.",
         "name": "description"
       },
       {
         "type": "PLA-1366",
-        "value": "Security",
+        "value": "Reliability",
         "name": "category"
       },
       {
         "type": "PLA-1366",
-        "value": "Always use the current AWS predefined security policy.",
+        "value": "Consider whether you would like AWS to automatically upgrade minor versions on your database instance. Modify your settings to allow minor version upgrades if possible.",
         "name": "suggested_action"
       },
       {
@@ -1521,26 +82,404 @@
       {
         "type": "PLA-1366",
         "value": [
-          "load_balancer_descriptions.listener_descriptions.policy_names"
+          "db_instances.auto_minor_version_upgrade"
         ],
         "name": "audit_objects"
       }
     ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "elb-old-ssl-policy",
-    "resourceType": "coreo_aws_advisor_alert",
-    "timestamp": "2016-10-28T08:59:13.000Z",
-    "executionNumber": 20,
-    "resourceId": "9bf380127a7acbf6c700086a98ca2527b15b9c5aebfb91cf63a65d287fe07211",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-ELB",
+    "executionTime": 0.858309173,
+    "executionNumber": 2,
     "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-ELB"
+    "dataType": "ADVISOR_RESOURCE"
   },
   {
+    "timestamp": "2016-11-04T06:06:27.000Z",
+    "stackName": "AUDIT-AWS-RDS-TAGS-EXAMPLE-LALALA",
+    "runId": "948ae1c1-aaa6-4d2c-84dc-3b2cb3ad2d05",
+    "resourceType": "coreo_aws_advisor_alert",
+    "resourceName": "rds-short-backup-retention-period",
+    "resourceId": "f1f34104a9e3777da89ecdfef84d63d56576e9bd8585a6d1a219a995c9c7f6af",
     "outputs": [
       {
-        "value": "cc_581312a15e7_advise-elb",
+        "value": "cc_58130d715e7_rds-short-backup-retention-period",
+        "name": "ec2_name"
+      },
+      {
+        "value": true,
+        "name": "included"
+      },
+      {
+        "value": {
+          "cc-57980ce2d13-kubedev": {
+            "region": "us-east-1",
+            "violating_object": {
+              "latest_restorable_time": "2016-11-04T06:00:00Z",
+              "auto_minor_version_upgrade": true,
+              "backup_retention_period": 2,
+              "db_instance_status": "available",
+              "preferred_maintenance_window": "sat:09:10-sat:09:40",
+              "pending_modified_values": null,
+              "license_model": "general-public-license",
+              "db_subnet_group": {
+                "db_subnet_group_name": "cc-57980ce2d13-kubedev",
+                "db_subnet_group_description": "Subnet Group Created by CloudCoreo for Db [kubedev]",
+                "vpc_id": "vpc-05f2b262",
+                "subnet_group_status": "Complete",
+                "subnets": [
+                  {
+                    "subnet_availability_zone": {
+                      "provisioned_iops_capable": false,
+                      "name": "us-east-1d"
+                    },
+                    "subnet_identifier": "subnet-8f7cb2c6",
+                    "subnet_status": "Active"
+                  },
+                  {
+                    "subnet_availability_zone": {
+                      "provisioned_iops_capable": false,
+                      "name": "us-east-1a"
+                    },
+                    "subnet_identifier": "subnet-5f302f07",
+                    "subnet_status": "Active"
+                  },
+                  {
+                    "subnet_availability_zone": {
+                      "provisioned_iops_capable": false,
+                      "name": "us-east-1c"
+                    },
+                    "subnet_identifier": "subnet-4fcad465",
+                    "subnet_status": "Active"
+                  }
+                ]
+              },
+              "db_instance_class": "db.t2.micro",
+              "instance_create_time": "2016-09-16T09:34:16Z",
+              "multi_az": false,
+              "db_name": "kubedev",
+              "master_username": "admin",
+              "engine_version": "5.6.29",
+              "publicly_accessible": false,
+              "engine": "mysql",
+              "endpoint": {
+                "address": "cc-57980ce2d13-kubedev.cgfflexed4cn.us-east-1.rds.amazonaws.com",
+                "port": 3306
+              },
+              "db_instance_identifier": "cc-57980ce2d13-kubedev",
+              "preferred_backup_window": "03:23-03:53",
+              "availability_zone": "us-east-1d",
+              "allocated_storage": 25,
+              "status_infos": [],
+              "option_group_memberships": [
+                {
+                  "status": "in-sync",
+                  "option_group_name": "default:mysql-5-6"
+                }
+              ],
+              "read_replica_db_instance_identifiers": [],
+              "db_parameter_groups": [
+                {
+                  "parameter_apply_status": "in-sync",
+                  "db_parameter_group_name": "cc-57980ce2d13-kubedev"
+                }
+              ],
+              "vpc_security_groups": [
+                {
+                  "status": "active",
+                  "vpc_security_group_id": "sg-7186300b"
+                }
+              ],
+              "db_security_groups": []
+            },
+            "tags": [
+              {
+                "key": "bv:nexus:team",
+                "value": "bvrdstest1@joehicks.com"
+              },
+              {
+                "key": "Name",
+                "value": "kubedev"
+              }
+            ]
+          }
+        },
+        "name": "violations"
+      }
+    ],
+    "namespace": "ROOT::AUDIT-AWS-RDS-TAGS-EXAMPLE-LALALA",
+    "inputs": [
+      {
+        "type": "choice",
+        "value": "define",
+        "name": "action"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "rds",
+        "name": "service"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          30
+        ],
+        "name": "alert_when"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "db_instances"
+        ],
+        "name": "objectives"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "http://kb.cloudcoreo.com/mydoc_rds-short-backup-retention-period.html",
+        "name": "link"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Alert",
+        "name": "level"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "<"
+        ],
+        "name": "operators"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "The affected RDS database has a short backup retention period (less than 30 days).",
+        "name": "description"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Dataloss",
+        "name": "category"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Modify the backup retension period to increase it to greater than 30 days.",
+        "name": "suggested_action"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [],
+        "name": "call_modifiers"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "db_instances.backup_retention_period"
+        ],
+        "name": "audit_objects"
+      }
+    ],
+    "executionTime": 9.585678356,
+    "executionNumber": 1,
+    "engineStatus": "OK",
+    "dataType": "ADVISOR_RESOURCE"
+  },
+  {
+    "timestamp": "2016-11-04T06:06:32.000Z",
+    "stackName": "AUDIT-AWS-RDS-TAGS-EXAMPLE-LALALA",
+    "runId": "948ae1c1-aaa6-4d2c-84dc-3b2cb3ad2d05",
+    "resourceType": "coreo_aws_advisor_alert",
+    "resourceName": "rds-db-publicly-accessible",
+    "resourceId": "02686b59dcd34d8f55281b0463b1e3010f694b109388d0fedc6f02454cecda98",
+    "outputs": [
+      {
+        "value": "cc_58130d715e7_rds-db-publicly-accessible",
+        "name": "ec2_name"
+      },
+      {
+        "value": true,
+        "name": "included"
+      },
+      {
+        "value": {
+          "cc-57980ce2d13-kubedev": {
+            "region": "us-east-1",
+            "violating_object": {
+              "latest_restorable_time": "2016-11-04T06:00:00Z",
+              "auto_minor_version_upgrade": true,
+              "backup_retention_period": 2,
+              "db_instance_status": "available",
+              "preferred_maintenance_window": "sat:09:10-sat:09:40",
+              "pending_modified_values": null,
+              "license_model": "general-public-license",
+              "db_subnet_group": {
+                "db_subnet_group_name": "cc-57980ce2d13-kubedev",
+                "db_subnet_group_description": "Subnet Group Created by CloudCoreo for Db [kubedev]",
+                "vpc_id": "vpc-05f2b262",
+                "subnet_group_status": "Complete",
+                "subnets": [
+                  {
+                    "subnet_availability_zone": {
+                      "provisioned_iops_capable": false,
+                      "name": "us-east-1d"
+                    },
+                    "subnet_identifier": "subnet-8f7cb2c6",
+                    "subnet_status": "Active"
+                  },
+                  {
+                    "subnet_availability_zone": {
+                      "provisioned_iops_capable": false,
+                      "name": "us-east-1a"
+                    },
+                    "subnet_identifier": "subnet-5f302f07",
+                    "subnet_status": "Active"
+                  },
+                  {
+                    "subnet_availability_zone": {
+                      "provisioned_iops_capable": false,
+                      "name": "us-east-1c"
+                    },
+                    "subnet_identifier": "subnet-4fcad465",
+                    "subnet_status": "Active"
+                  }
+                ]
+              },
+              "db_instance_class": "db.t2.micro",
+              "instance_create_time": "2016-09-16T09:34:16Z",
+              "multi_az": false,
+              "db_name": "kubedev",
+              "master_username": "admin",
+              "engine_version": "5.6.29",
+              "publicly_accessible": false,
+              "engine": "mysql",
+              "endpoint": {
+                "address": "cc-57980ce2d13-kubedev.cgfflexed4cn.us-east-1.rds.amazonaws.com",
+                "port": 3306
+              },
+              "db_instance_identifier": "cc-57980ce2d13-kubedev",
+              "preferred_backup_window": "03:23-03:53",
+              "availability_zone": "us-east-1d",
+              "allocated_storage": 25,
+              "status_infos": [],
+              "option_group_memberships": [
+                {
+                  "status": "in-sync",
+                  "option_group_name": "default:mysql-5-6"
+                }
+              ],
+              "read_replica_db_instance_identifiers": [],
+              "db_parameter_groups": [
+                {
+                  "parameter_apply_status": "in-sync",
+                  "db_parameter_group_name": "cc-57980ce2d13-kubedev"
+                }
+              ],
+              "vpc_security_groups": [
+                {
+                  "status": "active",
+                  "vpc_security_group_id": "sg-7186300b"
+                }
+              ],
+              "db_security_groups": []
+            },
+            "tags": [
+              {
+                "key": "bv:nexus:team",
+                "value": "bvrdstest1@joehicks.com"
+              },
+              {
+                "key": "Name",
+                "value": "kubedev"
+              }
+            ]
+          }
+        },
+        "name": "violations"
+      }
+    ],
+    "namespace": "ROOT::AUDIT-AWS-RDS-TAGS-EXAMPLE-LALALA",
+    "inputs": [
+      {
+        "type": "choice",
+        "value": "define",
+        "name": "action"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "rds",
+        "name": "service"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          false
+        ],
+        "name": "alert_when"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "db_instances"
+        ],
+        "name": "objectives"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "http://kb.cloudcoreo.com/mydoc_rds-db-publicly-accessible.html",
+        "name": "link"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Critical",
+        "name": "level"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "=="
+        ],
+        "name": "operators"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "The affected RDS database is publicly accessible to the world.",
+        "name": "description"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Security",
+        "name": "category"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Consider whether the affected RDS database should be publicly accessible to the world. If not, modify the option which enables your RDS database to become publicly accessible.",
+        "name": "suggested_action"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [],
+        "name": "call_modifiers"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "db_instances.publicly_accessible"
+        ],
+        "name": "audit_objects"
+      }
+    ],
+    "executionTime": 0.861611337,
+    "executionNumber": 3,
+    "engineStatus": "OK",
+    "dataType": "ADVISOR_RESOURCE"
+  },
+  {
+    "timestamp": "2016-11-04T06:06:44.000Z",
+    "stackName": "AUDIT-AWS-RDS-TAGS-EXAMPLE-LALALA",
+    "runId": "948ae1c1-aaa6-4d2c-84dc-3b2cb3ad2d05",
+    "resourceType": "coreo_aws_advisor_rds",
+    "resourceName": "advise-rds",
+    "resourceId": "dc0d939eb4f67cde27a2121fc90da91972d2a7e709f8ff1f12650abab08f60c5",
+    "outputs": [
+      {
+        "value": "cc_58130d715e7_advise-rds",
         "name": "ec2_name"
       },
       {
@@ -1556,10 +495,11 @@
         "name": "number_checks"
       },
       {
-        "value": "{\"cc-57963011d13-dev-elb\":{\"violations\":{\"elb-old-ssl-policy\":{\"violating_object\":\"ELBSecurityPolicy-2016-08\",\"description\":\"Elastic Load Balancing (ELB) SSL policy is not the latest Amazon predefined SSL policy or is a custom ELB SSL policy.\",\"category\":\"Security\",\"suggested_action\":\"Always use the current AWS predefined security policy.\",\"level\":\"Critical\",\"region\":\"us-east-1\"}},\"tags\":[{\"value\":\"george@cloudcoreo.com\",\"key\":\"bv:nexus:team\"},{\"value\":\"dev-elb\",\"key\":\"Name\"}]},\"joe-cloudaudit-test\":{\"violations\":{\"elb-old-ssl-policy\":{\"violating_object\":\"AWSConsole-SSLNegotiationPolicy-joe-cloudaudit-test-1477601639329\",\"description\":\"Elastic Load Balancing (ELB) SSL policy is not the latest Amazon predefined SSL policy or is a custom ELB SSL policy.\",\"category\":\"Security\",\"suggested_action\":\"Always use the current AWS predefined security policy.\",\"level\":\"Critical\",\"region\":\"us-east-1\"}},\"tags\":[{\"value\":\"joe@cloudcoreo.com\",\"key\":\"bv:nexus:team\"}]}}",
+        "value": "{\"cc-57980ce2d13-kubedev\":{\"violations\":{\"rds-short-backup-retention-period\":{\"violating_object\":{\"db_security_groups\":[],\"vpc_security_groups\":[{\"vpc_security_group_id\":\"sg-7186300b\",\"status\":\"active\"}],\"db_parameter_groups\":[{\"db_parameter_group_name\":\"cc-57980ce2d13-kubedev\",\"parameter_apply_status\":\"in-sync\"}],\"read_replica_db_instance_identifiers\":[],\"option_group_memberships\":[{\"option_group_name\":\"default:mysql-5-6\",\"status\":\"in-sync\"}],\"status_infos\":[],\"allocated_storage\":25,\"availability_zone\":\"us-east-1d\",\"preferred_backup_window\":\"03:23-03:53\",\"db_instance_identifier\":\"cc-57980ce2d13-kubedev\",\"endpoint\":{\"port\":3306,\"address\":\"cc-57980ce2d13-kubedev.cgfflexed4cn.us-east-1.rds.amazonaws.com\"},\"engine\":\"mysql\",\"publicly_accessible\":false,\"engine_version\":\"5.6.29\",\"master_username\":\"admin\",\"db_name\":\"kubedev\",\"multi_az\":false,\"instance_create_time\":\"2016-09-16T09:34:16Z\",\"db_instance_class\":\"db.t2.micro\",\"db_subnet_group\":{\"subnets\":[{\"subnet_status\":\"Active\",\"subnet_identifier\":\"subnet-8f7cb2c6\",\"subnet_availability_zone\":{\"name\":\"us-east-1d\",\"provisioned_iops_capable\":false}},{\"subnet_status\":\"Active\",\"subnet_identifier\":\"subnet-5f302f07\",\"subnet_availability_zone\":{\"name\":\"us-east-1a\",\"provisioned_iops_capable\":false}},{\"subnet_status\":\"Active\",\"subnet_identifier\":\"subnet-4fcad465\",\"subnet_availability_zone\":{\"name\":\"us-east-1c\",\"provisioned_iops_capable\":false}}],\"subnet_group_status\":\"Complete\",\"vpc_id\":\"vpc-05f2b262\",\"db_subnet_group_description\":\"Subnet Group Created by CloudCoreo for Db [kubedev]\",\"db_subnet_group_name\":\"cc-57980ce2d13-kubedev\"},\"license_model\":\"general-public-license\",\"pending_modified_values\":null,\"preferred_maintenance_window\":\"sat:09:10-sat:09:40\",\"db_instance_status\":\"available\",\"backup_retention_period\":2,\"auto_minor_version_upgrade\":true,\"latest_restorable_time\":\"2016-11-04T06:00:00Z\"},\"description\":\"The affected RDS database has a short backup retention period (less than 30 days).\",\"category\":\"Dataloss\",\"suggested_action\":\"Modify the backup retension period to increase it to greater than 30 days.\",\"level\":\"Alert\",\"link\":\"http://kb.cloudcoreo.com/mydoc_rds-short-backup-retention-period.html\",\"region\":\"us-east-1\"},\"rds-db-publicly-accessible\":{\"violating_object\":{\"db_security_groups\":[],\"vpc_security_groups\":[{\"vpc_security_group_id\":\"sg-7186300b\",\"status\":\"active\"}],\"db_parameter_groups\":[{\"db_parameter_group_name\":\"cc-57980ce2d13-kubedev\",\"parameter_apply_status\":\"in-sync\"}],\"read_replica_db_instance_identifiers\":[],\"option_group_memberships\":[{\"option_group_name\":\"default:mysql-5-6\",\"status\":\"in-sync\"}],\"status_infos\":[],\"allocated_storage\":25,\"availability_zone\":\"us-east-1d\",\"preferred_backup_window\":\"03:23-03:53\",\"db_instance_identifier\":\"cc-57980ce2d13-kubedev\",\"endpoint\":{\"port\":3306,\"address\":\"cc-57980ce2d13-kubedev.cgfflexed4cn.us-east-1.rds.amazonaws.com\"},\"engine\":\"mysql\",\"publicly_accessible\":false,\"engine_version\":\"5.6.29\",\"master_username\":\"admin\",\"db_name\":\"kubedev\",\"multi_az\":false,\"instance_create_time\":\"2016-09-16T09:34:16Z\",\"db_instance_class\":\"db.t2.micro\",\"db_subnet_group\":{\"subnets\":[{\"subnet_status\":\"Active\",\"subnet_identifier\":\"subnet-8f7cb2c6\",\"subnet_availability_zone\":{\"name\":\"us-east-1d\",\"provisioned_iops_capable\":false}},{\"subnet_status\":\"Active\",\"subnet_identifier\":\"subnet-5f302f07\",\"subnet_availability_zone\":{\"name\":\"us-east-1a\",\"provisioned_iops_capable\":false}},{\"subnet_status\":\"Active\",\"subnet_identifier\":\"subnet-4fcad465\",\"subnet_availability_zone\":{\"name\":\"us-east-1c\",\"provisioned_iops_capable\":false}}],\"subnet_group_status\":\"Complete\",\"vpc_id\":\"vpc-05f2b262\",\"db_subnet_group_description\":\"Subnet Group Created by CloudCoreo for Db [kubedev]\",\"db_subnet_group_name\":\"cc-57980ce2d13-kubedev\"},\"license_model\":\"general-public-license\",\"pending_modified_values\":null,\"preferred_maintenance_window\":\"sat:09:10-sat:09:40\",\"db_instance_status\":\"available\",\"backup_retention_period\":2,\"auto_minor_version_upgrade\":true,\"latest_restorable_time\":\"2016-11-04T06:00:00Z\"},\"description\":\"The affected RDS database is publicly accessible to the world.\",\"category\":\"Security\",\"suggested_action\":\"Consider whether the affected RDS database should be publicly accessible to the world. If not, modify the option which enables your RDS database to become publicly accessible.\",\"level\":\"Critical\",\"link\":\"http://kb.cloudcoreo.com/mydoc_rds-db-publicly-accessible.html\",\"region\":\"us-east-1\"}},\"tags\":[{\"value\":\"bvrdstest1@joehicks.com\",\"key\":\"bv:nexus:team\"},{\"value\":\"kubedev\",\"key\":\"Name\"}]}}",
         "name": "report"
       }
     ],
+    "namespace": "ROOT::AUDIT-AWS-RDS-TAGS-EXAMPLE-LALALA",
     "inputs": [
       {
         "type": "choice",
@@ -1578,1108 +518,79 @@
       {
         "type": "PLA-1366",
         "value": [
-          "elb-old-ssl-policy"
+          "rds-short-backup-retention-period",
+          "rds-no-auto-minor-version-upgrade",
+          "rds-db-publicly-accessible"
         ],
         "name": "alerts"
       }
     ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "advise-elb",
-    "resourceType": "coreo_aws_advisor_elb",
-    "timestamp": "2016-10-28T08:59:23.000Z",
-    "executionNumber": 21,
-    "resourceId": "e4a5eb454a2e662a56ffad8630d01434bd2e96aaa3206dbd82697343937aaed6",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-ELB",
+    "executionTime": 8.725190414,
+    "executionNumber": 4,
     "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-ELB"
+    "dataType": "ADVISOR_RESOURCE"
   },
   {
-    "outputs": [
-      {
-        "value": "cc_581312a15e7_iam-unusediamgroup",
-        "name": "ec2_name"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "choice",
-        "value": "define",
-        "name": "action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "iam",
-        "name": "service"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          0
-        ],
-        "name": "alert_when"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "groups",
-          "group"
-        ],
-        "name": "objectives"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Warning",
-        "name": "level"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          "=="
-        ],
-        "name": "operators"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "There is an IAM group defined without any users in it and therefore unused.",
-        "name": "description"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Access",
-        "name": "category"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Ensure that groups defined within IAM have active users in them. If the groups don't have active users or are not being used, delete the unused IAM group.",
-        "name": "suggested_action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          null,
-          {
-            "group_name": "groups.group_name"
-          }
-        ],
-        "name": "call_modifiers"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          "count"
-        ],
-        "name": "formulas"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          "users"
-        ],
-        "name": "audit_objects"
-      }
-    ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "iam-unusediamgroup",
-    "resourceType": "coreo_aws_advisor_alert",
-    "timestamp": "2016-10-28T08:59:25.000Z",
-    "executionNumber": 23,
-    "resourceId": "ad911abfc4cb5d61dcd54b1238c60b8c506107f97d075f58e541b3fba4e6ffda",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-IAM",
-    "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-IAM"
-  },
-  {
-    "outputs": [
-      {
-        "value": "cc_581312a15e7_iam-inactive-key-no-rotation",
-        "name": "ec2_name"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "choice",
-        "value": "define",
-        "name": "action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "iam",
-        "name": "service"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          "90.days.ago",
-          "Inactive"
-        ],
-        "name": "alert_when"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "users",
-          "access_keys",
-          "access_keys"
-        ],
-        "name": "objectives"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Alert",
-        "name": "level"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          "<",
-          "=="
-        ],
-        "name": "operators"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "User has inactive keys that have not been rotated in the last 90 days.",
-        "name": "description"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Access",
-        "name": "category"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "If you regularly use the AWS access keys, we recommend that you also regularly rotate or delete them.",
-        "name": "suggested_action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          null,
-          {
-            "user_name": "users.user_name"
-          },
-          {
-            "user_name": "users.user_name"
-          }
-        ],
-        "name": "call_modifiers"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          "access_key_metadata.create_date",
-          "access_key_metadata.status"
-        ],
-        "name": "audit_objects"
-      }
-    ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "iam-inactive-key-no-rotation",
-    "resourceType": "coreo_aws_advisor_alert",
-    "timestamp": "2016-10-28T08:59:27.000Z",
-    "executionNumber": 24,
-    "resourceId": "c3651b39cc4c0b2a9f4a2c061086919d202d3925b146058b6316a5d1a8afa10a",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-IAM",
-    "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-IAM"
-  },
-  {
-    "outputs": [
-      {
-        "value": "cc_581312a15e7_iam-active-key-no-rotation",
-        "name": "ec2_name"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "choice",
-        "value": "define",
-        "name": "action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "iam",
-        "name": "service"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          "90.days.ago",
-          "Active"
-        ],
-        "name": "alert_when"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "users",
-          "access_keys",
-          "access_keys"
-        ],
-        "name": "objectives"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Alert",
-        "name": "level"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          "<",
-          "=="
-        ],
-        "name": "operators"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "User has active keys that have not been rotated in the last 90 days",
-        "name": "description"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Access",
-        "name": "category"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "If you regularly use the AWS access keys, we recommend that you also regularly rotate or delete them.",
-        "name": "suggested_action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          null,
-          {
-            "user_name": "users.user_name"
-          },
-          {
-            "user_name": "users.user_name"
-          }
-        ],
-        "name": "call_modifiers"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          "access_key_metadata.create_date",
-          "access_key_metadata.status"
-        ],
-        "name": "audit_objects"
-      }
-    ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "iam-active-key-no-rotation",
-    "resourceType": "coreo_aws_advisor_alert",
-    "timestamp": "2016-10-28T08:59:29.000Z",
-    "executionNumber": 25,
-    "resourceId": "2a0d7206ed2b9b9fd3de31c1b0a8933ff729dd11067134b2c800e217df2b8d27",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-IAM",
-    "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-IAM"
-  },
-  {
-    "outputs": [
-      {
-        "value": "cc_581312a15e7_iam-missing-password-policy",
-        "name": "ec2_name"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "choice",
-        "value": "define",
-        "name": "action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "iam",
-        "name": "service"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          null
-        ],
-        "name": "alert_when"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "account_password_policy"
-        ],
-        "name": "objectives"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Critical",
-        "name": "level"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "=="
-        ],
-        "name": "operators"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "There currently isn't a password policy to require a certain password length, password expiration, prevent password reuse, and more.",
-        "name": "description"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Access",
-        "name": "category"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Configure a strong password policy for your users to ensure that passwords expire, aren't reused, have a certain length, require certain characters, and more.",
-        "name": "suggested_action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [],
-        "name": "call_modifiers"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "object.password_policy"
-        ],
-        "name": "audit_objects"
-      }
-    ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "iam-missing-password-policy",
-    "resourceType": "coreo_aws_advisor_alert",
-    "timestamp": "2016-10-28T08:59:31.000Z",
-    "executionNumber": 26,
-    "resourceId": "f6a84ef9d024e3afbac9b52b3c3c277226fff73dc62f19cf3d5e4cee5f445bc5",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-IAM",
-    "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-IAM"
-  },
-  {
-    "outputs": [
-      {
-        "value": "cc_581312a15e7_iam-passwordreuseprevention",
-        "name": "ec2_name"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "choice",
-        "value": "define",
-        "name": "action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "iam",
-        "name": "service"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          null
-        ],
-        "name": "alert_when"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "account_password_policy"
-        ],
-        "name": "objectives"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Critical",
-        "name": "level"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "=="
-        ],
-        "name": "operators"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "The current password policy doesn't prevent users from reusing thier old passwords.",
-        "name": "description"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Access",
-        "name": "category"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Configure a strong password policy for your users to ensure that passwords expire, aren't reused, have a certain length, require certain characters, and more.",
-        "name": "suggested_action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [],
-        "name": "call_modifiers"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "object.password_policy.password_reuse_prevention"
-        ],
-        "name": "audit_objects"
-      }
-    ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "iam-passwordreuseprevention",
-    "resourceType": "coreo_aws_advisor_alert",
-    "timestamp": "2016-10-28T08:59:32.000Z",
-    "executionNumber": 27,
-    "resourceId": "5b6972b4a8797533c35adad75da9871df5ffdaa588ac1f8d6f64a990a6db543f",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-IAM",
-    "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-IAM"
-  },
-  {
-    "outputs": [
-      {
-        "value": "cc_581312a15e7_iam-expirepasswords",
-        "name": "ec2_name"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "choice",
-        "value": "define",
-        "name": "action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "iam",
-        "name": "service"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "false"
-        ],
-        "name": "alert_when"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "account_password_policy"
-        ],
-        "name": "objectives"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Critical",
-        "name": "level"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "=="
-        ],
-        "name": "operators"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "The current password policy doesn't require users to regularly change their passwords. User passwords are set to never expire.",
-        "name": "description"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Access",
-        "name": "category"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Configure a strong password policy for your users so that passwords expire such that users must change their passwords periodically.",
-        "name": "suggested_action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [],
-        "name": "call_modifiers"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "object.password_policy.expire_passwords"
-        ],
-        "name": "audit_objects"
-      }
-    ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "iam-expirepasswords",
-    "resourceType": "coreo_aws_advisor_alert",
-    "timestamp": "2016-10-28T08:59:34.000Z",
-    "executionNumber": 28,
-    "resourceId": "031ea10b3ff62278eb1357204d08624b3c234e097d20e4edb56aa382a5d669a2",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-IAM",
-    "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-IAM"
-  },
-  {
-    "outputs": [
-      {
-        "value": "cc_581312a15e7_iam-no-mfa",
-        "name": "ec2_name"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "choice",
-        "value": "define",
-        "name": "action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "modifiers.user_name",
-        "name": "id_map"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "iam",
-        "name": "service"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          1
-        ],
-        "name": "alert_when"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "users",
-          "mfa_devices"
-        ],
-        "name": "objectives"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Critical",
-        "name": "level"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          "<"
-        ],
-        "name": "operators"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Cloud user does not have Multi-Factor Authentication enabled on their cloud account.",
-        "name": "description"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Security",
-        "name": "category"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Enable Multi-Factor Authentication for every cloud user.",
-        "name": "suggested_action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          null,
-          {
-            "user_name": "users.user_name"
-          }
-        ],
-        "name": "call_modifiers"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          "count"
-        ],
-        "name": "formulas"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          "object.mfa_devices"
-        ],
-        "name": "audit_objects"
-      }
-    ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "iam-no-mfa",
-    "resourceType": "coreo_aws_advisor_alert",
-    "timestamp": "2016-10-28T08:59:36.000Z",
-    "executionNumber": 29,
-    "resourceId": "4c6c84f476ca499851ee997823b522b0ed7b322d0d0fb5eeb150bff9d0f5ef2e",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-IAM",
-    "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-IAM"
-  },
-  {
-    "outputs": [
-      {
-        "value": "cc_581312a15e7_iam-root-no-mfa",
-        "name": "ec2_name"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "choice",
-        "value": "define",
-        "name": "action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "object.user",
-        "name": "id_map"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "iam",
-        "name": "service"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "false"
-        ],
-        "name": "alert_when"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "credential_report"
-        ],
-        "name": "objectives"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Emergency",
-        "name": "level"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "=="
-        ],
-        "name": "operators"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Root cloud user does not have Multi-Factor Authentication enabled on their cloud account",
-        "name": "description"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Security",
-        "name": "category"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Enable Multi-Factor Authentication for the root cloud user.",
-        "name": "suggested_action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [],
-        "name": "call_modifiers"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "CSV[user=<root_account>]"
-        ],
-        "name": "formulas"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "object.content.mfa_active"
-        ],
-        "name": "audit_objects"
-      }
-    ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "iam-root-no-mfa",
-    "resourceType": "coreo_aws_advisor_alert",
-    "timestamp": "2016-10-28T08:59:37.000Z",
-    "executionNumber": 30,
-    "resourceId": "16a5ef78fd2b030dde1d4766b91f3a728fb48ec791ffecadb65550ef2821f37c",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-IAM",
-    "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-IAM"
-  },
-  {
-    "outputs": [
-      {
-        "value": "cc_581312a15e7_iam-root-active-key",
-        "name": "ec2_name"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "choice",
-        "value": "define",
-        "name": "action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "object.user",
-        "name": "id_map"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "iam",
-        "name": "service"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "true"
-        ],
-        "name": "alert_when"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "credential_report"
-        ],
-        "name": "objectives"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Critical",
-        "name": "level"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "=="
-        ],
-        "name": "operators"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Root user has an access key that is active.",
-        "name": "description"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Security",
-        "name": "category"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Replace the root access key with an IAM user access key, and then disable and remove the root access key.",
-        "name": "suggested_action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [],
-        "name": "call_modifiers"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "CSV[user=<root_account>]"
-        ],
-        "name": "formulas"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "object.content.access_key_1_active"
-        ],
-        "name": "audit_objects"
-      }
-    ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "iam-root-active-key",
-    "resourceType": "coreo_aws_advisor_alert",
-    "timestamp": "2016-10-28T08:59:39.000Z",
-    "executionNumber": 31,
-    "resourceId": "672df0da7c900e6a50933451956485d7b8f2a8777a21f92f7041403138c32f37",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-IAM",
-    "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-IAM"
-  },
-  {
-    "outputs": [
-      {
-        "value": "cc_581312a15e7_iam-root-active-password",
-        "name": "ec2_name"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "choice",
-        "value": "define",
-        "name": "action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "object.user",
-        "name": "id_map"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "iam",
-        "name": "service"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "15.days.ago"
-        ],
-        "name": "alert_when"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "credential_report"
-        ],
-        "name": "objectives"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Critical",
-        "name": "level"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          ">"
-        ],
-        "name": "operators"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "The root user has been logging in using a password.",
-        "name": "description"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Security",
-        "name": "category"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Re-set your root account password, don't log in to your root account, and secure root account password in a safe place.",
-        "name": "suggested_action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [],
-        "name": "call_modifiers"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "CSV[user=<root_account>]"
-        ],
-        "name": "formulas"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "object.content.password_last_used"
-        ],
-        "name": "audit_objects"
-      }
-    ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "iam-root-active-password",
-    "resourceType": "coreo_aws_advisor_alert",
-    "timestamp": "2016-10-28T08:59:41.000Z",
-    "executionNumber": 32,
-    "resourceId": "de596f7587683d547d601cd37101ec502342eddb920180eafc3b8a38f6fc1327",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-IAM",
-    "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-IAM"
-  },
-  {
-    "outputs": [
-      {
-        "value": "cc_581312a15e7_iam-user-attached-policies",
-        "name": "ec2_name"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "choice",
-        "value": "define",
-        "name": "action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "modifiers.user_name",
-        "name": "id_map"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "iam",
-        "name": "service"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          0
-        ],
-        "name": "alert_when"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "users",
-          "user_policies"
-        ],
-        "name": "objectives"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Warning",
-        "name": "level"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          ">"
-        ],
-        "name": "operators"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "User account is using custom inline policies versus using IAM group managed policies.",
-        "name": "description"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Access",
-        "name": "category"
-      },
-      {
-        "type": "PLA-1366",
-        "value": "Switch all inline policies to apply to IAM groups and assign users IAMs roles.",
-        "name": "suggested_action"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          null,
-          {
-            "user_name": "users.user_name"
-          }
-        ],
-        "name": "call_modifiers"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          "count"
-        ],
-        "name": "formulas"
-      },
-      {
-        "type": "PLA-1366",
-        "value": [
-          "",
-          "object.policy_names"
-        ],
-        "name": "audit_objects"
-      }
-    ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "iam-user-attached-policies",
-    "resourceType": "coreo_aws_advisor_alert",
-    "timestamp": "2016-10-28T08:59:43.000Z",
-    "executionNumber": 33,
-    "resourceId": "bdc05e6e4635837c10e837a09c26eaa6443b72fe287bcf0d1863f6f73e40412d",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-IAM",
-    "engineStatus": "OK",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "STACK-AUDIT-AWS-IAM"
-  },
-  {
+    "timestamp": "2016-11-04T06:06:51.000Z",
+    "stackName": "audit-aws-rds-tags-example-lalala",
+    "runId": "948ae1c1-aaa6-4d2c-84dc-3b2cb3ad2d05",
+    "resourceType": "coreo_uni_util_notify",
+    "resourceName": "advise-rds",
+    "resourceId": "b4aa40ce04b9d28cb43aace4b700a2713ca001ebdfdf937efc9c9b24680e0377",
     "outputs": [
       {
         "value": {
-          "error_message": "One or more parameters are invalid. Reason: Message must be shorter than 262144 bytes.",
-          "error_type": "AWS::SQS::Errors::InvalidParameterValue",
-          "resource_error": "action :advise on coreo_aws_advisor_iam[advise-iam]"
+          "error_message": "Local address contains control or whitespace",
+          "error_type": "AWS::SimpleEmailService::Errors::InvalidParameterValue",
+          "resource_error": "action :notify on coreo_uni_util_notify[advise-rds]"
         },
         "name": "error"
       }
     ],
+    "namespace": "ROOT::AUDIT-AWS-RDS-TAGS-EXAMPLE-LALALA",
     "inputs": [
       {
         "type": "choice",
-        "value": "advise",
+        "value": "notify",
         "name": "action"
       },
       {
         "type": "PLA-1366",
-        "value": [
-          "iam-unusediamgroup",
-          "iam-inactive-key-no-rotation",
-          "iam-active-key-no-rotation",
-          "iam-passwordreuseprevention",
-          "iam-missing-password-policy",
-          "iam-expirepasswords",
-          "iam-no-mfa",
-          "iam-root-no-mfa",
-          "iam-root-active-key",
-          "iam-root-active-password",
-          "iam-user-attached-policies"
-        ],
-        "name": "alerts"
+        "value": "email",
+        "name": "type"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "json",
+        "name": "payload_type"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "{\"stack name\":\"audit-aws-rds-tags-example\",\n  \"instance name\":\"lalala\",\n  \"number_of_checks\":\"3\",\n  \"number_of_violations\":\"2\",\n  \"number_violations_ignored\":\"0\",\n  \"violations\": {\"cc-57980ce2d13-kubedev\":{\"violations\":{\"rds-short-backup-retention-period\":{\"violating_object\":{\"db_security_groups\":[],\"vpc_security_groups\":[{\"vpc_security_group_id\":\"sg-7186300b\",\"status\":\"active\"}],\"db_parameter_groups\":[{\"db_parameter_group_name\":\"cc-57980ce2d13-kubedev\",\"parameter_apply_status\":\"in-sync\"}],\"read_replica_db_instance_identifiers\":[],\"option_group_memberships\":[{\"option_group_name\":\"default:mysql-5-6\",\"status\":\"in-sync\"}],\"status_infos\":[],\"allocated_storage\":25,\"availability_zone\":\"us-east-1d\",\"preferred_backup_window\":\"03:23-03:53\",\"db_instance_identifier\":\"cc-57980ce2d13-kubedev\",\"endpoint\":{\"port\":3306,\"address\":\"cc-57980ce2d13-kubedev.cgfflexed4cn.us-east-1.rds.amazonaws.com\"},\"engine\":\"mysql\",\"publicly_accessible\":false,\"engine_version\":\"5.6.29\",\"master_username\":\"admin\",\"db_name\":\"kubedev\",\"multi_az\":false,\"instance_create_time\":\"2016-09-16T09:34:16Z\",\"db_instance_class\":\"db.t2.micro\",\"db_subnet_group\":{\"subnets\":[{\"subnet_status\":\"Active\",\"subnet_identifier\":\"subnet-8f7cb2c6\",\"subnet_availability_zone\":{\"name\":\"us-east-1d\",\"provisioned_iops_capable\":false}},{\"subnet_status\":\"Active\",\"subnet_identifier\":\"subnet-5f302f07\",\"subnet_availability_zone\":{\"name\":\"us-east-1a\",\"provisioned_iops_capable\":false}},{\"subnet_status\":\"Active\",\"subnet_identifier\":\"subnet-4fcad465\",\"subnet_availability_zone\":{\"name\":\"us-east-1c\",\"provisioned_iops_capable\":false}}],\"subnet_group_status\":\"Complete\",\"vpc_id\":\"vpc-05f2b262\",\"db_subnet_group_description\":\"Subnet Group Created by CloudCoreo for Db [kubedev]\",\"db_subnet_group_name\":\"cc-57980ce2d13-kubedev\"},\"license_model\":\"general-public-license\",\"pending_modified_values\":null,\"preferred_maintenance_window\":\"sat:09:10-sat:09:40\",\"db_instance_status\":\"available\",\"backup_retention_period\":2,\"auto_minor_version_upgrade\":true,\"latest_restorable_time\":\"2016-11-04T06:00:00Z\"},\"description\":\"The affected RDS database has a short backup retention period (less than 30 days).\",\"category\":\"Dataloss\",\"suggested_action\":\"Modify the backup retension period to increase it to greater than 30 days.\",\"level\":\"Alert\",\"link\":\"http://kb.cloudcoreo.com/mydoc_rds-short-backup-retention-period.html\",\"region\":\"us-east-1\"},\"rds-db-publicly-accessible\":{\"violating_object\":{\"db_security_groups\":[],\"vpc_security_groups\":[{\"vpc_security_group_id\":\"sg-7186300b\",\"status\":\"active\"}],\"db_parameter_groups\":[{\"db_parameter_group_name\":\"cc-57980ce2d13-kubedev\",\"parameter_apply_status\":\"in-sync\"}],\"read_replica_db_instance_identifiers\":[],\"option_group_memberships\":[{\"option_group_name\":\"default:mysql-5-6\",\"status\":\"in-sync\"}],\"status_infos\":[],\"allocated_storage\":25,\"availability_zone\":\"us-east-1d\",\"preferred_backup_window\":\"03:23-03:53\",\"db_instance_identifier\":\"cc-57980ce2d13-kubedev\",\"endpoint\":{\"port\":3306,\"address\":\"cc-57980ce2d13-kubedev.cgfflexed4cn.us-east-1.rds.amazonaws.com\"},\"engine\":\"mysql\",\"publicly_accessible\":false,\"engine_version\":\"5.6.29\",\"master_username\":\"admin\",\"db_name\":\"kubedev\",\"multi_az\":false,\"instance_create_time\":\"2016-09-16T09:34:16Z\",\"db_instance_class\":\"db.t2.micro\",\"db_subnet_group\":{\"subnets\":[{\"subnet_status\":\"Active\",\"subnet_identifier\":\"subnet-8f7cb2c6\",\"subnet_availability_zone\":{\"name\":\"us-east-1d\",\"provisioned_iops_capable\":false}},{\"subnet_status\":\"Active\",\"subnet_identifier\":\"subnet-5f302f07\",\"subnet_availability_zone\":{\"name\":\"us-east-1a\",\"provisioned_iops_capable\":false}},{\"subnet_status\":\"Active\",\"subnet_identifier\":\"subnet-4fcad465\",\"subnet_availability_zone\":{\"name\":\"us-east-1c\",\"provisioned_iops_capable\":false}}],\"subnet_group_status\":\"Complete\",\"vpc_id\":\"vpc-05f2b262\",\"db_subnet_group_description\":\"Subnet Group Created by CloudCoreo for Db [kubedev]\",\"db_subnet_group_name\":\"cc-57980ce2d13-kubedev\"},\"license_model\":\"general-public-license\",\"pending_modified_values\":null,\"preferred_maintenance_window\":\"sat:09:10-sat:09:40\",\"db_instance_status\":\"available\",\"backup_retention_period\":2,\"auto_minor_version_upgrade\":true,\"latest_restorable_time\":\"2016-11-04T06:00:00Z\"},\"description\":\"The affected RDS database is publicly accessible to the world.\",\"category\":\"Security\",\"suggested_action\":\"Consider whether the affected RDS database should be publicly accessible to the world. If not, modify the option which enables your RDS database to become publicly accessible.\",\"level\":\"Critical\",\"link\":\"http://kb.cloudcoreo.com/mydoc_rds-db-publicly-accessible.html\",\"region\":\"us-east-1\"}},\"tags\":[{\"value\":\"bvrdstest1@joehicks.com\",\"key\":\"bv:nexus:team\"},{\"value\":\"kubedev\",\"key\":\"Name\"}]}} }",
+        "name": "payload"
+      },
+      {
+        "type": "PLA-1366",
+        "value": {
+          "subject": "CloudCoreo rds advisor alerts on audit-aws-rds-tags-example :: lalala",
+          "to": "sad asd asd"
+        },
+        "name": "endpoint"
+      },
+      {
+        "type": "PLA-1366",
+        "value": false,
+        "name": "allow_empty"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "change",
+        "name": "send_on"
       }
     ],
-    "dataType": "ADVISOR_RESOURCE",
-    "resourceName": "advise-iam",
-    "resourceType": "coreo_aws_advisor_iam",
-    "timestamp": "2016-10-28T09:25:26.000Z",
-    "executionNumber": 34,
-    "resourceId": "bbca324823d05c1556feccee4dbb8edd5e8b7d4e3f1150263637cde3cf9990f4",
-    "namespace": "ROOT::AUDIT-AWS-TYU::STACK-AUDIT-AWS-IAM",
+    "executionTime": 6.887054035,
+    "executionNumber": 5,
     "engineStatus": "PROVIDER_ERROR",
-    "runId": "27847cf2-753f-4125-89f0-7a9cdff6f745",
-    "stackName": "stack-audit-aws-iam"
+    "dataType": "DEPLOY_RESOURCE"
   }
 ]

@@ -1,4 +1,7 @@
 window.Audit = (function () {
+    var callback;
+    var passedViolations = [];
+    var disabledViolations = [];
     var alerts = [];
     var alertData = {
         level: {},
@@ -7,14 +10,18 @@ window.Audit = (function () {
         service: {}
     };
     var color = {
-        Emergency: '#770a0a',
-        Alert: '#e53e2b',
-        Critical: '#e49530',
-        Error: '#eac907',
-        Warning: '#c4c4c4',
-        Notice: '#6b6b6b',
-        Informational: '#272e39',
-        Debug: '#ffffff',
+        SeverityTones : {
+            Emergency: '#770a0a',
+            Alert: '#ad0707',
+            Critical: '#e53e2b',
+            Error: '#fc847c',
+            Warning: '#e49530',
+            Notice: '#eac907',
+            Informational: '#6b6b6b',
+            Debug: '#c4c4c4'
+        },
+        Passed: '#2dbf74',
+        Disabled: '#cccccc',
         PurpleTones: d3.scaleOrdinal(['#582a7f', '#bf4a95', '#c4c4c4', '#6b6b6b', '#272e39']),
         CoolTones: d3.scaleOrdinal(['#2dbf74', '#39c4cc', '#2b7ae5', '#c4c4c4', '#6b6b6b', '#272e39']),
         RainbowTones: d3.scaleOrdinal(['#582a7f', '#bf4a95', '#2dbf74', '#39c4cc', '#2b7ae5', '#c4c4c4', '#6b6b6b', '#272e39'])
@@ -40,7 +47,12 @@ window.Audit = (function () {
         var sortKey = _this.attr('sortKey');
         var reportId = _this.attr('reportId');
         var resources = JSON.stringify(listOfAlerts[sortKey].alerts[violationId].resources);
-        redirectToAuditResources(reportId, violationId, resources);
+        redirectToAuditResources(listOfAlerts[sortKey].alerts[violationId], listOfAlerts[sortKey].color);
+        // if(callback) callback.showResourcesList(listOfAlerts[sortKey].alerts[violationId], listOfAlerts[sortKey].color);
+    }
+
+    function localPopup() {
+        $('#popup').removeClass('hidden');
     }
 
     function onShowAllBtnClick(elem) {
@@ -75,7 +87,8 @@ window.Audit = (function () {
             onShowViolationResourcesListClick(this, listOfAlerts)
         });
         $('.more-info-link').click(function () {
-
+            var href = $(this).attr('href');
+            openPopup(href);
         });
         $('.share-link').click(function () {
 
@@ -98,7 +111,7 @@ window.Audit = (function () {
             if (!listOfAlerts[key]) {
                 listOfAlerts[key] = {};
                 listOfAlerts[key].alerts = {};
-                listOfAlerts[key].color = color[key];
+                if(sortKey === 'level') listOfAlerts[key].color = color.SeverityTones[key];
                 if (!listOfAlerts[key].color) {
                     var index = keys.indexOf(key);
                     listOfAlerts[key].color = (keys.length > 6) ? color.RainbowTones(index) :
@@ -147,7 +160,26 @@ window.Audit = (function () {
         });
     }
 
-    function getListSectionHTML(violations, sectionSummary) {
+    function organizeDataForAdditionalSections(violation) {
+        return {
+            title: violation.inputs.display_name || violation.resourceName,
+            id: violation.resourceName,
+            level: violation.inputs.level,
+            category: violation.inputs.category,
+            description: violation.inputs.description,
+            fix: violation.inputs.suggested_action,
+            service: violation.inputs.service,
+            link: violation.inputs.link,
+            resources:[]
+        };
+    }
+
+    function renderSection(violations, key, color) {
+        var sectionSummary = {label: key, value: Object.keys(violations).length, color: color};
+        if(!sectionSummary.value) {
+            return;
+        }
+
         var visibleList = '';
         var restList = '';
         var visibleCount = 0;
@@ -171,33 +203,41 @@ window.Audit = (function () {
                 '</div>' +
             '</div>';
 
-        return html;
+
+        $(containers.mainDataContainerSelector).append(html);
+        return sectionSummary;
     }
 
     function renderResourcesList(sortKey) {
         if (!alerts) {
             return;
         }
-
-        if (!alerts.length) {
+        if (!alerts.length && !disabledViolations) {
             $(containers.noViolationsMessageSelector).removeClass('hidden');
             return;
         }
 
         var pieData = [];
         var listOfAlerts = organizeDataForCurrentRender(sortKey);
-
         $(containers.mainDataContainerSelector).html('');
 
-        Object.keys(listOfAlerts).forEach(function (key) {
-            var sectionSummary = {label: key, value: alertData[sortKey][key], color: listOfAlerts[key].color};
-            var listSection = getListSectionHTML(listOfAlerts[key].alerts, sectionSummary);
-            $(containers.mainDataContainerSelector).append(listSection);
+        if (sortKey === 'level') {
+            Object.keys(color.SeverityTones).forEach(function (key) {
+                if(listOfAlerts[key]) {
+                    renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color);
+                    pieData.push({label: key, value: Object.keys(listOfAlerts[key].alerts).length, color: listOfAlerts[key].color});
+                    return;
+                }
+                pieData.push({label: key, value: 0, color: color.SeverityTones[key]});
+            });
+        } else {
+            Object.keys(listOfAlerts).forEach(function (key) {
+                renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color);
+                pieData.push({label: key, value: Object.keys(listOfAlerts[key].alerts).length, color: listOfAlerts[key].color});
+            });
+        }
 
-            pieData.push(sectionSummary);
-        });
         pie.drawPie(pieData);
-        refreshClickHandlers(listOfAlerts);
     }
 
     function fillViolationsList(violations, reports) {
@@ -206,10 +246,12 @@ window.Audit = (function () {
             alerts = undefined;
             return;
         }
+        var totalChecks = 0;
 
         reports.forEach(function (reportData) {
             var report = JSON.parse(reportData.outputs.report);
             var reportId = reportData.resourceName;
+            totalChecks += reportData.outputs.number_checks;
 
             Object.keys(report).forEach(function (resId) {
                 Object.keys(report[resId].violations).forEach(function (violationKey) {
@@ -221,13 +263,12 @@ window.Audit = (function () {
                         category: rowData.category,
                         description: rowData.description,
                         fix: rowData.suggested_action,
-                        resource: resId,
                         service: violations[violationKey].inputs.service,
+                        resource: { id: resId, tags: report[resId].tags },
                         region: rowData.region,
                         link: rowData.link,
                         reportId: reportId
                     };
-
                     if (!alertData.level.hasOwnProperty(alert.level)) {
                         alertData.level[alert.level] = 0;
                     }
@@ -249,12 +290,14 @@ window.Audit = (function () {
                 });
             });
         });
+
+        $('.additional-info .checks').html(totalChecks + ' Checks' );
+        $('.additional-info .passed').html(Object.keys(passedViolations).length + ' Passed');
+        $('.additional-info .disabled').html(Object.keys(disabledViolations).length + ' Disabled');
     }
 
-
-
     function initResourcesList(data) {
-        var newData = [];
+        var newData = {};
         var reports = [];
         var errors = [];
         data.forEach(function (elem) {
@@ -285,27 +328,77 @@ window.Audit = (function () {
                 errors.push(newObj);
             }
             else if (newObj.outputs.report) reports.push(newObj);
+            else if(!newObj.outputs.included) disabledViolations[newObj.resourceName] = organizeDataForAdditionalSections(newObj);
+            else if(!newObj.outputs.violations) passedViolations[newObj.resourceName] = organizeDataForAdditionalSections(newObj);
             else newData[newObj.resourceName] = newObj;
         });
 
         fillViolationsList(newData, reports);
-        renderErrorsPanel(errors);
+        // renderErrorsPanel(errors);
+    }
+
+    function setupHandlers() {
+        $('#chosen-sorting').change(function () {
+            render($(this).val());
+        });
+
+        $('.dropdown-button').click(function () {
+            $('.custom-dropdown ul').toggleClass('hidden');
+        });
+
+        $('.custom-dropdown li').click(function () {
+            var chosenSort = $(this).data('value');
+            if (chosenSort) {
+                var dropdownElem = $(this).closest('.custom-dropdown');
+                var sortByElem = dropdownElem.find('.chosen-item-value');
+                var isReverseElem = dropdownElem.find('.chosen-item-is-reverse');
+                var isReverseVal = isReverseElem.val() === 'true';
+
+                if (sortByElem.val() === chosenSort) {
+                    isReverseElem.val(!isReverseVal).trigger('change');
+                }
+                else {
+                    isReverseElem.val(false);
+                }
+                sortByElem.val(chosenSort).trigger('change');
+                dropdownElem.find('.chosen-item-text').html($(this).html());
+            }
+            $(this).parent().addClass('hidden');
+        });
+
+        $(document).click(function (e) {
+            if ($(e.target).closest('.custom-dropdown').length === 0) {
+                $('.custom-dropdown ul').addClass('hidden');
+            }
+        });
+    }
+
+    function render(sortKey) {
+        renderResourcesList(sortKey);
+
+        if(sortKey === 'level') {
+            renderSection(passedViolations, 'Passed Violation Check', color.Passed);
+        }
+        renderSection(disabledViolations, 'Disabled', color.Disabled);
+        refreshClickHandlers();
     }
 
     function init(data, sortKey) {
         pie = new ResourcesPie(containers.pieChartSelector);
+        setupHandlers();
         initResourcesList(data);
-        renderResourcesList(sortKey);
+        render(sortKey);
     }
 
-    function audit(data, sortKey, selectors) {
+    function audit(data, sortKey, _callback, selectors) {
         if(selectors) {
             containers = selectors;
         }
+        callback = _callback;
         init(data, sortKey);
     }
 
-    audit.prototype.renderResourcesList = renderResourcesList;
+    audit.prototype.renderResourcesList = render;
     audit.prototype.getViolationsList = function () {
         return alerts;
     };

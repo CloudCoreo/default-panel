@@ -2,8 +2,11 @@
 <html>
 <head>
     <title>Default Panel</title>
+    <link rel="stylesheet" href="./css/popup.css">
+    <link rel="stylesheet" href="./css/map.css">
     <link rel="stylesheet" href="./css/deploy.css">
     <link rel="stylesheet" href="./css/audit.css">
+    <link rel="stylesheet" href="./css/audit-resources.css">
 </head>
 <body>
 <div id="backdrop">
@@ -69,47 +72,61 @@
                                                                                    value="map">Map</label>
                 </div>
             </div>
-            <div class="custom-dropdown noselect">
-                <div class="dropdown-button">
-                    <div>SORT BY</div>
-                    <div class="chosen-item-text">Most Recent</div>
-                    <input type="hidden" class="chosen-item-value" id="chosen-sorting" value="most_recent">
-                    <input type="hidden" class="chosen-item-is-reverse" id="is-reverse" value="true">
-                </div>
-                <ul class="deploy hidden">
-                    <li data-value="resource_timestamp">Most Recent</li>
-                    <li data-value="resource_type">Resource Type</li>
-                    <li data-value="action">Action</li>
-                    <li data-value="status">Status</li>
-                </ul>
-                <ul class="audit hidden">
-                    <li data-value="level">Severity Level</li>
-                    <li data-value="category">Category</li>
-                    <li data-value="service">Service</li>
-                    <li data-value="region">Region</li>
-                </ul>
-            </div>
-
         </div>
-        <div class="view-options">
-            <div class="resources-amount"></div>
-        </div>
-
         <div class="data-container">
-            <div class="deploy bg-white">
-                <div class="resources-list"></div>
-                <div class="pagination"></div>
+            <div class="deploy">
+                <div class="resource-list-header">
+                    <div class="sort-label active type" key="resourceType">resource type</div>
+                    <div class="sort-label name" key="resourceName">resource name</div>
+                    <div class="sort-label status" key="engineStatus">status</div>
+                    <div class="sort-label action" key="action">action</div>
+                    <div class="sort-label executionTime" key="executionTime">execution time</div>
+                    <div class="sort-label status-timestamp" key="timestamp">timestamp</div>
+                </div>
+                <div class="resources-list bg-white "></div>
+                <div class="pagination">
+                    <div class="resources-amount"></div>
+                    <div class="pages"></div>
+                </div>
             </div>
             <div class="deploy">
                 <div id="no-deploy-resources" class="hidden">This execution has no deploy resources.</div>
             </div>
             <div class="audit flex-row hidden">
-                <div class="left-column">
-                    <div class="layout-padding pie"></div>
+                <div class="left-column layout-padding-right">
+                    <div class="pie-data-header">24 Audit Violations</div>
+                    <div class="custom-dropdown noselect layout-margin-bottom-20">
+                        <div class="dropdown-button">
+                            <div>SORT BY</div>
+                            <div class="chosen-item-text">Most Recent</div>
+                            <input type="hidden" class="chosen-item-value" id="chosen-sorting" value="most_recent">
+                            <input type="hidden" class="chosen-item-is-reverse" id="is-reverse" value="true">
+                        </div>
+                        <ul class="hidden">
+                            <li data-value="level">Severity Level</li>
+                            <li data-value="category">Category</li>
+                            <li data-value="service">Service</li>
+                            <li data-value="region">Region</li>
+                        </ul>
+                    </div>
+                    <div class="pie"></div>
+                    <div class="additional-info separator-top layout-margin-top flex-row">
+                        <div class="checks"></div>
+                        <div class="passed link"></div>
+                        <div class="disabled link"></div>
+                    </div>
                 </div>
                 <div class="flex-grow">
                     <div id="advisor-errors"></div>
                     <div class="list"></div>
+
+                    <div id="popup" class="hidden">
+                        <div class="backdrop"></div>
+                        <div class="popup-body">
+                            <div class="close">X</div>
+                            <div class="popup-content"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="audit hidden">
@@ -137,15 +154,47 @@
                 </div>
             </div>
 
-            <div class="map layout-padding hidden bg-white">
-                <div class="map-cont"></div>
-                <div class="layout-margin-top separator-top map-history flex-row"></div>
+            <div class="map layout-padding hidden bg-white md-shadow">
             </div>
         </div>
     </div>
 </div>
 
+
 <div class="hidden">
+
+    <div id="map-region-tpl">
+        <div class="map-region">
+            <div class="map-data-header">{{:region}}</div>
+            <div class="flex-row">
+                <div class="regions-list">
+                    <div class="region">
+                        {{for subregions}}
+                            <div class="regions-subheader">{{:key}}</div>
+                            <div class="resources">
+                                <div class="flex-row"><div class="deploy-bubble"></div> {{:deployed}} Resources Deployed</div>
+                                <div class="flex-row"><div class="violation-bubble"></div>{{:violations}} Violations Found in Audit</div>
+                            </div>
+                        {{/for}}
+                        {{if subregionsWithoutData}}
+                            <div class="regions-subheader">{{:subregionsWithoutData}}</div>
+                            <div class="resources"><div class="none">None</div></div>
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="flex-row region-img {{:cssClass}}"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="global-region-tpl">
+        <div class="global-region-chart">
+            <img src="images/maps/{{:key}}.png"/>
+            <div class="global-resources-list {{:key}}">
+            </div>
+        </div>
+    </div>
+
     <div id="error-tpl">
         <div class="error">
             <div class="label">Error Message:</div>
@@ -158,7 +207,7 @@
     <div id="list-header-tmpl">
         <div class="flex-row align-center">
             <div class="subheader flex-grow">{{:name}}</div>
-            <div id="high-counter" class="font-12 medium-grey">{{:resultsCount}} RESULTS</div>
+            <div id="high-counter" class="font-12 medium-grey">{{:resultsCount}} VIOLATIONS</div>
         </div>
     </div>
 
@@ -175,6 +224,7 @@
                 <div class="name">{{:resourceName}}</div>
                 <div class="status">{{:engineStatus}}</div>
                 <div class="action">{{:action}}</div>
+                <div class="executionTime">{{:executionTime}}</div>
                 <div class="status-timestamp">{{:timestamp}}</div>
             </div>
             <div class="expandable-row hidden">
@@ -220,6 +270,36 @@
                         {{/for}}
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="audit-resources-tpl">
+        <div class="row audit-resources">
+            <div class="header flex-row">
+                <div class="flex-grow">
+                    <div><b>{{:title}}</b></div>
+                    <div>ID: {{:id}}</div>
+                </div>
+                <div class="level">{{:level}}</div>
+                <div># Resources</div>
+            </div>
+            <div class="res-list">
+                {{for resources}}
+                <div class="audit-resource">
+                    <div class="audit-resource-info flex-row layout-margin-bottom-8">
+                        <div class="resource-id flex-grow">{{:id}}</div>
+                        <div>{{:resourceName}}</div>
+                        <div>{{:#parent.parent.data.service}}</div>
+                        <div>{{:#parent.parent.data.region}}</div>
+                    </div>
+                    <div class="tags">
+                        {{for tags}}
+                        <div>{{:key}}: {{:value}}</div>
+                        {{/for}}
+                    </div>
+                </div>
+                {{/for}}
             </div>
         </div>
     </div>
@@ -281,7 +361,8 @@
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script type="text/javascript" src="./js/utils.js"></script>
 <script type="text/javascript" src="./js/pie.js"></script>
-<script type="text/javascript" src="./js/map.js"></script>
+<script type="text/javascript" src="./js/static-map.js"></script>
+<!--<script type="text/javascript" src="./js/map.js"></script>-->
 <script type="text/javascript" src="./js/deploy.js"></script>
 <script type="text/javascript" src="./js/audit.js"></script>
 <script type="text/javascript" src="./js/script.js"></script>

@@ -4,6 +4,9 @@ window.Deploy = (function () {
     var resourcesAlerts = false;
     var initialData;
 
+    var itemsOnPage = 2;
+    var currentPage = 0;
+
     function renderResourcesList() {
         $('.resources-list').html('');
         //$('.resources-list').html('<pre>' + JSON.stringify(initialData, null, 4) + '</pre>');
@@ -14,7 +17,6 @@ window.Deploy = (function () {
             appendLogs(resources[resource].inputs, html.find('.logs .inputs'));
             appendLogs(resources[resource].outputs, html.find('.logs .outputs'));
         });
-        appendNumberOfResultsLabel();
         initializeRowsActions();
         if (numberOfNotExecutedResources > 0) {
             appendNumberNotExecutedResourcesNotification();
@@ -56,7 +58,30 @@ window.Deploy = (function () {
     }
 
     function appendNumberOfResultsLabel() {
-        $('.resources-amount').html(resources.length + ' results');
+        $('.resources-amount').html("SHOWING " +
+            ((currentPage * itemsOnPage) || 1 ) + "-" +
+            ((resources.length > itemsOnPage * (currentPage + 1)) ? itemsOnPage * (currentPage + 1) : resources.length) +
+            " OF " +resources.length + ' results');
+
+        var pages = resources.length / itemsOnPage;
+        if(pages <= 1) return;
+
+        $('.pages').append('<div class="page active prev"><<</div>');
+        for(var i = 0; i < pages; ++i) {
+            $('.pages').append('<div class="page' + (currentPage === i ? ' active' : '') + '">' + (i + 1) + '</div>');
+        }
+        $('.pages').append('<div class="page active next">>></div>');
+
+        $('.pages').click(function () {
+            var _this = $(this);
+            if (_this.hasClass('next')) {
+                ++currentPage;
+            } else if (_this.hasClass('prev')) {
+                --currentPage;
+            } else {
+                currentPage = _this.html();
+            }
+        });
     }
 
     function appendNumberNotExecutedResourcesNotification() {
@@ -73,47 +98,13 @@ window.Deploy = (function () {
         $('.ok.messages').removeClass('hidden');
     }
 
-    function sortResourcesByResourceType(isReverse) {
+    function sort(sortKey, isReverse, desc) {
         if (!resources) return;
         var sortedResources = resources.sort(function (a, b) {
-            return a.resourceType > b.resourceType ? 1 : -1;
+            if(!desc) return a[sortKey] > b[sortKey] ? -1 : 1;
+            return a[sortKey] > b[sortKey] ? 1 : -1;
         });
-        return isReverse ? sortedResources : sortedResources.reverse();
-    }
-
-    function sortResourcesByResourceTimestamp(isReverse) {
-        if (!resources) return;
-        var sortedResources = resources.sort(function (a, b) {
-            return a.timestamp > b.timestamp ? 1 : -1;
-        });
-        return isReverse ? sortedResources : sortedResources.reverse();
-    }
-
-    function sortResourcesByAction(isReverse) {
-        if (!resources) return;
-        var sortedResources = resources.sort(function (a, b) {
-            return a.action > b.action ? 1 : -1;
-        });
-        return isReverse ? sortedResources : sortedResources.reverse();
-    }
-
-    function sortResourcesByStatus(isReverse) {
-        if (!resources) return;
-        var sortedResources = resources.sort(function (a, b) {
-            return a.engineStatus > b.engineStatus ? 1 : -1;
-        });
-        return isReverse ? sortedResources : sortedResources.reverse();
-    }
-
-    var sortValues = {
-        resource_type: sortResourcesByResourceType,
-        resource_timestamp: sortResourcesByResourceTimestamp,
-        action: sortResourcesByAction,
-        status: sortResourcesByStatus,
-    }
-
-    function sort(sortKey, isReverse) {
-        resources = sortValues[sortKey](isReverse);
+        resources = isReverse ? sortedResources : sortedResources.reverse();
         renderResourcesList();
     }
 
@@ -121,8 +112,6 @@ window.Deploy = (function () {
         initialData = dataList;
         var resource = {};
         dataList.forEach(function (data) {
-            if (data.dataType !== 'DEPLOY_RESOURCE') return;
-
             Object.keys(data).forEach(function (resourceData) {
                 var resourceProperty = data[resourceData];
                 if (resourceData == 'engineStatus') {
@@ -148,6 +137,9 @@ window.Deploy = (function () {
                 else if (resourceData == 'timestamp') {
                     resource.timestamp = utils.formatDate(resourceProperty);
                 }
+                else if (resourceData == 'executionTime') {
+                    resource.executionTime = utils.formatTime(resourceProperty);
+                }
                 else {
                     resource[resourceData] = resourceProperty;
                 }
@@ -161,7 +153,20 @@ window.Deploy = (function () {
             $('.resources-list').addClass('hidden');
             return;
         }
-        sort('resource_timestamp', false);
+
+        $('.resource-list-header .sort-label').click( function () {
+            var _this = $(this);
+            if(_this.hasClass('active')) {
+                _this.toggleClass('desc');
+            } else {
+                $('.resource-list-header .active').removeClass('active');
+                _this.addClass('active');
+            }
+            sort(_this.attr('sort'), !_this.hasClass('desc'), _this.hasClass('desc'));
+        });
+
+        sort('timestamp', false);
+        appendNumberOfResultsLabel();
     }
 
     function deploy(data) {
@@ -169,5 +174,8 @@ window.Deploy = (function () {
     }
 
     deploy.prototype.renderResourcesList = sort;
+    deploy.prototype.getResourcesList = function () {
+        return resources;
+    };
     return deploy;
 })();

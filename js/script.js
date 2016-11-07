@@ -17,66 +17,40 @@ $(document).ready(function () {
 
     var currentView = viewTypes.deploy;
 
-    function renderMapData(sortKey) {
-        var alerts = auditData.getViolationsList();
-        if (!alerts) return;
+    function getRegion(resource) {
+        if (resource.resourceType.indexOf('aws_advisor_alert') !== -1) return 'CloudCoreo';
+        if (resource.resourceType.indexOf('aws_iam_') !== -1) return 'AWS';
+        if (resource.resourceType.indexOf('aws_route53_') !== -1) return 'AWS';
+        if (resource.resourceType.indexOf('uni_util_') !== -1) return 'CloudCoreo';
 
-        var color = auditData.getColors();
+        return undefined;
+    }
+
+    function renderMapData(sortKey) {
+        var resources = deployData.getResourcesList();
+        if (!resources) return;
         var mapData = {};
 
-        alerts.forEach(function (alert) {
-            var key = alert[sortKey];
+        resources.forEach(function (resource) {
+            var region = getRegion(resource);
+            if(!region) return;
 
-            if (!mapData[alert.region]) mapData[alert.region] = {};
-            if (!mapData[alert.region][key])  mapData[alert.region][key] = { value: 0, color: color[key] };
-            ++mapData[alert.region][key].value;
+            if (!mapData[region]) mapData[region] = { violations: 0, deployed: 0};
+            if (resource.dataType === 'ADVISOR_RESOURCE') ++mapData[region].violations;
+            else ++mapData[region].deployed;
         });
 
-        map.drawCirclesOnMap(mapData);
-        map.drawMapHistory(mapData, '.map-history');
+        var alerts = auditData.getViolationsList();
+        alerts.forEach(function (alert) {
+            var region = alert.region;
+            if (!mapData[region]) mapData[region] = { violations: 0, deployed: 0};
+            ++mapData[region].violations;
+        });
+
+        staticMaps(mapData);
     }
 
     function setupHandlers() {
-        $('#chosen-sorting').change(function () {
-            var sortBy = $(this).val();
-            var isReverse = $('.chosen-item-is-reverse').val() === 'true';
-
-            if (currentView === viewTypes.deploy) deployData.renderResourcesList(sortBy, isReverse);
-            if (currentView === viewTypes.audit) auditData.renderResourcesList(sortBy);
-        });
-
-        $('.dropdown-button').click(function () {
-            $('.custom-dropdown ul.' + currentView).toggleClass('hidden');
-        });
-
-        $('.custom-dropdown li').click(function () {
-            var chosenSort = $(this).data('value');
-            if (chosenSort) {
-                var dropdownElem = $(this).closest('.custom-dropdown');
-                var sortByElem = dropdownElem.find('.chosen-item-value');
-                var isReverseElem = dropdownElem.find('.chosen-item-is-reverse');
-                var isReverseVal = isReverseElem.val() === 'true';
-
-                if (sortByElem.val() === chosenSort) {
-                    isReverseElem.val(!isReverseVal).trigger('change');
-                }
-                else {
-                    isReverseElem.val(false);
-                }
-                sortByElem.val(chosenSort).trigger('change');
-                dropdownElem.find('.chosen-item-text').html($(this).html());
-
-                currentSortBy[currentView] = $(this).html();
-            }
-            $(this).parent().addClass('hidden');
-        });
-
-        $(document).click(function (e) {
-            if ($(e.target).closest('.custom-dropdown').length === 0) {
-                $('.custom-dropdown ul').addClass('hidden');
-            }
-        });
-
         $('.custom-radio-btns-group .custom-radio-button').click(function (e) {
             var inputValue = $(this).find('input').val();
             if (currentView === inputValue) return;
@@ -95,12 +69,24 @@ $(document).ready(function () {
                 $(this).addClass('active').siblings().removeClass('active');
             }
         });
+
+        $('.close').click(function () {
+            $(this).closest('#popup').addClass('hidden');
+        });
+
+        $('.backdrop').click(function () {
+            $(this).closest('#popup').addClass('hidden');
+        });
+    }
+
+    function showLocalPopup() {
+        $('#popup').removeClass('hidden');
     }
 
     function init(data) {
         setupHandlers();
         d3.json("./tmp-data/world-countries.json", function (collection) {
-            map = new ResourcesMap(collection, '.map-cont');
+            //map = new ResourcesMap(collection, '.map-cont');
             deployData = new Deploy(data);
             auditData = new Audit(data, 'level');
 

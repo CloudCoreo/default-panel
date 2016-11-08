@@ -142,6 +142,11 @@ html, body {
     color: #2B7AE5;
 }
 
+.browse-compostites {
+    cursor: pointer;
+    color: #2B7AE5;
+}
+
 .medium-grey {
     color: #6b6b6b;
 }

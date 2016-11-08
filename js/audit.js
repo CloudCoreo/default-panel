@@ -41,20 +41,6 @@ window.Audit = (function () {
         showAllBtnTpl = $("#show-all-btn-tmpl").html(),
         errorTpl = $.templates("#violation-error-tpl");
 
-    function onShowViolationResourcesListClick(elem, listOfAlerts) {
-        var _this = $(elem);
-        var violationId = _this.attr('violation');
-        var sortKey = _this.attr('sortKey');
-        var reportId = _this.attr('reportId');
-        var resources = JSON.stringify(listOfAlerts[sortKey].alerts[violationId].resources);
-        redirectToAuditResources(listOfAlerts[sortKey].alerts[violationId], listOfAlerts[sortKey].color);
-        // if(callback) callback.showResourcesList(listOfAlerts[sortKey].alerts[violationId], listOfAlerts[sortKey].color);
-    }
-
-    function localPopup() {
-        $('#popup').removeClass('hidden');
-    }
-
     function onShowAllBtnClick(elem) {
         var _this = $(elem);
         var list = _this.prev();
@@ -84,14 +70,23 @@ window.Audit = (function () {
 
     function refreshClickHandlers(listOfAlerts) {
         $('.resources-link').click(function () {
-            onShowViolationResourcesListClick(this, listOfAlerts)
+            var _this = $(this);
+            var violationId = _this.attr('violation');
+            var sortKey = _this.attr('sortKey');
+            var reportId = _this.attr('reportId');
+
+            var params = {
+                violationId: _this.attr('violationId'),
+                resources: listOfAlerts[sortKey].alerts[violationId].resources,
+                color: listOfAlerts[sortKey].color};
+
+            openPopup('showViolationResources', params);
         });
         $('.more-info-link').click(function () {
-            var href = $(this).attr('href');
-            openPopup(href);
+            openPopup('showViolationMoreInfo', $(this).attr('violation'));
         });
         $('.share-link').click(function () {
-
+            openPopup('shareViolation', $(this).attr('violation'));
         });
 
         $('.show-all').click(function () {
@@ -212,7 +207,7 @@ window.Audit = (function () {
         if (!alerts) {
             return;
         }
-        if (!alerts.length && !disabledViolations) {
+        if (!alerts.length && !disabledViolations.length) {
             $(containers.noViolationsMessageSelector).removeClass('hidden');
             return;
         }
@@ -238,10 +233,13 @@ window.Audit = (function () {
         }
 
         pie.drawPie(pieData);
+        return listOfAlerts;
     }
 
     function fillViolationsList(violations, reports) {
-        if(!Object.keys(violations).length) {
+        if(!Object.keys(violations).length &&
+            !Object.keys(disabledViolations).length &&
+            !Object.keys(passedViolations).length) {
             $(containers.noAuditResourcesMessageSelector).removeClass('hidden');
             alerts = undefined;
             return;
@@ -250,7 +248,7 @@ window.Audit = (function () {
 
         reports.forEach(function (reportData) {
             var report = JSON.parse(reportData.outputs.report);
-            var reportId = reportData.resourceName;
+            var reportId = reportData._id;
             totalChecks += reportData.outputs.number_checks;
 
             Object.keys(report).forEach(function (resId) {
@@ -267,7 +265,8 @@ window.Audit = (function () {
                         resource: { id: resId, tags: report[resId].tags },
                         region: rowData.region,
                         link: rowData.link,
-                        reportId: reportId
+                        reportId: reportId,
+                        violationId: violations[violationKey]._id
                     };
                     if (!alertData.level.hasOwnProperty(alert.level)) {
                         alertData.level[alert.level] = 0;
@@ -314,7 +313,7 @@ window.Audit = (function () {
             newObj.timestamp = elem.timestamp;
             newObj.inputs = {};
             newObj.outputs = {};
-
+            newObj._id = elem._id;
             elem.inputs.forEach(function (input) {
                 newObj.inputs[input.name] = input.value;
             });
@@ -371,16 +370,20 @@ window.Audit = (function () {
                 $('.custom-dropdown ul').addClass('hidden');
             }
         });
+
+        $('.browse-compostites').click(function () {
+            openPopup('redirectToCommunityComposites');
+        })
     }
 
     function render(sortKey) {
-        renderResourcesList(sortKey);
+        var listOfAlerts = renderResourcesList(sortKey);
 
         if(sortKey === 'level') {
             renderSection(passedViolations, 'Passed Violation Check', color.Passed);
         }
         renderSection(disabledViolations, 'Disabled', color.Disabled);
-        refreshClickHandlers();
+        refreshClickHandlers(listOfAlerts);
     }
 
     function init(data, sortKey) {

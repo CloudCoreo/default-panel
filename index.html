@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./css/deploy.css">
     <link rel="stylesheet" href="./css/audit.css">
     <link rel="stylesheet" href="./css/audit-resources.css">
+    <link rel="stylesheet" href="./css/common.css">
 </head>
 <body>
 <div id="backdrop">
@@ -20,61 +21,19 @@
     </div>
 </div>
 <div class="main-container">
-    <div class="messages error hidden">
-        <div class="messages-container">
-            <div class="message-left-part">
-                <span class="message-status">ERROR</span>
-                <span class="amount"></span>
-                <span class="message">resources not executed</span>
-            </div>
-            <div class="message-right-part">
-                Next execution: <span>23h 24m 12s</span>
-            </div>
-        </div>
-    </div>
-    <div class="messages alert hidden">
-        <div class="messages-container">
-            <div class="message-left-part">
-                <span class="message-status">ALERTS</span>
-                <span class="amount"></span>
-                <span class="message"></span>
-            </div>
-            <div class="message-right-part">
-                Next execution: <span>23h 24m 12s</span>
-            </div>
-        </div>
-    </div>
-    <div class="messages ok hidden">
-        <div class="messages-container">
-            <div class="message-left-part">
-                <span class="message-status">OK</span>
-            </div>
-            <div class="message-right-part">
-                Next execution: <span>23h 24m 12s</span>
-            </div>
-        </div>
-    </div>
     <div class="container">
         <div class="options-container">
-            <div class="custom-radio-btns-group">
-                <div class="resource-type-toggle">
-                    <label name="resource-type-deploy" class="custom-radio-button active"><input
-                            for="resource-type-deploy"
-                            name="resource-type"
-                            type="radio"
-                            value="deploy">Deploy</label>
-                    <label name="resource-type-audit" class="custom-radio-button"><input for="resource-type-audit"
-                                                                                         name="resource-type"
-                                                                                         type="radio"
-                                                                                         value="audit">Audit</label>
-                    <label name="view-type-map" class="custom-radio-button"><input for="view-type-map"
-                                                                                   name="resource-type" type="radio"
-                                                                                   value="map">Map</label>
-                </div>
+            <div class="resource-type-toggle">
+                <div class="resource-type audit-res"
+                     value="audit">audit <span></span></div>
+                <div class="resource-type deploy-res"
+                     value="deploy">resources <span></span></div>
+                <div class="resource-type map-res"
+                     value="map">map <span></span></div>
             </div>
         </div>
         <div class="data-container">
-            <div class="deploy">
+            <div class="deploy hidden">
                 <div class="resource-list-header">
                     <div class="sort-label active type" key="resourceType">resource type</div>
                     <div class="sort-label name" key="resourceName">resource name</div>
@@ -83,14 +42,75 @@
                     <div class="sort-label executionTime" key="executionTime">execution time</div>
                     <div class="sort-label status-timestamp" key="timestamp">timestamp</div>
                 </div>
+                <div class="messages error hidden">
+                    <div class="messages-container">
+                        <div class="message-left-part">
+                            <span class="message-status">ERROR</span>
+                            <span class="amount"></span>
+                            <span class="message">resources not executed</span>
+                        </div>
+                        <div class="message-right-part">
+                            Next execution: <span>23h 24m 12s</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="messages alert hidden">
+                    <div class="messages-container">
+                        <div class="message-left-part">
+                            <span class="message-status">ALERTS</span>
+                            <span class="amount"></span>
+                            <span class="message"></span>
+                        </div>
+                        <div class="message-right-part">
+                            Next execution: <span>23h 24m 12s</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="messages ok hidden">
+                    <div class="messages-container">
+                        <div class="message-left-part">
+                            <span class="message-status">OK</span>
+                        </div>
+                        <div class="message-right-part">
+                            Next execution: <span>23h 24m 12s</span>
+                        </div>
+                    </div>
+                </div>
                 <div class="resources-list bg-white "></div>
                 <div class="pagination">
                     <div class="resources-amount"></div>
                     <div class="pages"></div>
                 </div>
             </div>
-            <div class="deploy">
-                <div id="no-deploy-resources" class="hidden">This execution has no deploy resources.</div>
+            <div class="deploy hidden">
+                <div id="no-deploy-resources" class="hidden">This execution has no additional resources.</div>
+            </div>
+            <div class="audit hidden">
+                <div id="no-violation-resources" class="hidden">
+                    This composite has no audit resources.<br/>
+                    <span class="browse-compostites">Browse featured Composites</span> to see available audits.
+                </div>
+                <div id="no-violations-view" class="hidden">
+                    <div class="no-violations-cont md-shadow">
+                        <div class="header">
+                            BEST PRACTICE VIOLATIONS<br/>
+                            <span>ZERO, NIP, NADA</span>
+                        </div>
+                        <div class="data">
+                            <div class="flex-grow">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="flex-column flex-grow">
+                                <div class="history-title">Infrastructure Status</div>
+                                <div class=" flex-row separator-top">
+                                    <div class="history"></div>
+                                    <div class="info">100% AWESOME</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tip">A tip of the hat to you, DevOps Jedi.</div>
+                </div>
             </div>
             <div class="audit flex-row hidden">
                 <div class="left-column layout-padding-right">
@@ -129,31 +149,6 @@
                     </div>
                 </div>
             </div>
-            <div class="audit hidden">
-                <div id="no-violation-resources" class="hidden">This execution has no audit resources.</div>
-                <div id="no-violations-view" class="hidden">
-                    <div class="no-violations-cont md-shadow">
-                        <div class="header">
-                            BEST PRACTICE VIOLATIONS<br/>
-                            <span>ZERO, NIP, NADA</span>
-                        </div>
-                        <div class="data">
-                            <div class="flex-grow">
-                                <div class="circle"></div>
-                            </div>
-                            <div class="flex-column flex-grow">
-                                <div class="history-title">Infrastructure Status</div>
-                                <div class=" flex-row separator-top">
-                                    <div class="history"></div>
-                                    <div class="info">100% AWESOME</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tip">A tip of the hat to you, DevOps Jedi.</div>
-                </div>
-            </div>
-
             <div class="map layout-padding hidden bg-white md-shadow">
             </div>
         </div>
@@ -336,17 +331,17 @@
                         </div>
                     </div>
                     <div class="flex-column row-right-column layout-padding">
-                        <div class="link flex resources-link" violation="{{:id}}" sortKey="{{:sortKey}}"
+                        <div class="link flex resources-link" violation="{{:id}}" violationId="{{:violationId}}" sortKey="{{:sortKey}}"
                              reportId="{{:reportId}}">
                             {{:resources.length}} Resources
                             <img src="./images/right-chevron.svg" class="fa right"/>
                         </div>
-                        <div class="link flex more-info-link">
-                            <a href="{{:link}}" target="_blank">more info</a>
+                        <div class="link flex more-info-link" violation="{{:violationId}}">
+                            <span>more info</span>
                             <img src="./images/right-chevron.svg" class="fa right"/>
                         </div>
                         <div class="separator-top layout-margin-top-8 layout-margin-bottom-8"></div>
-                        <div class="link flex share-link">
+                        <div class="link flex share-link" violation="{{:violationId}}">
                             <img src="./images/envelope.svg" class="fa left"/>
                             share
                         </div>

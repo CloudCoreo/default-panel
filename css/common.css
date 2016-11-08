@@ -1,0 +1,45 @@
+.resource-type-toggle {
+    display: flex;
+    background: #e4e4e4;
+    margin-top: 8px;
+}
+.resource-type-toggle .resource-type {
+    text-transform: uppercase;
+    color: #2b7ae5;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 14px;
+    text-align: left;
+    line-height: 18px;
+    padding: 6px 12px;
+    border-radius: 4px;
+    margin: 4px;
+    min-width: 50px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.resource-type-toggle .resource-type span {
+    display: inline-block;
+    width: 19px;
+    height: 19px;
+    margin-left: 6px;
+}
+.resource-type-toggle .resource-type.alert span{
+    background: url('../images/alert.png') no-repeat 0 0;
+}
+
+.resource-type-toggle .resource-type.error span{
+    background: url('../images/error.png') no-repeat 0 0;
+}
+
+.resource-type-toggle  .resource-type.active {
+    background: linear-gradient(to top, #6c6c6c, #939393);
+    color: #ffffff;
+}

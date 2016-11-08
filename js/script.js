@@ -15,7 +15,15 @@ $(document).ready(function () {
         map: ''
     };
 
-    var currentView = viewTypes.deploy;
+    var currentView;
+
+    var externalActions = {
+        redirectToCommunityComposites: 'redirectToCommunityComposites',
+        showViolationMoreInfo: 'showViolationMoreInfo',
+        showViolationResources: 'showViolationResources',
+        shareViolation: 'shareViolation',
+        showFullResourceData: 'showFullResourceData'
+    };
 
     function getRegion(resource) {
         if (resource.resourceType.indexOf('aws_advisor_alert') !== -1) return 'CloudCoreo';
@@ -41,32 +49,27 @@ $(document).ready(function () {
         });
 
         var alerts = auditData.getViolationsList();
-        alerts.forEach(function (alert) {
-            var region = alert.region;
-            if (!mapData[region]) mapData[region] = { violations: 0, deployed: 0};
-            ++mapData[region].violations;
-        });
-
+        if (alerts) {
+            alerts.forEach(function (alert) {
+                var region = alert.region;
+                if (!mapData[region]) mapData[region] = {violations: 0, deployed: 0};
+                ++mapData[region].violations;
+            });
+        }
         staticMaps(mapData);
     }
 
     function setupHandlers() {
-        $('.custom-radio-btns-group .custom-radio-button').click(function (e) {
-            var inputValue = $(this).find('input').val();
+        $('.resource-type-toggle .resource-type').click(function (e) {
+            var inputValue = $(this).attr('value');
             if (currentView === inputValue) return;
             $('.' + currentView).addClass('hidden');
             $('.' + inputValue).removeClass('hidden');
             currentView = inputValue;
 
-            if (currentView === 'map') {
-                $('.custom-dropdown').hide();
-            } else {
-                $('.custom-dropdown').show();
-                $('.custom-dropdown .chosen-item-text').html(currentSortBy[currentView]);
-            }
-
             if (inputValue) {
-                $(this).addClass('active').siblings().removeClass('active');
+                $('.resource-type-toggle .resource-type').removeClass('active');
+                $(this).addClass('active');
             }
         });
 
@@ -86,12 +89,19 @@ $(document).ready(function () {
     function init(data) {
         setupHandlers();
         d3.json("./tmp-data/world-countries.json", function (collection) {
-            //map = new ResourcesMap(collection, '.map-cont');
             deployData = new Deploy(data);
             auditData = new Audit(data, 'level');
-
             renderMapData('level');
 
+            var noViolations = !auditData.getViolationsList() || !auditData.getViolationsList().length;
+            currentView = noViolations ? viewTypes.deploy : viewTypes.audit;
+            if (!noViolations) $('.resource-type-toggle .resource-type.'+viewTypes.audit+'-res').addClass('alert');
+            if (deployData.hasErrors()) $('.resource-type-toggle .resource-type.'+viewTypes.deploy+'-res').addClass('error');
+            if (deployData.hasAlerts()) $('.resource-type-toggle .resource-type.'+viewTypes.deploy+'-res').addClass('alert');
+
+
+            $('.resource-type-toggle .resource-type.' + currentView + '-res').addClass('active');
+            $('.' + currentView).removeClass('hidden');
             $('#backdrop').addClass('hidden');
         });
     }

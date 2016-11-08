@@ -27,7 +27,7 @@ function drawPie(pieData, color, cont) {
     var vis = d3.select(cont)
         .append("svg:svg")
         .data([pieData])
-        .attr("viewBox", '0 0 300 ' + h)
+        .attr("viewBox", '0 0 330 ' + h)
         .append("svg:g")
         .attr("transform", "translate(" + r + "," + r + ")");
 

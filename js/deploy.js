@@ -4,29 +4,19 @@ window.Deploy = (function () {
     var resourcesAlerts = false;
     var initialData;
 
-    var itemsOnPage = 2;
+    var itemsOnPage = 50;
     var currentPage = 0;
 
     function renderResourcesList() {
         $('.resources-list').html('');
-        //$('.resources-list').html('<pre>' + JSON.stringify(initialData, null, 4) + '</pre>');
         var rowTmpl = $.templates('#resource-row-tmpl');
-        Object.keys(resources).forEach(function (resource) {
-            var html = $(rowTmpl.render(resources[resource]));
+        for(var i = currentPage * itemsOnPage; i < (currentPage + 1) * itemsOnPage && i < resources.length; ++i) {
+            var html = $(rowTmpl.render(resources[i]));
             $('.resources-list').append(html);
-            appendLogs(resources[resource].inputs, html.find('.logs .inputs'));
-            appendLogs(resources[resource].outputs, html.find('.logs .outputs'));
-        });
+            appendLogs(resources[i].inputs, html.find('.logs .inputs'));
+            appendLogs(resources[i].outputs, html.find('.logs .outputs'));
+        }
         initializeRowsActions();
-        if (numberOfNotExecutedResources > 0) {
-            appendNumberNotExecutedResourcesNotification();
-        }
-        if (resourcesAlerts) {
-            appendResourcesAlertsNotifiacation();
-        }
-        if (numberOfNotExecutedResources <= 0 && !resourcesAlerts) {
-            appendSuccessulBuildNotification();
-        }
     }
 
     function initializeRowsActions() {
@@ -34,7 +24,7 @@ window.Deploy = (function () {
             $(this).next('.expandable-row').toggleClass('hidden');
         });
         $('.openInput').on('click', function (e) {
-            openPopup('input');
+            openPopup('showFullResourceData');
         });
     }
 
@@ -64,23 +54,35 @@ window.Deploy = (function () {
             " OF " +resources.length + ' results');
 
         var pages = resources.length / itemsOnPage;
-        if(pages <= 1) return;
+        if (pages <= 1) return;
 
         $('.pages').append('<div class="page active prev"><<</div>');
         for(var i = 0; i < pages; ++i) {
-            $('.pages').append('<div class="page' + (currentPage === i ? ' active' : '') + '">' + (i + 1) + '</div>');
+            $('.pages').append('<div value="'+ i +'" class="page' + (currentPage === i ? ' active' : '') +' value' + i + '">' + (i + 1) + '</div>');
         }
         $('.pages').append('<div class="page active next">>></div>');
 
-        $('.pages').click(function () {
+        $('.page').click(function () {
             var _this = $(this);
-            if (_this.hasClass('next')) {
-                ++currentPage;
-            } else if (_this.hasClass('prev')) {
-                --currentPage;
-            } else {
-                currentPage = _this.html();
+            var newPage;
+
+            if (_this.hasClass('next') && currentPage + 1 < pages) {
+                newPage = currentPage + 1;
+            } else if (_this.hasClass('prev') && currentPage - 1 >= 0) {
+                newPage = currentPage - 1;
+            } else if (_this.attr('value')){
+                newPage = _this.attr('value')*1.0;
             }
+
+            if (typeof newPage === "undefined" || currentPage === newPage) {
+                return;
+            }
+
+            $('.page.value'+currentPage).removeClass('active');
+            $('.page.value'+newPage).addClass('active');
+            currentPage = newPage;
+
+            renderResourcesList();
         });
     }
 
@@ -90,7 +92,7 @@ window.Deploy = (function () {
         $('.error.messages .amount').html(numberOfNotExecutedResources);
     }
 
-    function appendResourcesAlertsNotifiacation() {
+    function appendResourcesAlertsNotification() {
         $('.alert.messages').removeClass('hidden');
     }
 
@@ -167,6 +169,16 @@ window.Deploy = (function () {
 
         sort('timestamp', false);
         appendNumberOfResultsLabel();
+
+        if (numberOfNotExecutedResources > 0) {
+            appendNumberNotExecutedResourcesNotification();
+        }
+        if (resourcesAlerts) {
+            appendResourcesAlertsNotification();
+        }
+        if (numberOfNotExecutedResources <= 0 && !resourcesAlerts) {
+            appendSuccessulBuildNotification();
+        }
     }
 
     function deploy(data) {
@@ -174,6 +186,12 @@ window.Deploy = (function () {
     }
 
     deploy.prototype.renderResourcesList = sort;
+    deploy.prototype.hasErrors = function () {
+        return numberOfNotExecutedResources;
+    };
+    deploy.prototype.hasAlerts = function () {
+        return resourcesAlerts;
+    };
     deploy.prototype.getResourcesList = function () {
         return resources;
     };

@@ -180,7 +180,11 @@ function renderRegion(regions, key) {
     if (!regions.length) return;
 
     d3.xml(data.img).get(function(error, xml) {
-        document.write(xml.documentElement);
+        if (error) { console.log(error); return; }
+
+        var svgNode = xml.getElementsByTagName('svg')[0];
+        d3.select('.' + data.cssClass)
+            .append('svg').node().appendChild(svgNode);
 
         data.subregions.forEach(function(region) {
             drawCircleOnMap(region);

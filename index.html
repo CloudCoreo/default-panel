@@ -225,16 +225,21 @@
             <div class="expandable-row hidden">
                 <div class="logs">
                     <div class="inputs logs-output">
-                        <div class="label">Inputs:</div>
+                        <div class="data-cont " resource="{{:_id}}">
+                            <div class="label">Inputs:</div>
+                        </div>
+                        <div class='view-more layout-padding-8 hidden'>...<br/><br/> <span class="openInputs link" resource="{{:_id}}">view more</span></div>
                     </div>
                     <div class="outputs logs-output">
-                        <div class="label">Outputs:</div>
+                        <div class="data-cont">
+                            <div class="label">Outputs:</div>
+                        </div>
+                        <div class='view-more layout-padding-8 hidden'>...<br/><br/><span class="openInputs link" resource="{{:_id}}">view more</span></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
     <div id="violation-error-tpl">
         <div class="advisor-error">
             <div class="view-row">

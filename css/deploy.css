@@ -529,6 +529,11 @@ body {
     background: #2b7ae5;
 }
 
+.inputs .data-cont, .outputs .data-cont{
+    max-height: 197px;
+    overflow: hidden;
+}
+
 @media screen and (max-width: 1024px) {
     .options-container {
         justify-content: space-between;

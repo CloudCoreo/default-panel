@@ -13,8 +13,8 @@ window.Deploy = (function () {
         for(var i = currentPage * itemsOnPage; i < (currentPage + 1) * itemsOnPage && i < resources.length; ++i) {
             var html = $(rowTmpl.render(resources[i]));
             $('.resources-list').append(html);
-            appendLogs(resources[i].inputs, html.find('.logs .inputs'));
-            appendLogs(resources[i].outputs, html.find('.logs .outputs'));
+            appendLogs(resources[i].inputs, html.find('.logs .inputs .data-cont'));
+            appendLogs(resources[i].outputs, html.find('.logs .outputs .data-cont'));
         }
         initializeRowsActions();
     }
@@ -23,13 +23,16 @@ window.Deploy = (function () {
         $('.resources-list .resource-row .view-row').click(function (e) {
             $(this).next('.expandable-row').toggleClass('hidden');
         });
-        $('.openInput').on('click', function (e) {
-            openPopup('showFullResourceData');
+        $('.openInputs').on('click', function (e) {
+            var resId = $(this).attr('resource');
+            openPopup('showFullResourceData', resId);
         });
     }
 
     function appendLogs(data, appendTo) {
-        Object.keys(data).forEach(function (key) {
+        var count = 0;
+        Object.keys(data).some(function (key) {
+            ++count;
             var inputOutputRecordHtml = '';
             if (data[key].name == 'error') {
                 appendTo.find('.label').hide();
@@ -44,6 +47,11 @@ window.Deploy = (function () {
                 inputOutputRecordHtml = '<div class="input-record">' + data[key].name + ': <span>' + parsed + '</span></div>';
             }
             appendTo.append(inputOutputRecordHtml);
+            if (appendTo.html().length > 1500 || count >= 11) {
+                appendTo.parent().find('.view-more').removeClass('hidden');
+                return true;
+            }
+            return false;
         })
     }
 

@@ -108,13 +108,13 @@ window.Deploy = (function () {
         $('.ok.messages').removeClass('hidden');
     }
 
-    function sort(sortKey, isReverse, desc) {
+    function sort(sortKey, desc) {
         if (!resources) return;
         var sortedResources = resources.sort(function (a, b) {
             if(!desc) return a[sortKey] > b[sortKey] ? -1 : 1;
             return a[sortKey] > b[sortKey] ? 1 : -1;
         });
-        resources = isReverse ? sortedResources : sortedResources.reverse();
+        resources = sortedResources;
         renderResourcesList();
     }
 
@@ -160,7 +160,8 @@ window.Deploy = (function () {
 
         if (!resources.length) {
             $('#no-deploy-resources').removeClass('hidden');
-            $('.resources-list').addClass('hidden');
+            $('.resources-list').addClass('empty');
+            $('.resources-list-header').addClass('empty');
             return;
         }
 
@@ -172,10 +173,10 @@ window.Deploy = (function () {
                 $('.resource-list-header .active').removeClass('active');
                 _this.addClass('active');
             }
-            sort(_this.attr('sort'), !_this.hasClass('desc'), _this.hasClass('desc'));
+            sort(_this.attr('key'), _this.hasClass('desc'));
         });
 
-        sort('timestamp', false);
+        sort('timestamp');
         appendNumberOfResultsLabel();
 
         if (numberOfNotExecutedResources > 0) {
@@ -190,6 +191,11 @@ window.Deploy = (function () {
     }
 
     function deploy(data) {
+        $('.deploy .messages').addClass('hidden');
+        $('.deploy .pages').html('');
+        $('#no-deploy-resources').addClass('hidden');
+        $('.resources-list').removeClass('empty');
+        $('.resources-list-header').removeClass('empty');
         initResourcesList(data);
     }
 

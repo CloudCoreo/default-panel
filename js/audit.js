@@ -400,6 +400,10 @@ window.Audit = (function () {
             containers = selectors;
         }
         callback = _callback;
+        $(containers.mainDataContainerSelector).html('');
+        $(containers.noAuditResourcesMessageSelector).addClass('hidden');
+        $(containers.noViolationsMessageSelector).addClass('hidden');
+        $(containers.mainCont).removeClass('empty');
         init(data, sortKey);
     }
 

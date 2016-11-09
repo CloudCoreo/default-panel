@@ -218,6 +218,8 @@ function renderGlobalData(regions) {
 }
 
 function render(mapData) {
+    $('.map').html('');
+
     var regions = {};
     Object.keys(mapData).forEach(function (region) {
         if(!regions[regionsList[region].region]) regions[regionsList[region].region] = [];
@@ -235,8 +237,5 @@ function render(mapData) {
 }
 
 window.staticMaps = (function () {
-    function staticMaps(mapData) {
-    }
-
     return render;
 }());

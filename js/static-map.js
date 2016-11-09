@@ -231,7 +231,7 @@ function render(mapData) {
         if(!regions[region]) renderRegion([], region);
     });
 
-    renderGlobalData(regions['Global']);
+    if(regions['Global']) renderGlobalData(regions['Global']);
 }
 
 window.staticMaps = (function () {

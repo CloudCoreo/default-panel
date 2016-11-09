@@ -373,6 +373,10 @@ html, body {
     margin-bottom: 10px;
 }
 
+.empty {
+    display: none;
+}
+
 @media (max-width: 600px) {
     .left-column {
         width: 100%;

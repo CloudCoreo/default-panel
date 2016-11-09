@@ -31,6 +31,17 @@ $(document).ready(function () {
         if (resource.resourceType.indexOf('aws_route53_') !== -1) return 'AWS';
         if (resource.resourceType.indexOf('uni_util_') !== -1) return 'CloudCoreo';
 
+        if (resource.resourceType.indexOf('aws_ec2_') !== -1 ||
+            resource.resourceType.indexOf('aws_elasticache_') !== -1 ||
+            resource.resourceType.indexOf('aws_s3_') !== -1 ||
+            resource.resourceType.indexOf('aws_vpc_') !== -1 ||
+            resource.resourceType.indexOf('aws_vpn_') !== -1) {
+            var found = resource.inputs.find(function (elem) {
+                return elem.name === 'region'
+            });
+            if(found) return found.value;
+        }
+
         return undefined;
     }
 

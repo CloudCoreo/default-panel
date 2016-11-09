@@ -32,7 +32,8 @@ window.Audit = (function () {
         noAuditResourcesMessageSelector: '#no-violation-resources',
         noViolationsMessageSelector: '#no-violations-view',
         pieChartSelector: '.pie',
-        errorsContSelector: '#advisor-errors'
+        errorsContSelector: '#advisor-errors',
+        mainCont: '.audit-list'
     };
 
     var pie;
@@ -241,6 +242,7 @@ window.Audit = (function () {
             !Object.keys(disabledViolations).length &&
             !Object.keys(passedViolations).length) {
             $(containers.noAuditResourcesMessageSelector).removeClass('hidden');
+            $(containers.mainCont).addClass('empty');
             alerts = undefined;
             return;
         }

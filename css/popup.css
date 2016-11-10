@@ -1,0 +1,42 @@
+#popup {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+.backdrop {
+    position: absolute;
+    z-index: 1;
+    background: rgba(33, 33, 33, 0.56);
+    width: 100%;
+    min-height: 100%;
+}
+
+.popup-body {
+    width: 80%;
+    max-width: 800px;
+    max-height: 90%;
+    overflow: auto;
+    align-self: center;
+    background: #fff;
+    -webkit-box-shadow: 0px 0px 4px 0px rgba(107,107,107,0.36);
+    -moz-box-shadow: 0px 0px 4px 0px rgba(107,107,107,0.36);
+    box-shadow: 0px 0px 4px 0px rgba(107,107,107,0.36);
+    position: relative;
+    z-index: 2;
+}
+
+.close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 20px;
+    height: 20px;
+    color: #6b6b6b;
+    font-size: 28px;
+    cursor: pointer;
+}

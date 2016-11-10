@@ -1,0 +1,46 @@
+.audit-resources {
+    color: #333333;
+}
+.audit-resources .header {
+    padding: 16px;
+    font-size: 16px;
+    border-bottom: 1px solid #E4E4E4;
+}
+.audit-resources .header > div{
+    min-width: 150px;
+}
+
+.audit-resources .audit-resource {
+    padding: 16px;
+    font-size: 14px;
+    border-bottom: 1px solid #E4E4E4;
+}
+
+.audit-resources .audit-resource .tags {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.audit-resources .audit-resource .tags > div {
+    margin-right: 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    background: #d7d7d7;
+    padding: 3px 7px;
+}
+
+.audit-resources .audit-resource .audit-resource-info > div{
+    min-width: 150px;
+}
+
+.audit-resources .audit-resource .resource-id {
+    color: #2b7ae5;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .audit-resources .header {
+        flex-direction: column;
+    }
+}

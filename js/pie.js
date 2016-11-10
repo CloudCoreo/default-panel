@@ -27,7 +27,7 @@ function drawPie(pieData, color, cont) {
     var vis = d3.select(cont)
         .append("svg:svg")
         .data([pieData])
-        .attr("viewBox", '0 0 300 ' + h)
+        .attr("viewBox", '0 0 330 ' + h)
         .append("svg:g")
         .attr("transform", "translate(" + r + "," + r + ")");
 
@@ -65,12 +65,17 @@ function drawPie(pieData, color, cont) {
             return "translate(" + (r + 50) + ", " + (22 - r + i * 35) + ")";
         })
         .attr("text-anchor", "start")
-        .style("fill", "#6b6b6b")
+        .style("fill",function (d, i) {
+            return d.value > 0 ? "#000000" : "#C4C4C4";
+        })
         .style("font-family", "Arial")
         .style("font-size", "12px")
+        .style('text-transform', 'uppercase')
         .text(function (d, i) {
-            var title = pieData[i].value + ' ' + pieData[i].label + ' (' + (pieData[i].value * 100 / dataSum).toFixed(1) + '%)'
-            return title;
+            if (pieData[i].value === 0) {
+                return pieData[i].value + ' ' + pieData[i].label
+            }
+            return pieData[i].value + ' ' + pieData[i].label + ' (' + (pieData[i].value * 100 / dataSum).toFixed(1) + '%)';
         })
         .on("click", onclick);
 

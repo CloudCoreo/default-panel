@@ -4,40 +4,35 @@ window.Deploy = (function () {
     var resourcesAlerts = false;
     var initialData;
 
+    var itemsOnPage = 50;
+    var currentPage = 0;
+
     function renderResourcesList() {
         $('.resources-list').html('');
-        //$('.resources-list').html('<pre>' + JSON.stringify(initialData, null, 4) + '</pre>');
         var rowTmpl = $.templates('#resource-row-tmpl');
-        Object.keys(resources).forEach(function (resource) {
-            var html = $(rowTmpl.render(resources[resource]));
+        for(var i = currentPage * itemsOnPage; i < (currentPage + 1) * itemsOnPage && i < resources.length; ++i) {
+            var html = $(rowTmpl.render(resources[i]));
             $('.resources-list').append(html);
-            appendLogs(resources[resource].inputs, html.find('.logs .inputs'));
-            appendLogs(resources[resource].outputs, html.find('.logs .outputs'));
-        });
-        appendNumberOfResultsLabel();
+            appendLogs(resources[i].inputs, html.find('.logs .inputs .data-cont'));
+            appendLogs(resources[i].outputs, html.find('.logs .outputs .data-cont'));
+        }
         initializeRowsActions();
-        if (numberOfNotExecutedResources > 0) {
-            appendNumberNotExecutedResourcesNotification();
-        }
-        if (resourcesAlerts) {
-            appendResourcesAlertsNotifiacation();
-        }
-        if (numberOfNotExecutedResources <= 0 && !resourcesAlerts) {
-            appendSuccessulBuildNotification();
-        }
     }
 
     function initializeRowsActions() {
         $('.resources-list .resource-row .view-row').click(function (e) {
             $(this).next('.expandable-row').toggleClass('hidden');
         });
-        $('.openInput').on('click', function (e) {
-            openPopup('input');
+        $('.openInputs').on('click', function (e) {
+            var resId = $(this).attr('resource');
+            openPopup('showFullResourceData', resId);
         });
     }
 
     function appendLogs(data, appendTo) {
-        Object.keys(data).forEach(function (key) {
+        var count = 0;
+        Object.keys(data).some(function (key) {
+            ++count;
             var inputOutputRecordHtml = '';
             if (data[key].name == 'error') {
                 appendTo.find('.label').hide();
@@ -52,11 +47,51 @@ window.Deploy = (function () {
                 inputOutputRecordHtml = '<div class="input-record">' + data[key].name + ': <span>' + parsed + '</span></div>';
             }
             appendTo.append(inputOutputRecordHtml);
+            if (appendTo.html().length > 1500 || count >= 11) {
+                appendTo.parent().find('.view-more').removeClass('hidden');
+                return true;
+            }
+            return false;
         })
     }
 
     function appendNumberOfResultsLabel() {
-        $('.resources-amount').html(resources.length + ' results');
+        $('.resources-amount').html("SHOWING " +
+            ((currentPage * itemsOnPage) || 1 ) + "-" +
+            ((resources.length > itemsOnPage * (currentPage + 1)) ? itemsOnPage * (currentPage + 1) : resources.length) +
+            " OF " +resources.length + ' results');
+
+        var pages = resources.length / itemsOnPage;
+        if (pages <= 1) return;
+
+        $('.pages').append('<div class="page active prev"><<</div>');
+        for(var i = 0; i < pages; ++i) {
+            $('.pages').append('<div value="'+ i +'" class="page' + (currentPage === i ? ' active' : '') +' value' + i + '">' + (i + 1) + '</div>');
+        }
+        $('.pages').append('<div class="page active next">>></div>');
+
+        $('.page').click(function () {
+            var _this = $(this);
+            var newPage;
+
+            if (_this.hasClass('next') && currentPage + 1 < pages) {
+                newPage = currentPage + 1;
+            } else if (_this.hasClass('prev') && currentPage - 1 >= 0) {
+                newPage = currentPage - 1;
+            } else if (_this.attr('value')){
+                newPage = _this.attr('value')*1.0;
+            }
+
+            if (typeof newPage === "undefined" || currentPage === newPage) {
+                return;
+            }
+
+            $('.page.value'+currentPage).removeClass('active');
+            $('.page.value'+newPage).addClass('active');
+            currentPage = newPage;
+
+            renderResourcesList();
+        });
     }
 
     function appendNumberNotExecutedResourcesNotification() {
@@ -65,7 +100,7 @@ window.Deploy = (function () {
         $('.error.messages .amount').html(numberOfNotExecutedResources);
     }
 
-    function appendResourcesAlertsNotifiacation() {
+    function appendResourcesAlertsNotification() {
         $('.alert.messages').removeClass('hidden');
     }
 
@@ -73,47 +108,13 @@ window.Deploy = (function () {
         $('.ok.messages').removeClass('hidden');
     }
 
-    function sortResourcesByResourceType(isReverse) {
+    function sort(sortKey, desc) {
         if (!resources) return;
         var sortedResources = resources.sort(function (a, b) {
-            return a.resourceType > b.resourceType ? 1 : -1;
+            if(!desc) return a[sortKey] > b[sortKey] ? -1 : 1;
+            return a[sortKey] > b[sortKey] ? 1 : -1;
         });
-        return isReverse ? sortedResources : sortedResources.reverse();
-    }
-
-    function sortResourcesByResourceTimestamp(isReverse) {
-        if (!resources) return;
-        var sortedResources = resources.sort(function (a, b) {
-            return a.timestamp > b.timestamp ? 1 : -1;
-        });
-        return isReverse ? sortedResources : sortedResources.reverse();
-    }
-
-    function sortResourcesByAction(isReverse) {
-        if (!resources) return;
-        var sortedResources = resources.sort(function (a, b) {
-            return a.action > b.action ? 1 : -1;
-        });
-        return isReverse ? sortedResources : sortedResources.reverse();
-    }
-
-    function sortResourcesByStatus(isReverse) {
-        if (!resources) return;
-        var sortedResources = resources.sort(function (a, b) {
-            return a.engineStatus > b.engineStatus ? 1 : -1;
-        });
-        return isReverse ? sortedResources : sortedResources.reverse();
-    }
-
-    var sortValues = {
-        resource_type: sortResourcesByResourceType,
-        resource_timestamp: sortResourcesByResourceTimestamp,
-        action: sortResourcesByAction,
-        status: sortResourcesByStatus,
-    }
-
-    function sort(sortKey, isReverse) {
-        resources = sortValues[sortKey](isReverse);
+        resources = sortedResources;
         renderResourcesList();
     }
 
@@ -121,8 +122,6 @@ window.Deploy = (function () {
         initialData = dataList;
         var resource = {};
         dataList.forEach(function (data) {
-            if (data.dataType !== 'DEPLOY_RESOURCE') return;
-
             Object.keys(data).forEach(function (resourceData) {
                 var resourceProperty = data[resourceData];
                 if (resourceData == 'engineStatus') {
@@ -148,6 +147,9 @@ window.Deploy = (function () {
                 else if (resourceData == 'timestamp') {
                     resource.timestamp = utils.formatDate(resourceProperty);
                 }
+                else if (resourceData == 'executionTime') {
+                    resource.executionTime = utils.formatTime(resourceProperty);
+                }
                 else {
                     resource[resourceData] = resourceProperty;
                 }
@@ -158,16 +160,54 @@ window.Deploy = (function () {
 
         if (!resources.length) {
             $('#no-deploy-resources').removeClass('hidden');
-            $('.resources-list').addClass('hidden');
+            $('.resources-list').addClass('empty');
+            $('.resources-list-header').addClass('empty');
             return;
         }
-        sort('resource_timestamp', false);
+
+        $('.resource-list-header .sort-label').click( function () {
+            var _this = $(this);
+            if(_this.hasClass('active')) {
+                _this.toggleClass('desc');
+            } else {
+                $('.resource-list-header .active').removeClass('active');
+                _this.addClass('active');
+            }
+            sort(_this.attr('key'), _this.hasClass('desc'));
+        });
+
+        sort('timestamp');
+        appendNumberOfResultsLabel();
+
+        if (numberOfNotExecutedResources > 0) {
+            appendNumberNotExecutedResourcesNotification();
+        }
+        if (resourcesAlerts) {
+            appendResourcesAlertsNotification();
+        }
+        if (numberOfNotExecutedResources <= 0 && !resourcesAlerts) {
+            appendSuccessulBuildNotification();
+        }
     }
 
     function deploy(data) {
+        $('.deploy .messages').addClass('hidden');
+        $('.deploy .pages').html('');
+        $('#no-deploy-resources').addClass('hidden');
+        $('.resources-list').removeClass('empty');
+        $('.resources-list-header').removeClass('empty');
         initResourcesList(data);
     }
 
     deploy.prototype.renderResourcesList = sort;
+    deploy.prototype.hasErrors = function () {
+        return numberOfNotExecutedResources;
+    };
+    deploy.prototype.hasAlerts = function () {
+        return resourcesAlerts;
+    };
+    deploy.prototype.getResourcesList = function () {
+        return resources;
+    };
     return deploy;
 })();

@@ -167,8 +167,18 @@
                         {{for subregions}}
                             <div class="regions-subheader">{{:key}}</div>
                             <div class="resources">
-                                <div class="flex-row"><div class="deploy-bubble"></div> {{:deployed}} Resources Deployed</div>
-                                <div class="flex-row"><div class="violation-bubble"></div>{{:violations}} Violations Found in Audit</div>
+                                <div class="flex-row">
+                                    <div class="deploy-bubble"></div>
+                                    <div class="message">{{:deployed}} {{:successMessage}}
+                                    {{if !successMessage}} Resources Deployed{{/if}}
+                                    </div>
+                                </div>
+                                <div class="flex-row">
+                                    <div class="violation-bubble"></div>
+                                    <div class="message">{{:violations}} {{:errorMessage}}
+                                        {{if !errorMessage}} Violations Found in Audit {{/if}}
+                                    </div>
+                                </div>
                             </div>
                         {{/for}}
                         {{if subregionsWithoutData}}

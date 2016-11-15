@@ -26,7 +26,7 @@ $(document).ready(function () {
     };
 
     function getRegion(resource) {
-        if (resource.resourceType.indexOf('aws_advisor_alert') !== -1) return 'CloudCoreo';
+        if (resource.resourceType.indexOf('aws_advisor_') !== -1) return 'CloudCoreo';
         if (resource.resourceType.indexOf('aws_iam_') !== -1) return 'AWS';
         if (resource.resourceType.indexOf('aws_route53_') !== -1) return 'AWS';
         if (resource.resourceType.indexOf('uni_util_') !== -1) return 'CloudCoreo';
@@ -49,13 +49,24 @@ $(document).ready(function () {
         var resources = deployData.getResourcesList();
         if (!resources) return;
         var mapData = {};
-
         resources.forEach(function (resource) {
             var region = getRegion(resource);
             if(!region) return;
 
-            if (!mapData[region]) mapData[region] = { violations: 0, deployed: 0};
-            if (resource.dataType === 'ADVISOR_RESOURCE') ++mapData[region].violations;
+            if(region !== 'CloudCoreo') {
+                if (!mapData[region]) {
+                    mapData[region] = { violations: 0, deployed: 0, message: defMessage };
+                }
+                if (resource.dataType === 'ADVISOR_RESOURCE') ++mapData[region].violations;
+                else ++mapData[region].deployed;
+                return;
+            }
+
+            if (!mapData[region]) {
+                mapData[region] = { violations: 0, deployed: 0, successMessage: 'Resource', errorMessage: 'Error'};
+            }
+
+            if (resource.engineStatus.indexOf('ERROR') !== -1) ++mapData[region].violations;
             else ++mapData[region].deployed;
         });
 
@@ -67,6 +78,12 @@ $(document).ready(function () {
                 ++mapData[region].violations;
             });
         }
+
+        if(mapData.CloudCoreo){
+            if(mapData.CloudCoreo.violations > 1) mapData.CloudCoreo.errorMessage += 's';
+            if(mapData.CloudCoreo.deployed > 1) mapData.CloudCoreo.successMessage += 's';
+        }
+
         staticMaps(mapData);
     }
 

@@ -106,6 +106,16 @@ window.Audit = (function () {
     function organizeDataForCurrentRender(sortKey) {
         var keys = Object.keys(alertData[sortKey]);
         var listOfAlerts = {};
+
+        var colorsRange;
+
+        if (keys.length <= color.PurpleTones.length) colorsRange = color.PurpleTones;
+        else if (keys.length === color.CoolTones.length) colorsRange = color.CoolTones;
+        else if (keys.length < 9) colorsRange = color.RainbowTones;
+        else colorsRange = color.Default;
+
+        var colors = d3.scaleOrdinal(colorsRange);
+
         alerts.forEach(function (alert) {
             var key = alert[sortKey];
             if (!listOfAlerts[key]) {
@@ -114,12 +124,6 @@ window.Audit = (function () {
                 if(sortKey === 'level') listOfAlerts[key].color = color.SeverityTones[key];
                 if (!listOfAlerts[key].color) {
                     var index = keys.indexOf(key);
-                    var colors = d3.scaleOrdinal(color.Default);
-
-                    if (keys.length <= color.PurpleTones.length) colors = d3.scaleOrdinal(color.PurpleTones);
-                    else if (keys.length === color.CoolTones.length) colors = d3.scaleOrdinal(color.CoolTones);
-                    else if (keys.length < 9) colors = d3.scaleOrdinal(color.RainbowTones);
-
                     listOfAlerts[key].color = colors(index);
                 }
             }

@@ -205,7 +205,7 @@ function renderGlobalData(regions) {
     regions.forEach(function(region) {
         var mapTpl = $.templates('#global-region-tpl');
         $('.' + data.cssClass).append(mapTpl.render(region));
-
+        $('.' + data.cssClass).find('img').attr('src', 'images/maps/'+region.key+'.png')
         var g = d3.select('.' + data.cssClass + ' .' + region.key)
             .append('svg')
             .style('max-width', '185px')

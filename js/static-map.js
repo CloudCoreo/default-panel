@@ -205,6 +205,7 @@ function renderGlobalData(regions) {
     regions.forEach(function(region) {
         var mapTpl = $.templates('#global-region-tpl');
         $('.' + data.cssClass).append(mapTpl.render(region));
+        $('.' + data.cssClass).find('img').attr('src', 'images/maps/'+region.key+'.png');
 
         var g = d3.select('.' + data.cssClass + ' .' + region.key)
             .append('svg')
@@ -223,7 +224,9 @@ function render(mapData) {
     var regions = {};
     Object.keys(mapData).forEach(function (region) {
         if(!regions[regionsList[region].region]) regions[regionsList[region].region] = [];
-        regions[regionsList[region].region].push({key: region, deployed: mapData[region].deployed, violations: mapData[region].violations});
+        var data = mapData[region];
+        data.key = region;
+        regions[regionsList[region].region].push(data);
     });
     Object.keys(regions).forEach(function (key) {
         if(key !== 'Global') renderRegion(regions[key], key);

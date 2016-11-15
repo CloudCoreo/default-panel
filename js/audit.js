@@ -9,6 +9,8 @@ window.Audit = (function () {
         region: {},
         service: {}
     };
+
+    var errors = [];
     var color = {
         SeverityTones : {
             Emergency: '#770a0a',
@@ -22,9 +24,10 @@ window.Audit = (function () {
         },
         Passed: '#2dbf74',
         Disabled: '#cccccc',
-        PurpleTones: d3.scaleOrdinal(['#582a7f', '#bf4a95', '#c4c4c4', '#6b6b6b', '#272e39']),
-        CoolTones: d3.scaleOrdinal(['#2dbf74', '#39c4cc', '#2b7ae5', '#c4c4c4', '#6b6b6b', '#272e39']),
-        RainbowTones: d3.scaleOrdinal(['#582a7f', '#bf4a95', '#2dbf74', '#39c4cc', '#2b7ae5', '#c4c4c4', '#6b6b6b', '#272e39'])
+        PurpleTones: ['#582a7f', '#bf4a95', '#c4c4c4', '#6b6b6b', '#272e39'],
+        CoolTones: ['#2dbf74', '#39c4cc', '#2b7ae5', '#c4c4c4', '#6b6b6b', '#272e39'],
+        RainbowTones: ['#582a7f', '#bf4a95', '#2dbf74', '#39c4cc', '#2b7ae5', '#c4c4c4', '#6b6b6b', '#272e39'],
+        Default: d3.schemeCategory20
     };
 
     var containers = {
@@ -84,7 +87,8 @@ window.Audit = (function () {
             openPopup('showViolationResources', params);
         });
         $('.more-info-link').click(function () {
-            openPopup('showViolationMoreInfo', $(this).attr('violation'));
+            var id = $(this).attr('violation');
+            openPopup('showViolationMoreInfo', id);
         });
         $('.share-link').click(function () {
             openPopup('shareViolation', $(this).attr('violation'));
@@ -102,6 +106,16 @@ window.Audit = (function () {
     function organizeDataForCurrentRender(sortKey) {
         var keys = Object.keys(alertData[sortKey]);
         var listOfAlerts = {};
+
+        var colorsRange;
+
+        if (keys.length <= color.PurpleTones.length) colorsRange = color.PurpleTones;
+        else if (keys.length === color.CoolTones.length) colorsRange = color.CoolTones;
+        else if (keys.length < 9) colorsRange = color.RainbowTones;
+        else colorsRange = color.Default;
+
+        var colors = d3.scaleOrdinal(colorsRange);
+
         alerts.forEach(function (alert) {
             var key = alert[sortKey];
             if (!listOfAlerts[key]) {
@@ -110,8 +124,7 @@ window.Audit = (function () {
                 if(sortKey === 'level') listOfAlerts[key].color = color.SeverityTones[key];
                 if (!listOfAlerts[key].color) {
                     var index = keys.indexOf(key);
-                    listOfAlerts[key].color = (keys.length > 6) ? color.RainbowTones(index) :
-                        (keys.length == 6) ? color.CoolTones(index) : color.PurpleTones(index);
+                    listOfAlerts[key].color = colors(index);
                 }
             }
 
@@ -166,11 +179,12 @@ window.Audit = (function () {
             fix: violation.inputs.suggested_action,
             service: violation.inputs.service,
             link: violation.inputs.link,
-            resources:[]
+            resources:[],
+            violationId: violation._id
         };
     }
 
-    function renderSection(violations, key, color) {
+    function renderSection(violations, key, color, uncountable) {
         var sectionSummary = {label: key, value: Object.keys(violations).length, color: color};
         if(!sectionSummary.value) {
             return;
@@ -179,7 +193,7 @@ window.Audit = (function () {
         var visibleList = '';
         var restList = '';
         var visibleCount = 0;
-        var headerData = {name: sectionSummary.label, resultsCount: sectionSummary.value};
+        var headerData = {name: sectionSummary.label, resultsCount: (!uncountable ? sectionSummary.value : 0)};
         var header = headerTpl.render(headerData);
 
         Object.keys(violations).forEach(function (vId) {
@@ -208,7 +222,7 @@ window.Audit = (function () {
         if (!alerts) {
             return;
         }
-        if (!alerts.length && !disabledViolations.length) {
+        if (!alerts.length && !disabledViolations.length && !errors.length) {
             $(containers.noViolationsMessageSelector).removeClass('hidden');
             return;
         }
@@ -216,7 +230,6 @@ window.Audit = (function () {
         var pieData = [];
         var listOfAlerts = organizeDataForCurrentRender(sortKey);
         $(containers.mainDataContainerSelector).html('');
-
         if (sortKey === 'level') {
             Object.keys(color.SeverityTones).forEach(function (key) {
                 if(listOfAlerts[key]) {
@@ -234,6 +247,7 @@ window.Audit = (function () {
         }
 
         pie.drawPie(pieData);
+
         return listOfAlerts;
     }
 
@@ -292,15 +306,17 @@ window.Audit = (function () {
             });
         });
 
+        $('.pie-data-header .num').html(alerts.length);
+
         $('.additional-info .checks').html(totalChecks + ' Checks' );
-        $('.additional-info .passed').html(Object.keys(passedViolations).length + ' Passed');
+        $('.additional-info .passed').html((errors.length)? ' Passed' : Object.keys(passedViolations).length + ' Passed');
         $('.additional-info .disabled').html(Object.keys(disabledViolations).length + ' Disabled');
     }
 
     function initResourcesList(data) {
         var newData = {};
         var reports = [];
-        var errors = [];
+        errors = [];
         data.forEach(function (elem) {
             if (elem.dataType !== 'ADVISOR_RESOURCE') return;
 
@@ -335,7 +351,6 @@ window.Audit = (function () {
         });
 
         fillViolationsList(newData, reports);
-        // renderErrorsPanel(errors);
     }
 
     function setupHandlers() {
@@ -381,8 +396,8 @@ window.Audit = (function () {
     function render(sortKey) {
         var listOfAlerts = renderResourcesList(sortKey);
 
-        if(sortKey === 'level') {
-            renderSection(passedViolations, 'Passed Violation Check', color.Passed);
+        if(sortKey === 'level' && !errors.length) {
+            renderSection(passedViolations, 'Checks that Passed', color.Passed, true);
         }
         renderSection(disabledViolations, 'Disabled', color.Disabled);
         refreshClickHandlers(listOfAlerts);

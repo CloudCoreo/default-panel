@@ -114,7 +114,7 @@
             </div>
             <div class="audit flex-row hidden audit-list">
                 <div class="left-column layout-padding-right">
-                    <div class="pie-data-header">24 Audit Violations</div>
+                    <div class="pie-data-header"><span class="num">0</span> Audit Violations</div>
                     <div class="custom-dropdown noselect layout-margin-bottom-20">
                         <div class="dropdown-button">
                             <div>SORT BY</div>
@@ -167,8 +167,18 @@
                         {{for subregions}}
                             <div class="regions-subheader">{{:key}}</div>
                             <div class="resources">
-                                <div class="flex-row"><div class="deploy-bubble"></div> {{:deployed}} Resources Deployed</div>
-                                <div class="flex-row"><div class="violation-bubble"></div>{{:violations}} Violations Found in Audit</div>
+                                <div class="flex-row">
+                                    <div class="deploy-bubble"></div>
+                                    <div class="message">{{:deployed}} {{:successMessage}}
+                                    {{if !successMessage}} Resources Deployed{{/if}}
+                                    </div>
+                                </div>
+                                <div class="flex-row">
+                                    <div class="violation-bubble"></div>
+                                    <div class="message">{{:violations}} {{:errorMessage}}
+                                        {{if !errorMessage}} Violations Found in Audit {{/if}}
+                                    </div>
+                                </div>
                             </div>
                         {{/for}}
                         {{if subregionsWithoutData}}
@@ -184,7 +194,7 @@
 
     <div id="global-region-tpl">
         <div class="global-region-chart">
-            <img src="images/maps/{{:key}}.png"/>
+            <img/>
             <div class="global-resources-list {{:key}}">
             </div>
         </div>
@@ -202,7 +212,7 @@
     <div id="list-header-tmpl">
         <div class="flex-row align-center">
             <div class="subheader flex-grow">{{:name}}</div>
-            <div id="high-counter" class="font-12 medium-grey">{{:resultsCount}} VIOLATIONS</div>
+            <div id="high-counter" class="font-12 medium-grey">{{if resultsCount}} {{:resultsCount}} VIOLATIONS{{/if}}</div>
         </div>
     </div>
 
@@ -313,7 +323,11 @@
                         <div class="violation-id">AlertId: {{:id}}</div>
                     </div>
                     <div class="medium-grey layout-padding-right">{{:level}}</div>
-                    <div class="medium-grey">{{:resources.length}} Resources</div>
+                    {{if resources.length !== 0}}
+                        <div class="medium-grey">
+                            {{:resources.length}} Resources
+                        </div>
+                    {{/if}}
                 </div>
                 <div class="details-btn link">+ view details</div>
             </div>
@@ -336,11 +350,13 @@
                         </div>
                     </div>
                     <div class="flex-column row-right-column layout-padding">
+                        {{if resources.length !== 0}}
                         <div class="link flex resources-link" violation="{{:id}}" violationId="{{:violationId}}" sortKey="{{:sortKey}}"
                              reportId="{{:reportId}}">
                             {{:resources.length}} Resources
                             <img src="./images/right-chevron.svg" class="fa right"/>
                         </div>
+                        {{/if}}
                         <div class="link flex more-info-link" violation="{{:violationId}}">
                             <span>more info</span>
                             <img src="./images/right-chevron.svg" class="fa right"/>

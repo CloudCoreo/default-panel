@@ -548,12 +548,6 @@ body {
     }
 }
 
-@media screen and (max-width: 850px) {
-    .resource-list-header {
-
-    }
-}
-
 @media screen and (max-width: 600px) {
     .deploy-dropdown {
         display: block;

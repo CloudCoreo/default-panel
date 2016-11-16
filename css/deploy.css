@@ -170,14 +170,14 @@ body {
     border-bottom: 1px red solid;
 }
 
-.custom-dropdown, .deploy-dropdown {
+.custom-dropdown{
     display: flex;
     flex-direction: column;
     position: relative;
     background: white;
 }
 
-.custom-dropdown ul, .deploy-dropdown ul {
+.custom-dropdown ul{
     padding: 0;
     margin: 0;
     display: flex;
@@ -190,7 +190,7 @@ body {
     z-index: 999;
 }
 
-.custom-dropdown ul li, .deploy-dropdown ul li {
+.custom-dropdown ul li{
     list-style-type: none;
     padding: 8px 10px;
     border: 1px solid #e6e6e6;
@@ -198,15 +198,15 @@ body {
     cursor: pointer;
 }
 
-.custom-dropdown ul li:hover, .deploy-dropdown ul li:hover {
+.custom-dropdown ul li:hover{
     background: #e6e6e6;
 }
 
-.custom-dropdown ul li:last-child, .deploy-dropdown ul li:last-child {
+.custom-dropdown ul li:last-child{
     border-bottom: 1px solid #e6e6e6;
 }
 
-.custom-dropdown .dropdown-button, .deploy-dropdown .dropdown-button {
+.custom-dropdown .dropdown-button{
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -218,11 +218,11 @@ body {
     cursor: pointer;
 }
 
-.custom-dropdown .dropdown-button div, .deploy-dropdown .dropdown-button div {
+.custom-dropdown .dropdown-button div {
     padding: 10px;
 }
 
-.custom-dropdown .dropdown-button:after, .deploy-dropdown .dropdown-button:after {
+.custom-dropdown .dropdown-button:after {
     content: '';
     width: 20px;
     height: 15px;
@@ -232,7 +232,7 @@ body {
     top: 12px;
 }
 
-.custom-dropdown .dropdown-button .chosen-item-text, .deploy-dropdown .dropdown-button .chosen-item-text-deploy {
+.custom-dropdown .dropdown-button .chosen-item-text, .custom-dropdown .dropdown-button .chosen-item-text-deploy {
     font-weight: normal;
     color: #2B7AE5;
     border-left: 1px solid #e6e6e6;
@@ -538,7 +538,7 @@ body {
     overflow: hidden;
 }
 
-.deploy-dropdown {
+.deploy .custom-dropdown {
     display: none;
 }
 
@@ -553,7 +553,7 @@ body {
         display: none !important;
     }
 
-    .deploy-dropdown {
+    .deploy .custom-dropdown {
         display: block;
     }
 

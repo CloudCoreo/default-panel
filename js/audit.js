@@ -354,18 +354,18 @@ window.Audit = (function () {
     }
 
     function setupHandlers() {
-        $('.audit #chosen-sorting').change(function () {
+        $('.audit .chosen-sorting').change(function () {
             render($(this).val());
         });
 
         $('.audit .dropdown-button').click(function () {
-            $('.custom-dropdown ul').toggleClass('hidden');
+            $('.audit .custom-dropdown ul').toggleClass('hidden');
         });
 
         $('.audit .custom-dropdown li').click(function () {
             var chosenSort = $(this).data('value');
             if (chosenSort) {
-                var dropdownElem = $(this).closest('.audit .custom-dropdown');
+                var dropdownElem = $(this).closest('.custom-dropdown');
                 var sortByElem = dropdownElem.find('.chosen-item-value');
                 var isReverseElem = dropdownElem.find('.chosen-item-is-reverse');
                 var isReverseVal = isReverseElem.val() === 'true';
@@ -377,7 +377,7 @@ window.Audit = (function () {
                     isReverseElem.val(false);
                 }
                 sortByElem.val(chosenSort).trigger('change');
-                dropdownElem.find('.audit .chosen-item-text').html($(this).html());
+                dropdownElem.find('.chosen-item-text').html($(this).html());
             }
             $(this).parent().addClass('hidden');
         });

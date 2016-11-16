@@ -11,8 +11,11 @@ window.Deploy = (function () {
         $('.sort-label').click(function(){
             $_this = $(this);
             var label = $_this.text();
-            $(".chosen-item-text").text(label);
-        })
+            $(".chosen-item-text-deploy").text(label);
+        });
+        $('.dropdown-button').click(function () {
+            $('.deploy-dropdown ul').toggleClass('hidden');
+        });
         $('.resources-list').html('');
         var rowTmpl = $.templates('#resource-row-tmpl');
         for(var i = currentPage * itemsOnPage; i < (currentPage + 1) * itemsOnPage && i < resources.length; ++i) {

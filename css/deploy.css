@@ -232,7 +232,7 @@ body {
     top: 12px;
 }
 
-.custom-dropdown .dropdown-button .chosen-item-text, .deploy-dropdown .dropdown-button .chosen-item-text {
+.custom-dropdown .dropdown-button .chosen-item-text, .deploy-dropdown .dropdown-button .chosen-item-text-deploy {
     font-weight: normal;
     color: #2B7AE5;
     border-left: 1px solid #e6e6e6;
@@ -549,6 +549,10 @@ body {
 }
 
 @media screen and (max-width: 600px) {
+    .resource-type.map-res {
+        display: none !important;
+    }
+
     .deploy-dropdown {
         display: block;
     }

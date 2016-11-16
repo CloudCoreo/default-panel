@@ -359,7 +359,7 @@ window.Audit = (function () {
         });
 
         $('.dropdown-button').click(function () {
-            $('.custom-dropdown ul, .deploy-dropdown ul').toggleClass('hidden');
+            $('.custom-dropdown ul').toggleClass('hidden');
         });
 
         $('.custom-dropdown li').click(function () {

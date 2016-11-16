@@ -150,8 +150,8 @@ window.Audit = (function () {
 
         var html =
             '<div class="bg-white layout-padding flex-column layout-margin-bottom-20 md-shadow">' +
-                '<div class="subheader flex-grow">Error</div>'+
-                errorsList +
+            '<div class="subheader flex-grow">Error</div>'+
+            errorsList +
             '</div>';
 
         $(containers.errorsContSelector).html(html);
@@ -205,12 +205,12 @@ window.Audit = (function () {
 
         var html =
             '<div class="' + headerData.name + ' bg-white layout-padding" style="margin-bottom: 20px;">' +
-                header +
-                '<div style="border-color: ' + sectionSummary.color + '">' +
-                    visibleList +
-                    '<div class="hidden" style="border-color: inherit;">' + restList + '</div>' +
-                    ((visibleCount > 5) ? showAllBtnTpl : '') +
-                '</div>' +
+            header +
+            '<div style="border-color: ' + sectionSummary.color + '">' +
+            visibleList +
+            '<div class="hidden" style="border-color: inherit;">' + restList + '</div>' +
+            ((visibleCount > 5) ? showAllBtnTpl : '') +
+            '</div>' +
             '</div>';
 
 
@@ -359,7 +359,7 @@ window.Audit = (function () {
         });
 
         $('.dropdown-button').click(function () {
-            $('.custom-dropdown ul').toggleClass('hidden');
+            $('.custom-dropdown ul, .deploy-dropdown ul').toggleClass('hidden');
         });
 
         $('.custom-dropdown li').click(function () {

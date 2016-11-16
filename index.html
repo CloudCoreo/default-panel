@@ -28,12 +28,26 @@
                      value="audit">audit <span></span></div>
                 <div class="resource-type deploy-res"
                      value="deploy">resources <span></span></div>
-                <div class="resource-type map-res"
-                     value="map">map <span></span></div>
             </div>
         </div>
         <div class="data-container">
             <div class="deploy hidden">
+                <div class="deploy-dropdown noselect layout-margin-bottom-20">
+                    <div class="dropdown-button">
+                        <div>SORT BY</div>
+                        <div class="chosen-item-text">Timestamp</div>
+                        <input type="hidden" class="chosen-item-value" id="chosen-sorting" value="timestamp">
+                        <input type="hidden" class="chosen-item-is-reverse" id="is-reverse" value="true">
+                    </div>
+                    <ul class="hidden resource-list-header deploy-list-header">
+                        <li class="sort-label" key="resourceType" data-value="resourceType">Resource type</li>
+                        <li class="sort-label" key="resourceName" data-value="resourceName">Resource name</li>
+                        <li class="sort-label" key="engineState" data-value="engineStatus">Status</li>
+                        <li class="sort-label" key="action" data-value="action">Action</li>
+                        <li class="sort-label" key="executionTime" data-value="executionTime">Execution time</li>
+                        <li class="sort-label" key="timestamp" data-value="timestamp">Timestamp</li>
+                    </ul>
+                </div>
                 <div class="resource-list-header">
                     <div class="sort-label type" key="resourceType">resource type</div>
                     <div class="sort-label name" key="resourceName">resource name</div>
@@ -165,25 +179,25 @@
                 <div class="regions-list">
                     <div class="region">
                         {{for subregions}}
-                            <div class="regions-subheader">{{:key}}</div>
-                            <div class="resources">
-                                <div class="flex-row">
-                                    <div class="deploy-bubble"></div>
-                                    <div class="message">{{:deployed}} {{:successMessage}}
+                        <div class="regions-subheader">{{:key}}</div>
+                        <div class="resources">
+                            <div class="flex-row">
+                                <div class="deploy-bubble"></div>
+                                <div class="message">{{:deployed}} {{:successMessage}}
                                     {{if !successMessage}} Resources Deployed{{/if}}
-                                    </div>
-                                </div>
-                                <div class="flex-row">
-                                    <div class="violation-bubble"></div>
-                                    <div class="message">{{:violations}} {{:errorMessage}}
-                                        {{if !errorMessage}} Violations Found in Audit {{/if}}
-                                    </div>
                                 </div>
                             </div>
+                            <div class="flex-row">
+                                <div class="violation-bubble"></div>
+                                <div class="message">{{:violations}} {{:errorMessage}}
+                                    {{if !errorMessage}} Violations Found in Audit {{/if}}
+                                </div>
+                            </div>
+                        </div>
                         {{/for}}
                         {{if subregionsWithoutData}}
-                            <div class="regions-subheader">{{:subregionsWithoutData}}</div>
-                            <div class="resources"><div class="none">None</div></div>
+                        <div class="regions-subheader">{{:subregionsWithoutData}}</div>
+                        <div class="resources"><div class="none">None</div></div>
                         {{/if}}
                     </div>
                 </div>
@@ -264,19 +278,19 @@
                     <div class="inputs logs-output">
                         <div class="label">Inputs:</div>
                         {{for rawInputs}}
-                            <div class="flex-row">
-                                <div>{{:name}}: </div><div class="layout-padding-left">{{:value}}</div>
-                            </div>
+                        <div class="flex-row">
+                            <div>{{:name}}: </div><div class="layout-padding-left">{{:value}}</div>
+                        </div>
                         {{/for}}
                     </div>
                     <div class="outputs logs-output">
                         <div class="label"><b>Error Message</b></div>
                         {{for rawOutputs}}
-                            <div class="flex-column">
-                                <div>{{:value.error_message}}</div>
-                                <div>Error type: {{:value.error_type}}</div>
-                                <div>Error resource: {{:value.resource_error}}</div>
-                            </div>
+                        <div class="flex-column">
+                            <div>{{:value.error_message}}</div>
+                            <div>Error type: {{:value.error_type}}</div>
+                            <div>Error resource: {{:value.resource_error}}</div>
+                        </div>
                         {{/for}}
                     </div>
                 </div>
@@ -324,9 +338,9 @@
                     </div>
                     <div class="medium-grey layout-padding-right">{{:level}}</div>
                     {{if resources.length !== 0}}
-                        <div class="medium-grey">
-                            {{:resources.length}} Resources
-                        </div>
+                    <div class="medium-grey">
+                        {{:resources.length}} Resources
+                    </div>
                     {{/if}}
                 </div>
                 <div class="details-btn link">+ view details</div>

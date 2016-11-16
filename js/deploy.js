@@ -8,10 +8,10 @@ window.Deploy = (function () {
     var currentPage = 0;
 
     function renderResourcesList() {
-        $('.sort-label').click(function(){
+        $('.deploy .sort-label').click(function(){
             $_this = $(this);
             var label = $_this.text();
-            $(".chosen-item-text-deploy").text(label);
+            $(".deploy .chosen-item-text").text(label);
         });
         $('.resources-list').html('');
         var rowTmpl = $.templates('#resource-row-tmpl');
@@ -193,6 +193,9 @@ window.Deploy = (function () {
         if (numberOfNotExecutedResources <= 0 && !resourcesAlerts) {
             appendSuccessulBuildNotification();
         }
+        $('.deploy .dropdown-button').click(function () {
+            $('.deploy .custom-dropdown ul').toggleClass('hidden');
+        });
     }
 
     function deploy(data) {

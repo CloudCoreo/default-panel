@@ -354,18 +354,18 @@ window.Audit = (function () {
     }
 
     function setupHandlers() {
-        $('#chosen-sorting').change(function () {
+        $('.audit #chosen-sorting').change(function () {
             render($(this).val());
         });
 
-        $('.dropdown-button').click(function () {
+        $('.audit .dropdown-button').click(function () {
             $('.custom-dropdown ul').toggleClass('hidden');
         });
 
-        $('.custom-dropdown li').click(function () {
+        $('.audit .custom-dropdown li').click(function () {
             var chosenSort = $(this).data('value');
             if (chosenSort) {
-                var dropdownElem = $(this).closest('.custom-dropdown');
+                var dropdownElem = $(this).closest('.audit .custom-dropdown');
                 var sortByElem = dropdownElem.find('.chosen-item-value');
                 var isReverseElem = dropdownElem.find('.chosen-item-is-reverse');
                 var isReverseVal = isReverseElem.val() === 'true';
@@ -377,14 +377,14 @@ window.Audit = (function () {
                     isReverseElem.val(false);
                 }
                 sortByElem.val(chosenSort).trigger('change');
-                dropdownElem.find('.chosen-item-text').html($(this).html());
+                dropdownElem.find('.audit .chosen-item-text').html($(this).html());
             }
             $(this).parent().addClass('hidden');
         });
 
         $(document).click(function (e) {
-            if ($(e.target).closest('.custom-dropdown').length === 0) {
-                $('.custom-dropdown ul').addClass('hidden');
+            if ($(e.target).closest('.audit .custom-dropdown').length === 0) {
+                $('.audit .custom-dropdown ul').addClass('hidden');
             }
         });
 

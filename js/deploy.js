@@ -129,9 +129,9 @@ window.Deploy = (function () {
 
     function appendNumberOfNotExecutedResources() {
         var notExecutedResources = totalNumberOfResources - numberOfFailedResource;
-        notExecutedResources += (notExecutedResources > 1) ? ' resources' : ' resource';
+        notExecutedResources += (notExecutedResources > 1) ? ' resources were' : ' resource was';
 
-        $('.error.messages .message-left-part .message').html(notExecutedResources + ' were not executed sequenced by '
+        $('.error.messages .message-left-part .message').html(notExecutedResources + ' not executed sequenced by '
             + getOrdinalSuffix(numberOfFailedResource) + ' resource fail');
     }
 

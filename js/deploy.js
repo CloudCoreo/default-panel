@@ -1,5 +1,7 @@
 window.Deploy = (function () {
     var resources = [];
+    var totalNumberOfResources = 0;
+    var numberOfFailedResource = -1;
     var numberOfNotExecutedResources = 0;
     var resourcesAlerts = false;
     var initialData;
@@ -10,7 +12,7 @@ window.Deploy = (function () {
     function renderResourcesList() {
         $('.resources-list').html('');
         var rowTmpl = $.templates('#resource-row-tmpl');
-        for(var i = currentPage * itemsOnPage; i < (currentPage + 1) * itemsOnPage && i < resources.length; ++i) {
+        for (var i = currentPage * itemsOnPage; i < (currentPage + 1) * itemsOnPage && i < resources.length; ++i) {
             var html = $(rowTmpl.render(resources[i]));
             $('.resources-list').append(html);
             appendLogs(resources[i].inputs, html.find('.logs .inputs .data-cont'));
@@ -59,14 +61,14 @@ window.Deploy = (function () {
         $('.resources-amount').html("SHOWING " +
             ((currentPage * itemsOnPage) || 1 ) + "-" +
             ((resources.length > itemsOnPage * (currentPage + 1)) ? itemsOnPage * (currentPage + 1) : resources.length) +
-            " OF " +resources.length + ' results');
+            " OF " + resources.length + ' results');
 
         var pages = resources.length / itemsOnPage;
         if (pages <= 1) return;
 
         $('.pages').append('<div class="page active prev"><<</div>');
-        for(var i = 0; i < pages; ++i) {
-            $('.pages').append('<div value="'+ i +'" class="page' + (currentPage === i ? ' active' : '') +' value' + i + '">' + (i + 1) + '</div>');
+        for (var i = 0; i < pages; ++i) {
+            $('.pages').append('<div value="' + i + '" class="page' + (currentPage === i ? ' active' : '') + ' value' + i + '">' + (i + 1) + '</div>');
         }
         $('.pages').append('<div class="page active next">>></div>');
 
@@ -78,16 +80,16 @@ window.Deploy = (function () {
                 newPage = currentPage + 1;
             } else if (_this.hasClass('prev') && currentPage - 1 >= 0) {
                 newPage = currentPage - 1;
-            } else if (_this.attr('value')){
-                newPage = _this.attr('value')*1.0;
+            } else if (_this.attr('value')) {
+                newPage = _this.attr('value') * 1.0;
             }
 
             if (typeof newPage === "undefined" || currentPage === newPage) {
                 return;
             }
 
-            $('.page.value'+currentPage).removeClass('active');
-            $('.page.value'+newPage).addClass('active');
+            $('.page.value' + currentPage).removeClass('active');
+            $('.page.value' + newPage).addClass('active');
             currentPage = newPage;
 
             renderResourcesList();
@@ -97,7 +99,30 @@ window.Deploy = (function () {
     function appendNumberNotExecutedResourcesNotification() {
         $('.error.messages').removeClass('hidden');
         $('.error.messages .message-left-part .message-status').html('ERROR');
-        $('.error.messages .amount').html(numberOfNotExecutedResources);
+        // $('.error.messages .amount').html(numberOfNotExecutedResources);
+    }
+
+    function getOrdinalSuffix(num) {
+        var oneTenth = num % 10;
+        var oneHundredth = num % 100;
+        if (oneTenth == 1 && oneHundredth != 11) {
+            return num + "st";
+        }
+        if (oneTenth == 2 && oneHundredth != 12) {
+            return num + "nd";
+        }
+        if (oneTenth == 3 && oneHundredth != 13) {
+            return num + "rd";
+        }
+        return num + "th";
+    }
+
+    function appendNumberOfNotExecutedResources() {
+        var notExecutedResources = totalNumberOfResources - numberOfFailedResource;
+        var notExecutedResourcesString = (notExecutedResources > 1) ? notExecutedResources + ' resources' : notExecutedResources + ' resource';
+
+        $('.error.messages .message-left-part .message').html(notExecutedResourcesString + ' were not executed sequenced by '
+            + getOrdinalSuffix(numberOfFailedResource) + ' resource fail');
     }
 
     function appendResourcesAlertsNotification() {
@@ -111,31 +136,30 @@ window.Deploy = (function () {
     function sort(sortKey, desc) {
         if (!resources) return;
         var sortedResources = resources.sort(function (a, b) {
-            if(!desc) return a[sortKey] > b[sortKey] ? -1 : 1;
+            if (!desc) return a[sortKey] > b[sortKey] ? -1 : 1;
             return a[sortKey] > b[sortKey] ? 1 : -1;
         });
         resources = sortedResources;
         renderResourcesList();
     }
 
-    function initResourcesList(dataList) {
-        initialData = dataList;
+    function initResourcesList(ccThisData) {
+        initialData = ccThisData;
         var resource = {};
-        dataList.forEach(function (data) {
+        ccThisData.forEach(function (data) {
             Object.keys(data).forEach(function (resourceData) {
                 var resourceProperty = data[resourceData];
                 if (resourceData == 'engineStatus') {
                     if (resourceProperty == 'OK') {
                         resource.engineStatus = 'SUCCESS';
                         resource.engineStatusClass = 'stable-status';
-                    }
-                    else {
+                    } else {
                         resource.engineStatusClass = 'error-status';
                         resource.engineStatus = 'ERROR';
+                        numberOfFailedResource = resource.executionNumber;
                         numberOfNotExecutedResources++;
                     }
-                }
-                else if (resourceData == 'inputs') {
+                } else if (resourceData == 'inputs') {
                     for (var i = 0; i < resourceProperty.length; i++) {
                         if (resourceProperty[i].name == 'action') {
                             resource.action = resourceProperty[i].value;
@@ -143,14 +167,11 @@ window.Deploy = (function () {
                         }
                     }
                     resource[resourceData] = resourceProperty;
-                }
-                else if (resourceData == 'timestamp') {
+                } else if (resourceData == 'timestamp') {
                     resource.timestamp = utils.formatDate(resourceProperty);
-                }
-                else if (resourceData == 'executionTime') {
+                } else if (resourceData == 'executionTime') {
                     resource.executionTime = utils.formatTime(resourceProperty);
-                }
-                else {
+                } else {
                     resource[resourceData] = resourceProperty;
                 }
             });
@@ -165,9 +186,9 @@ window.Deploy = (function () {
             return;
         }
 
-        $('.resource-list-header .sort-label').click( function () {
+        $('.resource-list-header .sort-label').click(function () {
             var _this = $(this);
-            if(_this.hasClass('active')) {
+            if (_this.hasClass('active')) {
                 _this.toggleClass('desc');
             } else {
                 $('.resource-list-header .active').removeClass('active');
@@ -178,9 +199,9 @@ window.Deploy = (function () {
 
         sort('timestamp');
         appendNumberOfResultsLabel();
-
         if (numberOfNotExecutedResources > 0) {
             appendNumberNotExecutedResourcesNotification();
+            appendNumberOfNotExecutedResources();
         }
         if (resourcesAlerts) {
             appendResourcesAlertsNotification();
@@ -191,12 +212,15 @@ window.Deploy = (function () {
     }
 
     function deploy(data) {
+        if (!data.resourcesArray) data.resourcesArray = [];
+        if (!data.numberOfResources) data.numberOfResources = 0;
         $('.deploy .messages').addClass('hidden');
         $('.deploy .pages').html('');
         $('#no-deploy-resources').addClass('hidden');
         $('.resources-list').removeClass('empty');
         $('.resources-list-header').removeClass('empty');
-        initResourcesList(data);
+        totalNumberOfResources = data.numberOfResources;
+        initResourcesList(data.resourcesArray);
     }
 
     deploy.prototype.renderResourcesList = sort;

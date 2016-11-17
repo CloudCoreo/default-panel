@@ -39,7 +39,7 @@ $(document).ready(function () {
             var found = resource.inputs.find(function (elem) {
                 return elem.name === 'region'
             });
-            if(found) return found.value;
+            if (found) return found.value;
         }
 
         return undefined;
@@ -51,9 +51,9 @@ $(document).ready(function () {
         var mapData = {};
         resources.forEach(function (resource) {
             var region = getRegion(resource);
-            if(!region) return;
+            if (!region) return;
 
-            if(region !== 'CloudCoreo') {
+            if (region !== 'CloudCoreo') {
                 if (!mapData[region]) {
                     mapData[region] = { violations: 0, deployed: 0, message: defMessage };
                 }
@@ -63,7 +63,7 @@ $(document).ready(function () {
             }
 
             if (!mapData[region]) {
-                mapData[region] = { violations: 0, deployed: 0, successMessage: 'Resource', errorMessage: 'Error'};
+                mapData[region] = { violations: 0, deployed: 0, successMessage: 'Resource', errorMessage: 'Error' };
             }
 
             if (resource.engineStatus.indexOf('ERROR') !== -1) ++mapData[region].violations;
@@ -74,14 +74,14 @@ $(document).ready(function () {
         if (alerts) {
             alerts.forEach(function (alert) {
                 var region = alert.region;
-                if (!mapData[region]) mapData[region] = {violations: 0, deployed: 0};
+                if (!mapData[region]) mapData[region] = { violations: 0, deployed: 0 };
                 ++mapData[region].violations;
             });
         }
 
-        if(mapData.CloudCoreo){
-            if(mapData.CloudCoreo.violations > 1) mapData.CloudCoreo.errorMessage += 's';
-            if(mapData.CloudCoreo.deployed > 1) mapData.CloudCoreo.successMessage += 's';
+        if (mapData.CloudCoreo) {
+            if (mapData.CloudCoreo.violations > 1) mapData.CloudCoreo.errorMessage += 's';
+            if (mapData.CloudCoreo.deployed > 1) mapData.CloudCoreo.successMessage += 's';
         }
 
         staticMaps(mapData);
@@ -118,14 +118,14 @@ $(document).ready(function () {
         setupHandlers();
         d3.json("./tmp-data/world-countries.json", function (collection) {
             deployData = new Deploy(data);
-            auditData = new Audit(data, 'level');
+            auditData = new Audit(data.resourcesArray, 'level');
             renderMapData('level');
 
             var noViolations = !auditData.getViolationsList() || !auditData.getViolationsList().length;
             currentView = noViolations ? viewTypes.deploy : viewTypes.audit;
-            if (!noViolations) $('.resource-type-toggle .resource-type.'+viewTypes.audit+'-res').addClass('alert');
-            if (deployData.hasErrors()) $('.resource-type-toggle .resource-type.'+viewTypes.deploy+'-res').addClass('error');
-            if (deployData.hasAlerts()) $('.resource-type-toggle .resource-type.'+viewTypes.deploy+'-res').addClass('alert');
+            if (!noViolations) $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').addClass('alert');
+            if (deployData.hasErrors()) $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').addClass('error');
+            if (deployData.hasAlerts()) $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').addClass('alert');
 
 
             $('.resource-type-toggle .resource-type.' + currentView + '-res').addClass('active');

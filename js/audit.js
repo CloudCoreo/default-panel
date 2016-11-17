@@ -11,6 +11,8 @@ window.Audit = (function () {
     };
 
     var errors = [];
+    var pie;
+
     var color = {
         SeverityTones : {
             Emergency: '#770a0a',
@@ -39,7 +41,6 @@ window.Audit = (function () {
         mainCont: '.audit-list'
     };
 
-    var pie;
     var headerTpl = $.templates("#list-header-tmpl"),
         violationTpl = $.templates("#row-tmpl"),
         showAllBtnTpl = $("#show-all-btn-tmpl").html(),
@@ -150,8 +151,8 @@ window.Audit = (function () {
 
         var html =
             '<div class="bg-white layout-padding flex-column layout-margin-bottom-20 md-shadow">' +
-                '<div class="subheader flex-grow">Error</div>'+
-                errorsList +
+            '<div class="subheader flex-grow">Error</div>'+
+            errorsList +
             '</div>';
 
         $(containers.errorsContSelector).html(html);
@@ -205,12 +206,12 @@ window.Audit = (function () {
 
         var html =
             '<div class="' + headerData.name + ' bg-white layout-padding" style="margin-bottom: 20px;">' +
-                header +
-                '<div style="border-color: ' + sectionSummary.color + '">' +
-                    visibleList +
-                    '<div class="hidden" style="border-color: inherit;">' + restList + '</div>' +
-                    ((visibleCount > 5) ? showAllBtnTpl : '') +
-                '</div>' +
+            header +
+            '<div style="border-color: ' + sectionSummary.color + '">' +
+            visibleList +
+            '<div class="hidden" style="border-color: inherit;">' + restList + '</div>' +
+            ((visibleCount > 5) ? showAllBtnTpl : '') +
+            '</div>' +
             '</div>';
 
 
@@ -302,6 +303,9 @@ window.Audit = (function () {
                     ++alertData.service[alert.service];
 
                     alerts.push(alert);
+
+                    if(passedViolations[violationKey]) delete passedViolations[violationKey];
+                    if(disabledViolations[violationKey]) delete disabledViolations[violationKey];
                 });
             });
         });
@@ -345,24 +349,26 @@ window.Audit = (function () {
                 errors.push(newObj);
             }
             else if (newObj.outputs.report) reports.push(newObj);
-            else if(!newObj.outputs.included) disabledViolations[newObj.resourceName] = organizeDataForAdditionalSections(newObj);
-            else if(!newObj.outputs.violations) passedViolations[newObj.resourceName] = organizeDataForAdditionalSections(newObj);
-            else newData[newObj.resourceName] = newObj;
+            else {
+                newData[newObj.resourceName] = newObj;
+                if(!newObj.outputs.included) disabledViolations[newObj.resourceName] = organizeDataForAdditionalSections(newObj);
+                else if(!newObj.outputs.violations) passedViolations[newObj.resourceName] = organizeDataForAdditionalSections(newObj);
+            }
         });
 
         fillViolationsList(newData, reports);
     }
 
     function setupHandlers() {
-        $('#chosen-sorting').change(function () {
+        $('.audit .chosen-sorting').change(function () {
             render($(this).val());
         });
 
-        $('.dropdown-button').click(function () {
-            $('.custom-dropdown ul').toggleClass('hidden');
+        $('.audit .dropdown-button').click(function () {
+            $('.audit .custom-dropdown ul').toggleClass('hidden');
         });
 
-        $('.custom-dropdown li').click(function () {
+        $('.audit .custom-dropdown li').click(function () {
             var chosenSort = $(this).data('value');
             if (chosenSort) {
                 var dropdownElem = $(this).closest('.custom-dropdown');
@@ -383,8 +389,8 @@ window.Audit = (function () {
         });
 
         $(document).click(function (e) {
-            if ($(e.target).closest('.custom-dropdown').length === 0) {
-                $('.custom-dropdown ul').addClass('hidden');
+            if ($(e.target).closest('.audit .custom-dropdown').length === 0) {
+                $('.audit .custom-dropdown ul').addClass('hidden');
             }
         });
 
@@ -415,6 +421,17 @@ window.Audit = (function () {
             containers = selectors;
         }
         callback = _callback;
+        passedViolations = [];
+        disabledViolations = [];
+        errors = [];
+        alerts = [];
+        alertData = {
+            level: {},
+            category: {},
+            region: {},
+            service: {}
+        };
+
         $(containers.mainDataContainerSelector).html('');
         $(containers.noAuditResourcesMessageSelector).addClass('hidden');
         $(containers.noViolationsMessageSelector).addClass('hidden');

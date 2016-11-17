@@ -10,7 +10,7 @@ window.Deploy = (function () {
     var currentPage = 0;
 
     function renderResourcesList() {
-        $('.deploy .sort-label.mobile').click(function(){
+        $('.deploy .sort-label.mobile').click(function () {
             var _this = $(this);
             var label = _this.text();
             $(".deploy .chosen-item-text").text(label);

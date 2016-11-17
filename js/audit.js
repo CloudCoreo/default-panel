@@ -14,7 +14,7 @@ window.Audit = (function () {
     var pie;
 
     var color = {
-        SeverityTones : {
+        SeverityTones: {
             Emergency: '#770a0a',
             Alert: '#ad0707',
             Critical: '#e53e2b',
@@ -83,7 +83,8 @@ window.Audit = (function () {
             var params = {
                 violationId: _this.attr('violationId'),
                 resources: listOfAlerts[sortKey].alerts[violationId].resources,
-                color: listOfAlerts[sortKey].color};
+                color: listOfAlerts[sortKey].color
+            };
 
             openPopup('showViolationResources', params);
         });
@@ -122,7 +123,7 @@ window.Audit = (function () {
             if (!listOfAlerts[key]) {
                 listOfAlerts[key] = {};
                 listOfAlerts[key].alerts = {};
-                if(sortKey === 'level') listOfAlerts[key].color = color.SeverityTones[key];
+                if (sortKey === 'level') listOfAlerts[key].color = color.SeverityTones[key];
                 if (!listOfAlerts[key].color) {
                     var index = keys.indexOf(key);
                     listOfAlerts[key].color = colors(index);
@@ -144,14 +145,14 @@ window.Audit = (function () {
         if (!errors.length) return;
 
         var errorsList = '';
-        errors.forEach(function(error) {
+        errors.forEach(function (error) {
             error.timestamp = utils.formatDate(error.timestamp);
             errorsList += errorTpl.render(error);
         });
 
         var html =
             '<div class="bg-white layout-padding flex-column layout-margin-bottom-20 md-shadow">' +
-            '<div class="subheader flex-grow">Error</div>'+
+            '<div class="subheader flex-grow">Error</div>' +
             errorsList +
             '</div>';
 
@@ -180,21 +181,21 @@ window.Audit = (function () {
             fix: violation.inputs.suggested_action,
             service: violation.inputs.service,
             link: violation.inputs.link,
-            resources:[],
+            resources: [],
             violationId: violation._id
         };
     }
 
     function renderSection(violations, key, color, uncountable) {
-        var sectionSummary = {label: key, value: Object.keys(violations).length, color: color};
-        if(!sectionSummary.value) {
+        var sectionSummary = { label: key, value: Object.keys(violations).length, color: color };
+        if (!sectionSummary.value) {
             return;
         }
 
         var visibleList = '';
         var restList = '';
         var visibleCount = 0;
-        var headerData = {name: sectionSummary.label, resultsCount: (!uncountable ? sectionSummary.value : 0)};
+        var headerData = { name: sectionSummary.label, resultsCount: (!uncountable ? sectionSummary.value : 0) };
         var header = headerTpl.render(headerData);
 
         Object.keys(violations).forEach(function (vId) {
@@ -233,17 +234,25 @@ window.Audit = (function () {
         $(containers.mainDataContainerSelector).html('');
         if (sortKey === 'level') {
             Object.keys(color.SeverityTones).forEach(function (key) {
-                if(listOfAlerts[key]) {
+                if (listOfAlerts[key]) {
                     renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color);
-                    pieData.push({label: key, value: Object.keys(listOfAlerts[key].alerts).length, color: listOfAlerts[key].color});
+                    pieData.push({
+                        label: key,
+                        value: Object.keys(listOfAlerts[key].alerts).length,
+                        color: listOfAlerts[key].color
+                    });
                     return;
                 }
-                pieData.push({label: key, value: 0, color: color.SeverityTones[key]});
+                pieData.push({ label: key, value: 0, color: color.SeverityTones[key] });
             });
         } else {
             Object.keys(listOfAlerts).forEach(function (key) {
                 renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color);
-                pieData.push({label: key, value: Object.keys(listOfAlerts[key].alerts).length, color: listOfAlerts[key].color});
+                pieData.push({
+                    label: key,
+                    value: Object.keys(listOfAlerts[key].alerts).length,
+                    color: listOfAlerts[key].color
+                });
             });
         }
 
@@ -253,9 +262,7 @@ window.Audit = (function () {
     }
 
     function fillViolationsList(violations, reports) {
-        if(!Object.keys(violations).length &&
-            !Object.keys(disabledViolations).length &&
-            !Object.keys(passedViolations).length) {
+        if (!Object.keys(violations).length && !Object.keys(disabledViolations).length && !Object.keys(passedViolations).length) {
             $(containers.noAuditResourcesMessageSelector).removeClass('hidden');
             $(containers.mainCont).addClass('empty');
             alerts = undefined;
@@ -304,16 +311,16 @@ window.Audit = (function () {
 
                     alerts.push(alert);
 
-                    if(passedViolations[violationKey]) delete passedViolations[violationKey];
-                    if(disabledViolations[violationKey]) delete disabledViolations[violationKey];
+                    if (passedViolations[violationKey]) delete passedViolations[violationKey];
+                    if (disabledViolations[violationKey]) delete disabledViolations[violationKey];
                 });
             });
         });
 
         $('.pie-data-header .num').html(alerts.length);
 
-        $('.additional-info .checks').html(totalChecks + ' Checks' );
-        $('.additional-info .passed').html((errors.length)? ' Passed' : Object.keys(passedViolations).length + ' Passed');
+        $('.additional-info .checks').html(totalChecks + ' Checks');
+        $('.additional-info .passed').html((errors.length) ? ' Passed' : Object.keys(passedViolations).length + ' Passed');
         $('.additional-info .disabled').html(Object.keys(disabledViolations).length + ' Disabled');
     }
 
@@ -343,7 +350,7 @@ window.Audit = (function () {
                 newObj.outputs[output.name] = output.value;
             });
 
-            if (newObj.outputs.error){
+            if (newObj.outputs.error) {
                 newObj.rawInputs = elem.inputs;
                 newObj.rawOutputs = elem.outputs;
                 errors.push(newObj);
@@ -351,8 +358,8 @@ window.Audit = (function () {
             else if (newObj.outputs.report) reports.push(newObj);
             else {
                 newData[newObj.resourceName] = newObj;
-                if(!newObj.outputs.included) disabledViolations[newObj.resourceName] = organizeDataForAdditionalSections(newObj);
-                else if(!newObj.outputs.violations) passedViolations[newObj.resourceName] = organizeDataForAdditionalSections(newObj);
+                if (!newObj.outputs.included) disabledViolations[newObj.resourceName] = organizeDataForAdditionalSections(newObj);
+                else if (!newObj.outputs.violations) passedViolations[newObj.resourceName] = organizeDataForAdditionalSections(newObj);
             }
         });
 
@@ -402,7 +409,7 @@ window.Audit = (function () {
     function render(sortKey) {
         var listOfAlerts = renderResourcesList(sortKey);
 
-        if(sortKey === 'level' && !errors.length) {
+        if (sortKey === 'level' && !errors.length) {
             renderSection(passedViolations, 'Checks that Passed', color.Passed, true);
         }
         renderSection(disabledViolations, 'Disabled', color.Disabled);
@@ -417,7 +424,7 @@ window.Audit = (function () {
     }
 
     function audit(data, sortKey, _callback, selectors) {
-        if(selectors) {
+        if (selectors) {
             containers = selectors;
         }
         callback = _callback;

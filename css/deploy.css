@@ -252,7 +252,7 @@ body {
 .data-container .resources-list .resource-row .view-row {
     display: flex;
     flex-direction: row;
-    padding: 10px 0;
+    padding: 16px 0 10px 0;
     cursor: pointer;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -589,14 +589,13 @@ body {
     .data-container .resources-list .resource-row .view-row .status {
         position: absolute;
         right: 15px;
-        top: 5px;
+        top: 16px;
         text-align: right;
-        margin: 10px 0;
     }
 
-    .data-container .resources-list .resource-row .view-row .status {
-        top: 0;
-        margin: 0;
+    .data-container .resources-list .resource-row .view-row .action {
+        top: 18px;
+        margin: 16px 0;
     }
 
     .data-container .resources-list .resource-row .view-row .status-timestamp {

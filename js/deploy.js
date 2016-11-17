@@ -8,6 +8,12 @@ window.Deploy = (function () {
     var currentPage = 0;
 
     function renderResourcesList() {
+        $('.deploy .sort-label.mobile').click(function(){
+            var _this = $(this);
+            var label = _this.text();
+            $(".deploy .chosen-item-text").text(label);
+            _this.parent().addClass('hidden');
+        });
         $('.resources-list').html('');
         var rowTmpl = $.templates('#resource-row-tmpl');
         for(var i = currentPage * itemsOnPage; i < (currentPage + 1) * itemsOnPage && i < resources.length; ++i) {
@@ -188,6 +194,15 @@ window.Deploy = (function () {
         if (numberOfNotExecutedResources <= 0 && !resourcesAlerts) {
             appendSuccessulBuildNotification();
         }
+        $('.deploy .dropdown-button').click(function () {
+            $('.deploy .custom-dropdown ul').toggleClass('hidden');
+        });
+
+        $(document).click(function (e) {
+            if ($(e.target).closest('.deploy .custom-dropdown').length === 0) {
+                $('.deploy .custom-dropdown ul').addClass('hidden');
+            }
+        });
     }
 
     function deploy(data) {

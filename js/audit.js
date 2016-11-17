@@ -150,8 +150,8 @@ window.Audit = (function () {
 
         var html =
             '<div class="bg-white layout-padding flex-column layout-margin-bottom-20 md-shadow">' +
-                '<div class="subheader flex-grow">Error</div>'+
-                errorsList +
+            '<div class="subheader flex-grow">Error</div>'+
+            errorsList +
             '</div>';
 
         $(containers.errorsContSelector).html(html);
@@ -205,12 +205,12 @@ window.Audit = (function () {
 
         var html =
             '<div class="' + headerData.name + ' bg-white layout-padding" style="margin-bottom: 20px;">' +
-                header +
-                '<div style="border-color: ' + sectionSummary.color + '">' +
-                    visibleList +
-                    '<div class="hidden" style="border-color: inherit;">' + restList + '</div>' +
-                    ((visibleCount > 5) ? showAllBtnTpl : '') +
-                '</div>' +
+            header +
+            '<div style="border-color: ' + sectionSummary.color + '">' +
+            visibleList +
+            '<div class="hidden" style="border-color: inherit;">' + restList + '</div>' +
+            ((visibleCount > 5) ? showAllBtnTpl : '') +
+            '</div>' +
             '</div>';
 
 
@@ -354,15 +354,15 @@ window.Audit = (function () {
     }
 
     function setupHandlers() {
-        $('#chosen-sorting').change(function () {
+        $('.audit .chosen-sorting').change(function () {
             render($(this).val());
         });
 
-        $('.dropdown-button').click(function () {
-            $('.custom-dropdown ul').toggleClass('hidden');
+        $('.audit .dropdown-button').click(function () {
+            $('.audit .custom-dropdown ul').toggleClass('hidden');
         });
 
-        $('.custom-dropdown li').click(function () {
+        $('.audit .custom-dropdown li').click(function () {
             var chosenSort = $(this).data('value');
             if (chosenSort) {
                 var dropdownElem = $(this).closest('.custom-dropdown');
@@ -383,8 +383,8 @@ window.Audit = (function () {
         });
 
         $(document).click(function (e) {
-            if ($(e.target).closest('.custom-dropdown').length === 0) {
-                $('.custom-dropdown ul').addClass('hidden');
+            if ($(e.target).closest('.audit .custom-dropdown').length === 0) {
+                $('.audit .custom-dropdown ul').addClass('hidden');
             }
         });
 

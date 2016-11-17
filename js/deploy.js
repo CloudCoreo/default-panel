@@ -16,6 +16,10 @@ window.Deploy = (function () {
         });
         $('.resources-list').html('');
         var rowTmpl = $.templates('#resource-row-tmpl');
+        if (currentPage * itemsOnPage > resources.length) {
+            currentPage = Math.round(resources.length / itemsOnPage);
+        }
+
         for(var i = currentPage * itemsOnPage; i < (currentPage + 1) * itemsOnPage && i < resources.length; ++i) {
             var html = $(rowTmpl.render(resources[i]));
             $('.resources-list').append(html);
@@ -206,6 +210,10 @@ window.Deploy = (function () {
     }
 
     function deploy(data) {
+        resources = [];
+        numberOfNotExecutedResources = 0;
+        resourcesAlerts = false;
+
         $('.deploy .messages').addClass('hidden');
         $('.deploy .pages').html('');
         $('#no-deploy-resources').addClass('hidden');

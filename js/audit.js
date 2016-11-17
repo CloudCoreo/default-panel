@@ -11,6 +11,8 @@ window.Audit = (function () {
     };
 
     var errors = [];
+    var pie;
+
     var color = {
         SeverityTones : {
             Emergency: '#770a0a',
@@ -39,7 +41,6 @@ window.Audit = (function () {
         mainCont: '.audit-list'
     };
 
-    var pie;
     var headerTpl = $.templates("#list-header-tmpl"),
         violationTpl = $.templates("#row-tmpl"),
         showAllBtnTpl = $("#show-all-btn-tmpl").html(),
@@ -302,6 +303,9 @@ window.Audit = (function () {
                     ++alertData.service[alert.service];
 
                     alerts.push(alert);
+
+                    if(passedViolations[violationKey]) delete passedViolations[violationKey];
+                    if(disabledViolations[violationKey]) delete disabledViolations[violationKey];
                 });
             });
         });
@@ -345,9 +349,11 @@ window.Audit = (function () {
                 errors.push(newObj);
             }
             else if (newObj.outputs.report) reports.push(newObj);
-            else if(!newObj.outputs.included) disabledViolations[newObj.resourceName] = organizeDataForAdditionalSections(newObj);
-            else if(!newObj.outputs.violations) passedViolations[newObj.resourceName] = organizeDataForAdditionalSections(newObj);
-            else newData[newObj.resourceName] = newObj;
+            else {
+                newData[newObj.resourceName] = newObj;
+                if(!newObj.outputs.included) disabledViolations[newObj.resourceName] = organizeDataForAdditionalSections(newObj);
+                else if(!newObj.outputs.violations) passedViolations[newObj.resourceName] = organizeDataForAdditionalSections(newObj);
+            }
         });
 
         fillViolationsList(newData, reports);
@@ -415,6 +421,17 @@ window.Audit = (function () {
             containers = selectors;
         }
         callback = _callback;
+        passedViolations = [];
+        disabledViolations = [];
+        errors = [];
+        alerts = [];
+        alertData = {
+            level: {},
+            category: {},
+            region: {},
+            service: {}
+        };
+
         $(containers.mainDataContainerSelector).html('');
         $(containers.noAuditResourcesMessageSelector).addClass('hidden');
         $(containers.noViolationsMessageSelector).addClass('hidden');

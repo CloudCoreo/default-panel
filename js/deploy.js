@@ -197,6 +197,10 @@ window.Deploy = (function () {
         $('.deploy .dropdown-button').click(function () {
             $('.deploy .custom-dropdown ul').toggleClass('hidden');
         });
+
+        $('.options-container, .messages, .resources-list, .resources-amount').click(function() {
+            $('.deploy .custom-dropdown ul').addClass('hidden');
+        })
     }
 
     function deploy(data) {

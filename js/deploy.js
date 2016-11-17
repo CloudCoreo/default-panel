@@ -198,9 +198,11 @@ window.Deploy = (function () {
             $('.deploy .custom-dropdown ul').toggleClass('hidden');
         });
 
-        $('.options-container, .messages, .resources-list, .resources-amount').click(function() {
-            $('.deploy .custom-dropdown ul').addClass('hidden');
-        })
+        $(document).click(function (e) {
+            if ($(e.target).closest('.deploy .custom-dropdown').length === 0) {
+                $('.deploy .custom-dropdown ul').addClass('hidden');
+            }
+        });
     }
 
     function deploy(data) {

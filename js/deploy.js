@@ -9,10 +9,10 @@ window.Deploy = (function () {
 
     function renderResourcesList() {
         $('.deploy .sort-label.mobile').click(function(){
-            $_this = $(this);
-            var label = $_this.text();
+            var _this = $(this);
+            var label = _this.text();
             $(".deploy .chosen-item-text").text(label);
-            $(this).parent().addClass('hidden');
+            _this.parent().addClass('hidden');
         });
         $('.resources-list').html('');
         var rowTmpl = $.templates('#resource-row-tmpl');

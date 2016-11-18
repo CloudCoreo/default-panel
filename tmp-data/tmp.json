@@ -1,787 +1,787 @@
 [
-{
-"stackName": "REDSHIFT-REDSHIFT1",
-"engineStatus": "OK",
-"namespace": "ROOT::REDSHIFT-REDSHIFT1",
-"executionNumber": 1,
-"timestamp": "2016-11-17T06:20:56.000Z",
-"executionTime": 7.742111,
-"resourceType": "coreo_aws_advisor_alert",
-"resourceName": "redshift-publicly-accessible",
-"dataType": "ADVISOR_RESOURCE",
-"inputs": [
-{
-"type": "choice",
-"value": "define",
-"name": "action"
-},
-{
-"type": "PLA-1366",
-"value": "Redshift cluster is Publicly Accessible",
-"name": "display_name"
-},
-{
-"type": "PLA-1366",
-"value": "redshift",
-"name": "service"
-},
-{
-"type": "PLA-1366",
-"value": [
-true
-],
-"name": "alert_when"
-},
-{
-"type": "PLA-1366",
-"value": [
-"clusters"
-],
-"name": "objectives"
-},
-{
-"type": "PLA-1366",
-"value": "http://kb.cloudcoreo.com/mydoc_redshift-publicly-accessible.html",
-"name": "link"
-},
-{
-"type": "PLA-1366",
-"value": "Alert",
-"name": "level"
-},
-{
-"type": "PLA-1366",
-"value": [
-"=="
-],
-"name": "operators"
-},
-{
-"type": "PLA-1366",
-"value": "The affected Redshift cluster is publicly accessible to the world.",
-"name": "description"
-},
-{
-"type": "PLA-1366",
-"value": "Security",
-"name": "category"
-},
-{
-"type": "PLA-1366",
-"value": "Consider whether the affected Redshift cluster should be publicly accessible to the world. If not, modify the option which enables your Redshift cluster to become publicly accessible.",
-"name": "suggested_action"
-},
-{
-"type": "PLA-1366",
-"value": [],
-"name": "call_modifiers"
-},
-{
-"type": "PLA-1366",
-"value": [
-"clusters.publicly_accessible"
-],
-"name": "audit_objects"
-}
-],
-"outputs": [
-{
-"value": "cc_582d49ffe78_redshift-publicly-accessible",
-"name": "ec2_name"
-},
-{
-"value": true,
-"name": "included"
-},
-{
-"value": {
-"asdf": {
-"region": "us-east-1",
-"violating_object": [
-{
-"object": {
-"cluster_status": "available",
-"automated_snapshot_retention_period": 1,
-"preferred_maintenance_window": "tue:09:00-tue:09:30",
-"pending_modified_values": null,
-"encrypted": false,
-"cluster_subnet_group_name": "pallen",
-"node_type": "dc1.large",
-"iam_roles": null,
-"enhanced_vpc_routing": "false",
-"db_name": "asdf",
-"master_username": "asdf",
-"cluster_create_time": "2016-11-17T02:50:42Z",
-"publicly_accessible": true,
-"vpc_id": "vpc-80e80be6",
-"endpoint": {
-"address": "asdf.coxmorj80qww.us-east-1.redshift.amazonaws.com",
-"port": 5439
-},
-"cluster_version": "1.0",
-"availability_zone": "us-east-1a",
-"cluster_public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCGsj0ghDMjhHRRvp0AzUut1Shy0zvNkRcKZKG3tnD59ywONn1bwY/1LmfkPRy/t5Bp+uxuvzNTdnpaAsTguv3O7ug/4GXsAaQ5XrLwUtJzybOcBVMt0fGZptyDXLmpzK+pq7g5tliXc9Oflzw/S5zRGs1GL8+2W2GgD4UrKTYw01qEClGVgMtUVU1s/Ubu/1X5K9Aw89giKNAD3Y0xVA27GUolsmZs+32op/6A6S3hF3U4IFDwcDdq1jMbiJXpSgS0+xMJid+wFcgeS1mpBtJgsXFWNYNAEEDF5ZKu22Cm6Xt3H40Dr3+NMCzZ9XGjwYRVBQQSIbfyAedEjPt9jxC1 Amazon-Redshift\n",
-"number_of_nodes": 1,
-"cluster_revision_number": "1115",
-"cluster_identifier": "asdf",
-"allow_version_upgrade": true,
-"tags": [],
-"cluster_nodes": [
-{
-"public_ip_address": "34.192.14.31",
-"node_role": "SHARED",
-"private_ip_address": "10.11.178.116"
-}
-],
-"cluster_parameter_groups": [
-{
-"parameter_apply_status": "in-sync",
-"parameter_group_name": "default.redshift-1.0"
-}
-],
-"vpc_security_groups": [
-{
-"status": "active",
-"vpc_security_group_id": "sg-04813379"
-}
-],
-"cluster_security_groups": []
-},
-"place": "clusters:clusters[0].publicly_accessible"
-}
-],
-"tags": []
-}
-},
-"name": "violations"
-}
-],
-"runId": "a8d4d3db-f919-4840-a58a-90c0ed618379",
-"resourceId": "4b7571ec9f1c4613e889786cb5784f5ff614e773a3e8f265c26ffe0798f2f37c",
-"_id": "582d4c3f9376cab38dcafbd1"
-},
-{
-"stackName": "REDSHIFT-REDSHIFT1",
-"engineStatus": "OK",
-"namespace": "ROOT::REDSHIFT-REDSHIFT1",
-"executionNumber": 2,
-"timestamp": "2016-11-17T06:20:56.000Z",
-"executionTime": 0.634753,
-"resourceType": "coreo_aws_advisor_alert",
-"resourceName": "redshift-encrypted",
-"dataType": "ADVISOR_RESOURCE",
-"inputs": [
-{
-"type": "choice",
-"value": "define",
-"name": "action"
-},
-{
-"type": "PLA-1366",
-"value": "Redshift cluster data is not encrypted",
-"name": "display_name"
-},
-{
-"type": "PLA-1366",
-"value": "redshift",
-"name": "service"
-},
-{
-"type": "PLA-1366",
-"value": [
-false
-],
-"name": "alert_when"
-},
-{
-"type": "PLA-1366",
-"value": [
-"clusters"
-],
-"name": "objectives"
-},
-{
-"type": "PLA-1366",
-"value": "http://kb.cloudcoreo.com/mydoc_redshift-encrypted.html",
-"name": "link"
-},
-{
-"type": "PLA-1366",
-"value": "Warning",
-"name": "level"
-},
-{
-"type": "PLA-1366",
-"value": [
-"=="
-],
-"name": "operators"
-},
-{
-"type": "PLA-1366",
-"value": "Redshift cluster data in the affected cluster is not encrypted at rest.",
-"name": "description"
-},
-{
-"type": "PLA-1366",
-"value": "Security",
-"name": "category"
-},
-{
-"type": "PLA-1366",
-"value": "To encrypt the data in all your user-created tables, you can enable cluster encryption when you launch the cluster.",
-"name": "suggested_action"
-},
-{
-"type": "PLA-1366",
-"value": [],
-"name": "call_modifiers"
-},
-{
-"type": "PLA-1366",
-"value": [
-"clusters.encrypted"
-],
-"name": "audit_objects"
-}
-],
-"outputs": [
-{
-"value": "cc_582d49ffe78_redshift-encrypted",
-"name": "ec2_name"
-},
-{
-"value": true,
-"name": "included"
-},
-{
-"value": {
-"asdf": {
-"region": "us-east-1",
-"violating_object": [
-{
-"object": {
-"cluster_status": "available",
-"automated_snapshot_retention_period": 1,
-"preferred_maintenance_window": "tue:09:00-tue:09:30",
-"pending_modified_values": null,
-"encrypted": false,
-"cluster_subnet_group_name": "pallen",
-"node_type": "dc1.large",
-"iam_roles": null,
-"enhanced_vpc_routing": "false",
-"db_name": "asdf",
-"master_username": "asdf",
-"cluster_create_time": "2016-11-17T02:50:42Z",
-"publicly_accessible": true,
-"vpc_id": "vpc-80e80be6",
-"endpoint": {
-"address": "asdf.coxmorj80qww.us-east-1.redshift.amazonaws.com",
-"port": 5439
-},
-"cluster_version": "1.0",
-"availability_zone": "us-east-1a",
-"cluster_public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCGsj0ghDMjhHRRvp0AzUut1Shy0zvNkRcKZKG3tnD59ywONn1bwY/1LmfkPRy/t5Bp+uxuvzNTdnpaAsTguv3O7ug/4GXsAaQ5XrLwUtJzybOcBVMt0fGZptyDXLmpzK+pq7g5tliXc9Oflzw/S5zRGs1GL8+2W2GgD4UrKTYw01qEClGVgMtUVU1s/Ubu/1X5K9Aw89giKNAD3Y0xVA27GUolsmZs+32op/6A6S3hF3U4IFDwcDdq1jMbiJXpSgS0+xMJid+wFcgeS1mpBtJgsXFWNYNAEEDF5ZKu22Cm6Xt3H40Dr3+NMCzZ9XGjwYRVBQQSIbfyAedEjPt9jxC1 Amazon-Redshift\n",
-"number_of_nodes": 1,
-"cluster_revision_number": "1115",
-"cluster_identifier": "asdf",
-"allow_version_upgrade": true,
-"tags": [],
-"cluster_nodes": [
-{
-"public_ip_address": "34.192.14.31",
-"node_role": "SHARED",
-"private_ip_address": "10.11.178.116"
-}
-],
-"cluster_parameter_groups": [
-{
-"parameter_apply_status": "in-sync",
-"parameter_group_name": "default.redshift-1.0"
-}
-],
-"vpc_security_groups": [
-{
-"status": "active",
-"vpc_security_group_id": "sg-04813379"
-}
-],
-"cluster_security_groups": []
-},
-"place": "clusters:clusters[0].encrypted"
-}
-],
-"tags": []
-}
-},
-"name": "violations"
-}
-],
-"runId": "a8d4d3db-f919-4840-a58a-90c0ed618379",
-"resourceId": "4710f88da78226206d03fe7936a5d851729827753604f161d47f38549fb8d146",
-"_id": "582d4c409376cab38dcafbd2"
-},
-{
-"stackName": "REDSHIFT-REDSHIFT1",
-"engineStatus": "OK",
-"namespace": "ROOT::REDSHIFT-REDSHIFT1",
-"executionNumber": 3,
-"timestamp": "2016-11-17T06:20:53.000Z",
-"executionTime": 0.699991,
-"resourceType": "coreo_aws_advisor_alert",
-"resourceName": "redshift-no-version-upgrade",
-"dataType": "ADVISOR_RESOURCE",
-"inputs": [
-{
-"type": "choice",
-"value": "define",
-"name": "action"
-},
-{
-"type": "PLA-1366",
-"value": "Redshift automatic major version upgrades not enabled",
-"name": "display_name"
-},
-{
-"type": "PLA-1366",
-"value": "redshift",
-"name": "service"
-},
-{
-"type": "PLA-1366",
-"value": [
-false
-],
-"name": "alert_when"
-},
-{
-"type": "PLA-1366",
-"value": [
-"clusters"
-],
-"name": "objectives"
-},
-{
-"type": "PLA-1366",
-"value": "http://kb.cloudcoreo.com/mydoc_redshift-no-version-upgrade.html",
-"name": "link"
-},
-{
-"type": "PLA-1366",
-"value": "Warning",
-"name": "level"
-},
-{
-"type": "PLA-1366",
-"value": [
-"=="
-],
-"name": "operators"
-},
-{
-"type": "PLA-1366",
-"value": "Redshift automatic major version upgrades not enabled.",
-"name": "description"
-},
-{
-"type": "PLA-1366",
-"value": "Reliability",
-"name": "category"
-},
-{
-"type": "PLA-1366",
-"value": "Enable major version upgrades by setting Allow Version Upgrade to true. This will allow major version upgrades to be applied automatically to the cluster during the maintenance window.",
-"name": "suggested_action"
-},
-{
-"type": "PLA-1366",
-"value": [],
-"name": "call_modifiers"
-},
-{
-"type": "PLA-1366",
-"value": [
-"clusters.allow_version_upgrade"
-],
-"name": "audit_objects"
-}
-],
-"outputs": [
-{
-"value": "cc_582d49ffe78_redshift-no-version-upgrade",
-"name": "ec2_name"
-},
-{
-"value": true,
-"name": "included"
-}
-],
-"runId": "a8d4d3db-f919-4840-a58a-90c0ed618379",
-"resourceId": "7fe2803f54596652acb51392e0ce373aae6f3667c836a35386219a13c006b2db",
-"_id": "582d4c419376cab38dcafbd3"
-},
-{
-"stackName": "REDSHIFT-REDSHIFT1",
-"engineStatus": "OK",
-"namespace": "ROOT::REDSHIFT-REDSHIFT1",
-"executionNumber": 4,
-"timestamp": "2016-11-17T06:20:53.000Z",
-"executionTime": 0.627657,
-"resourceType": "coreo_aws_advisor_alert",
-"resourceName": "redshift-no-require-ssl",
-"dataType": "ADVISOR_RESOURCE",
-"inputs": [
-{
-"type": "choice",
-"value": "define",
-"name": "action"
-},
-{
-"type": "PLA-1366",
-"value": "Connections to Redshift not required to use SSL encryption",
-"name": "display_name"
-},
-{
-"type": "PLA-1366",
-"value": "modifiers.parameter_group_name",
-"name": "id_map"
-},
-{
-"type": "PLA-1366",
-"value": "redshift",
-"name": "service"
-},
-{
-"type": "PLA-1366",
-"value": [
-"",
-"require_ssl",
-false
-],
-"name": "alert_when"
-},
-{
-"type": "PLA-1366",
-"value": [
-"cluster_parameter_groups",
-"cluster_parameters",
-"cluster_parameters"
-],
-"name": "objectives"
-},
-{
-"type": "PLA-1366",
-"value": "http://kb.cloudcoreo.com/mydoc_redshift-no-require-ssl.html",
-"name": "link"
-},
-{
-"type": "PLA-1366",
-"value": "Critical",
-"name": "level"
-},
-{
-"type": "PLA-1366",
-"value": [
-"",
-"==",
-"=="
-],
-"name": "operators"
-},
-{
-"type": "PLA-1366",
-"value": "Connections to Redshift aren't set to require the use of SSL encryption.",
-"name": "description"
-},
-{
-"type": "PLA-1366",
-"value": "Security",
-"name": "category"
-},
-{
-"type": "PLA-1366",
-"value": "Enable Redshift to require the use of SSL encrypted connections.",
-"name": "suggested_action"
-},
-{
-"type": "PLA-1366",
-"value": [
-{},
-{
-"parameter_group_name": "parameter_groups.parameter_group_name"
-},
-{
-"parameter_group_name": "parameter_groups.parameter_group_name"
-}
-],
-"name": "call_modifiers"
-},
-{
-"type": "PLA-1366",
-"value": [
-"",
-"parameters.parameter_name",
-"parameters.parameter_value"
-],
-"name": "audit_objects"
-}
-],
-"outputs": [
-{
-"value": "cc_582d49ffe78_redshift-no-require-ssl",
-"name": "ec2_name"
-},
-{
-"value": true,
-"name": "included"
-}
-],
-"runId": "a8d4d3db-f919-4840-a58a-90c0ed618379",
-"resourceId": "638c68146d30a60af8a83b1baf5f77fad712172879d40dba512283aa020b94c8",
-"_id": "582d4c429376cab38dcafbd4"
-},
-{
-"stackName": "REDSHIFT-REDSHIFT1",
-"engineStatus": "OK",
-"namespace": "ROOT::REDSHIFT-REDSHIFT1",
-"executionNumber": 5,
-"timestamp": "2016-11-17T06:20:53.000Z",
-"executionTime": 0.625756,
-"resourceType": "coreo_aws_advisor_alert",
-"resourceName": "redshift-no-user-logging",
-"dataType": "ADVISOR_RESOURCE",
-"inputs": [
-{
-"type": "choice",
-"value": "define",
-"name": "action"
-},
-{
-"type": "PLA-1366",
-"value": "Redshift user activity logging is disabled",
-"name": "display_name"
-},
-{
-"type": "PLA-1366",
-"value": "modifiers.parameter_group_name",
-"name": "id_map"
-},
-{
-"type": "PLA-1366",
-"value": "redshift",
-"name": "service"
-},
-{
-"type": "PLA-1366",
-"value": [
-"",
-"enable_user_activity_logging",
-false
-],
-"name": "alert_when"
-},
-{
-"type": "PLA-1366",
-"value": [
-"cluster_parameter_groups",
-"cluster_parameters",
-"cluster_parameters"
-],
-"name": "objectives"
-},
-{
-"type": "PLA-1366",
-"value": "http://kb.cloudcoreo.com/mydoc_redshift-no-user-logging.html",
-"name": "link"
-},
-{
-"type": "PLA-1366",
-"value": "Warning",
-"name": "level"
-},
-{
-"type": "PLA-1366",
-"value": [
-"",
-"==",
-"=="
-],
-"name": "operators"
-},
-{
-"type": "PLA-1366",
-"value": "Redshift user activity logging is disabled.",
-"name": "description"
-},
-{
-"type": "PLA-1366",
-"value": "Audit",
-"name": "category"
-},
-{
-"type": "PLA-1366",
-"value": "Enable Redshift user activity logging.",
-"name": "suggested_action"
-},
-{
-"type": "PLA-1366",
-"value": [
-{},
-{
-"parameter_group_name": "parameter_groups.parameter_group_name"
-},
-{
-"parameter_group_name": "parameter_groups.parameter_group_name"
-}
-],
-"name": "call_modifiers"
-},
-{
-"type": "PLA-1366",
-"value": [
-"",
-"parameters.parameter_name",
-"parameters.parameter_value"
-],
-"name": "audit_objects"
-}
-],
-"outputs": [
-{
-"value": "cc_582d49ffe78_redshift-no-user-logging",
-"name": "ec2_name"
-},
-{
-"value": true,
-"name": "included"
-}
-],
-"runId": "a8d4d3db-f919-4840-a58a-90c0ed618379",
-"resourceId": "00fce99313a321a0c3dbc1f01a6b0c3e3975dd99743f8306f99a077ad6455b28",
-"_id": "582d4c449376cab38dcafbd5"
-},
-{
-"stackName": "REDSHIFT-REDSHIFT1",
-"engineStatus": "OK",
-"namespace": "ROOT::REDSHIFT-REDSHIFT1",
-"executionNumber": 6,
-"timestamp": "2016-11-17T06:21:03.000Z",
-"executionTime": 9.913446,
-"resourceType": "coreo_aws_advisor_redshift",
-"resourceName": "advise-redshift",
-"dataType": "ADVISOR_RESOURCE",
-"inputs": [
-{
-"type": "choice",
-"value": "advise",
-"name": "action"
-},
-{
-"type": "PLA-1366",
-"value": [
-"us-east-1",
-"us-west-1",
-"us-west-2",
-"eu-west-1"
-],
-"name": "regions"
-},
-{
-"type": "PLA-1366",
-"value": [
-"redshift-publicly-accessible",
-"redshift-encrypted",
-"redshift-no-version-upgrade",
-"redshift-no-require-ssl",
-"redshift-no-user-logging"
-],
-"name": "alerts"
-}
-],
-"outputs": [
-{
-"value": "cc_582d49ffe78_advise-redshift",
-"name": "ec2_name"
-},
-{
-"value": 0,
-"name": "number_ignored_violations"
-},
-{
-"value": 4,
-"name": "number_violations"
-},
-{
-"value": 57,
-"name": "number_checks"
-},
-{
-"value": "{\"asdf\":{\"violations\":{\"redshift-publicly-accessible\":{\"display_name\":\"Redshift cluster is Publicly Accessible\",\"violating_object\":[{\"place\":\"clusters:clusters[0].publicly_accessible\",\"object\":{\"cluster_security_groups\":[],\"vpc_security_groups\":[{\"vpc_security_group_id\":\"sg-04813379\",\"status\":\"active\"}],\"cluster_parameter_groups\":[{\"parameter_group_name\":\"default.redshift-1.0\",\"parameter_apply_status\":\"in-sync\"}],\"cluster_nodes\":[{\"private_ip_address\":\"10.11.178.116\",\"node_role\":\"SHARED\",\"public_ip_address\":\"34.192.14.31\"}],\"tags\":[],\"allow_version_upgrade\":true,\"cluster_identifier\":\"asdf\",\"cluster_revision_number\":\"1115\",\"number_of_nodes\":1,\"cluster_public_key\":\"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCGsj0ghDMjhHRRvp0AzUut1Shy0zvNkRcKZKG3tnD59ywONn1bwY/1LmfkPRy/t5Bp+uxuvzNTdnpaAsTguv3O7ug/4GXsAaQ5XrLwUtJzybOcBVMt0fGZptyDXLmpzK+pq7g5tliXc9Oflzw/S5zRGs1GL8+2W2GgD4UrKTYw01qEClGVgMtUVU1s/Ubu/1X5K9Aw89giKNAD3Y0xVA27GUolsmZs+32op/6A6S3hF3U4IFDwcDdq1jMbiJXpSgS0+xMJid+wFcgeS1mpBtJgsXFWNYNAEEDF5ZKu22Cm6Xt3H40Dr3+NMCzZ9XGjwYRVBQQSIbfyAedEjPt9jxC1 Amazon-Redshift\\n\",\"availability_zone\":\"us-east-1a\",\"cluster_version\":\"1.0\",\"endpoint\":{\"port\":5439,\"address\":\"asdf.coxmorj80qww.us-east-1.redshift.amazonaws.com\"},\"vpc_id\":\"vpc-80e80be6\",\"publicly_accessible\":true,\"cluster_create_time\":\"2016-11-17T02:50:42Z\",\"master_username\":\"asdf\",\"db_name\":\"asdf\",\"enhanced_vpc_routing\":\"false\",\"iam_roles\":null,\"node_type\":\"dc1.large\",\"cluster_subnet_group_name\":\"pallen\",\"encrypted\":false,\"pending_modified_values\":null,\"preferred_maintenance_window\":\"tue:09:00-tue:09:30\",\"automated_snapshot_retention_period\":1,\"cluster_status\":\"available\"}}],\"description\":\"The affected Redshift cluster is publicly accessible to the world.\",\"category\":\"Security\",\"suggested_action\":\"Consider whether the affected Redshift cluster should be publicly accessible to the world. If not, modify the option which enables your Redshift cluster to become publicly accessible.\",\"level\":\"Alert\",\"link\":\"http://kb.cloudcoreo.com/mydoc_redshift-publicly-accessible.html\",\"region\":\"us-east-1\"},\"redshift-encrypted\":{\"display_name\":\"Redshift cluster data is not encrypted\",\"violating_object\":[{\"place\":\"clusters:clusters[0].encrypted\",\"object\":{\"cluster_security_groups\":[],\"vpc_security_groups\":[{\"vpc_security_group_id\":\"sg-04813379\",\"status\":\"active\"}],\"cluster_parameter_groups\":[{\"parameter_group_name\":\"default.redshift-1.0\",\"parameter_apply_status\":\"in-sync\"}],\"cluster_nodes\":[{\"private_ip_address\":\"10.11.178.116\",\"node_role\":\"SHARED\",\"public_ip_address\":\"34.192.14.31\"}],\"tags\":[],\"allow_version_upgrade\":true,\"cluster_identifier\":\"asdf\",\"cluster_revision_number\":\"1115\",\"number_of_nodes\":1,\"cluster_public_key\":\"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCGsj0ghDMjhHRRvp0AzUut1Shy0zvNkRcKZKG3tnD59ywONn1bwY/1LmfkPRy/t5Bp+uxuvzNTdnpaAsTguv3O7ug/4GXsAaQ5XrLwUtJzybOcBVMt0fGZptyDXLmpzK+pq7g5tliXc9Oflzw/S5zRGs1GL8+2W2GgD4UrKTYw01qEClGVgMtUVU1s/Ubu/1X5K9Aw89giKNAD3Y0xVA27GUolsmZs+32op/6A6S3hF3U4IFDwcDdq1jMbiJXpSgS0+xMJid+wFcgeS1mpBtJgsXFWNYNAEEDF5ZKu22Cm6Xt3H40Dr3+NMCzZ9XGjwYRVBQQSIbfyAedEjPt9jxC1 Amazon-Redshift\\n\",\"availability_zone\":\"us-east-1a\",\"cluster_version\":\"1.0\",\"endpoint\":{\"port\":5439,\"address\":\"asdf.coxmorj80qww.us-east-1.redshift.amazonaws.com\"},\"vpc_id\":\"vpc-80e80be6\",\"publicly_accessible\":true,\"cluster_create_time\":\"2016-11-17T02:50:42Z\",\"master_username\":\"asdf\",\"db_name\":\"asdf\",\"enhanced_vpc_routing\":\"false\",\"iam_roles\":null,\"node_type\":\"dc1.large\",\"cluster_subnet_group_name\":\"pallen\",\"encrypted\":false,\"pending_modified_values\":null,\"preferred_maintenance_window\":\"tue:09:00-tue:09:30\",\"automated_snapshot_retention_period\":1,\"cluster_status\":\"available\"}}],\"description\":\"Redshift cluster data in the affected cluster is not encrypted at rest.\",\"category\":\"Security\",\"suggested_action\":\"To encrypt the data in all your user-created tables, you can enable cluster encryption when you launch the cluster.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_redshift-encrypted.html\",\"region\":\"us-east-1\"}},\"tags\":[]},\"default.redshift-1.0\":{\"violations\":{\"redshift-no-user-logging\":{\"display_name\":\"Redshift user activity logging is disabled\",\"violating_object\":[{\"place\":\"cluster_parameters:parameters[1].parameter_\",\"object\":{\"apply_type\":\"static\",\"allowed_values\":\"true,false\",\"data_type\":\"boolean\",\"description\":\"parameter for audit logging purpose\",\"source\":\"engine-default\",\"parameter_name\":\"enable_user_activity_logging\",\"parameter_value\":\"false\",\"is_modifiable\":true}}],\"description\":\"Redshift user activity logging is disabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable Redshift user activity logging.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_redshift-no-user-logging.html\",\"region\":\"eu-west-1\"},\"redshift-no-require-ssl\":{\"display_name\":\"Connections to Redshift not required to use SSL encryption\",\"violating_object\":[{\"place\":\"cluster_parameters:parameters[5].parameter_\",\"object\":{\"apply_type\":\"static\",\"allowed_values\":\"true,false\",\"data_type\":\"boolean\",\"description\":\"require ssl for all databaseconnections\",\"source\":\"engine-default\",\"parameter_name\":\"require_ssl\",\"parameter_value\":\"false\",\"is_modifiable\":true}}],\"description\":\"Connections to Redshift aren't set to require the use of SSL encryption.\",\"category\":\"Security\",\"suggested_action\":\"Enable Redshift to require the use of SSL encrypted connections.\",\"level\":\"Critical\",\"link\":\"http://kb.cloudcoreo.com/mydoc_redshift-no-require-ssl.html\",\"region\":\"eu-west-1\"}},\"tags\":[]}}",
-"name": "report"
-}
-],
-"runId": "a8d4d3db-f919-4840-a58a-90c0ed618379",
-"resourceId": "4f144e16f0fff7fb5c4df12e526ed78cc444ca259f3922fe0eb22504fa98e169",
-"_id": "582d4c4f9376cab38dcafbd6"
-},
-{
-"stackName": "REDSHIFT-REDSHIFT1",
-"engineStatus": "OK",
-"namespace": "ROOT::REDSHIFT-REDSHIFT1",
-"executionNumber": 7,
-"timestamp": "2016-11-17T06:21:08.000Z",
-"executionTime": 4.018722,
-"resourceType": "coreo_uni_util_notify",
-"resourceName": "advise-redshift",
-"dataType": "DEPLOY_RESOURCE",
-"inputs": [
-{
-"type": "choice",
-"value": "notify",
-"name": "action"
-},
-{
-"type": "PLA-1366",
-"value": "email",
-"name": "type"
-},
-{
-"type": "PLA-1366",
-"value": "json",
-"name": "payload_type"
-},
-{
-"type": "PLA-1366",
-"value": "{\"stack name\":\"redshift\",\n  \"instance name\":\"redshift1\",\n  \"number_of_checks\":\"57\",\n  \"number_of_violations\":\"4\",\n  \"number_violations_ignored\":\"0\",\n  \"violations\": {\"asdf\":{\"violations\":{\"redshift-publicly-accessible\":{\"display_name\":\"Redshift cluster is Publicly Accessible\",\"violating_object\":[{\"place\":\"clusters:clusters[0].publicly_accessible\",\"object\":{\"cluster_security_groups\":[],\"vpc_security_groups\":[{\"vpc_security_group_id\":\"sg-04813379\",\"status\":\"active\"}],\"cluster_parameter_groups\":[{\"parameter_group_name\":\"default.redshift-1.0\",\"parameter_apply_status\":\"in-sync\"}],\"cluster_nodes\":[{\"private_ip_address\":\"10.11.178.116\",\"node_role\":\"SHARED\",\"public_ip_address\":\"34.192.14.31\"}],\"tags\":[],\"allow_version_upgrade\":true,\"cluster_identifier\":\"asdf\",\"cluster_revision_number\":\"1115\",\"number_of_nodes\":1,\"cluster_public_key\":\"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCGsj0ghDMjhHRRvp0AzUut1Shy0zvNkRcKZKG3tnD59ywONn1bwY/1LmfkPRy/t5Bp+uxuvzNTdnpaAsTguv3O7ug/4GXsAaQ5XrLwUtJzybOcBVMt0fGZptyDXLmpzK+pq7g5tliXc9Oflzw/S5zRGs1GL8+2W2GgD4UrKTYw01qEClGVgMtUVU1s/Ubu/1X5K9Aw89giKNAD3Y0xVA27GUolsmZs+32op/6A6S3hF3U4IFDwcDdq1jMbiJXpSgS0+xMJid+wFcgeS1mpBtJgsXFWNYNAEEDF5ZKu22Cm6Xt3H40Dr3+NMCzZ9XGjwYRVBQQSIbfyAedEjPt9jxC1 Amazon-Redshift\\n\",\"availability_zone\":\"us-east-1a\",\"cluster_version\":\"1.0\",\"endpoint\":{\"port\":5439,\"address\":\"asdf.coxmorj80qww.us-east-1.redshift.amazonaws.com\"},\"vpc_id\":\"vpc-80e80be6\",\"publicly_accessible\":true,\"cluster_create_time\":\"2016-11-17T02:50:42Z\",\"master_username\":\"asdf\",\"db_name\":\"asdf\",\"enhanced_vpc_routing\":\"false\",\"iam_roles\":null,\"node_type\":\"dc1.large\",\"cluster_subnet_group_name\":\"pallen\",\"encrypted\":false,\"pending_modified_values\":null,\"preferred_maintenance_window\":\"tue:09:00-tue:09:30\",\"automated_snapshot_retention_period\":1,\"cluster_status\":\"available\"}}],\"description\":\"The affected Redshift cluster is publicly accessible to the world.\",\"category\":\"Security\",\"suggested_action\":\"Consider whether the affected Redshift cluster should be publicly accessible to the world. If not, modify the option which enables your Redshift cluster to become publicly accessible.\",\"level\":\"Alert\",\"link\":\"http://kb.cloudcoreo.com/mydoc_redshift-publicly-accessible.html\",\"region\":\"us-east-1\"},\"redshift-encrypted\":{\"display_name\":\"Redshift cluster data is not encrypted\",\"violating_object\":[{\"place\":\"clusters:clusters[0].encrypted\",\"object\":{\"cluster_security_groups\":[],\"vpc_security_groups\":[{\"vpc_security_group_id\":\"sg-04813379\",\"status\":\"active\"}],\"cluster_parameter_groups\":[{\"parameter_group_name\":\"default.redshift-1.0\",\"parameter_apply_status\":\"in-sync\"}],\"cluster_nodes\":[{\"private_ip_address\":\"10.11.178.116\",\"node_role\":\"SHARED\",\"public_ip_address\":\"34.192.14.31\"}],\"tags\":[],\"allow_version_upgrade\":true,\"cluster_identifier\":\"asdf\",\"cluster_revision_number\":\"1115\",\"number_of_nodes\":1,\"cluster_public_key\":\"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCGsj0ghDMjhHRRvp0AzUut1Shy0zvNkRcKZKG3tnD59ywONn1bwY/1LmfkPRy/t5Bp+uxuvzNTdnpaAsTguv3O7ug/4GXsAaQ5XrLwUtJzybOcBVMt0fGZptyDXLmpzK+pq7g5tliXc9Oflzw/S5zRGs1GL8+2W2GgD4UrKTYw01qEClGVgMtUVU1s/Ubu/1X5K9Aw89giKNAD3Y0xVA27GUolsmZs+32op/6A6S3hF3U4IFDwcDdq1jMbiJXpSgS0+xMJid+wFcgeS1mpBtJgsXFWNYNAEEDF5ZKu22Cm6Xt3H40Dr3+NMCzZ9XGjwYRVBQQSIbfyAedEjPt9jxC1 Amazon-Redshift\\n\",\"availability_zone\":\"us-east-1a\",\"cluster_version\":\"1.0\",\"endpoint\":{\"port\":5439,\"address\":\"asdf.coxmorj80qww.us-east-1.redshift.amazonaws.com\"},\"vpc_id\":\"vpc-80e80be6\",\"publicly_accessible\":true,\"cluster_create_time\":\"2016-11-17T02:50:42Z\",\"master_username\":\"asdf\",\"db_name\":\"asdf\",\"enhanced_vpc_routing\":\"false\",\"iam_roles\":null,\"node_type\":\"dc1.large\",\"cluster_subnet_group_name\":\"pallen\",\"encrypted\":false,\"pending_modified_values\":null,\"preferred_maintenance_window\":\"tue:09:00-tue:09:30\",\"automated_snapshot_retention_period\":1,\"cluster_status\":\"available\"}}],\"description\":\"Redshift cluster data in the affected cluster is not encrypted at rest.\",\"category\":\"Security\",\"suggested_action\":\"To encrypt the data in all your user-created tables, you can enable cluster encryption when you launch the cluster.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_redshift-encrypted.html\",\"region\":\"us-east-1\"}},\"tags\":[]},\"default.redshift-1.0\":{\"violations\":{\"redshift-no-user-logging\":{\"display_name\":\"Redshift user activity logging is disabled\",\"violating_object\":[{\"place\":\"cluster_parameters:parameters[1].parameter_\",\"object\":{\"apply_type\":\"static\",\"allowed_values\":\"true,false\",\"data_type\":\"boolean\",\"description\":\"parameter for audit logging purpose\",\"source\":\"engine-default\",\"parameter_name\":\"enable_user_activity_logging\",\"parameter_value\":\"false\",\"is_modifiable\":true}}],\"description\":\"Redshift user activity logging is disabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable Redshift user activity logging.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_redshift-no-user-logging.html\",\"region\":\"eu-west-1\"},\"redshift-no-require-ssl\":{\"display_name\":\"Connections to Redshift not required to use SSL encryption\",\"violating_object\":[{\"place\":\"cluster_parameters:parameters[5].parameter_\",\"object\":{\"apply_type\":\"static\",\"allowed_values\":\"true,false\",\"data_type\":\"boolean\",\"description\":\"require ssl for all databaseconnections\",\"source\":\"engine-default\",\"parameter_name\":\"require_ssl\",\"parameter_value\":\"false\",\"is_modifiable\":true}}],\"description\":\"Connections to Redshift aren't set to require the use of SSL encryption.\",\"category\":\"Security\",\"suggested_action\":\"Enable Redshift to require the use of SSL encrypted connections.\",\"level\":\"Critical\",\"link\":\"http://kb.cloudcoreo.com/mydoc_redshift-no-require-ssl.html\",\"region\":\"eu-west-1\"}},\"tags\":[]}} }",
-"name": "payload"
-},
-{
-"type": "PLA-1366",
-"value": {
-"subject": "CloudCoreo redshift advisor alerts on redshift :: redshift1",
-"to": "david@cloudcoreo.com"
-},
-"name": "endpoint"
-},
-{
-"type": "PLA-1366",
-"value": false,
-"name": "allow_empty"
-},
-{
-"type": "PLA-1366",
-"value": "change",
-"name": "send_on"
-}
-],
-"outputs": [
-{
-"value": "cc_582d49ffe78_advise-redshift",
-"name": "ec2_name"
-}
-],
-"runId": "a8d4d3db-f919-4840-a58a-90c0ed618379",
-"resourceId": "cad9a9f65cd7eff20f1cdb094d6955c80f97db993cd0ea91d9d3c6c711c6980b",
-"_id": "582d4c549376cab38dcafbd7"
-}
+  {
+    "stackName": "REDSHIFT-REDSHIFT1",
+    "engineStatus": "OK",
+    "namespace": "ROOT::REDSHIFT-REDSHIFT1",
+    "executionNumber": 1,
+    "timestamp": "2016-11-17T06:20:56.000Z",
+    "executionTime": 7.742111,
+    "resourceType": "coreo_aws_advisor_alert",
+    "resourceName": "redshift-publicly-accessible",
+    "dataType": "ADVISOR_RESOURCE",
+    "inputs": [
+      {
+        "type": "choice",
+        "value": "define",
+        "name": "action"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Redshift cluster is Publicly Accessible",
+        "name": "display_name"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "redshift",
+        "name": "service"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          true
+        ],
+        "name": "alert_when"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "clusters"
+        ],
+        "name": "objectives"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "http://kb.cloudcoreo.com/mydoc_redshift-publicly-accessible.html",
+        "name": "link"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Alert",
+        "name": "level"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "=="
+        ],
+        "name": "operators"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "The affected Redshift cluster is publicly accessible to the world.",
+        "name": "description"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Security",
+        "name": "category"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Consider whether the affected Redshift cluster should be publicly accessible to the world. If not, modify the option which enables your Redshift cluster to become publicly accessible.",
+        "name": "suggested_action"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [],
+        "name": "call_modifiers"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "clusters.publicly_accessible"
+        ],
+        "name": "audit_objects"
+      }
+    ],
+    "outputs": [
+      {
+        "value": "cc_582d49ffe78_redshift-publicly-accessible",
+        "name": "ec2_name"
+      },
+      {
+        "value": true,
+        "name": "included"
+      },
+      {
+        "value": {
+          "asdf": {
+            "region": "us-east-1",
+            "violating_object": [
+              {
+                "object": {
+                  "cluster_status": "available",
+                  "automated_snapshot_retention_period": 1,
+                  "preferred_maintenance_window": "tue:09:00-tue:09:30",
+                  "pending_modified_values": null,
+                  "encrypted": false,
+                  "cluster_subnet_group_name": "pallen",
+                  "node_type": "dc1.large",
+                  "iam_roles": null,
+                  "enhanced_vpc_routing": "false",
+                  "db_name": "asdf",
+                  "master_username": "asdf",
+                  "cluster_create_time": "2016-11-17T02:50:42Z",
+                  "publicly_accessible": true,
+                  "vpc_id": "vpc-80e80be6",
+                  "endpoint": {
+                    "address": "asdf.coxmorj80qww.us-east-1.redshift.amazonaws.com",
+                    "port": 5439
+                  },
+                  "cluster_version": "1.0",
+                  "availability_zone": "us-east-1a",
+                  "cluster_public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCGsj0ghDMjhHRRvp0AzUut1Shy0zvNkRcKZKG3tnD59ywONn1bwY/1LmfkPRy/t5Bp+uxuvzNTdnpaAsTguv3O7ug/4GXsAaQ5XrLwUtJzybOcBVMt0fGZptyDXLmpzK+pq7g5tliXc9Oflzw/S5zRGs1GL8+2W2GgD4UrKTYw01qEClGVgMtUVU1s/Ubu/1X5K9Aw89giKNAD3Y0xVA27GUolsmZs+32op/6A6S3hF3U4IFDwcDdq1jMbiJXpSgS0+xMJid+wFcgeS1mpBtJgsXFWNYNAEEDF5ZKu22Cm6Xt3H40Dr3+NMCzZ9XGjwYRVBQQSIbfyAedEjPt9jxC1 Amazon-Redshift\n",
+                  "number_of_nodes": 1,
+                  "cluster_revision_number": "1115",
+                  "cluster_identifier": "asdf",
+                  "allow_version_upgrade": true,
+                  "tags": [],
+                  "cluster_nodes": [
+                    {
+                      "public_ip_address": "34.192.14.31",
+                      "node_role": "SHARED",
+                      "private_ip_address": "10.11.178.116"
+                    }
+                  ],
+                  "cluster_parameter_groups": [
+                    {
+                      "parameter_apply_status": "in-sync",
+                      "parameter_group_name": "default.redshift-1.0"
+                    }
+                  ],
+                  "vpc_security_groups": [
+                    {
+                      "status": "active",
+                      "vpc_security_group_id": "sg-04813379"
+                    }
+                  ],
+                  "cluster_security_groups": []
+                },
+                "place": "clusters:clusters[0].publicly_accessible"
+              }
+            ],
+            "tags": []
+          }
+        },
+        "name": "violations"
+      }
+    ],
+    "runId": "a8d4d3db-f919-4840-a58a-90c0ed618379",
+    "resourceId": "4b7571ec9f1c4613e889786cb5784f5ff614e773a3e8f265c26ffe0798f2f37c",
+    "_id": "582d4c3f9376cab38dcafbd1"
+  },
+  {
+    "stackName": "REDSHIFT-REDSHIFT1",
+    "engineStatus": "OK",
+    "namespace": "ROOT::REDSHIFT-REDSHIFT1",
+    "executionNumber": 2,
+    "timestamp": "2016-11-17T06:20:56.000Z",
+    "executionTime": 0.634753,
+    "resourceType": "coreo_aws_advisor_alert",
+    "resourceName": "redshift-encrypted",
+    "dataType": "ADVISOR_RESOURCE",
+    "inputs": [
+      {
+        "type": "choice",
+        "value": "define",
+        "name": "action"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Redshift cluster data is not encrypted",
+        "name": "display_name"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "redshift",
+        "name": "service"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          false
+        ],
+        "name": "alert_when"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "clusters"
+        ],
+        "name": "objectives"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "http://kb.cloudcoreo.com/mydoc_redshift-encrypted.html",
+        "name": "link"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Warning",
+        "name": "level"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "=="
+        ],
+        "name": "operators"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Redshift cluster data in the affected cluster is not encrypted at rest.",
+        "name": "description"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Security",
+        "name": "category"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "To encrypt the data in all your user-created tables, you can enable cluster encryption when you launch the cluster.",
+        "name": "suggested_action"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [],
+        "name": "call_modifiers"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "clusters.encrypted"
+        ],
+        "name": "audit_objects"
+      }
+    ],
+    "outputs": [
+      {
+        "value": "cc_582d49ffe78_redshift-encrypted",
+        "name": "ec2_name"
+      },
+      {
+        "value": true,
+        "name": "included"
+      },
+      {
+        "value": {
+          "asdf": {
+            "region": "us-east-1",
+            "violating_object": [
+              {
+                "object": {
+                  "cluster_status": "available",
+                  "automated_snapshot_retention_period": 1,
+                  "preferred_maintenance_window": "tue:09:00-tue:09:30",
+                  "pending_modified_values": null,
+                  "encrypted": false,
+                  "cluster_subnet_group_name": "pallen",
+                  "node_type": "dc1.large",
+                  "iam_roles": null,
+                  "enhanced_vpc_routing": "false",
+                  "db_name": "asdf",
+                  "master_username": "asdf",
+                  "cluster_create_time": "2016-11-17T02:50:42Z",
+                  "publicly_accessible": true,
+                  "vpc_id": "vpc-80e80be6",
+                  "endpoint": {
+                    "address": "asdf.coxmorj80qww.us-east-1.redshift.amazonaws.com",
+                    "port": 5439
+                  },
+                  "cluster_version": "1.0",
+                  "availability_zone": "us-east-1a",
+                  "cluster_public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCGsj0ghDMjhHRRvp0AzUut1Shy0zvNkRcKZKG3tnD59ywONn1bwY/1LmfkPRy/t5Bp+uxuvzNTdnpaAsTguv3O7ug/4GXsAaQ5XrLwUtJzybOcBVMt0fGZptyDXLmpzK+pq7g5tliXc9Oflzw/S5zRGs1GL8+2W2GgD4UrKTYw01qEClGVgMtUVU1s/Ubu/1X5K9Aw89giKNAD3Y0xVA27GUolsmZs+32op/6A6S3hF3U4IFDwcDdq1jMbiJXpSgS0+xMJid+wFcgeS1mpBtJgsXFWNYNAEEDF5ZKu22Cm6Xt3H40Dr3+NMCzZ9XGjwYRVBQQSIbfyAedEjPt9jxC1 Amazon-Redshift\n",
+                  "number_of_nodes": 1,
+                  "cluster_revision_number": "1115",
+                  "cluster_identifier": "asdf",
+                  "allow_version_upgrade": true,
+                  "tags": [],
+                  "cluster_nodes": [
+                    {
+                      "public_ip_address": "34.192.14.31",
+                      "node_role": "SHARED",
+                      "private_ip_address": "10.11.178.116"
+                    }
+                  ],
+                  "cluster_parameter_groups": [
+                    {
+                      "parameter_apply_status": "in-sync",
+                      "parameter_group_name": "default.redshift-1.0"
+                    }
+                  ],
+                  "vpc_security_groups": [
+                    {
+                      "status": "active",
+                      "vpc_security_group_id": "sg-04813379"
+                    }
+                  ],
+                  "cluster_security_groups": []
+                },
+                "place": "clusters:clusters[0].encrypted"
+              }
+            ],
+            "tags": []
+          }
+        },
+        "name": "violations"
+      }
+    ],
+    "runId": "a8d4d3db-f919-4840-a58a-90c0ed618379",
+    "resourceId": "4710f88da78226206d03fe7936a5d851729827753604f161d47f38549fb8d146",
+    "_id": "582d4c409376cab38dcafbd2"
+  },
+  {
+    "stackName": "REDSHIFT-REDSHIFT1",
+    "engineStatus": "OK",
+    "namespace": "ROOT::REDSHIFT-REDSHIFT1",
+    "executionNumber": 3,
+    "timestamp": "2016-11-17T06:20:53.000Z",
+    "executionTime": 0.699991,
+    "resourceType": "coreo_aws_advisor_alert",
+    "resourceName": "redshift-no-version-upgrade",
+    "dataType": "ADVISOR_RESOURCE",
+    "inputs": [
+      {
+        "type": "choice",
+        "value": "define",
+        "name": "action"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Redshift automatic major version upgrades not enabled",
+        "name": "display_name"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "redshift",
+        "name": "service"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          false
+        ],
+        "name": "alert_when"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "clusters"
+        ],
+        "name": "objectives"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "http://kb.cloudcoreo.com/mydoc_redshift-no-version-upgrade.html",
+        "name": "link"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Warning",
+        "name": "level"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "=="
+        ],
+        "name": "operators"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Redshift automatic major version upgrades not enabled.",
+        "name": "description"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Reliability",
+        "name": "category"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Enable major version upgrades by setting Allow Version Upgrade to true. This will allow major version upgrades to be applied automatically to the cluster during the maintenance window.",
+        "name": "suggested_action"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [],
+        "name": "call_modifiers"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "clusters.allow_version_upgrade"
+        ],
+        "name": "audit_objects"
+      }
+    ],
+    "outputs": [
+      {
+        "value": "cc_582d49ffe78_redshift-no-version-upgrade",
+        "name": "ec2_name"
+      },
+      {
+        "value": true,
+        "name": "included"
+      }
+    ],
+    "runId": "a8d4d3db-f919-4840-a58a-90c0ed618379",
+    "resourceId": "7fe2803f54596652acb51392e0ce373aae6f3667c836a35386219a13c006b2db",
+    "_id": "582d4c419376cab38dcafbd3"
+  },
+  {
+    "stackName": "REDSHIFT-REDSHIFT1",
+    "engineStatus": "OK",
+    "namespace": "ROOT::REDSHIFT-REDSHIFT1",
+    "executionNumber": 4,
+    "timestamp": "2016-11-17T06:20:53.000Z",
+    "executionTime": 0.627657,
+    "resourceType": "coreo_aws_advisor_alert",
+    "resourceName": "redshift-no-require-ssl",
+    "dataType": "ADVISOR_RESOURCE",
+    "inputs": [
+      {
+        "type": "choice",
+        "value": "define",
+        "name": "action"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Connections to Redshift not required to use SSL encryption",
+        "name": "display_name"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "modifiers.parameter_group_name",
+        "name": "id_map"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "redshift",
+        "name": "service"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "",
+          "require_ssl",
+          false
+        ],
+        "name": "alert_when"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "cluster_parameter_groups",
+          "cluster_parameters",
+          "cluster_parameters"
+        ],
+        "name": "objectives"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "http://kb.cloudcoreo.com/mydoc_redshift-no-require-ssl.html",
+        "name": "link"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Critical",
+        "name": "level"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "",
+          "==",
+          "=="
+        ],
+        "name": "operators"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Connections to Redshift aren't set to require the use of SSL encryption.",
+        "name": "description"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Security",
+        "name": "category"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Enable Redshift to require the use of SSL encrypted connections.",
+        "name": "suggested_action"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          {},
+          {
+            "parameter_group_name": "parameter_groups.parameter_group_name"
+          },
+          {
+            "parameter_group_name": "parameter_groups.parameter_group_name"
+          }
+        ],
+        "name": "call_modifiers"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "",
+          "parameters.parameter_name",
+          "parameters.parameter_value"
+        ],
+        "name": "audit_objects"
+      }
+    ],
+    "outputs": [
+      {
+        "value": "cc_582d49ffe78_redshift-no-require-ssl",
+        "name": "ec2_name"
+      },
+      {
+        "value": true,
+        "name": "included"
+      }
+    ],
+    "runId": "a8d4d3db-f919-4840-a58a-90c0ed618379",
+    "resourceId": "638c68146d30a60af8a83b1baf5f77fad712172879d40dba512283aa020b94c8",
+    "_id": "582d4c429376cab38dcafbd4"
+  },
+  {
+    "stackName": "REDSHIFT-REDSHIFT1",
+    "engineStatus": "OK",
+    "namespace": "ROOT::REDSHIFT-REDSHIFT1",
+    "executionNumber": 5,
+    "timestamp": "2016-11-17T06:20:53.000Z",
+    "executionTime": 0.625756,
+    "resourceType": "coreo_aws_advisor_alert",
+    "resourceName": "redshift-no-user-logging",
+    "dataType": "ADVISOR_RESOURCE",
+    "inputs": [
+      {
+        "type": "choice",
+        "value": "define",
+        "name": "action"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Redshift user activity logging is disabled",
+        "name": "display_name"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "modifiers.parameter_group_name",
+        "name": "id_map"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "redshift",
+        "name": "service"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "",
+          "enable_user_activity_logging",
+          false
+        ],
+        "name": "alert_when"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "cluster_parameter_groups",
+          "cluster_parameters",
+          "cluster_parameters"
+        ],
+        "name": "objectives"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "http://kb.cloudcoreo.com/mydoc_redshift-no-user-logging.html",
+        "name": "link"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Warning",
+        "name": "level"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "",
+          "==",
+          "=="
+        ],
+        "name": "operators"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Redshift user activity logging is disabled.",
+        "name": "description"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Audit",
+        "name": "category"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "Enable Redshift user activity logging.",
+        "name": "suggested_action"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          {},
+          {
+            "parameter_group_name": "parameter_groups.parameter_group_name"
+          },
+          {
+            "parameter_group_name": "parameter_groups.parameter_group_name"
+          }
+        ],
+        "name": "call_modifiers"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "",
+          "parameters.parameter_name",
+          "parameters.parameter_value"
+        ],
+        "name": "audit_objects"
+      }
+    ],
+    "outputs": [
+      {
+        "value": "cc_582d49ffe78_redshift-no-user-logging",
+        "name": "ec2_name"
+      },
+      {
+        "value": true,
+        "name": "included"
+      }
+    ],
+    "runId": "a8d4d3db-f919-4840-a58a-90c0ed618379",
+    "resourceId": "00fce99313a321a0c3dbc1f01a6b0c3e3975dd99743f8306f99a077ad6455b28",
+    "_id": "582d4c449376cab38dcafbd5"
+  },
+  {
+    "stackName": "REDSHIFT-REDSHIFT1",
+    "engineStatus": "OK",
+    "namespace": "ROOT::REDSHIFT-REDSHIFT1",
+    "executionNumber": 6,
+    "timestamp": "2016-11-17T06:21:03.000Z",
+    "executionTime": 9.913446,
+    "resourceType": "coreo_aws_advisor_redshift",
+    "resourceName": "advise-redshift",
+    "dataType": "ADVISOR_RESOURCE",
+    "inputs": [
+      {
+        "type": "choice",
+        "value": "advise",
+        "name": "action"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "us-east-1",
+          "us-west-1",
+          "us-west-2",
+          "eu-west-1"
+        ],
+        "name": "regions"
+      },
+      {
+        "type": "PLA-1366",
+        "value": [
+          "redshift-publicly-accessible",
+          "redshift-encrypted",
+          "redshift-no-version-upgrade",
+          "redshift-no-require-ssl",
+          "redshift-no-user-logging"
+        ],
+        "name": "alerts"
+      }
+    ],
+    "outputs": [
+      {
+        "value": "cc_582d49ffe78_advise-redshift",
+        "name": "ec2_name"
+      },
+      {
+        "value": 0,
+        "name": "number_ignored_violations"
+      },
+      {
+        "value": 4,
+        "name": "number_violations"
+      },
+      {
+        "value": 57,
+        "name": "number_checks"
+      },
+      {
+        "value": "{\"asdf\":{\"violations\":{\"redshift-publicly-accessible\":{\"display_name\":\"Redshift cluster is Publicly Accessible\",\"violating_object\":[{\"place\":\"clusters:clusters[0].publicly_accessible\",\"object\":{\"cluster_security_groups\":[],\"vpc_security_groups\":[{\"vpc_security_group_id\":\"sg-04813379\",\"status\":\"active\"}],\"cluster_parameter_groups\":[{\"parameter_group_name\":\"default.redshift-1.0\",\"parameter_apply_status\":\"in-sync\"}],\"cluster_nodes\":[{\"private_ip_address\":\"10.11.178.116\",\"node_role\":\"SHARED\",\"public_ip_address\":\"34.192.14.31\"}],\"tags\":[],\"allow_version_upgrade\":true,\"cluster_identifier\":\"asdf\",\"cluster_revision_number\":\"1115\",\"number_of_nodes\":1,\"cluster_public_key\":\"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCGsj0ghDMjhHRRvp0AzUut1Shy0zvNkRcKZKG3tnD59ywONn1bwY/1LmfkPRy/t5Bp+uxuvzNTdnpaAsTguv3O7ug/4GXsAaQ5XrLwUtJzybOcBVMt0fGZptyDXLmpzK+pq7g5tliXc9Oflzw/S5zRGs1GL8+2W2GgD4UrKTYw01qEClGVgMtUVU1s/Ubu/1X5K9Aw89giKNAD3Y0xVA27GUolsmZs+32op/6A6S3hF3U4IFDwcDdq1jMbiJXpSgS0+xMJid+wFcgeS1mpBtJgsXFWNYNAEEDF5ZKu22Cm6Xt3H40Dr3+NMCzZ9XGjwYRVBQQSIbfyAedEjPt9jxC1 Amazon-Redshift\\n\",\"availability_zone\":\"us-east-1a\",\"cluster_version\":\"1.0\",\"endpoint\":{\"port\":5439,\"address\":\"asdf.coxmorj80qww.us-east-1.redshift.amazonaws.com\"},\"vpc_id\":\"vpc-80e80be6\",\"publicly_accessible\":true,\"cluster_create_time\":\"2016-11-17T02:50:42Z\",\"master_username\":\"asdf\",\"db_name\":\"asdf\",\"enhanced_vpc_routing\":\"false\",\"iam_roles\":null,\"node_type\":\"dc1.large\",\"cluster_subnet_group_name\":\"pallen\",\"encrypted\":false,\"pending_modified_values\":null,\"preferred_maintenance_window\":\"tue:09:00-tue:09:30\",\"automated_snapshot_retention_period\":1,\"cluster_status\":\"available\"}}],\"description\":\"The affected Redshift cluster is publicly accessible to the world.\",\"category\":\"Security\",\"suggested_action\":\"Consider whether the affected Redshift cluster should be publicly accessible to the world. If not, modify the option which enables your Redshift cluster to become publicly accessible.\",\"level\":\"Alert\",\"link\":\"http://kb.cloudcoreo.com/mydoc_redshift-publicly-accessible.html\",\"region\":\"us-east-1\"},\"redshift-encrypted\":{\"display_name\":\"Redshift cluster data is not encrypted\",\"violating_object\":[{\"place\":\"clusters:clusters[0].encrypted\",\"object\":{\"cluster_security_groups\":[],\"vpc_security_groups\":[{\"vpc_security_group_id\":\"sg-04813379\",\"status\":\"active\"}],\"cluster_parameter_groups\":[{\"parameter_group_name\":\"default.redshift-1.0\",\"parameter_apply_status\":\"in-sync\"}],\"cluster_nodes\":[{\"private_ip_address\":\"10.11.178.116\",\"node_role\":\"SHARED\",\"public_ip_address\":\"34.192.14.31\"}],\"tags\":[],\"allow_version_upgrade\":true,\"cluster_identifier\":\"asdf\",\"cluster_revision_number\":\"1115\",\"number_of_nodes\":1,\"cluster_public_key\":\"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCGsj0ghDMjhHRRvp0AzUut1Shy0zvNkRcKZKG3tnD59ywONn1bwY/1LmfkPRy/t5Bp+uxuvzNTdnpaAsTguv3O7ug/4GXsAaQ5XrLwUtJzybOcBVMt0fGZptyDXLmpzK+pq7g5tliXc9Oflzw/S5zRGs1GL8+2W2GgD4UrKTYw01qEClGVgMtUVU1s/Ubu/1X5K9Aw89giKNAD3Y0xVA27GUolsmZs+32op/6A6S3hF3U4IFDwcDdq1jMbiJXpSgS0+xMJid+wFcgeS1mpBtJgsXFWNYNAEEDF5ZKu22Cm6Xt3H40Dr3+NMCzZ9XGjwYRVBQQSIbfyAedEjPt9jxC1 Amazon-Redshift\\n\",\"availability_zone\":\"us-east-1a\",\"cluster_version\":\"1.0\",\"endpoint\":{\"port\":5439,\"address\":\"asdf.coxmorj80qww.us-east-1.redshift.amazonaws.com\"},\"vpc_id\":\"vpc-80e80be6\",\"publicly_accessible\":true,\"cluster_create_time\":\"2016-11-17T02:50:42Z\",\"master_username\":\"asdf\",\"db_name\":\"asdf\",\"enhanced_vpc_routing\":\"false\",\"iam_roles\":null,\"node_type\":\"dc1.large\",\"cluster_subnet_group_name\":\"pallen\",\"encrypted\":false,\"pending_modified_values\":null,\"preferred_maintenance_window\":\"tue:09:00-tue:09:30\",\"automated_snapshot_retention_period\":1,\"cluster_status\":\"available\"}}],\"description\":\"Redshift cluster data in the affected cluster is not encrypted at rest.\",\"category\":\"Security\",\"suggested_action\":\"To encrypt the data in all your user-created tables, you can enable cluster encryption when you launch the cluster.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_redshift-encrypted.html\",\"region\":\"us-east-1\"}},\"tags\":[]},\"default.redshift-1.0\":{\"violations\":{\"redshift-no-user-logging\":{\"display_name\":\"Redshift user activity logging is disabled\",\"violating_object\":[{\"place\":\"cluster_parameters:parameters[1].parameter_\",\"object\":{\"apply_type\":\"static\",\"allowed_values\":\"true,false\",\"data_type\":\"boolean\",\"description\":\"parameter for audit logging purpose\",\"source\":\"engine-default\",\"parameter_name\":\"enable_user_activity_logging\",\"parameter_value\":\"false\",\"is_modifiable\":true}}],\"description\":\"Redshift user activity logging is disabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable Redshift user activity logging.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_redshift-no-user-logging.html\",\"region\":\"eu-west-1\"},\"redshift-no-require-ssl\":{\"display_name\":\"Connections to Redshift not required to use SSL encryption\",\"violating_object\":[{\"place\":\"cluster_parameters:parameters[5].parameter_\",\"object\":{\"apply_type\":\"static\",\"allowed_values\":\"true,false\",\"data_type\":\"boolean\",\"description\":\"require ssl for all databaseconnections\",\"source\":\"engine-default\",\"parameter_name\":\"require_ssl\",\"parameter_value\":\"false\",\"is_modifiable\":true}}],\"description\":\"Connections to Redshift aren't set to require the use of SSL encryption.\",\"category\":\"Security\",\"suggested_action\":\"Enable Redshift to require the use of SSL encrypted connections.\",\"level\":\"Critical\",\"link\":\"http://kb.cloudcoreo.com/mydoc_redshift-no-require-ssl.html\",\"region\":\"eu-west-1\"}},\"tags\":[]}}",
+        "name": "report"
+      }
+    ],
+    "runId": "a8d4d3db-f919-4840-a58a-90c0ed618379",
+    "resourceId": "4f144e16f0fff7fb5c4df12e526ed78cc444ca259f3922fe0eb22504fa98e169",
+    "_id": "582d4c4f9376cab38dcafbd6"
+  },
+  {
+    "stackName": "REDSHIFT-REDSHIFT1",
+    "engineStatus": "OK",
+    "namespace": "ROOT::REDSHIFT-REDSHIFT1",
+    "executionNumber": 7,
+    "timestamp": "2016-11-17T06:21:08.000Z",
+    "executionTime": 4.018722,
+    "resourceType": "coreo_uni_util_notify",
+    "resourceName": "advise-redshift",
+    "dataType": "DEPLOY_RESOURCE",
+    "inputs": [
+      {
+        "type": "choice",
+        "value": "notify",
+        "name": "action"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "email",
+        "name": "type"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "json",
+        "name": "payload_type"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "{\"stack name\":\"redshift\",\n  \"instance name\":\"redshift1\",\n  \"number_of_checks\":\"57\",\n  \"number_of_violations\":\"4\",\n  \"number_violations_ignored\":\"0\",\n  \"violations\": {\"asdf\":{\"violations\":{\"redshift-publicly-accessible\":{\"display_name\":\"Redshift cluster is Publicly Accessible\",\"violating_object\":[{\"place\":\"clusters:clusters[0].publicly_accessible\",\"object\":{\"cluster_security_groups\":[],\"vpc_security_groups\":[{\"vpc_security_group_id\":\"sg-04813379\",\"status\":\"active\"}],\"cluster_parameter_groups\":[{\"parameter_group_name\":\"default.redshift-1.0\",\"parameter_apply_status\":\"in-sync\"}],\"cluster_nodes\":[{\"private_ip_address\":\"10.11.178.116\",\"node_role\":\"SHARED\",\"public_ip_address\":\"34.192.14.31\"}],\"tags\":[],\"allow_version_upgrade\":true,\"cluster_identifier\":\"asdf\",\"cluster_revision_number\":\"1115\",\"number_of_nodes\":1,\"cluster_public_key\":\"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCGsj0ghDMjhHRRvp0AzUut1Shy0zvNkRcKZKG3tnD59ywONn1bwY/1LmfkPRy/t5Bp+uxuvzNTdnpaAsTguv3O7ug/4GXsAaQ5XrLwUtJzybOcBVMt0fGZptyDXLmpzK+pq7g5tliXc9Oflzw/S5zRGs1GL8+2W2GgD4UrKTYw01qEClGVgMtUVU1s/Ubu/1X5K9Aw89giKNAD3Y0xVA27GUolsmZs+32op/6A6S3hF3U4IFDwcDdq1jMbiJXpSgS0+xMJid+wFcgeS1mpBtJgsXFWNYNAEEDF5ZKu22Cm6Xt3H40Dr3+NMCzZ9XGjwYRVBQQSIbfyAedEjPt9jxC1 Amazon-Redshift\\n\",\"availability_zone\":\"us-east-1a\",\"cluster_version\":\"1.0\",\"endpoint\":{\"port\":5439,\"address\":\"asdf.coxmorj80qww.us-east-1.redshift.amazonaws.com\"},\"vpc_id\":\"vpc-80e80be6\",\"publicly_accessible\":true,\"cluster_create_time\":\"2016-11-17T02:50:42Z\",\"master_username\":\"asdf\",\"db_name\":\"asdf\",\"enhanced_vpc_routing\":\"false\",\"iam_roles\":null,\"node_type\":\"dc1.large\",\"cluster_subnet_group_name\":\"pallen\",\"encrypted\":false,\"pending_modified_values\":null,\"preferred_maintenance_window\":\"tue:09:00-tue:09:30\",\"automated_snapshot_retention_period\":1,\"cluster_status\":\"available\"}}],\"description\":\"The affected Redshift cluster is publicly accessible to the world.\",\"category\":\"Security\",\"suggested_action\":\"Consider whether the affected Redshift cluster should be publicly accessible to the world. If not, modify the option which enables your Redshift cluster to become publicly accessible.\",\"level\":\"Alert\",\"link\":\"http://kb.cloudcoreo.com/mydoc_redshift-publicly-accessible.html\",\"region\":\"us-east-1\"},\"redshift-encrypted\":{\"display_name\":\"Redshift cluster data is not encrypted\",\"violating_object\":[{\"place\":\"clusters:clusters[0].encrypted\",\"object\":{\"cluster_security_groups\":[],\"vpc_security_groups\":[{\"vpc_security_group_id\":\"sg-04813379\",\"status\":\"active\"}],\"cluster_parameter_groups\":[{\"parameter_group_name\":\"default.redshift-1.0\",\"parameter_apply_status\":\"in-sync\"}],\"cluster_nodes\":[{\"private_ip_address\":\"10.11.178.116\",\"node_role\":\"SHARED\",\"public_ip_address\":\"34.192.14.31\"}],\"tags\":[],\"allow_version_upgrade\":true,\"cluster_identifier\":\"asdf\",\"cluster_revision_number\":\"1115\",\"number_of_nodes\":1,\"cluster_public_key\":\"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCGsj0ghDMjhHRRvp0AzUut1Shy0zvNkRcKZKG3tnD59ywONn1bwY/1LmfkPRy/t5Bp+uxuvzNTdnpaAsTguv3O7ug/4GXsAaQ5XrLwUtJzybOcBVMt0fGZptyDXLmpzK+pq7g5tliXc9Oflzw/S5zRGs1GL8+2W2GgD4UrKTYw01qEClGVgMtUVU1s/Ubu/1X5K9Aw89giKNAD3Y0xVA27GUolsmZs+32op/6A6S3hF3U4IFDwcDdq1jMbiJXpSgS0+xMJid+wFcgeS1mpBtJgsXFWNYNAEEDF5ZKu22Cm6Xt3H40Dr3+NMCzZ9XGjwYRVBQQSIbfyAedEjPt9jxC1 Amazon-Redshift\\n\",\"availability_zone\":\"us-east-1a\",\"cluster_version\":\"1.0\",\"endpoint\":{\"port\":5439,\"address\":\"asdf.coxmorj80qww.us-east-1.redshift.amazonaws.com\"},\"vpc_id\":\"vpc-80e80be6\",\"publicly_accessible\":true,\"cluster_create_time\":\"2016-11-17T02:50:42Z\",\"master_username\":\"asdf\",\"db_name\":\"asdf\",\"enhanced_vpc_routing\":\"false\",\"iam_roles\":null,\"node_type\":\"dc1.large\",\"cluster_subnet_group_name\":\"pallen\",\"encrypted\":false,\"pending_modified_values\":null,\"preferred_maintenance_window\":\"tue:09:00-tue:09:30\",\"automated_snapshot_retention_period\":1,\"cluster_status\":\"available\"}}],\"description\":\"Redshift cluster data in the affected cluster is not encrypted at rest.\",\"category\":\"Security\",\"suggested_action\":\"To encrypt the data in all your user-created tables, you can enable cluster encryption when you launch the cluster.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_redshift-encrypted.html\",\"region\":\"us-east-1\"}},\"tags\":[]},\"default.redshift-1.0\":{\"violations\":{\"redshift-no-user-logging\":{\"display_name\":\"Redshift user activity logging is disabled\",\"violating_object\":[{\"place\":\"cluster_parameters:parameters[1].parameter_\",\"object\":{\"apply_type\":\"static\",\"allowed_values\":\"true,false\",\"data_type\":\"boolean\",\"description\":\"parameter for audit logging purpose\",\"source\":\"engine-default\",\"parameter_name\":\"enable_user_activity_logging\",\"parameter_value\":\"false\",\"is_modifiable\":true}}],\"description\":\"Redshift user activity logging is disabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable Redshift user activity logging.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_redshift-no-user-logging.html\",\"region\":\"eu-west-1\"},\"redshift-no-require-ssl\":{\"display_name\":\"Connections to Redshift not required to use SSL encryption\",\"violating_object\":[{\"place\":\"cluster_parameters:parameters[5].parameter_\",\"object\":{\"apply_type\":\"static\",\"allowed_values\":\"true,false\",\"data_type\":\"boolean\",\"description\":\"require ssl for all databaseconnections\",\"source\":\"engine-default\",\"parameter_name\":\"require_ssl\",\"parameter_value\":\"false\",\"is_modifiable\":true}}],\"description\":\"Connections to Redshift aren't set to require the use of SSL encryption.\",\"category\":\"Security\",\"suggested_action\":\"Enable Redshift to require the use of SSL encrypted connections.\",\"level\":\"Critical\",\"link\":\"http://kb.cloudcoreo.com/mydoc_redshift-no-require-ssl.html\",\"region\":\"eu-west-1\"}},\"tags\":[]}} }",
+        "name": "payload"
+      },
+      {
+        "type": "PLA-1366",
+        "value": {
+          "subject": "CloudCoreo redshift advisor alerts on redshift :: redshift1",
+          "to": "david@cloudcoreo.com"
+        },
+        "name": "endpoint"
+      },
+      {
+        "type": "PLA-1366",
+        "value": false,
+        "name": "allow_empty"
+      },
+      {
+        "type": "PLA-1366",
+        "value": "change",
+        "name": "send_on"
+      }
+    ],
+    "outputs": [
+      {
+        "value": "cc_582d49ffe78_advise-redshift",
+        "name": "ec2_name"
+      }
+    ],
+    "runId": "a8d4d3db-f919-4840-a58a-90c0ed618379",
+    "resourceId": "cad9a9f65cd7eff20f1cdb094d6955c80f97db993cd0ea91d9d3c6c711c6980b",
+    "_id": "582d4c549376cab38dcafbd7"
+  }
 ]

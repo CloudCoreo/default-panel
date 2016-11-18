@@ -63,10 +63,10 @@
                         <div class="message-left-part">
                             <span class="message-status">ERROR</span>
                             <span class="amount"></span>
-                            <span class="message">resources not executed</span>
+                            <span class="message"></span>
                         </div>
                         <div class="message-right-part">
-                            Next execution: <span>23h 24m 12s</span>
+                            Next execution: <span class="next-execution">23h 24m 12s</span>
                         </div>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
                             <span class="message"></span>
                         </div>
                         <div class="message-right-part">
-                            Next execution: <span>23h 24m 12s</span>
+                            Next execution: <span class="next-execution">23h 24m 12s</span>
                         </div>
                     </div>
                 </div>
@@ -88,7 +88,7 @@
                             <span class="message-status">OK</span>
                         </div>
                         <div class="message-right-part">
-                            Next execution: <span>23h 24m 12s</span>
+                            Next execution: <span class="next-execution"></span>
                         </div>
                     </div>
                 </div>
@@ -199,7 +199,9 @@
                         {{/for}}
                         {{if subregionsWithoutData}}
                         <div class="regions-subheader">{{:subregionsWithoutData}}</div>
-                        <div class="resources"><div class="none">None</div></div>
+                        <div class="resources">
+                            <div class="none">None</div>
+                        </div>
                         {{/if}}
                     </div>
                 </div>
@@ -228,7 +230,8 @@
     <div id="list-header-tmpl">
         <div class="flex-row align-center">
             <div class="subheader flex-grow">{{:name}}</div>
-            <div id="high-counter" class="font-12 medium-grey">{{if resultsCount}} {{:resultsCount}} VIOLATIONS{{/if}}</div>
+            <div id="high-counter" class="font-12 medium-grey">{{if resultsCount}} {{:resultsCount}} VIOLATIONS{{/if}}
+            </div>
         </div>
     </div>
 
@@ -254,13 +257,17 @@
                         <div class="data-cont " resource="{{:_id}}">
                             <div class="label">Inputs:</div>
                         </div>
-                        <div class='view-more layout-padding-8 hidden'>...<br/><br/> <span class="openInputs link" resource="{{:_id}}">view more</span></div>
+                        <div class='view-more layout-padding-8 hidden'>...<br/><br/> <span class="openInputs link"
+                                                                                           resource="{{:_id}}">view more</span>
+                        </div>
                     </div>
                     <div class="outputs logs-output">
                         <div class="data-cont">
                             <div class="label">Outputs:</div>
                         </div>
-                        <div class='view-more layout-padding-8 hidden'>...<br/><br/><span class="openInputs link" resource="{{:_id}}">view more</span></div>
+                        <div class='view-more layout-padding-8 hidden'>...<br/><br/><span class="openInputs link"
+                                                                                          resource="{{:_id}}">view more</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -281,7 +288,8 @@
                         <div class="label">Inputs:</div>
                         {{for rawInputs}}
                         <div class="flex-row">
-                            <div>{{:name}}: </div><div class="layout-padding-left">{{:value}}</div>
+                            <div>{{:name}}:</div>
+                            <div class="layout-padding-left">{{:value}}</div>
                         </div>
                         {{/for}}
                     </div>
@@ -367,7 +375,8 @@
                     </div>
                     <div class="flex-column row-right-column layout-padding">
                         {{if resources.length !== 0}}
-                        <div class="link flex resources-link" violation="{{:id}}" violationId="{{:violationId}}" sortKey="{{:sortKey}}"
+                        <div class="link flex resources-link" violation="{{:id}}" violationId="{{:violationId}}"
+                             sortKey="{{:sortKey}}"
                              reportId="{{:reportId}}">
                             {{:resources.length}} Resources
                             <img src="./images/right-chevron.svg" class="fa right"/>

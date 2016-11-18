@@ -185,11 +185,10 @@ window.Deploy = (function () {
 
     function sort(sortKey, desc) {
         if (!resources) return;
-        var sortedResources = resources.sort(function (a, b) {
+        resources = resources.sort(function (a, b) {
             if (!desc) return a[sortKey] > b[sortKey] ? -1 : 1;
             return a[sortKey] > b[sortKey] ? 1 : -1;
         });
-        resources = sortedResources;
         renderResourcesList();
     }
 

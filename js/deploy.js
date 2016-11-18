@@ -1,6 +1,8 @@
 window.Deploy = (function () {
     var resources = [];
     var totalNumberOfResources = 0;
+    var planRefreshIntervalInHours = 24;
+    var lastExecutionDate = new Date();
     var numberOfFailedResource = -1;
     var numberOfNotExecutedResources = 0;
     var resourcesAlerts = false;
@@ -8,6 +10,12 @@ window.Deploy = (function () {
 
     var itemsOnPage = 50;
     var currentPage = 0;
+
+    function getYesterdayDate() {
+        var yesterdayDate = new Date();
+        yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+        return yesterdayDate;
+    }
 
     function renderResourcesList() {
         $('.deploy .sort-label.mobile').click(function () {
@@ -106,7 +114,32 @@ window.Deploy = (function () {
         });
     }
 
-    function appendNumberNotExecutedResourcesNotification() {
+    function convertMillisecondsToHours(millisecinds) {
+        return Math.floor(millisecinds / 1000 / 60 / 60);
+    }
+
+    function accountAdnGetHoursTillNextExecution() {
+        if (lastExecutionDate && typeof lastExecutionDate !== Date) {
+            lastExecutionDate = new Date(lastExecutionDate);
+        }
+        var nextExecutionDate = lastExecutionDate;
+        nextExecutionDate.setHours(nextExecutionDate.getHours() + planRefreshIntervalInHours);
+        var hoursLeftTillNextExecution = nextExecutionDate.getTime() - new Date().getTime();
+        return convertMillisecondsToHours(hoursLeftTillNextExecution);
+    }
+
+    function appendNextExecutionTime() {
+        var hoursTillNextExecution = accountAdnGetHoursTillNextExecution();
+        var hoursLeftString = '';
+        if (hoursTillNextExecution > 1) {
+            hoursLeftString = 'in ' + hoursTillNextExecution + ' hours';
+        } else {
+            hoursLeftString = 'will start less than an hour';
+        }
+        $('.next-execution').html(hoursLeftString);
+    }
+
+    function appendNotExecutedResourcesNumberNotification() {
         $('.error.messages').removeClass('hidden');
         $('.error.messages .message-left-part .message-status').html('ERROR');
         // $('.error.messages .amount').html(numberOfNotExecutedResources);
@@ -129,10 +162,17 @@ window.Deploy = (function () {
 
     function appendNumberOfNotExecutedResources() {
         var notExecutedResources = totalNumberOfResources - numberOfFailedResource;
-        notExecutedResources += (notExecutedResources > 1) ? ' resources were' : ' resource was';
+        var message = notExecutedResources;
+        var messageEnd = ' not executed sequenced by ' + getOrdinalSuffix(numberOfFailedResource) + ' resource fail';
+        if (notExecutedResources === 0) {
+            message = 'The last resource was not executed';
+        } else if (notExecutedResources > 1) {
+            message += ' resources were' + messageEnd;
+        } else {
+            message += ' resource was' + messageEnd;
+        }
 
-        $('.error.messages .message-left-part .message').html(notExecutedResources + ' not executed sequenced by '
-            + getOrdinalSuffix(numberOfFailedResource) + ' resource fail');
+        $('.error.messages .message-left-part .message').html(message);
     }
 
     function appendResourcesAlertsNotification() {
@@ -145,11 +185,10 @@ window.Deploy = (function () {
 
     function sort(sortKey, desc) {
         if (!resources) return;
-        var sortedResources = resources.sort(function (a, b) {
+        resources = resources.sort(function (a, b) {
             if (!desc) return a[sortKey] > b[sortKey] ? -1 : 1;
             return a[sortKey] > b[sortKey] ? 1 : -1;
         });
-        resources = sortedResources;
         renderResourcesList();
     }
 
@@ -166,7 +205,7 @@ window.Deploy = (function () {
                     } else {
                         resource.engineStatusClass = 'error-status';
                         resource.engineStatus = 'ERROR';
-                        numberOfFailedResource = resource.executionNumber;
+                        numberOfFailedResource = data.executionNumber;
                         numberOfNotExecutedResources++;
                     }
                 } else if (resourceData == 'inputs') {
@@ -209,8 +248,9 @@ window.Deploy = (function () {
 
         sort('timestamp');
         appendNumberOfResultsLabel();
+        appendNextExecutionTime();
         if (numberOfNotExecutedResources > 0) {
-            appendNumberNotExecutedResourcesNotification();
+            appendNotExecutedResourcesNumberNotification();
             appendNumberOfNotExecutedResources();
         }
         if (resourcesAlerts) {
@@ -230,19 +270,33 @@ window.Deploy = (function () {
         });
     }
 
-    function deploy(data) {
-        if (!data.resourcesArray) data.resourcesArray = [];
-        if (!data.numberOfResources) data.numberOfResources = 0;
+    function getInitializedCcThisData(ccThisData) {
+        if (!ccThisData.resourcesArray) ccThisData.resourcesArray = [];
+        if (!ccThisData.numberOfResources) ccThisData.numberOfResources = 0;
+        if (!ccThisData.planRefreshIntervalInHours) ccThisData.planRefreshIntervalInHours = 24;
+        if (!ccThisData.timestamp) ccThisData.timestamp = getYesterdayDate();
+        return ccThisData;
+    }
+
+    function initGlobalVariables(ccThisData) {
+        totalNumberOfResources = ccThisData.numberOfResources;
+        planRefreshIntervalInHours = ccThisData.planRefreshIntervalInHours;
+        lastExecutionDate = ccThisData.timestamp;
         resources = [];
         numberOfNotExecutedResources = 0;
         resourcesAlerts = false;
+    }
+
+    function deploy(data) {
+        data = getInitializedCcThisData(data);
+        initGlobalVariables(data);
 
         $('.deploy .messages').addClass('hidden');
         $('.deploy .pages').html('');
         $('#no-deploy-resources').addClass('hidden');
         $('.resources-list').removeClass('empty');
         $('.resources-list-header').removeClass('empty');
-        totalNumberOfResources = data.numberOfResources;
+
         initResourcesList(data.resourcesArray);
     }
 

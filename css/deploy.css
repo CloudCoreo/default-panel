@@ -85,7 +85,30 @@ body {
 .data-container {
     display: flex;
     flex-direction: column;
-    margin-bottom: 16px;
+    max-height: 100%;
+    height: 100%;
+}
+
+.data-container .deploy {
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.data-container .deploy .sticky-header {
+    height: 70px;
+    min-height: 70px;
+}
+
+.data-container .deploy .scrollable-list {
+    flex: 1 1 auto;
+    overflow: auto;
+    height: 100%;
+    flex-grow: 1;
+}
+
+.data-container .deploy .scrollable-list {
+    margin-bottom: 20px;
 }
 
 .view-options {
@@ -446,7 +469,7 @@ body {
     display: flex;
     flex-direction: row;
     font-size: 12px;
-    padding: 10px 0 0;
+    padding: 10px 0;
 }
 
 .resource-list-header.deploy-list-header {
@@ -506,7 +529,6 @@ body {
     padding: 10px 0;
     color: #6b6b6b;
     text-align: center;
-    margin-top: 20px;
 }
 
 .pages {
@@ -637,5 +659,13 @@ body {
 
     .resource-list-header {
         display: none;
+    }
+
+    .messages .messages-container {
+        flex-direction: column;
+    }
+
+    .messages:before {
+        top: 16px !important;
     }
 }

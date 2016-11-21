@@ -232,27 +232,33 @@ window.Audit = (function () {
         var pieData = [];
         var listOfAlerts = organizeDataForCurrentRender(sortKey);
         $(containers.mainDataContainerSelector).html('');
+
+        var fillData = function(key){
+            renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color);
+            pieData.push({
+                label: key,
+                value: Object.keys(listOfAlerts[key].alerts).length,
+                color: listOfAlerts[key].color
+            });
+        };
+
         if (sortKey === 'level') {
+            var unknownLevels = Object.keys(listOfAlerts);
             Object.keys(color.SeverityTones).forEach(function (key) {
                 if (listOfAlerts[key]) {
-                    renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color);
-                    pieData.push({
-                        label: key,
-                        value: Object.keys(listOfAlerts[key].alerts).length,
-                        color: listOfAlerts[key].color
-                    });
+                    fillData(key);
+                    unknownLevels.splice(unknownLevels.indexOf(key), 1);
                     return;
                 }
                 pieData.push({ label: key, value: 0, color: color.SeverityTones[key] });
             });
+            unknownLevels.forEach(function (key) {
+                fillData(key);
+            });
+
         } else {
             Object.keys(listOfAlerts).forEach(function (key) {
-                renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color);
-                pieData.push({
-                    label: key,
-                    value: Object.keys(listOfAlerts[key].alerts).length,
-                    color: listOfAlerts[key].color
-                });
+                fillData(key);
             });
         }
 

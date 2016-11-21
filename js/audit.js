@@ -401,7 +401,7 @@ window.Audit = (function () {
             }
         });
 
-        $('.browse-compostites').click(function () {
+        $('.browse-composites').click(function () {
             openPopup('redirectToCommunityComposites');
         })
     }
@@ -416,18 +416,7 @@ window.Audit = (function () {
         refreshClickHandlers(listOfAlerts);
     }
 
-    function init(data, sortKey) {
-        pie = new ResourcesPie(containers.pieChartSelector);
-        setupHandlers();
-        initResourcesList(data);
-        render(sortKey);
-    }
-
-    function audit(data, sortKey, _callback, selectors) {
-        if (selectors) {
-            containers = selectors;
-        }
-        callback = _callback;
+    function initGlobalVariables() {
         passedViolations = [];
         disabledViolations = [];
         errors = [];
@@ -438,13 +427,36 @@ window.Audit = (function () {
             region: {},
             service: {}
         };
+    }
 
+    function initView() {
         $(containers.mainDataContainerSelector).html('');
         $(containers.noAuditResourcesMessageSelector).addClass('hidden');
         $(containers.noViolationsMessageSelector).addClass('hidden');
         $(containers.mainCont).removeClass('empty');
-        init(data, sortKey);
     }
+
+    function init(data, sortKey) {
+        initGlobalVariables();
+        initView();
+
+        pie = new ResourcesPie(containers.pieChartSelector);
+        initResourcesList(data);
+        render(sortKey);
+    }
+
+    function audit(data, sortKey, _callback, selectors) {
+        if (selectors) {
+            containers = selectors;
+        }
+        callback = _callback;
+        init(data, sortKey);
+        setupHandlers();
+    }
+
+    audit.prototype.refreshData = function (data) {
+        init(data, $('.audit .chosen-sorting').val());
+    };
 
     audit.prototype.renderResourcesList = render;
     audit.prototype.getViolationsList = function () {

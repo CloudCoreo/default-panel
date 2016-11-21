@@ -1,0 +1,395 @@
+{
+  "resourcesArray": [
+    {
+      "stackName": "STACK-CLOUDCOREO-VPC-PUBLIC",
+      "engineStatus": "OK",
+      "namespace": "ROOT::SIMPLE-EC2-INSTANCE-SIMPLE-EC2-INSTANCE-PLAN::STACK-CLOUDCOREO-VPC-PUBLIC",
+      "executionNumber": 1,
+      "timestamp": "2016-11-17T03:17:53.000Z",
+      "executionTime": 26.328125872,
+      "resourceType": "coreo_aws_vpc_vpc",
+      "resourceName": "test-vpc",
+      "dataType": "DEPLOY_RESOURCE",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "sustain",
+          "name": "action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            ""
+          ],
+          "name": "tags"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "10.11.0.0/16",
+          "name": "cidr"
+        },
+        {
+          "type": "PLA-1366",
+          "value": true,
+          "name": "internet_gateway"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "us-east-1",
+          "name": "region"
+        }
+      ],
+      "outputs": [
+        {
+          "value": "cc_58242cb425b_test-vpc",
+          "name": "ec2_name"
+        },
+        {
+          "value": "vpc-9c0efbfa",
+          "name": "vpc_id"
+        }
+      ],
+      "runId": "8b17d869-2b8a-4597-a6ba-cd3c45ec6ee8",
+      "resourceId": "98d7a3bfe8ef242613e1e627b1dab6a88119068998fa81280b073477828aeec6",
+      "_id": "582d2162d6bb5b86fee12f24"
+    },
+    {
+      "stackName": "STACK-CLOUDCOREO-VPC-PUBLIC",
+      "engineStatus": "OK",
+      "namespace": "ROOT::SIMPLE-EC2-INSTANCE-SIMPLE-EC2-INSTANCE-PLAN::STACK-CLOUDCOREO-VPC-PUBLIC",
+      "executionNumber": 2,
+      "timestamp": "2016-11-17T03:18:04.000Z",
+      "executionTime": 7.056848622,
+      "resourceType": "coreo_aws_vpc_routetable",
+      "resourceName": "test-public-route",
+      "dataType": "DEPLOY_RESOURCE",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "sustain",
+          "name": "action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "test-vpc",
+          "name": "vpc"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            {
+              "type": "igw",
+              "to": "test-vpc",
+              "from": "0.0.0.0/0"
+            }
+          ],
+          "name": "routes"
+        },
+        {
+          "type": "PLA-1366",
+          "value": 1,
+          "name": "number_of_tables"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "us-east-1",
+          "name": "region"
+        }
+      ],
+      "outputs": [
+        {
+          "value": "cc_58242cb425b_test-public-route",
+          "name": "ec2_name"
+        },
+        {
+          "value": "rtb-769cc710",
+          "name": "route_table_ids"
+        }
+      ],
+      "runId": "8b17d869-2b8a-4597-a6ba-cd3c45ec6ee8",
+      "resourceId": "2e8e02f2deaacaf24e28f5c635cf4ffd5ac708fc7d187583212e8fd430db9cf2",
+      "_id": "582d216ed6bb5b86fee12f25"
+    },
+    {
+      "stackName": "STACK-CLOUDCOREO-VPC-PUBLIC",
+      "engineStatus": "OK",
+      "namespace": "ROOT::SIMPLE-EC2-INSTANCE-SIMPLE-EC2-INSTANCE-PLAN::STACK-CLOUDCOREO-VPC-PUBLIC",
+      "executionNumber": 3,
+      "timestamp": "2016-11-17T03:18:31.000Z",
+      "executionTime": 19.45143938,
+      "resourceType": "coreo_aws_vpc_subnet",
+      "resourceName": "test-public-subnet",
+      "dataType": "DEPLOY_RESOURCE",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "sustain",
+          "name": "action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": 3,
+          "name": "number_of_zones"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "test-public-route",
+          "name": "route_table"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "test-vpc",
+          "name": "vpc"
+        },
+        {
+          "type": "PLA-1366",
+          "value": 25,
+          "name": "percent_of_vpc_allocated"
+        },
+        {
+          "type": "PLA-1366",
+          "value": true,
+          "name": "map_public_ip_on_launch"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "us-east-1",
+          "name": "region"
+        }
+      ],
+      "outputs": [
+        {
+          "value": "cc_58242cb425b_test-public-subnet",
+          "name": "ec2_name"
+        },
+        {
+          "value": "subnet-3072c76b,subnet-330ebf1e,subnet-299efe60",
+          "name": "subnet_ids"
+        },
+        {
+          "value": 3,
+          "name": "number_of_subnets"
+        },
+        {
+          "value": "us-east-1a,us-east-1c,us-east-1d",
+          "name": "availability_zones"
+        }
+      ],
+      "runId": "8b17d869-2b8a-4597-a6ba-cd3c45ec6ee8",
+      "resourceId": "bfdc4b4c040157d7aec4f1fca97b33b77ca00ae8778f139ad636392623e04910",
+      "_id": "582d2188d6bb5b86fee12f26"
+    },
+    {
+      "stackName": "SIMPLE-EC2-INSTANCE-SIMPLE-EC2-INSTANCE-PLAN",
+      "engineStatus": "OK",
+      "namespace": "ROOT::SIMPLE-EC2-INSTANCE-SIMPLE-EC2-INSTANCE-PLAN",
+      "executionNumber": 4,
+      "timestamp": "2016-11-17T03:18:57.000Z",
+      "executionTime": 15.333249594,
+      "resourceType": "coreo_aws_ec2_securityGroups",
+      "resourceName": "simple-server",
+      "dataType": "DEPLOY_RESOURCE",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "sustain",
+          "name": "action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Server security group",
+          "name": "description"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            {
+              "cidrs": [
+                "0.0.0.0/0"
+              ],
+              "ports": [
+                "80",
+                "22"
+              ],
+              "protocol": "tcp",
+              "direction": "ingress"
+            },
+            {
+              "cidrs": [
+                "0.0.0.0/0"
+              ],
+              "ports": [
+                "0..65535"
+              ],
+              "protocol": "tcp",
+              "direction": "egress"
+            }
+          ],
+          "name": "allows"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "test-vpc",
+          "name": "vpc"
+        }
+      ],
+      "outputs": [
+        {
+          "value": "cc_58242cb425b_simple-server",
+          "name": "ec2_name"
+        },
+        {
+          "value": "sg-8402bbf9",
+          "name": "security_group_id"
+        }
+      ],
+      "runId": "8b17d869-2b8a-4597-a6ba-cd3c45ec6ee8",
+      "resourceId": "4e0597b3806837ac6c0ac509574cc6824168c3eefa1fe54fbe01dbd228861a3e",
+      "_id": "582d21a2d6bb5b86fee12f27"
+    },
+    {
+      "stackName": "SIMPLE-EC2-INSTANCE-SIMPLE-EC2-INSTANCE-PLAN",
+      "engineStatus": "OK",
+      "namespace": "ROOT::SIMPLE-EC2-INSTANCE-SIMPLE-EC2-INSTANCE-PLAN",
+      "executionNumber": 5,
+      "timestamp": "2016-11-17T03:19:08.000Z",
+      "executionTime": 7.489439943,
+      "resourceType": "coreo_aws_ec2_instance",
+      "resourceName": "simple-server",
+      "dataType": "DEPLOY_RESOURCE",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "define",
+          "name": "action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "ami-b73b63a0",
+          "name": "image_id"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "t2.micro",
+          "name": "size"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "",
+          "name": "ssh_key"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "simple-server"
+          ],
+          "name": "security_groups"
+        },
+        {
+          "type": "PLA-1366",
+          "value": true,
+          "name": "associate_public_ip"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "2",
+          "name": "upgrade_trigger"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "ENV=my_env",
+            "TEST=true",
+            "CLOUD=coreo"
+          ],
+          "name": "environment_variables"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            {
+              "volume_size": 16,
+              "device_name": "/dev/xvda"
+            }
+          ],
+          "name": "disks"
+        }
+      ],
+      "outputs": [
+        {
+          "value": "",
+          "name": "ec2_name"
+        }
+      ],
+      "runId": "8b17d869-2b8a-4597-a6ba-cd3c45ec6ee8",
+      "resourceId": "8229724234623dbad0ac9ed77b2beb4d01e3f6bd14f3685129d7e8242dea63a1",
+      "_id": "582d21add6bb5b86fee12f28"
+    },
+    {
+      "stackName": "SIMPLE-EC2-INSTANCE-SIMPLE-EC2-INSTANCE-PLAN",
+      "engineStatus": "OK",
+      "namespace": "ROOT::SIMPLE-EC2-INSTANCE-SIMPLE-EC2-INSTANCE-PLAN",
+      "executionNumber": 6,
+      "timestamp": "2016-11-17T03:19:23.000Z",
+      "executionTime": 9.688292355,
+      "resourceType": "coreo_aws_ec2_autoscaling",
+      "resourceName": "simple-server",
+      "dataType": "DEPLOY_RESOURCE",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "sustain",
+          "name": "action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "simple-server",
+          "name": "server_definition"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "test-public-subnet",
+          "name": "subnet"
+        },
+        {
+          "type": "PLA-1366",
+          "value": 3,
+          "name": "minimum"
+        },
+        {
+          "type": "PLA-1366",
+          "value": 3,
+          "name": "maximum"
+        }
+      ],
+      "outputs": [
+        {
+          "value": "cc_58242cb425b_simple-server",
+          "name": "ec2_name"
+        },
+        {
+          "value": "cc_58242cb425b_simple-server",
+          "name": "asg_name"
+        },
+        {
+          "value": "",
+          "name": "instance_ids"
+        },
+        {
+          "value": "",
+          "name": "private_ip_addresses"
+        },
+        {
+          "value": "",
+          "name": "public_ip_addresses"
+        }
+      ],
+      "runId": "8b17d869-2b8a-4597-a6ba-cd3c45ec6ee8",
+      "resourceId": "1aa8c06e0b8b6f62469e61c442adae1057153edb68d8f7bd8e5f41939369e2b9",
+      "_id": "582d21bdd6bb5b86fee12f29"
+    }
+  ],
+  "numberOfResources": 6,
+  "planRefreshIntervalInHours": 24,
+  "lastExecutionTime": "2016-11-17T03:17:19.000Z"
+}

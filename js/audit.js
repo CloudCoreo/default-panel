@@ -292,7 +292,7 @@ window.Audit = (function () {
                         description: rowData.description,
                         fix: rowData.suggested_action,
                         service: violations[violationKey].inputs.service,
-                        resource: { id: resId, tags: report[resId].tags },
+                        resource: { id: resId, tags: report[resId].tags, reportId: reportId },
                         region: rowData.region,
                         link: rowData.link,
                         reportId: reportId,

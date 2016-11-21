@@ -401,7 +401,7 @@ window.Audit = (function () {
             }
         });
 
-        $('.browse-compostites').click(function () {
+        $('.browse-composites').click(function () {
             openPopup('redirectToCommunityComposites');
         })
     }

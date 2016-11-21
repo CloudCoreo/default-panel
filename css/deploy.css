@@ -100,17 +100,6 @@ body {
     min-height: 70px;
 }
 
-.data-container .deploy .scrollable-list {
-    flex: 1 1 auto;
-    overflow: auto;
-    height: 100%;
-    flex-grow: 1;
-}
-
-.data-container .deploy .scrollable-list {
-    margin-bottom: 20px;
-}
-
 .view-options {
     display: flex;
     flex-direction: column;

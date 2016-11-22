@@ -108,6 +108,17 @@ $(document).ready(function () {
         $('.backdrop').click(function () {
             $(this).closest('#popup').addClass('hidden');
         });
+
+        $(window).resize(function() {
+            console.log($(this).width());
+            if($(this).width() <= 600) {
+                $('.resource-type-toggle .resource-type.map-res').removeClass('active');
+                $('.resource-type-toggle .resource-type.audit-res').addClass('active');
+                $('.map').addClass('hidden');
+                $('.audit').removeClass('hidden');
+            }
+
+        });
     }
 
     function showLocalPopup() {

@@ -110,38 +110,51 @@ $(document).ready(function () {
         });
     }
 
-    function showLocalPopup() {
-        $('#popup').removeClass('hidden');
+    function emulateCcThisUpdate(data) {
+        setTimeout(function() {
+            d3.json("./tmp-data/tmp.json", function (data) {
+                init(data, false);
+            });
+        }, 5000);
     }
 
-    function init(data) {
+    function init(data, isFirstLoad) {
         setupHandlers();
         d3.json("./tmp-data/world-countries.json", function (collection) {
-            deployData = new Deploy(data);
-            auditData = new Audit(data.resourcesArray, 'level');
+            if (isFirstLoad) {
+                deployData = new Deploy(data);
+                auditData = new Audit(data.resourcesArray, 'level');
+            } else {
+                deployData.refreshData(data);
+                auditData.refreshData(data.resourcesArray);
+            }
+
             renderMapData('level');
+            $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').removeClass('error');
+            $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').removeClass('alert');
 
             var noViolations = !auditData.getViolationsList() || !auditData.getViolationsList().length;
-            currentView = noViolations ? viewTypes.deploy : viewTypes.audit;
             if (!noViolations) $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').addClass('alert');
             if (deployData.hasErrors()) $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').addClass('error');
-            if (deployData.hasAlerts()) $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').addClass('alert');
 
-
-            $('.resource-type-toggle .resource-type.' + currentView + '-res').addClass('active');
-            $('.' + currentView).removeClass('hidden');
-            $('#backdrop').addClass('hidden');
+            if(isFirstLoad) {
+                currentView = noViolations ? viewTypes.deploy : viewTypes.audit;
+                $('.resource-type-toggle .resource-type.' + currentView + '-res').addClass('active');
+                $('.' + currentView).removeClass('hidden');
+                $('#backdrop').addClass('hidden');
+            }
         });
     }
 
     if (typeof ccThisCont === 'undefined') {
         d3.json("./tmp-data/tmp2.json", function (data) {
-            init(data)
+            init(data, true);
+            emulateCcThisUpdate(data);
         });
     } else {
-        init(ccThisCont.ccThis);
+        init(ccThisCont.ccThis, true);
         ccThisCont.watch('ccThis', function (id, oldValue, newValue) {
-            init(newValue);
+            init(newValue, false);
         });
     }
 });

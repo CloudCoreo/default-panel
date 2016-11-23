@@ -32,140 +32,148 @@
                      value="map">map <span></span></div>
             </div>
         </div>
-        <div class="data-container">
-            <div class="deploy hidden">
-                <div class="custom-dropdown noselect layout-margin-bottom-20">
-                    <div class="dropdown-button">
-                        <div>SORT BY</div>
-                        <div class="chosen-item-text">Timestamp</div>
-                        <input type="hidden" class="chosen-item-value chosen-sorting" value="timestamp">
-                        <input type="hidden" class="chosen-item-is-reverse" value="true">
+        <div class="scrollable-area">
+            <div class="data-container">
+                <div class="deploy hidden">
+                    <div class="custom-dropdown noselect layout-margin-bottom-20">
+                        <div class="dropdown-button">
+                            <div>SORT BY</div>
+                            <div class="chosen-item-text">Timestamp</div>
+                            <input type="hidden" class="chosen-item-value chosen-sorting" value="timestamp">
+                            <input type="hidden" class="chosen-item-is-reverse" value="true">
+                        </div>
+                        <ul class="hidden resource-list-header deploy-list-header">
+                            <li class="sort-label mobile" key="resourceType" data-value="resourceType">Resource type
+                            </li>
+                            <li class="sort-label mobile" key="resourceName" data-value="resourceName">Resource name
+                            </li>
+                            <li class="sort-label mobile" key="engineState" data-value="engineStatus">Status</li>
+                            <li class="sort-label mobile" key="action" data-value="action">Action</li>
+                            <li class="sort-label mobile" key="executionTime" data-value="executionTime">Execution
+                                time
+                            </li>
+                            <li class="sort-label mobile" key="timestamp" data-value="timestamp">Timestamp</li>
+                        </ul>
                     </div>
-                    <ul class="hidden resource-list-header deploy-list-header">
-                        <li class="sort-label mobile" key="resourceType" data-value="resourceType">Resource type</li>
-                        <li class="sort-label mobile" key="resourceName" data-value="resourceName">Resource name</li>
-                        <li class="sort-label mobile" key="engineState" data-value="engineStatus">Status</li>
-                        <li class="sort-label mobile" key="action" data-value="action">Action</li>
-                        <li class="sort-label mobile" key="executionTime" data-value="executionTime">Execution time</li>
-                        <li class="sort-label mobile" key="timestamp" data-value="timestamp">Timestamp</li>
-                    </ul>
-                </div>
-                <div class="resource-list-header">
-                    <div class="sort-label type" key="resourceType">resource type</div>
-                    <div class="sort-label name" key="resourceName">resource name</div>
-                    <div class="sort-label status" key="engineStatus">status</div>
-                    <div class="sort-label action" key="action">action</div>
-                    <div class="sort-label executionTime" key="executionTime">execution time</div>
-                    <div class="sort-label status-timestamp active" key="timestamp">timestamp</div>
-                </div>
-                <div class="messages error hidden">
-                    <div class="messages-container">
-                        <div class="message-left-part">
-                            <span class="message-status">ERROR</span>
-                            <span class="amount"></span>
-                            <span class="message"></span>
+                    <div class="sticky-header">
+                        <div class="resource-list-header">
+                            <div class="sort-label type" key="resourceType">resource type</div>
+                            <div class="sort-label name" key="resourceName">resource name</div>
+                            <div class="sort-label status" key="engineStatus">status</div>
+                            <div class="sort-label action" key="action">action</div>
+                            <div class="sort-label executionTime" key="executionTime">execution time</div>
+                            <div class="sort-label status-timestamp active" key="timestamp">timestamp</div>
                         </div>
-                        <div class="message-right-part">
-                            Next execution: <span class="next-execution">23h 24m 12s</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="messages alert hidden">
-                    <div class="messages-container">
-                        <div class="message-left-part">
-                            <span class="message-status">ALERTS</span>
-                            <span class="amount"></span>
-                            <span class="message"></span>
-                        </div>
-                        <div class="message-right-part">
-                            Next execution: <span class="next-execution">23h 24m 12s</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="messages ok hidden">
-                    <div class="messages-container">
-                        <div class="message-left-part">
-                            <span class="message-status">OK</span>
-                        </div>
-                        <div class="message-right-part">
-                            Next execution: <span class="next-execution"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="resources-list bg-white "></div>
-                <div class="pagination">
-                    <div class="resources-amount"></div>
-                    <div class="pages"></div>
-                </div>
-            </div>
-            <div class="deploy hidden">
-                <div id="no-deploy-resources" class="hidden">This execution has no additional resources.</div>
-            </div>
-            <div class="audit hidden">
-                <div id="no-violation-resources" class="hidden">
-                    This composite has no audit resources.<br/>
-                    <span class="browse-composites">Browse featured Composites</span> to see available audits.
-                </div>
-                <div id="no-violations-view" class="hidden">
-                    <div class="no-violations-cont md-shadow">
-                        <div class="header">
-                            BEST PRACTICE VIOLATIONS<br/>
-                            <span>ZERO, ZIP, NADA</span>
-                        </div>
-                        <div class="data">
-                            <div class="flex-grow">
-                                <div class="circle"></div>
+                        <div class="messages error hidden">
+                            <div class="messages-container">
+                                <div class="message-left-part">
+                                    <span class="message-status">ERROR</span>
+                                    <span class="amount"></span>
+                                    <span class="message"></span>
+                                </div>
+                                <div class="message-right-part">
+                                    Next execution: <span class="next-execution">23h 24m 12s</span>
+                                </div>
                             </div>
-                            <div class="flex-column flex-grow">
-                                <div class="history-title">Infrastructure Status</div>
-                                <div class=" flex-row separator-top">
-                                    <div class="history"></div>
-                                    <div class="info">100% AWESOME</div>
+                        </div>
+                        <div class="messages alert hidden">
+                            <div class="messages-container">
+                                <div class="message-left-part">
+                                    <span class="message-status">ALERTS</span>
+                                    <span class="amount"></span>
+                                    <span class="message"></span>
+                                </div>
+                                <div class="message-right-part">
+                                    Next execution: <span class="next-execution">23h 24m 12s</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="messages ok hidden">
+                            <div class="messages-container">
+                                <div class="message-left-part">
+                                    <span class="message-status">OK</span>
+                                </div>
+                                <div class="message-right-part">
+                                    Next execution: <span class="next-execution"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="tip">A tip of the hat to you, DevOps Jedi.</div>
+                    <div class="resources-list bg-white "></div>
+                    <div class="pagination">
+                        <div class="resources-amount"></div>
+                        <div class="pages"></div>
+                    </div>
                 </div>
-            </div>
-            <div class="audit flex-row hidden audit-list">
-                <div class="left-column layout-padding-right">
-                    <div class="pie-data-header"><span class="num">0</span> Audit Violations</div>
-                    <div class="custom-dropdown noselect layout-margin-bottom-20">
-                        <div class="dropdown-button">
-                            <div>SORT BY</div>
-                            <div class="chosen-item-text">Severity Level</div>
-                            <input type="hidden" class="chosen-item-value chosen-sorting" value="level">
-                            <input type="hidden" class="chosen-item-is-reverse" value="true">
+                <div class="deploy hidden">
+                    <div id="no-deploy-resources" class="hidden">This execution has no additional resources.</div>
+                </div>
+                <div class="audit hidden">
+                    <div id="no-violation-resources" class="hidden">
+                        This composite has no audit resources.<br/>
+                        <span class="browse-composites">Browse featured Composites</span> to see available audits.
+                    </div>
+                    <div id="no-violations-view" class="hidden">
+                        <div class="no-violations-cont md-shadow">
+                            <div class="header">
+                                BEST PRACTICE VIOLATIONS<br/>
+                                <span>ZERO, ZIP, NADA</span>
+                            </div>
+                            <div class="data">
+                                <div class="flex-grow">
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="flex-column flex-grow">
+                                    <div class="history-title">Infrastructure Status</div>
+                                    <div class=" flex-row separator-top">
+                                        <div class="history"></div>
+                                        <div class="info">100% AWESOME</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <ul class="hidden">
-                            <li data-value="level">Severity Level</li>
-                            <li data-value="category">Category</li>
-                            <li data-value="service">Service</li>
-                            <li data-value="region">Region</li>
-                        </ul>
-                    </div>
-                    <div class="pie"></div>
-                    <div class="additional-info separator-top layout-margin-top flex-row">
-                        <div class="checks"></div>
-                        <div class="passed link"></div>
-                        <div class="disabled link"></div>
+                        <div class="tip">A tip of the hat to you, DevOps Jedi.</div>
                     </div>
                 </div>
-                <div class="flex-grow">
-                    <div id="advisor-errors"></div>
-                    <div class="list"></div>
+                <div class="audit flex-row hidden audit-list">
+                    <div class="left-column layout-padding-right">
+                        <div class="pie-data-header"><span class="num">0</span> Audit Violations</div>
+                        <div class="custom-dropdown noselect layout-margin-bottom-20">
+                            <div class="dropdown-button">
+                                <div>SORT BY</div>
+                                <div class="chosen-item-text">Severity Level</div>
+                                <input type="hidden" class="chosen-item-value chosen-sorting" value="level">
+                                <input type="hidden" class="chosen-item-is-reverse" value="true">
+                            </div>
+                            <ul class="hidden">
+                                <li data-value="level">Severity Level</li>
+                                <li data-value="category">Category</li>
+                                <li data-value="service">Service</li>
+                                <li data-value="region">Region</li>
+                            </ul>
+                        </div>
+                        <div class="pie"></div>
+                        <div class="additional-info separator-top layout-margin-top flex-row">
+                            <div class="checks"></div>
+                            <div class="passed link"></div>
+                            <div class="disabled link"></div>
+                        </div>
+                    </div>
+                    <div class="flex-grow">
+                        <div id="advisor-errors"></div>
+                        <div class="list"></div>
 
-                    <div id="popup" class="hidden">
-                        <div class="backdrop"></div>
-                        <div class="popup-body">
-                            <div class="close">X</div>
-                            <div class="popup-content"></div>
+                        <div id="popup" class="hidden">
+                            <div class="backdrop"></div>
+                            <div class="popup-body">
+                                <div class="close">X</div>
+                                <div class="popup-content"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="map layout-padding hidden bg-white md-shadow">
+                <div class="map layout-padding hidden bg-white md-shadow">
+                </div>
             </div>
         </div>
     </div>
@@ -173,7 +181,6 @@
 
 
 <div class="hidden">
-
     <div id="map-region-tpl">
         <div class="map-region">
             <div class="map-data-header">{{:region}}</div>

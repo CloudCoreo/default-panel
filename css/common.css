@@ -2,7 +2,9 @@
     display: flex;
     background: #e4e4e4;
     margin-top: 8px;
+    margin-bottom: 8px;
 }
+
 .resource-type-toggle .resource-type {
     text-transform: uppercase;
     color: #2b7ae5;
@@ -25,21 +27,30 @@
     display: flex;
     align-items: center;
 }
+
 .resource-type-toggle .resource-type span {
     display: inline-block;
     width: 19px;
     height: 19px;
     margin-left: 6px;
 }
-.resource-type-toggle .resource-type.alert span{
+
+.resource-type-toggle .resource-type.alert span {
     background: url('../images/alert.png') no-repeat 0 0;
 }
 
-.resource-type-toggle .resource-type.error span{
+.resource-type-toggle .resource-type.error span {
     background: url('../images/error.png') no-repeat 0 0;
 }
 
-.resource-type-toggle  .resource-type.active {
+.resource-type-toggle .resource-type.active {
     background: linear-gradient(to top, #6c6c6c, #939393);
     color: #ffffff;
+}
+
+.scrollable-area {
+    max-height: 100%;
+    display: inline-block;
+    height: 100%;
+    overflow: auto;
 }

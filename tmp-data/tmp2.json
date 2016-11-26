@@ -1,0 +1,1279 @@
+{
+  "resourcesArray": [
+    {
+      "stackName": "STACK-AUDIT-AWS-CLOUDTRAIL",
+      "engineStatus": "OK",
+      "namespace": "ROOT::AUDIT-AWS-AUDIT-AWS::STACK-AUDIT-AWS-CLOUDTRAIL",
+      "executionNumber": 2,
+      "timestamp": "2016-11-18T04:52:07.000Z",
+      "executionTime": 1.378470174,
+      "resourceType": "coreo_aws_advisor_alert",
+      "resourceName": "cloudtrail-trail-with-global",
+      "dataType": "ADVISOR_RESOURCE",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "define",
+          "name": "action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "object.trail_list.name",
+          "name": "id_map"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "cloudtrail",
+          "name": "service"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            true
+          ],
+          "name": "alert_when"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "trails"
+          ],
+          "name": "objectives"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Warning",
+          "name": "level"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "=="
+          ],
+          "name": "operators"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Custom Alert",
+          "name": "description"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "violation",
+          "name": "category"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "",
+          "name": "suggested_action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [],
+          "name": "call_modifiers"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "trail_list.include_global_service_events"
+          ],
+          "name": "audit_objects"
+        }
+      ],
+      "outputs": [
+        {
+          "value": "cc_582ae603d78_cloudtrail-trail-with-global",
+          "name": "ec2_name"
+        }
+      ],
+      "runId": "4e67b2ba-7c5e-4929-aad7-098f8fe0f66e",
+      "resourceId": "fc471a206490d50a0fc45720c5205be7159cf8e09e971b7b148771dd1c720bf0",
+      "_id": "582e88f7b7766b2ef55058cd"
+    },
+    {
+      "stackName": "STACK-AUDIT-AWS-CLOUDTRAIL",
+      "engineStatus": "OK",
+      "namespace": "ROOT::AUDIT-AWS-AUDIT-AWS::STACK-AUDIT-AWS-CLOUDTRAIL",
+      "executionNumber": 1,
+      "timestamp": "2016-11-18T04:52:13.000Z",
+      "executionTime": 13.052156212,
+      "resourceType": "coreo_aws_advisor_alert",
+      "resourceName": "cloudtrail-service-disabled",
+      "dataType": "ADVISOR_RESOURCE",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "define",
+          "name": "action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Cloudtrail Service is disabled",
+          "name": "display_name"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "cloudtrail",
+          "name": "service"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            0
+          ],
+          "name": "alert_when"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "trails"
+          ],
+          "name": "objectives"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "http://kb.cloudcoreo.com/cloudtrail-service-disabled.html",
+          "name": "link"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Warning",
+          "name": "level"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "=="
+          ],
+          "name": "operators"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "CloudTrail logging is not enabled for this region. It should be enabled.",
+          "name": "description"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Audit",
+          "name": "category"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Enable CloudTrail logs",
+          "name": "suggested_action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [],
+          "name": "call_modifiers"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "count"
+          ],
+          "name": "formulas"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "trail_list"
+          ],
+          "name": "audit_objects"
+        }
+      ],
+      "outputs": [
+        {
+          "value": "cc_582ae603d78_cloudtrail-service-disabled",
+          "name": "ec2_name"
+        },
+        {
+          "value": true,
+          "name": "included"
+        },
+        {
+          "value": {
+            "us-east-1": {
+              "region": "us-east-1",
+              "violating_object": [
+                {
+                  "object": 0,
+                  "place": "trails:trail_list.#count"
+                }
+              ],
+              "tags": []
+            }
+          },
+          "name": "violations"
+        },
+        {
+          "value": {
+            "us-west-1": {
+              "region": "us-west-1",
+              "violating_object": [
+                {
+                  "object": 0,
+                  "place": "trails:trail_list.#count"
+                }
+              ],
+              "tags": []
+            }
+          },
+          "name": "violations"
+        }
+      ],
+      "runId": "4e67b2ba-7c5e-4929-aad7-098f8fe0f66e",
+      "resourceId": "aea65dcbb3b5865e6ce06d2e125dc2fd7064d2e6e5d097a2159b6cd2ec50098b",
+      "_id": "582e88f4b7766b2ef55058cc"
+    },
+    {
+      "stackName": "STACK-AUDIT-AWS-CLOUDTRAIL",
+      "engineStatus": "OK",
+      "namespace": "ROOT::AUDIT-AWS-AUDIT-AWS::STACK-AUDIT-AWS-CLOUDTRAIL",
+      "executionNumber": 3,
+      "timestamp": "2016-11-18T04:52:19.000Z",
+      "executionTime": 8.161092192,
+      "resourceType": "coreo_aws_advisor_cloudtrail",
+      "resourceName": "advise-cloudtrail",
+      "dataType": "ADVISOR_RESOURCE",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "advise",
+          "name": "action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "us-east-1",
+            "us-west-1",
+            "us-west-2"
+          ],
+          "name": "regions"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "cloudtrail-service-disabled"
+          ],
+          "name": "alerts"
+        }
+      ],
+      "outputs": [
+        {
+          "value": "cc_582ae603d78_advise-cloudtrail",
+          "name": "ec2_name"
+        },
+        {
+          "value": 0,
+          "name": "number_ignored_violations"
+        },
+        {
+          "value": 3,
+          "name": "number_violations"
+        },
+        {
+          "value": 3,
+          "name": "number_checks"
+        },
+        {
+          "value": "{\"us-east-1\":{\"violations\":{\"cloudtrail-service-disabled\":{\"display_name\":\"Cloudtrail Service is disabled\",\"violating_object\":[{\"place\":\"trails:trail_list.#count\",\"object\":0}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/cloudtrail-service-disabled.html\",\"region\":\"us-east-1\"}},\"tags\":[]},\"us-west-1\":{\"violations\":{\"cloudtrail-service-disabled\":{\"display_name\":\"Cloudtrail Service is disabled\",\"violating_object\":[{\"place\":\"trails:trail_list.#count\",\"object\":0}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/cloudtrail-service-disabled.html\",\"region\":\"us-west-1\"}},\"tags\":[]},\"us-west-2\":{\"violations\":{\"cloudtrail-service-disabled\":{\"display_name\":\"Cloudtrail Service is disabled\",\"violating_object\":[{\"place\":\"trails:trail_list.#count\",\"object\":0}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/cloudtrail-service-disabled.html\",\"region\":\"us-west-2\"}},\"tags\":[]}}",
+          "name": "report"
+        }
+      ],
+      "runId": "4e67b2ba-7c5e-4929-aad7-098f8fe0f66e",
+      "resourceId": "4d7100ea89b84049b7b8a26867a9f03b889a9cb1d836430af815858c2825c934",
+      "_id": "582e8904b7766b2ef55058ce"
+    },
+    {
+      "stackName": "STACK-AUDIT-AWS-CLOUDTRAIL",
+      "engineStatus": "OK",
+      "namespace": "ROOT::AUDIT-AWS-AUDIT-AWS::STACK-AUDIT-AWS-CLOUDTRAIL",
+      "executionNumber": 4,
+      "timestamp": "2016-11-18T04:52:28.000Z",
+      "executionTime": 5.865338518,
+      "resourceType": "coreo_uni_util_jsrunner",
+      "resourceName": "cloudtrail-aggregate",
+      "dataType": "DEPLOY_RESOURCE",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "run",
+          "name": "action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "{\"stack name\":\"audit-aws\",\n  \"instance name\":\"audit-aws\",\n  \"number_of_checks\":\"3\",\n  \"number_of_violations\":\"3\",\n  \"number_violations_ignored\":\"0\",\n  \"violations\":{\"us-east-1\":{\"violations\":{\"cloudtrail-service-disabled\":{\"display_name\":\"Cloudtrail Service is disabled\",\"violating_object\":[{\"place\":\"trails:trail_list.#count\",\"object\":0}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/cloudtrail-service-disabled.html\",\"region\":\"us-east-1\"}},\"tags\":[]},\"us-west-1\":{\"violations\":{\"cloudtrail-service-disabled\":{\"display_name\":\"Cloudtrail Service is disabled\",\"violating_object\":[{\"place\":\"trails:trail_list.#count\",\"object\":0}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/cloudtrail-service-disabled.html\",\"region\":\"us-west-1\"}},\"tags\":[]},\"us-west-2\":{\"violations\":{\"cloudtrail-service-disabled\":{\"display_name\":\"Cloudtrail Service is disabled\",\"violating_object\":[{\"place\":\"trails:trail_list.#count\",\"object\":0}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/cloudtrail-service-disabled.html\",\"region\":\"us-west-2\"}},\"tags\":[]}}}",
+          "name": "json_input"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "var_regions = \"['us-east-1','us-west-1','us-west-2']\";\nvar result = {};\nresult['stack name'] = json_input['stack name'];\nresult['instance name'] = json_input['instance name'];\nresult['regions'] = var_regions;\nresult['number_of_checks'] = json_input['number_of_checks'];\nresult['number_violations_ignored'] = json_input['number_violations_ignored'];\nresult['violations'] = {};\nvar nRegionsWithGlobal = 0;\nvar nViolations = 0;\nconsole.log('json_input: ' + JSON.stringify(json_input));\nfor (var key in json_input['violations']) {\n  if (json_input['violations'].hasOwnProperty(key)) {\n    console.log('--> checking key: ' + key);\n    if (json_input['violations'][key]['violations']['trail-with-global']) {\n      console.log(\"Trail has a region with global: \" + key);\n      nRegionsWithGlobal++;\n    } else {\n      nViolations++;\n      result['violations'][key] = json_input['violations'][key];\n    }\n  }\n}\nconsole.log('Number of regions with global: ' + nRegionsWithGlobal);\nvar noGlobalsAlert = {};\nif (nRegionsWithGlobal == 0) {\n  nViolations++;\n  noGlobalsAlert =\n          { violations:\n            { 'no-global-trails':\n               { 'description': 'CloudTrail global service logging is not enabled for the selected regions.',\n                 'category': 'Audit',\n                 'suggested_action': 'Enable CloudTrail global service logging in at least one region',\n                 'level': 'Warning',\n                 'regions': var_regions\n               }\n            },\n            tags: []\n          };\n  var key = 'selected regions';\n  console.log('saving global violation on key: ' + key + ' | violation: ' + JSON.stringify(noGlobalsAlert));\n  result['violations']['selected-regions'] = noGlobalsAlert;\n}\nconsole.log('Number of violations: ' + nViolations);\nresult['number_of_violations'] = nViolations;\ncallback(result);\n",
+          "name": "function"
+        }
+      ],
+      "outputs": [
+        {
+          "value": "cc_582ae603d78_cloudtrail-aggregate",
+          "name": "ec2_name"
+        },
+        {
+          "value": "{\"stack name\":\"audit-aws\",\"instance name\":\"audit-aws\",\"regions\":\"['us-east-1','us-west-1','us-west-2']\",\"number_of_checks\":\"3\",\"number_violations_ignored\":\"0\",\"violations\":{\"us-east-1\":{\"violations\":{\"cloudtrail-service-disabled\":{\"display_name\":\"Cloudtrail Service is disabled\",\"violating_object\":[{\"place\":\"trails:trail_list.#count\",\"object\":0}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/cloudtrail-service-disabled.html\",\"region\":\"us-east-1\"}},\"tags\":[]},\"us-west-1\":{\"violations\":{\"cloudtrail-service-disabled\":{\"display_name\":\"Cloudtrail Service is disabled\",\"violating_object\":[{\"place\":\"trails:trail_list.#count\",\"object\":0}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/cloudtrail-service-disabled.html\",\"region\":\"us-west-1\"}},\"tags\":[]},\"us-west-2\":{\"violations\":{\"cloudtrail-service-disabled\":{\"display_name\":\"Cloudtrail Service is disabled\",\"violating_object\":[{\"place\":\"trails:trail_list.#count\",\"object\":0}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/cloudtrail-service-disabled.html\",\"region\":\"us-west-2\"}},\"tags\":[]},\"selected-regions\":{\"violations\":{\"no-global-trails\":{\"description\":\"CloudTrail global service logging is not enabled for the selected regions.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail global service logging in at least one region\",\"level\":\"Warning\",\"regions\":\"['us-east-1','us-west-1','us-west-2']\"}},\"tags\":[]}},\"number_of_violations\":4}",
+          "name": "return"
+        },
+        {
+          "value": "#!/usr/bin/env node\nconst util = require('util')\n\nvar input = {\"stack name\":\"audit-aws\",\n  \"instance name\":\"audit-aws\",\n  \"number_of_checks\":\"3\",\n  \"number_of_violations\":\"3\",\n  \"number_violations_ignored\":\"0\",\n  \"violations\":{\"us-east-1\":{\"violations\":{\"cloudtrail-service-disabled\":{\"display_name\":\"Cloudtrail Service is disabled\",\"violating_object\":[{\"place\":\"trails:trail_list.#count\",\"object\":0}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/cloudtrail-service-disabled.html\",\"region\":\"us-east-1\"}},\"tags\":[]},\"us-west-1\":{\"violations\":{\"cloudtrail-service-disabled\":{\"display_name\":\"Cloudtrail Service is disabled\",\"violating_object\":[{\"place\":\"trails:trail_list.#count\",\"object\":0}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/cloudtrail-service-disabled.html\",\"region\":\"us-west-1\"}},\"tags\":[]},\"us-west-2\":{\"violations\":{\"cloudtrail-service-disabled\":{\"display_name\":\"Cloudtrail Service is disabled\",\"violating_object\":[{\"place\":\"trails:trail_list.#count\",\"object\":0}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/cloudtrail-service-disabled.html\",\"region\":\"us-west-2\"}},\"tags\":[]}}};\n\nfunction myfunc(json_input, callback) {\nvar_regions = \"['us-east-1','us-west-1','us-west-2']\";\nvar result = {};\nresult['stack name'] = json_input['stack name'];\nresult['instance name'] = json_input['instance name'];\nresult['regions'] = var_regions;\nresult['number_of_checks'] = json_input['number_of_checks'];\nresult['number_violations_ignored'] = json_input['number_violations_ignored'];\nresult['violations'] = {};\nvar nRegionsWithGlobal = 0;\nvar nViolations = 0;\nconsole.log('json_input: ' + JSON.stringify(json_input));\nfor (var key in json_input['violations']) {\n  if (json_input['violations'].hasOwnProperty(key)) {\n    console.log('--> checking key: ' + key);\n    if (json_input['violations'][key]['violations']['trail-with-global']) {\n      console.log(\"Trail has a region with global: \" + key);\n      nRegionsWithGlobal++;\n    } else {\n      nViolations++;\n      result['violations'][key] = json_input['violations'][key];\n    }\n  }\n}\nconsole.log('Number of regions with global: ' + nRegionsWithGlobal);\nvar noGlobalsAlert = {};\nif (nRegionsWithGlobal == 0) {\n  nViolations++;\n  noGlobalsAlert =\n          { violations:\n            { 'no-global-trails':\n               { 'description': 'CloudTrail global service logging is not enabled for the selected regions.',\n                 'category': 'Audit',\n                 'suggested_action': 'Enable CloudTrail global service logging in at least one region',\n                 'level': 'Warning',\n                 'regions': var_regions\n               }\n            },\n            tags: []\n          };\n  var key = 'selected regions';\n  console.log('saving global violation on key: ' + key + ' | violation: ' + JSON.stringify(noGlobalsAlert));\n  result['violations']['selected-regions'] = noGlobalsAlert;\n}\nconsole.log('Number of violations: ' + nViolations);\nresult['number_of_violations'] = nViolations;\ncallback(result);\n\n}\n\nvar ret = myfunc(input, function (data) {\n    console.log('CC_USER_OUTPUT_STARTS_HERE');\n    if (\"json\" == \"json\") {\n      console.log(JSON.stringify(data));\n    } else {\n      console.log(data);\n    }\n    console.log('CC_USER_OUTPUT_ENDS_HERE');\n});\n",
+          "name": "jsrunner_file"
+        },
+        {
+          "value": "{\"name\":\"jsrunner\",\"description\":\"jsrunner\",\"engine\":\"node 6.6.0\",\"dependencies\": {\n}}\n",
+          "name": "packages_file"
+        }
+      ],
+      "runId": "4e67b2ba-7c5e-4929-aad7-098f8fe0f66e",
+      "resourceId": "e05a5c9891021e93760410973a0b2c5b3f933ab486734145b8e200e19340a712",
+      "_id": "582e890db7766b2ef55058cf"
+    },
+    {
+      "stackName": "STACK-AUDIT-AWS-EC2",
+      "engineStatus": "OK",
+      "namespace": "ROOT::AUDIT-AWS-AUDIT-AWS::STACK-AUDIT-AWS-EC2",
+      "executionNumber": 6,
+      "timestamp": "2016-11-18T04:52:31.000Z",
+      "executionTime": 1.424952019,
+      "resourceType": "coreo_aws_advisor_alert",
+      "resourceName": "ec2-inventory",
+      "dataType": "ADVISOR_RESOURCE",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "define",
+          "name": "action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "EC2 Instance Inventory",
+          "name": "display_name"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "ec2",
+          "name": "service"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "(?-mix:)"
+          ],
+          "name": "alert_when"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "instances"
+          ],
+          "name": "objectives"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Information",
+          "name": "level"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "=~"
+          ],
+          "name": "operators"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "This rule performs an inventory on all EC2 instances in the target AWS account.",
+          "name": "description"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Inventory",
+          "name": "category"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "None.",
+          "name": "suggested_action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [],
+          "name": "call_modifiers"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "reservation_set.instances_set.instance_id"
+          ],
+          "name": "audit_objects"
+        }
+      ],
+      "outputs": [
+        {
+          "value": "cc_582ae603d78_ec2-inventory",
+          "name": "ec2_name"
+        }
+      ],
+      "runId": "4e67b2ba-7c5e-4929-aad7-098f8fe0f66e",
+      "resourceId": "42e8bd2633fd48f9c2cc2787cdde05b7c43f2a619d5c76239f4dd8c9febe823b",
+      "_id": "582e890fb7766b2ef55058d0"
+    },
+    {
+      "stackName": "STACK-AUDIT-AWS-EC2",
+      "engineStatus": "OK",
+      "namespace": "ROOT::AUDIT-AWS-AUDIT-AWS::STACK-AUDIT-AWS-EC2",
+      "executionNumber": 7,
+      "timestamp": "2016-11-18T04:53:06.000Z",
+      "executionTime": 1.346547351,
+      "resourceType": "coreo_aws_advisor_alert",
+      "resourceName": "ec2-ip-address-whitelisted",
+      "dataType": "ADVISOR_RESOURCE",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "define",
+          "name": "action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Security Group contains IP address",
+          "name": "display_name"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "ec2",
+          "name": "service"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "(?-mix:\\/32)"
+          ],
+          "name": "alert_when"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "security_groups"
+          ],
+          "name": "objectives"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "http://kb.cloudcoreo.com/mydoc_ec2-ip-address-whitelisted.html",
+          "name": "link"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Warning",
+          "name": "level"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "=~"
+          ],
+          "name": "operators"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Security Group contains IP address",
+          "name": "description"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Security",
+          "name": "category"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Review Security Group to ensure that the host ip address added is to allowed access.",
+          "name": "suggested_action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [],
+          "name": "call_modifiers"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "security_group_info.ip_permissions.ip_ranges.cidr_ip"
+          ],
+          "name": "audit_objects"
+        }
+      ],
+      "outputs": [
+        {
+          "value": "cc_582ae603d78_ec2-ip-address-whitelisted",
+          "name": "ec2_name"
+        },
+        {
+          "value": true,
+          "name": "included"
+        }
+      ],
+      "runId": "4e67b2ba-7c5e-4929-aad7-098f8fe0f66e",
+      "resourceId": "52564114d5790d170a0503df036cbf11b778736a3989bbde425c7d23ea32eddc",
+      "_id": "582e8912b7766b2ef55058d1"
+    },
+    {
+      "stackName": "STACK-AUDIT-AWS-EC2",
+      "engineStatus": "OK",
+      "namespace": "ROOT::AUDIT-AWS-AUDIT-AWS::STACK-AUDIT-AWS-EC2",
+      "executionNumber": 9,
+      "timestamp": "2016-11-18T04:53:07.000Z",
+      "executionTime": 1.380007995,
+      "resourceType": "coreo_aws_advisor_alert",
+      "resourceName": "ec2-TCP-1521-0.0.0.0/0",
+      "dataType": "ADVISOR_RESOURCE",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "define",
+          "name": "action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "TCP port is open - 1521",
+          "name": "display_name"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "ec2",
+          "name": "service"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "tcp",
+            1521,
+            "0.0.0.0/0"
+          ],
+          "name": "alert_when"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "",
+            "",
+            "security_groups"
+          ],
+          "name": "objectives"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "http://kb.cloudcoreo.com/mydoc_ec2-tcpportopen.html",
+          "name": "link"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Warning",
+          "name": "level"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "==",
+            "==",
+            "=="
+          ],
+          "name": "operators"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Important TCP port is open and/or open to the world.",
+          "name": "description"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Security",
+          "name": "category"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Only open those ports that must be open for your service to operate. Consider deleting or modifying the affected security group.",
+          "name": "suggested_action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [],
+          "name": "call_modifiers"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "security_group_info.ip_permissions.ip_protocol",
+            "security_group_info.ip_permissions.from_port",
+            "security_group_info.ip_permissions.ip_ranges.cidr_ip"
+          ],
+          "name": "audit_objects"
+        }
+      ],
+      "outputs": [
+        {
+          "value": "cc_582ae603d78_ec2-TCP-1521-0.0.0.0/0",
+          "name": "ec2_name"
+        },
+        {
+          "value": true,
+          "name": "included"
+        }
+      ],
+      "runId": "4e67b2ba-7c5e-4929-aad7-098f8fe0f66e",
+      "resourceId": "ab86aa2cab42149945f2af69daa721a84c91826826bcd49440c25ef7ec4f51aa",
+      "_id": "582e8916b7766b2ef55058d3"
+    },
+    {
+      "stackName": "STACK-AUDIT-AWS-EC2",
+      "engineStatus": "OK",
+      "namespace": "ROOT::AUDIT-AWS-AUDIT-AWS::STACK-AUDIT-AWS-EC2",
+      "executionNumber": 10,
+      "timestamp": "2016-11-18T04:53:07.000Z",
+      "executionTime": 1.370695149,
+      "resourceType": "coreo_aws_advisor_alert",
+      "resourceName": "ec2-TCP-3306-0.0.0.0/0",
+      "dataType": "ADVISOR_RESOURCE",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "define",
+          "name": "action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "TCP port is open - 3306",
+          "name": "display_name"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "ec2",
+          "name": "service"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "tcp",
+            3306,
+            "0.0.0.0/0"
+          ],
+          "name": "alert_when"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "",
+            "",
+            "security_groups"
+          ],
+          "name": "objectives"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "http://kb.cloudcoreo.com/mydoc_ec2-tcpportopen.html",
+          "name": "link"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Warning",
+          "name": "level"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "==",
+            "==",
+            "=="
+          ],
+          "name": "operators"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Important TCP port is open and/or open to the world.",
+          "name": "description"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Security",
+          "name": "category"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Only open those ports that must be open for your service to operate. Consider deleting or modifying the affected security group.",
+          "name": "suggested_action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [],
+          "name": "call_modifiers"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "security_group_info.ip_permissions.ip_protocol",
+            "security_group_info.ip_permissions.from_port",
+            "security_group_info.ip_permissions.ip_ranges.cidr_ip"
+          ],
+          "name": "audit_objects"
+        }
+      ],
+      "outputs": [
+        {
+          "value": "cc_582ae603d78_ec2-TCP-3306-0.0.0.0/0",
+          "name": "ec2_name"
+        },
+        {
+          "value": true,
+          "name": "included"
+        }
+      ],
+      "runId": "4e67b2ba-7c5e-4929-aad7-098f8fe0f66e",
+      "resourceId": "134a6ca481237c0be3fa886e3a5836121a02d34658de1e90891761cf78dd4fd1",
+      "_id": "582e8918b7766b2ef55058d4"
+    },
+    {
+      "stackName": "STACK-AUDIT-AWS-EC2",
+      "engineStatus": "OK",
+      "namespace": "ROOT::AUDIT-AWS-AUDIT-AWS::STACK-AUDIT-AWS-EC2",
+      "executionNumber": 11,
+      "timestamp": "2016-11-18T04:53:08.000Z",
+      "executionTime": 1.556001524,
+      "resourceType": "coreo_aws_advisor_alert",
+      "resourceName": "ec2-TCP-5432-0.0.0.0/0",
+      "dataType": "ADVISOR_RESOURCE",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "define",
+          "name": "action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "TCP port is open - 5432",
+          "name": "display_name"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "ec2",
+          "name": "service"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "tcp",
+            5432,
+            "0.0.0.0/0"
+          ],
+          "name": "alert_when"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "",
+            "",
+            "security_groups"
+          ],
+          "name": "objectives"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "http://kb.cloudcoreo.com/mydoc_ec2-tcpportopen.html",
+          "name": "link"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Warning",
+          "name": "level"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "==",
+            "==",
+            "=="
+          ],
+          "name": "operators"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Important TCP port is open and/or open to the world.",
+          "name": "description"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Security",
+          "name": "category"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Only open those ports that must be open for your service to operate. Consider deleting or modifying the affected security group.",
+          "name": "suggested_action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [],
+          "name": "call_modifiers"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "security_group_info.ip_permissions.ip_protocol",
+            "security_group_info.ip_permissions.from_port",
+            "security_group_info.ip_permissions.ip_ranges.cidr_ip"
+          ],
+          "name": "audit_objects"
+        }
+      ],
+      "outputs": [
+        {
+          "value": "cc_582ae603d78_ec2-TCP-5432-0.0.0.0/0",
+          "name": "ec2_name"
+        },
+        {
+          "value": true,
+          "name": "included"
+        }
+      ],
+      "runId": "4e67b2ba-7c5e-4929-aad7-098f8fe0f66e",
+      "resourceId": "2587b662a22e1d93100612de0466425b683c3cd5a25d8396fc840b0f59ab0541",
+      "_id": "582e891bb7766b2ef55058d5"
+    },
+    {
+      "stackName": "STACK-AUDIT-AWS-EC2",
+      "engineStatus": "OK",
+      "namespace": "ROOT::AUDIT-AWS-AUDIT-AWS::STACK-AUDIT-AWS-EC2",
+      "executionNumber": 12,
+      "timestamp": "2016-11-18T04:53:08.000Z",
+      "executionTime": 1.344097087,
+      "resourceType": "coreo_aws_advisor_alert",
+      "resourceName": "ec2-TCP-27017-0.0.0.0/0",
+      "dataType": "ADVISOR_RESOURCE",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "define",
+          "name": "action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "TCP port is open - 27017",
+          "name": "display_name"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "ec2",
+          "name": "service"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "tcp",
+            27017,
+            "0.0.0.0/0"
+          ],
+          "name": "alert_when"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "",
+            "",
+            "security_groups"
+          ],
+          "name": "objectives"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "http://kb.cloudcoreo.com/mydoc_ec2-tcpportopen.html",
+          "name": "link"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Warning",
+          "name": "level"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "==",
+            "==",
+            "=="
+          ],
+          "name": "operators"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Important TCP port is open and/or open to the world.",
+          "name": "description"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Security",
+          "name": "category"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Only open those ports that must be open for your service to operate. Consider deleting or modifying the affected security group.",
+          "name": "suggested_action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [],
+          "name": "call_modifiers"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "security_group_info.ip_permissions.ip_protocol",
+            "security_group_info.ip_permissions.from_port",
+            "security_group_info.ip_permissions.ip_ranges.cidr_ip"
+          ],
+          "name": "audit_objects"
+        }
+      ],
+      "outputs": [
+        {
+          "value": "cc_582ae603d78_ec2-TCP-27017-0.0.0.0/0",
+          "name": "ec2_name"
+        },
+        {
+          "value": true,
+          "name": "included"
+        }
+      ],
+      "runId": "4e67b2ba-7c5e-4929-aad7-098f8fe0f66e",
+      "resourceId": "d8b86b56adc434b994595c6b549b4945585e41eedc034d2567d55ac2be1b3ff9",
+      "_id": "582e891db7766b2ef55058d6"
+    },
+    {
+      "stackName": "STACK-AUDIT-AWS-EC2",
+      "engineStatus": "OK",
+      "namespace": "ROOT::AUDIT-AWS-AUDIT-AWS::STACK-AUDIT-AWS-EC2",
+      "executionNumber": 13,
+      "timestamp": "2016-11-18T04:53:09.000Z",
+      "executionTime": 1.470366522,
+      "resourceType": "coreo_aws_advisor_alert",
+      "resourceName": "ec2-TCP-1433-0.0.0.0/0",
+      "dataType": "ADVISOR_RESOURCE",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "define",
+          "name": "action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "TCP port is open - 1433",
+          "name": "display_name"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "ec2",
+          "name": "service"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "tcp",
+            1433,
+            "0.0.0.0/0"
+          ],
+          "name": "alert_when"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "",
+            "",
+            "security_groups"
+          ],
+          "name": "objectives"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "http://kb.cloudcoreo.com/mydoc_ec2-tcpportopen.html",
+          "name": "link"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Warning",
+          "name": "level"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "==",
+            "==",
+            "=="
+          ],
+          "name": "operators"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Important TCP port is open and/or open to the world.",
+          "name": "description"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Security",
+          "name": "category"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Only open those ports that must be open for your service to operate. Consider deleting or modifying the affected security group.",
+          "name": "suggested_action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [],
+          "name": "call_modifiers"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "security_group_info.ip_permissions.ip_protocol",
+            "security_group_info.ip_permissions.from_port",
+            "security_group_info.ip_permissions.ip_ranges.cidr_ip"
+          ],
+          "name": "audit_objects"
+        }
+      ],
+      "outputs": [
+        {
+          "value": "cc_582ae603d78_ec2-TCP-1433-0.0.0.0/0",
+          "name": "ec2_name"
+        },
+        {
+          "value": true,
+          "name": "included"
+        }
+      ],
+      "runId": "4e67b2ba-7c5e-4929-aad7-098f8fe0f66e",
+      "resourceId": "cb98e12a039a118d22c6023896575e5d0b955a1481cb07cac39ac706386f424f",
+      "_id": "582e8920b7766b2ef55058d7"
+    },
+    {
+      "stackName": "STACK-AUDIT-AWS-EC2",
+      "engineStatus": "OK",
+      "namespace": "ROOT::AUDIT-AWS-AUDIT-AWS::STACK-AUDIT-AWS-EC2",
+      "executionNumber": 14,
+      "timestamp": "2016-11-18T04:53:09.000Z",
+      "executionTime": 1.488709789,
+      "resourceType": "coreo_aws_advisor_alert",
+      "resourceName": "ec2-TCP-3389-0.0.0.0/0",
+      "dataType": "ADVISOR_RESOURCE",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "define",
+          "name": "action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "TCP port is open - 3389",
+          "name": "display_name"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "ec2",
+          "name": "service"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "tcp",
+            3389,
+            "0.0.0.0/0"
+          ],
+          "name": "alert_when"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "",
+            "",
+            "security_groups"
+          ],
+          "name": "objectives"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "http://kb.cloudcoreo.com/mydoc_ec2-tcpportopen.html",
+          "name": "link"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Warning",
+          "name": "level"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "==",
+            "==",
+            "=="
+          ],
+          "name": "operators"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Important TCP port is open and/or open to the world.",
+          "name": "description"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Security",
+          "name": "category"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Only open those ports that must be open for your service to operate. Consider deleting or modifying the affected security group.",
+          "name": "suggested_action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [],
+          "name": "call_modifiers"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "security_group_info.ip_permissions.ip_protocol",
+            "security_group_info.ip_permissions.from_port",
+            "security_group_info.ip_permissions.ip_ranges.cidr_ip"
+          ],
+          "name": "audit_objects"
+        }
+      ],
+      "outputs": [
+        {
+          "value": "cc_582ae603d78_ec2-TCP-3389-0.0.0.0/0",
+          "name": "ec2_name"
+        },
+        {
+          "value": true,
+          "name": "included"
+        }
+      ],
+      "runId": "4e67b2ba-7c5e-4929-aad7-098f8fe0f66e",
+      "resourceId": "de762cb5b0a36c3a3e027eebab99de1d09f5726af3832354078c411938ffcad6",
+      "_id": "582e8922b7766b2ef55058d8"
+    },
+    {
+      "stackName": "STACK-AUDIT-AWS-EC2",
+      "engineStatus": "OK",
+      "namespace": "ROOT::AUDIT-AWS-AUDIT-AWS::STACK-AUDIT-AWS-EC2",
+      "executionNumber": 16,
+      "timestamp": "2016-11-18T04:53:10.000Z",
+      "executionTime": 1.408394691,
+      "resourceType": "coreo_aws_advisor_alert",
+      "resourceName": "ec2-TCP-5439-0.0.0.0/0",
+      "dataType": "ADVISOR_RESOURCE",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "define",
+          "name": "action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "TCP port is open - 5439",
+          "name": "display_name"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "ec2",
+          "name": "service"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "tcp",
+            5439,
+            "0.0.0.0/0"
+          ],
+          "name": "alert_when"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "",
+            "",
+            "security_groups"
+          ],
+          "name": "objectives"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "http://kb.cloudcoreo.com/mydoc_ec2-tcpportopen.html",
+          "name": "link"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Warning",
+          "name": "level"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "==",
+            "==",
+            "=="
+          ],
+          "name": "operators"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Important TCP port is open and/or open to the world.",
+          "name": "description"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Security",
+          "name": "category"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Only open those ports that must be open for your service to operate. Consider deleting or modifying the affected security group.",
+          "name": "suggested_action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [],
+          "name": "call_modifiers"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "security_group_info.ip_permissions.ip_protocol",
+            "security_group_info.ip_permissions.from_port",
+            "security_group_info.ip_permissions.ip_ranges.cidr_ip"
+          ],
+          "name": "audit_objects"
+        }
+      ],
+      "outputs": [
+        {
+          "value": "cc_582ae603d78_ec2-TCP-5439-0.0.0.0/0",
+          "name": "ec2_name"
+        },
+        {
+          "value": true,
+          "name": "included"
+        }
+      ],
+      "runId": "4e67b2ba-7c5e-4929-aad7-098f8fe0f66e",
+      "resourceId": "90d72e341f18e53255ab3b44348738bd7d2b7d903b70f40382363f6f3f2202b9",
+      "_id": "582e8927b7766b2ef55058da"
+    }
+  ],
+  "numberOfResources": 74,
+  "planRefreshIntervalInHours": 24,
+  "lastExecutionTime": "2016-11-18T04:51:42.000Z"
+}

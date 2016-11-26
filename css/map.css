@@ -1,0 +1,112 @@
+.map-region {
+
+}
+
+.map-region .map-data-header {
+    font-size: 24px;
+    border-bottom: 1px solid #E4E4E4;
+    padding-bottom: 8px;
+}
+
+.map-region .regions-list {
+    padding-top: 20px;
+}
+
+.map-region .region {
+    width: 300px;
+}
+
+.map-region .regions-list .regions-subheader {
+    font-size: 16px;
+    font-weight: bold;
+    padding-left: 24px;
+    margin-bottom: 8px;
+}
+
+.map-region .resources {
+    margin-bottom: 16px;
+}
+
+.map-region .resources > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.map-region .resources .deploy-bubble {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background: #2b7ae5;
+    border: 1px solid #2b7ae5;
+    margin-right: 4px;
+}
+.map-region .resources .none {
+    margin-left: 24px;
+    font-style: italic;
+    margin-bottom: 40px;
+}
+
+.map-region .resources .violation-bubble {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    border: 1px solid #E53E2B;
+    margin-right: 4px;
+}
+
+.map-region .region-img {
+    width: 100%;
+    max-width: 600px;
+}
+.map-region .region-img > svg {
+    width: 100%;
+    height: 500px;
+}
+
+
+.global-region-chart {
+    background: #E4E4E4;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 25px;
+    margin-right: 20px;
+    position: relative;
+    width: 295px;
+    margin-top: 16px;
+}
+
+.global-region-chart .global-resources-list {
+    display: flex;
+    flex-direction: row;
+}
+.global-region-chart .global-resources-list > div {
+    position: relative;
+}
+
+.global-region-chart .global-resources-list .deploy-bubble {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background: #2b7ae5;
+    border: 1px solid #2b7ae5;
+    text-align: center;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.global-region-chart .global-resources-list .violation-bubble {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    border: 1px solid #E53E2B;
+    text-align: center;
+    color: #6b6b6b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

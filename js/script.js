@@ -115,7 +115,7 @@ $(document).ready(function () {
                 $('.resource-type-toggle .resource-type.map-res').removeClass('active');
                 $('.resource-type-toggle .resource-type.audit-res').addClass('active');
                 $('.map').addClass('hidden');
-                $('.audit').removeClass('hidden');
+                $('.resource-type.audit-res').trigger('click');
             }
 
         });

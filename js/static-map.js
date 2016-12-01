@@ -129,7 +129,7 @@ function moveToFront(elem) {
 function calcRadius(value) {
     var radius = value;
     if(radius < 15) radius = 15;
-    if(radius > 50) radius = 50;
+    if(radius > 30) radius = 30;
     return radius;
 }
 
@@ -196,6 +196,7 @@ function renderRegion(regions, key) {
 
     d3.xml(data.img).get(function(error, xml) {
         if (error) { console.log(error); return; }
+        $('.' + data.cssClass).html('');
 
         var svgNode = xml.getElementsByTagName('svg')[0];
         d3.select('.' + data.cssClass)
@@ -252,7 +253,6 @@ function render(mapData) {
     });
 
     if(regions['Global']) renderGlobalData(regions['Global']);
-
 }
 
 window.staticMaps = (function () {

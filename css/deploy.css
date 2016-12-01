@@ -570,13 +570,6 @@ body {
 }
 
 @media screen and (max-width: 600px) {
-    .resource-type.map-res {
-        display: none !important;
-    }
-    .container .data-container .map {
-        display: none !important;
-    }
-
     .deploy .custom-dropdown {
         display: block;
     }

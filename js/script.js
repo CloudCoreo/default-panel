@@ -118,38 +118,55 @@ $(document).ready(function () {
         }, 5000);
     }
 
+    function initView() {
+        $('.is-executing').addClass('hidden');
+        $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').removeClass('error');
+        $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').removeClass('alert');
+    }
+
+    function setupData(data, isFirstLoad) {
+        if (isFirstLoad) {
+            deployData = new Deploy(data);
+            auditData = new Audit(data, 'level');
+        } else {
+            deployData.refreshData(data);
+            auditData.refreshData(data);
+        }
+        renderMapData('level');
+    }
+
+    function setupViewData(isFirstLoad) {
+        var noViolations = !auditData.getViolationsList() || !auditData.getViolationsList().length;
+        if (!noViolations) $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').addClass('alert');
+        if (deployData.hasErrors()) $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').addClass('error');
+
+        if(isFirstLoad) {
+            currentView = noViolations ? viewTypes.deploy : viewTypes.audit;
+            $('.resource-type-toggle .resource-type.' + currentView + '-res').addClass('active');
+            $('.' + currentView).removeClass('hidden');
+            $('#backdrop').addClass('hidden');
+        }
+    }
+
+    function checkExecutionStatus(data){
+        if(((!data.engineState && data.numberOfResources !== data.resourcesArray.length) ||
+            (data.engineState && data.engineState !== 'COMPLETED')) && !deployData.hasErrors()) {
+            $('.is-executing').removeClass('hidden');
+        }
+    }
+
     function init(data, isFirstLoad) {
         setupHandlers();
-        d3.json("./tmp-data/world-countries.json", function (collection) {
-            if (isFirstLoad) {
-                deployData = new Deploy(data);
-                auditData = new Audit(data, 'level');
-            } else {
-                deployData.refreshData(data);
-                auditData.refreshData(data);
-            }
-
-            renderMapData('level');
-            $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').removeClass('error');
-            $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').removeClass('alert');
-
-            var noViolations = !auditData.getViolationsList() || !auditData.getViolationsList().length;
-            if (!noViolations) $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').addClass('alert');
-            if (deployData.hasErrors()) $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').addClass('error');
-
-            if(isFirstLoad) {
-                currentView = noViolations ? viewTypes.deploy : viewTypes.audit;
-                $('.resource-type-toggle .resource-type.' + currentView + '-res').addClass('active');
-                $('.' + currentView).removeClass('hidden');
-                $('#backdrop').addClass('hidden');
-            }
-        });
+        initView();
+        setupData(data, isFirstLoad);
+        setupViewData(isFirstLoad);
+        checkExecutionStatus(data);
     }
 
     if (typeof ccThisCont === 'undefined') {
-        d3.json("./tmp-data/tmp2.json", function (data) {
+        d3.json("./tmp-data/tmp0.json", function (data) {
             init(data, true);
-            //emulateCcThisUpdate(data);
+            emulateCcThisUpdate(data);
         });
     } else {
         init(ccThisCont.ccThis, true);

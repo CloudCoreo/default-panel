@@ -1,8 +1,7 @@
 .resource-type-toggle {
     display: flex;
     background: #e4e4e4;
-    margin-top: 8px;
-    margin-bottom: 8px;
+    margin: 8px;
 }
 
 .resource-type-toggle .resource-type {
@@ -53,4 +52,27 @@
     display: inline-block;
     height: 100%;
     overflow: auto;
+    margin: 0 8px;
+}
+
+.is-executing {
+    background: #0dbf7f;
+    padding: 8px;
+    color: white;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.status-spinner {
+    width: 20px;
+    height: 20px;
+    background: url('../images/refresh-2.gif') no-repeat;
+    background-size: cover;
+    display: inline-block;
+    position: relative;
+    margin-right: 4px;
 }

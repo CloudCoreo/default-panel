@@ -187,7 +187,7 @@ window.Audit = (function () {
         };
     }
 
-    function renderSection(violations, key, color, uncountable) {
+    function renderSection(violations, key, color, resultsType) {
         var sectionSummary = { label: key, value: Object.keys(violations).length, color: color };
         if (!sectionSummary.value) {
             return;
@@ -196,7 +196,7 @@ window.Audit = (function () {
         var visibleList = '';
         var restList = '';
         var visibleCount = 0;
-        var headerData = { name: sectionSummary.label, resultsCount: (!uncountable ? sectionSummary.value : 0) };
+        var headerData = { name: sectionSummary.label, resultsCount: sectionSummary.value, resultsType: resultsType };
         var header = headerTpl.render(headerData);
 
         Object.keys(violations).forEach(function (vId) {
@@ -241,7 +241,7 @@ window.Audit = (function () {
         $(containers.mainDataContainerSelector).html('');
 
         var fillData = function(key){
-            renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color);
+            renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color, 'VIOLATIONS');
             pieData.push({
                 label: key,
                 value: Object.keys(listOfAlerts[key].alerts).length,
@@ -423,9 +423,9 @@ window.Audit = (function () {
         var listOfAlerts = renderResourcesList(sortKey);
 
         if (sortKey === 'level' && !errors.length) {
-            renderSection(passedViolations, 'Checks that Passed', color.Passed, true);
+            renderSection(passedViolations, 'Checks that Passed', color.Passed, 'PASSED');
         }
-        renderSection(disabledViolations, 'Disabled', color.Disabled);
+        renderSection(disabledViolations, 'Disabled', color.Disabled, 'DISABLED');
         refreshClickHandlers(listOfAlerts);
     }
 

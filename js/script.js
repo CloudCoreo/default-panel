@@ -123,10 +123,10 @@ $(document).ready(function () {
         d3.json("./tmp-data/world-countries.json", function (collection) {
             if (isFirstLoad) {
                 deployData = new Deploy(data);
-                auditData = new Audit(data.resourcesArray, 'level');
+                auditData = new Audit(data, 'level');
             } else {
                 deployData.refreshData(data);
-                auditData.refreshData(data.resourcesArray);
+                auditData.refreshData(data);
             }
 
             renderMapData('level');
@@ -149,7 +149,7 @@ $(document).ready(function () {
     if (typeof ccThisCont === 'undefined') {
         d3.json("./tmp-data/tmp2.json", function (data) {
             init(data, true);
-            emulateCcThisUpdate(data);
+            //emulateCcThisUpdate(data);
         });
     } else {
         init(ccThisCont.ccThis, true);

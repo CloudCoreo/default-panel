@@ -9,7 +9,7 @@ window.Audit = (function () {
         region: {},
         service: {}
     };
-
+    var isExecuted;
     var errors = [];
     var pie;
 
@@ -38,7 +38,8 @@ window.Audit = (function () {
         noViolationsMessageSelector: '#no-violations-view',
         pieChartSelector: '.pie',
         errorsContSelector: '#advisor-errors',
-        mainCont: '.audit-list'
+        mainCont: '.audit-list',
+        planIsExecuting: '#resources-are-loading'
     };
 
     var headerTpl = $.templates("#list-header-tmpl"),
@@ -225,7 +226,13 @@ window.Audit = (function () {
             return;
         }
         if (!alerts.length && !disabledViolations.length && !errors.length) {
-            $(containers.noViolationsMessageSelector).removeClass('hidden');
+            if(isExecuted) {
+                $(containers.noViolationsMessageSelector).removeClass('hidden');
+                return;
+            }
+
+            $(containers.planIsExecuting).removeClass('hidden');
+            $(containers.mainCont).addClass('empty');
             return;
         }
 
@@ -439,6 +446,7 @@ window.Audit = (function () {
         $(containers.mainDataContainerSelector).html('');
         $(containers.noAuditResourcesMessageSelector).addClass('hidden');
         $(containers.noViolationsMessageSelector).addClass('hidden');
+        $(containers.planIsExecuting).addClass('hidden');
         $(containers.mainCont).removeClass('empty');
     }
 
@@ -447,7 +455,8 @@ window.Audit = (function () {
         initView();
 
         pie = new ResourcesPie(containers.pieChartSelector);
-        initResourcesList(data);
+        isExecuted = data.numberOfResources === data.resourcesArray.length;
+        initResourcesList(data.resourcesArray);
         render(sortKey);
     }
 

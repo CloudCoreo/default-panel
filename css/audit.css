@@ -67,6 +67,7 @@ html, body {
 .pie-data-header {
     font-size: 18px;
     margin-bottom: 20px;
+    padding-top: 8px;
     text-align: center;
     color: #000000;
 }
@@ -263,7 +264,7 @@ html, body {
     max-width: 1200px;
 }
 
-#no-violation-resources, #no-deploy-resources {
+#no-violation-resources, #no-deploy-resources, #resources-are-loading {
     margin: 0 auto;
     font-size: 18px;
     color: #6d6d6d;

@@ -149,8 +149,8 @@ $(document).ready(function () {
     }
 
     function checkExecutionStatus(data){
-        if(((!data.engineState && data.numberOfResources !== data.resourcesArray.length) ||
-            (data.engineState && data.engineState !== 'COMPLETED')) && !deployData.hasErrors()) {
+        if(((!data.engineState && data.numberOfResources !== data.resourcesArray.length && !deployData.hasErrors()) ||
+            (data.engineState && data.engineState !== 'COMPLETED'))) {
             $('.is-executing').removeClass('hidden');
         }
     }

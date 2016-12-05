@@ -254,14 +254,14 @@ window.Deploy = (function () {
         if (!ccThisData.resourcesArray) ccThisData.resourcesArray = [];
         if (!ccThisData.numberOfResources) ccThisData.numberOfResources = 0;
         if (!ccThisData.planRefreshIntervalInHours) ccThisData.planRefreshIntervalInHours = 24;
-        if (!ccThisData.timestamp) ccThisData.timestamp = getYesterdayDate();
+        if (!ccThisData.lastExecutionTime) ccThisData.lastExecutionTime = getYesterdayDate();
         return ccThisData;
     }
 
     function initGlobalVariables(ccThisData) {
         totalNumberOfResources = ccThisData.numberOfResources;
         planRefreshIntervalInHours = ccThisData.planRefreshIntervalInHours;
-        lastExecutionDate = ccThisData.timestamp;
+        lastExecutionDate = ccThisData.lastExecutionTime;
         resources = [];
         numberOfNotExecutedResources = 0;
         resourcesAlerts = false;

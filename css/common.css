@@ -51,6 +51,5 @@
 .scrollable-area {
     max-height: 100%;
     display: inline-block;
-    height: 100%;
     overflow: auto;
 }

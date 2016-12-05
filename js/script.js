@@ -26,6 +26,7 @@ $(document).ready(function () {
     };
 
     function getRegion(resource) {
+        if (resource.engineStatus.indexOf('ERROR') !== -1) return 'CloudCoreo';
         if (resource.resourceType.indexOf('aws_advisor_') !== -1) return 'CloudCoreo';
         if (resource.resourceType.indexOf('aws_iam_') !== -1) return 'AWS';
         if (resource.resourceType.indexOf('aws_route53_') !== -1) return 'AWS';
@@ -55,7 +56,7 @@ $(document).ready(function () {
 
             if (region !== 'CloudCoreo') {
                 if (!mapData[region]) {
-                    mapData[region] = { violations: 0, deployed: 0, message: defMessage };
+                    mapData[region] = { violations: 0, deployed: 0 };
                 }
                 if (resource.dataType === 'ADVISOR_RESOURCE') ++mapData[region].violations;
                 else ++mapData[region].deployed;
@@ -112,7 +113,7 @@ $(document).ready(function () {
 
     function emulateCcThisUpdate(data) {
         setTimeout(function() {
-            d3.json("./tmp-data/tmp.json", function (data) {
+            d3.json("./tmp-data/tmp2.json", function (data) {
                 init(data, false);
             });
         }, 5000);
@@ -149,8 +150,7 @@ $(document).ready(function () {
     }
 
     function checkExecutionStatus(data){
-        if(((!data.engineState && data.numberOfResources !== data.resourcesArray.length && !deployData.hasErrors()) ||
-            (data.engineState && data.engineState !== 'COMPLETED'))) {
+        if (data.engineState && data.engineState !== 'COMPLETED'){
             $('.is-executing').removeClass('hidden');
         }
     }

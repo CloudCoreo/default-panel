@@ -120,6 +120,12 @@ var regionsList = {
     'AWS': {region: 'Global'}
 };
 
+function moveToFront(elem) {
+    return elem.each(function() {
+        this.parentNode.appendChild(this);
+    });
+}
+
 function calcRadius(value) {
     var radius = value;
     if(radius < 15) radius = 15;
@@ -137,7 +143,12 @@ function drawCircle(g, value, fillColor, strokeColor, textColor, shift) {
     var cx = g.attr('cx')*1.0 + shiftRadius;
     var cy = g.attr('cy');
 
-    g.append("circle")
+    var circle = g.append('g')
+        .on('mouseover', function(d) {
+            moveToFront(d3.select(this));
+        });
+
+    circle.append("circle")
         .attr('r', radius)
         .attr('cx', cx)
         .attr('cy', cy)
@@ -145,7 +156,7 @@ function drawCircle(g, value, fillColor, strokeColor, textColor, shift) {
         .attr("stroke", strokeColor)
         .attr("stroke-width", '1px');
 
-    g.append("svg:text")
+    circle.append("svg:text")
         .attr("dy", "0.4em")
         .attr('x', cx)
         .attr('y', cy)
@@ -156,6 +167,10 @@ function drawCircle(g, value, fillColor, strokeColor, textColor, shift) {
 
 function drawCircleOnMap(region) {
     var g =  d3.select('#' + region.key);
+    g.on('mouseover', function(d) {
+        moveToFront(d3.select(this));
+    });
+
     drawCircle(g, region.deployed, '#2B7AE5', '#2B7AE5', '#ffffff');
     drawCircle(g, region.violations, '#fff', '#ff0000', '#E53E2B', region.deployed);
 }
@@ -211,7 +226,7 @@ function renderGlobalData(regions) {
             .append('svg')
             .style('max-width', '185px')
             .append('g')
-            .attr('cx', 40)
+            .attr('cx', 95 - calcRadius(region.deployed)/2)
             .attr('cy', 75);
         drawCircle(g, region.deployed, '#2B7AE5', '#2B7AE5', '#ffffff');
         drawCircle(g, region.violations, '#fff', '#ff0000', '#E53E2B', region.deployed);
@@ -237,6 +252,7 @@ function render(mapData) {
     });
 
     if(regions['Global']) renderGlobalData(regions['Global']);
+
 }
 
 window.staticMaps = (function () {

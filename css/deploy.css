@@ -95,9 +95,10 @@ body {
     flex-direction: column;
 }
 
-.data-container .deploy .sticky-header {
-    height: 70px;
-    min-height: 70px;
+.data-container .deploy .scrollable-list {
+    height: 100%;
+    max-height: 100%;
+    overflow: auto;
 }
 
 .view-options {
@@ -572,6 +573,10 @@ body {
 @media screen and (max-width: 600px) {
     .deploy .custom-dropdown {
         display: block;
+    }
+
+    .data-container .deploy .scrollable-list {
+        overflow: inherit;
     }
 
     .options-container {

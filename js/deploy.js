@@ -235,18 +235,6 @@ window.Deploy = (function () {
             return;
         }
 
-        $('.resource-list-header .sort-label').click(function () {
-            var _this = $(this);
-            if (_this.hasClass('active')) {
-                _this.toggleClass('desc');
-            } else {
-                $('.resource-list-header .active').removeClass('active');
-                _this.addClass('active');
-            }
-            sort(_this.attr('key'), _this.hasClass('desc'));
-        });
-
-        sort('timestamp');
         appendNumberOfResultsLabel();
         appendNextExecutionTime();
         if (numberOfNotExecutedResources > 0) {
@@ -259,6 +247,36 @@ window.Deploy = (function () {
         if (numberOfNotExecutedResources <= 0 && !resourcesAlerts) {
             appendSuccessulBuildNotification();
         }
+
+    }
+
+    function getInitializedCcThisData(ccThisData) {
+        if (!ccThisData.resourcesArray) ccThisData.resourcesArray = [];
+        if (!ccThisData.numberOfResources) ccThisData.numberOfResources = 0;
+        if (!ccThisData.planRefreshIntervalInHours) ccThisData.planRefreshIntervalInHours = 24;
+        if (!ccThisData.lastExecutionTime) ccThisData.lastExecutionTime = getYesterdayDate();
+        return ccThisData;
+    }
+
+    function initGlobalVariables(ccThisData) {
+        totalNumberOfResources = ccThisData.numberOfResources;
+        planRefreshIntervalInHours = ccThisData.planRefreshIntervalInHours;
+        lastExecutionDate = ccThisData.lastExecutionTime;
+        resources = [];
+        numberOfNotExecutedResources = 0;
+        resourcesAlerts = false;
+    }
+
+    function initView() {
+        $('.deploy .messages').addClass('hidden');
+        $('.deploy .pages').html('');
+        $('#no-deploy-resources').addClass('hidden');
+        $('.resources-list').html('');
+        $('.resources-list').removeClass('empty');
+        $('.resources-list-header').removeClass('empty');
+    }
+
+    function initClickHandlers() {
         $('.deploy .dropdown-button').click(function () {
             $('.deploy .custom-dropdown ul').toggleClass('hidden');
         });
@@ -268,36 +286,29 @@ window.Deploy = (function () {
                 $('.deploy .custom-dropdown ul').addClass('hidden');
             }
         });
+        $('.resource-list-header .sort-label').click(function () {
+            var _this = $(this);
+            if (_this.hasClass('active')) {
+                _this.toggleClass('desc');
+            } else {
+                $('.resource-list-header .active').removeClass('active');
+                _this.addClass('active');
+            }
+            sort(_this.attr('key'), _this.hasClass('desc'));
+        });
     }
 
-    function getInitializedCcThisData(ccThisData) {
-        if (!ccThisData.resourcesArray) ccThisData.resourcesArray = [];
-        if (!ccThisData.numberOfResources) ccThisData.numberOfResources = 0;
-        if (!ccThisData.planRefreshIntervalInHours) ccThisData.planRefreshIntervalInHours = 24;
-        if (!ccThisData.timestamp) ccThisData.timestamp = getYesterdayDate();
-        return ccThisData;
-    }
-
-    function initGlobalVariables(ccThisData) {
-        totalNumberOfResources = ccThisData.numberOfResources;
-        planRefreshIntervalInHours = ccThisData.planRefreshIntervalInHours;
-        lastExecutionDate = ccThisData.timestamp;
-        resources = [];
-        numberOfNotExecutedResources = 0;
-        resourcesAlerts = false;
+    function init(data, sortKey, desc) {
+        data = getInitializedCcThisData(data);
+        initGlobalVariables(data);
+        initView();
+        initResourcesList(data.resourcesArray);
+        sort(sortKey, desc);
     }
 
     function deploy(data) {
-        data = getInitializedCcThisData(data);
-        initGlobalVariables(data);
-
-        $('.deploy .messages').addClass('hidden');
-        $('.deploy .pages').html('');
-        $('#no-deploy-resources').addClass('hidden');
-        $('.resources-list').removeClass('empty');
-        $('.resources-list-header').removeClass('empty');
-
-        initResourcesList(data.resourcesArray);
+        init(data, 'timestamp', false);
+        initClickHandlers();
     }
 
     deploy.prototype.renderResourcesList = sort;
@@ -309,6 +320,10 @@ window.Deploy = (function () {
     };
     deploy.prototype.getResourcesList = function () {
         return resources;
+    };
+    deploy.prototype.refreshData = function (data) {
+        var currentSort = $('.resource-list-header .sort-label');
+        init(data, currentSort.attr('key'), currentSort.hasClass('desc'));
     };
     return deploy;
 })();

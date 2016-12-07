@@ -99,15 +99,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="resources-list bg-white "></div>
+                    <div class="scrollable-list">
+                        <div class="resources-list bg-white "></div>
+                    </div>
+                    <div id="no-deploy-resources" class="hidden">This execution has no additional resources.</div>
                     <div class="pagination">
                         <div class="resources-amount"></div>
                         <div class="pages"></div>
                     </div>
                 </div>
-                <div class="deploy hidden">
-                    <div id="no-deploy-resources" class="hidden">This execution has no additional resources.</div>
-                </div>
+
                 <div class="audit hidden">
                     <div id="no-violation-resources" class="hidden">
                         This composite has no audit resources.<br/>
@@ -142,7 +143,7 @@
                             <div class="dropdown-button">
                                 <div>SORT BY</div>
                                 <div class="chosen-item-text">Severity Level</div>
-                                <input type="hidden" class="chosen-item-value chosen-sorting" value="most_recent">
+                                <input type="hidden" class="chosen-item-value chosen-sorting" value="level">
                                 <input type="hidden" class="chosen-item-is-reverse" value="true">
                             </div>
                             <ul class="hidden">

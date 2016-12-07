@@ -232,27 +232,33 @@ window.Audit = (function () {
         var pieData = [];
         var listOfAlerts = organizeDataForCurrentRender(sortKey);
         $(containers.mainDataContainerSelector).html('');
+
+        var fillData = function (key) {
+            renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color);
+            pieData.push({
+                label: key,
+                value: Object.keys(listOfAlerts[key].alerts).length,
+                color: listOfAlerts[key].color
+            });
+        };
+
         if (sortKey === 'level') {
+            var unknownLevels = Object.keys(listOfAlerts);
             Object.keys(color.SeverityTones).forEach(function (key) {
                 if (listOfAlerts[key]) {
-                    renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color);
-                    pieData.push({
-                        label: key,
-                        value: Object.keys(listOfAlerts[key].alerts).length,
-                        color: listOfAlerts[key].color
-                    });
+                    fillData(key);
+                    unknownLevels.splice(unknownLevels.indexOf(key), 1);
                     return;
                 }
                 pieData.push({ label: key, value: 0, color: color.SeverityTones[key] });
             });
+            unknownLevels.forEach(function (key) {
+                fillData(key);
+            });
+
         } else {
             Object.keys(listOfAlerts).forEach(function (key) {
-                renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color);
-                pieData.push({
-                    label: key,
-                    value: Object.keys(listOfAlerts[key].alerts).length,
-                    color: listOfAlerts[key].color
-                });
+                fillData(key);
             });
         }
 
@@ -286,7 +292,7 @@ window.Audit = (function () {
                         description: rowData.description,
                         fix: rowData.suggested_action,
                         service: violations[violationKey].inputs.service,
-                        resource: { id: resId, tags: report[resId].tags },
+                        resource: { id: resId, tags: report[resId].tags, reportId: reportId },
                         region: rowData.region,
                         link: rowData.link,
                         reportId: reportId,
@@ -366,6 +372,13 @@ window.Audit = (function () {
         fillViolationsList(newData, reports);
     }
 
+    function scrollToElement(element) {
+        var tabsHeight = $('.options-container').height();
+        $('.scrollable-area').animate({
+            scrollTop: element.offset().top - tabsHeight
+        }, 200);
+    }
+
     function setupHandlers() {
         $('.audit .chosen-sorting').change(function () {
             render($(this).val());
@@ -403,7 +416,13 @@ window.Audit = (function () {
 
         $('.browse-composites').click(function () {
             openPopup('redirectToCommunityComposites');
-        })
+        });
+        $('.link.passed').click(function () {
+            scrollToElement($('.Checks.that.Passed'));
+        });
+        $('.link.disabled').click(function () {
+            scrollToElement($('.Disabled'));
+        });
     }
 
     function render(sortKey) {
@@ -416,18 +435,7 @@ window.Audit = (function () {
         refreshClickHandlers(listOfAlerts);
     }
 
-    function init(data, sortKey) {
-        pie = new ResourcesPie(containers.pieChartSelector);
-        setupHandlers();
-        initResourcesList(data);
-        render(sortKey);
-    }
-
-    function audit(data, sortKey, _callback, selectors) {
-        if (selectors) {
-            containers = selectors;
-        }
-        callback = _callback;
+    function initGlobalVariables() {
         passedViolations = [];
         disabledViolations = [];
         errors = [];
@@ -438,13 +446,36 @@ window.Audit = (function () {
             region: {},
             service: {}
         };
+    }
 
+    function initView() {
         $(containers.mainDataContainerSelector).html('');
         $(containers.noAuditResourcesMessageSelector).addClass('hidden');
         $(containers.noViolationsMessageSelector).addClass('hidden');
         $(containers.mainCont).removeClass('empty');
-        init(data, sortKey);
     }
+
+    function init(data, sortKey) {
+        initGlobalVariables();
+        initView();
+
+        pie = new ResourcesPie(containers.pieChartSelector);
+        initResourcesList(data);
+        render(sortKey);
+    }
+
+    function audit(data, sortKey, _callback, selectors) {
+        if (selectors) {
+            containers = selectors;
+        }
+        callback = _callback;
+        init(data, sortKey);
+        setupHandlers();
+    }
+
+    audit.prototype.refreshData = function (data) {
+        init(data, $('.audit .chosen-sorting').val());
+    };
 
     audit.prototype.renderResourcesList = render;
     audit.prototype.getViolationsList = function () {

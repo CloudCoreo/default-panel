@@ -51,7 +51,8 @@
     max-height: 100%;
     display: inline-block;
     height: 100%;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     margin: 0 8px;
 }
 
@@ -75,4 +76,30 @@
     display: inline-block;
     position: relative;
     margin-right: 4px;
+}
+
+.sort-label {
+    word-break: break-all;
+    word-wrap: break-word;
+}
+
+.no-map-on-mobile-warning {
+    display: none;
+    font-size: 20px;
+    text-align: center;
+    padding: 15px 0;
+}
+
+@media screen and (max-width: 600px) {
+    .resource-type.map-res {
+        display: none !important;
+    }
+
+    .container .data-container .map {
+        display: none !important;
+    }
+
+    .no-map-on-mobile-warning {
+        display: block;
+    }
 }

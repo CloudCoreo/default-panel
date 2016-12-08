@@ -240,7 +240,7 @@ window.Audit = (function () {
         var listOfAlerts = organizeDataForCurrentRender(sortKey);
         $(containers.mainDataContainerSelector).html('');
 
-        var fillData = function(key){
+        var fillData = function (key) {
             renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color, 'VIOLATIONS');
             pieData.push({
                 label: key,
@@ -379,6 +379,13 @@ window.Audit = (function () {
         fillViolationsList(newData, reports);
     }
 
+    function scrollToElement(element) {
+        var tabsHeight = $('.options-container').height();
+        $('.scrollable-area').animate({
+            scrollTop: element.offset().top - tabsHeight
+        }, 200);
+    }
+
     function setupHandlers() {
         $('.audit .chosen-sorting').change(function () {
             render($(this).val());
@@ -416,7 +423,13 @@ window.Audit = (function () {
 
         $('.browse-composites').click(function () {
             openPopup('redirectToCommunityComposites');
-        })
+        });
+        $('.link.passed').click(function () {
+            scrollToElement($('.Checks.that.Passed'));
+        });
+        $('.link.disabled').click(function () {
+            scrollToElement($('.Disabled'));
+        });
     }
 
     function render(sortKey) {

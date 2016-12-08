@@ -95,7 +95,7 @@
         display: none !important;
     }
 
-    .container .data-container .map {
+    .container .data-container .map.no-mobile {
         display: none !important;
     }
 

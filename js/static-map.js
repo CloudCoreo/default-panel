@@ -120,6 +120,8 @@ var regionsList = {
     'AWS': {region: 'Global'}
 };
 
+var mapCont = '.map-container'
+
 function moveToFront(elem) {
     return elem.each(function() {
         this.parentNode.appendChild(this);
@@ -190,7 +192,7 @@ function renderRegion(regions, key) {
     data.subregionsWithoutData = unusedRegions.join(', ');
 
     var rendered = tpl.render(data);
-    $('.map').append(rendered);
+    $(mapCont).append(rendered);
 
     if (!regions.length) return;
 
@@ -216,7 +218,7 @@ function renderGlobalData(regions) {
         subregions: regions
     };
     var rendered = tpl.render(data);
-    $('.map').append(rendered);
+    $(mapCont).append(rendered);
 
     regions.forEach(function(region) {
         var mapTpl = $.templates('#global-region-tpl');
@@ -235,7 +237,7 @@ function renderGlobalData(regions) {
 }
 
 function render(mapData) {
-    $('.map').html('');
+    $(mapCont).html('');
 
     var regions = {};
     Object.keys(mapData).forEach(function (region) {

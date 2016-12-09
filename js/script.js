@@ -26,6 +26,7 @@ $(document).ready(function () {
     };
 
     function getRegion(resource) {
+        if (resource.engineStatus.indexOf('ERROR') !== -1) return 'CloudCoreo';
         if (resource.resourceType.indexOf('aws_advisor_') !== -1) return 'CloudCoreo';
         if (resource.resourceType.indexOf('aws_iam_') !== -1) return 'AWS';
         if (resource.resourceType.indexOf('aws_route53_') !== -1) return 'AWS';
@@ -55,7 +56,7 @@ $(document).ready(function () {
 
             if (region !== 'CloudCoreo') {
                 if (!mapData[region]) {
-                    mapData[region] = { violations: 0, deployed: 0, message: defMessage };
+                    mapData[region] = { violations: 0, deployed: 0 };
                 }
                 if (resource.dataType === 'ADVISOR_RESOURCE') ++mapData[region].violations;
                 else ++mapData[region].deployed;
@@ -112,42 +113,58 @@ $(document).ready(function () {
 
     function emulateCcThisUpdate(data) {
         setTimeout(function() {
-            d3.json("./tmp-data/tmp.json", function (data) {
+            d3.json("./tmp-data/tmp2.json", function (data) {
                 init(data, false);
             });
         }, 5000);
     }
 
+    function initView() {
+        $('.is-executing').addClass('hidden');
+        $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').removeClass('error');
+        $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').removeClass('alert');
+    }
+
+    function setupData(data, isFirstLoad) {
+        if (isFirstLoad) {
+            deployData = new Deploy(data);
+            auditData = new Audit(data, 'level');
+        } else {
+            deployData.refreshData(data);
+            auditData.refreshData(data);
+        }
+        renderMapData('level');
+    }
+
+    function setupViewData(isFirstLoad) {
+        var noViolations = !auditData.getViolationsList() || !auditData.getViolationsList().length;
+        if (!noViolations) $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').addClass('alert');
+        if (deployData.hasErrors()) $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').addClass('error');
+
+        if(isFirstLoad) {
+            currentView = noViolations ? viewTypes.deploy : viewTypes.audit;
+            $('.resource-type-toggle .resource-type.' + currentView + '-res').addClass('active');
+            $('.' + currentView).removeClass('hidden');
+            $('#backdrop').addClass('hidden');
+        }
+    }
+
+    function checkExecutionStatus(data){
+        if (data.engineState && data.engineState !== 'COMPLETED'){
+            $('.is-executing').removeClass('hidden');
+        }
+    }
+
     function init(data, isFirstLoad) {
         setupHandlers();
-        d3.json("./tmp-data/world-countries.json", function (collection) {
-            if (isFirstLoad) {
-                deployData = new Deploy(data);
-                auditData = new Audit(data.resourcesArray, 'level');
-            } else {
-                deployData.refreshData(data);
-                auditData.refreshData(data.resourcesArray);
-            }
-
-            renderMapData('level');
-            $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').removeClass('error');
-            $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').removeClass('alert');
-
-            var noViolations = !auditData.getViolationsList() || !auditData.getViolationsList().length;
-            if (!noViolations) $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').addClass('alert');
-            if (deployData.hasErrors()) $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').addClass('error');
-
-            if(isFirstLoad) {
-                currentView = noViolations ? viewTypes.deploy : viewTypes.audit;
-                $('.resource-type-toggle .resource-type.' + currentView + '-res').addClass('active');
-                $('.' + currentView).removeClass('hidden');
-                $('#backdrop').addClass('hidden');
-            }
-        });
+        initView();
+        setupData(data, isFirstLoad);
+        setupViewData(isFirstLoad);
+        checkExecutionStatus(data);
     }
 
     if (typeof ccThisCont === 'undefined') {
-        d3.json("./tmp-data/tmp2.json", function (data) {
+        d3.json("./tmp-data/tmp0.json", function (data) {
             init(data, true);
             emulateCcThisUpdate(data);
         });

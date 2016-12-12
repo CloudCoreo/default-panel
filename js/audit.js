@@ -222,12 +222,18 @@ window.Audit = (function () {
     }
 
     function renderResourcesList(sortKey) {
+        $(containers.mainDataContainerSelector).html('');
         if (!alerts) {
             return;
         }
         if (!alerts.length && !disabledViolations.length && !errors.length) {
             if(isExecuted) {
                 $(containers.noViolationsMessageSelector).removeClass('hidden');
+                pie.drawPie([{
+                    label: "Passed",
+                    value: Object.keys(passedViolations).length,
+                    color: color.Passed
+                }]);
                 return;
             }
 
@@ -238,7 +244,6 @@ window.Audit = (function () {
 
         var pieData = [];
         var listOfAlerts = organizeDataForCurrentRender(sortKey);
-        $(containers.mainDataContainerSelector).html('');
 
         var fillData = function (key) {
             renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color, 'VIOLATIONS');

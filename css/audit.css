@@ -292,63 +292,6 @@ html, body {
     padding: 25px;
 }
 
-.no-violations-cont {
-    width: 760px;
-    border: 1px solid #ffffff;
-    font-size: 24px;
-    margin: 0 auto;
-    color: #333333;
-}
-
-.no-violations-cont .data {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    background: white;
-    justify-content: center;
-}
-
-.no-violations-cont .data .circle {
-    width: 220px;
-    height: 220px;
-    background: linear-gradient(to bottom, #0ebe7f, #2c9274);
-    border-radius: 110px;
-    margin: 40px auto;
-    border: 3px solid #ffffff;
-    -webkit-box-shadow: 0px 0px 4px 0px rgba(107, 107, 107, 0.36);
-    -moz-box-shadow: 0px 0px 4px 0px rgba(107, 107, 107, 0.36);
-    box-shadow: 0px 0px 4px 0px rgba(107, 107, 107, 0.36);
-}
-
-.no-violations-cont .data .history-title {
-    margin-bottom: 20px;
-}
-
-.no-violations-cont .header {
-    background: linear-gradient(to bottom, #4e98ff, #2b7ae5);
-    color: #ffffff;
-    text-transform: uppercase;
-    text-align: center;
-    padding: 25px;
-}
-
-.no-violations-cont .header span {
-    font-size: 48px;
-}
-
-.no-violations-cont .history {
-    background: linear-gradient(to bottom, #0ebe7f, #2c9274);
-    border-radius: 5px;
-    height: 45px;
-    width: 45px;
-    margin-right: 20px;
-    margin-top: 20px;
-}
-
-.no-violations-cont .info {
-    line-height: 45px;
-    margin: 20px 0;
-}
 
 .advisor-error {
     padding: 10px;
@@ -392,6 +335,35 @@ html, body {
 
 .empty {
     display: none;
+}
+
+.no-violations-message {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.no-violations-message .messages {
+    display: flex;
+    flex-direction: column;
+}
+.no-violations-message .messages .message-1 {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 36pt;
+    color: #2B9F85;
+}
+.no-violations-message .messages .message-2 {
+    color: #000000;
+    font-size: 36pt;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #E4E4E4;
+    margin-bottom: 25px;
+}
+.no-violations-message .messages .message-3 {
+    font-size: 14pt;
+    color: #6b6b6b;
 }
 
 @media (max-width: 600px) {

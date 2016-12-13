@@ -53,18 +53,6 @@ html, body {
     padding: 8px;
 }
 
-#backdrop {
-    width: 100%;
-    min-height: 100%;
-    background: rgba(242, 242, 242, 0.9);
-    position: absolute;
-    text-align: center;
-    line-height: 200px;
-    font-size: 32px;
-    z-index: 200;
-    color: #6b6b6b;
-}
-
 .left-column {
     min-width: 300px;
     width: 20%;

@@ -110,27 +110,6 @@
                         <span class="browse-composites">Browse featured Composites</span> to see available audits.
                     </div>
                     <div id="resources-are-loading" class="hidden">Resources are being loaded</div>
-                    <div id="no-violations-view" class="hidden">
-                        <div class="no-violations-cont md-shadow">
-                            <div class="header">
-                                BEST PRACTICE VIOLATIONS<br/>
-                                <span>ZERO, ZIP, NADA</span>
-                            </div>
-                            <div class="data">
-                                <div class="flex-grow">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="flex-column flex-grow">
-                                    <div class="history-title">Infrastructure Status</div>
-                                    <div class=" flex-row separator-top">
-                                        <div class="history"></div>
-                                        <div class="info">100% AWESOME</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tip">A tip of the hat to you, DevOps Jedi.</div>
-                    </div>
                 </div>
                 <div class="audit flex-row hidden audit-list">
                     <div class="left-column layout-padding-right">
@@ -158,6 +137,16 @@
                     </div>
                     <div class="flex-grow">
                         <div id="advisor-errors"></div>
+                        <div id="no-violations-view" class="hidden">
+                            <div class="md-shadow bg-white no-violations-message layout-margin-bottom-20 layout-margin-top">
+                                <div class="messages layout-padding">
+                                    <div class="message-1">ALL CLEAR!</div>
+                                    <div class="message-2">No violations found.</div>
+                                    <div class="message-3">A tip of the hat to you, DevOps Jedi.</div>
+                                </div>
+                                <div><img src="./images/moose-cropped_no-violations.png"/></div>
+                            </div>
+                        </div>
                         <div class="list"></div>
 
                         <div id="popup" class="hidden">

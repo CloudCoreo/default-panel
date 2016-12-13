@@ -113,7 +113,7 @@ $(document).ready(function () {
 
     function emulateCcThisUpdate(data) {
         setTimeout(function() {
-            d3.json("./tmp-data/tmp2.json", function (data) {
+            d3.json("./tmp-data/tmp0.json", function (data) {
                 init(data, false);
             });
         }, 5000);

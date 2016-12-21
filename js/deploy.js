@@ -6,6 +6,7 @@ window.Deploy = (function () {
     var numberOfFailedResource = -1;
     var numberOfNotExecutedResources = 0;
     var resourcesAlerts = false;
+    var isEnabled = false;
     var initialData;
 
     var itemsOnPage = 50;
@@ -137,6 +138,7 @@ window.Deploy = (function () {
             hoursLeftString = 'will start less than an hour';
         }
         $('.next-execution').html(hoursLeftString);
+        if (isEnabled) $('.message-right-part').addClass('visible');
     }
 
     function appendNotExecutedResourcesNumberNotification() {
@@ -304,6 +306,7 @@ window.Deploy = (function () {
         initView();
         initResourcesList(data.resourcesArray);
         sort(sortKey, desc);
+        isEnabled = data.isEnabled;
     }
 
     function deploy(data) {

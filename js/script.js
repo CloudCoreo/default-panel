@@ -145,7 +145,6 @@ $(document).ready(function () {
             currentView = !violationCount ? viewTypes.deploy : viewTypes.audit;
             $('.resource-type-toggle .resource-type.' + currentView + '-res').addClass('active');
             $('.' + currentView).removeClass('hidden');
-            $('#backdrop').addClass('hidden');
         }
     }
 

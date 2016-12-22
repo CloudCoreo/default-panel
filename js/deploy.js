@@ -138,7 +138,7 @@ window.Deploy = (function () {
             hoursLeftString = 'will start less than an hour';
         }
         $('.next-execution').html(hoursLeftString);
-        if (isEnabled) $('.message-right-part').addClass('visible');
+        $('.message-right-part').addClass('visible');
     }
 
     function appendNotExecutedResourcesNumberNotification() {
@@ -238,7 +238,9 @@ window.Deploy = (function () {
         }
 
         appendNumberOfResultsLabel();
-        appendNextExecutionTime();
+        if (isEnabled) {
+            appendNextExecutionTime();
+        }
         if (numberOfNotExecutedResources > 0) {
             appendNotExecutedResourcesNumberNotification();
             appendNumberOfNotExecutedResources();
@@ -249,7 +251,6 @@ window.Deploy = (function () {
         if (numberOfNotExecutedResources <= 0 && !resourcesAlerts) {
             appendSuccessulBuildNotification();
         }
-
     }
 
     function getInitializedCcThisData(ccThisData) {
@@ -302,11 +303,11 @@ window.Deploy = (function () {
 
     function init(data, sortKey, desc) {
         data = getInitializedCcThisData(data);
+        isEnabled = data.isEnabled;
         initGlobalVariables(data);
         initView();
         initResourcesList(data.resourcesArray);
         sort(sortKey, desc);
-        isEnabled = data.isEnabled;
     }
 
     function deploy(data) {

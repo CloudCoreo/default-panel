@@ -297,6 +297,8 @@ window.Audit = (function () {
             var reportId = reportData._id;
             totalChecks += reportData.outputs.number_checks;
 
+            if (report.violations) report = report.violations;
+
             Object.keys(report).forEach(function (resId) {
                 Object.keys(report[resId].violations).forEach(function (violationKey) {
                     var rowData = report[resId].violations[violationKey];

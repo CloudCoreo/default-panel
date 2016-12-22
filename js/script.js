@@ -137,7 +137,7 @@ $(document).ready(function () {
     }
 
     function setupViewData(isFirstLoad) {
-        var noViolations = !auditData.getViolationsList() || !auditData.getViolationsList().length;
+        var noViolations = auditData.getViolationsCount();
         if (!noViolations) $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').addClass('alert');
         if (deployData.hasErrors()) $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').addClass('error');
 

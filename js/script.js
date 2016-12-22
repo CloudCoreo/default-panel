@@ -137,12 +137,12 @@ $(document).ready(function () {
     }
 
     function setupViewData(isFirstLoad) {
-        var noViolations = auditData.getViolationsCount();
-        if (!noViolations) $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').addClass('alert');
+        var violationCount = auditData.getViolationsCount();
+        if (violationCount) $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').addClass('alert');
         if (deployData.hasErrors()) $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').addClass('error');
 
         if(isFirstLoad) {
-            currentView = noViolations ? viewTypes.deploy : viewTypes.audit;
+            currentView = !violationCount ? viewTypes.deploy : viewTypes.audit;
             $('.resource-type-toggle .resource-type.' + currentView + '-res').addClass('active');
             $('.' + currentView).removeClass('hidden');
             $('#backdrop').addClass('hidden');

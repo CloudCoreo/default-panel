@@ -127,6 +127,7 @@ body {
 
 .messages .messages-container .message-right-part {
     color: grey;
+    display: none;
 }
 
 .messages.ok {
@@ -445,6 +446,10 @@ body {
 
 .hidden {
     display: none !important;
+}
+
+.visible {
+    display: block !important;
 }
 
 .resource-list-header {

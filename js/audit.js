@@ -1,5 +1,6 @@
 window.Audit = (function () {
     var callback;
+    var totalViolations = 0;
     var passedViolations = [];
     var disabledViolations = [];
     var alerts = [];
@@ -196,15 +197,18 @@ window.Audit = (function () {
         var visibleList = '';
         var restList = '';
         var visibleCount = 0;
-        var headerData = { name: sectionSummary.label, resultsCount: sectionSummary.value, resultsType: resultsType };
-        var header = headerTpl.render(headerData);
-
+        var violationsCount = 0;
         Object.keys(violations).forEach(function (vId) {
             var rendered = violationTpl.render(violations[vId]);
             if (visibleCount < 5) visibleList += rendered;
             else restList += rendered;
             visibleCount++;
+
+            if (violations[vId].isViolation) violationsCount += violations[vId].resources.length;
         });
+
+        var headerData = { name: sectionSummary.label, resultsCount: violationsCount, resultsType: resultsType };
+        var header = headerTpl.render(headerData);
 
         var html =
             '<div class="' + headerData.name + ' bg-white layout-padding" style="margin-bottom: 20px;">' +
@@ -287,11 +291,13 @@ window.Audit = (function () {
             return;
         }
         var totalChecks = 0;
-
+        totalViolations = 0;
         reports.forEach(function (reportData) {
             var report = JSON.parse(reportData.outputs.report);
             var reportId = reportData._id;
             totalChecks += reportData.outputs.number_checks;
+
+            if (report.violations) report = report.violations;
 
             Object.keys(report).forEach(function (resId) {
                 Object.keys(report[resId].violations).forEach(function (violationKey) {
@@ -308,7 +314,8 @@ window.Audit = (function () {
                         region: rowData.region,
                         link: rowData.link,
                         reportId: reportId,
-                        violationId: violations[violationKey]._id
+                        violationId: violations[violationKey]._id,
+                        isViolation: rowData.include_violations_in_count
                     };
                     if (!alertData.level.hasOwnProperty(alert.level)) {
                         alertData.level[alert.level] = 0;
@@ -328,14 +335,14 @@ window.Audit = (function () {
                     ++alertData.service[alert.service];
 
                     alerts.push(alert);
-
+                    if (alert.isViolation) ++totalViolations;
                     if (passedViolations[violationKey]) delete passedViolations[violationKey];
                     if (disabledViolations[violationKey]) delete disabledViolations[violationKey];
                 });
             });
         });
 
-        $('.pie-data-header .num').html(alerts.length);
+        $('.pie-data-header .num').html(totalViolations);
 
         $('.additional-info .checks').html(totalChecks + ' Checks');
         $('.additional-info .passed').html((errors.length) ? ' Passed' : Object.keys(passedViolations).length + ' Passed');
@@ -494,6 +501,9 @@ window.Audit = (function () {
     audit.prototype.renderResourcesList = render;
     audit.prototype.getViolationsList = function () {
         return alerts;
+    };
+    audit.prototype.getViolationsCount = function () {
+        return totalViolations;
     };
     audit.prototype.getColors = function () {
         return color;

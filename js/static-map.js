@@ -120,7 +120,7 @@ var regionsList = {
     'AWS': {region: 'Global'}
 };
 
-var mapCont = '.map-container'
+var mapCont = '.map-container';
 
 function moveToFront(elem) {
     return elem.each(function() {

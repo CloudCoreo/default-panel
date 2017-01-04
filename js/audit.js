@@ -231,7 +231,7 @@ window.Audit = (function () {
             return;
         }
         if (!alerts.length && !disabledViolations.length && !errors.length) {
-            if(isExecuted) {
+            if (isExecuted) {
                 $(containers.noViolationsMessageSelector).removeClass('hidden');
                 pie.drawPie([{
                     label: "Passed",
@@ -315,7 +315,8 @@ window.Audit = (function () {
                         link: rowData.link,
                         reportId: reportId,
                         violationId: violations[violationKey]._id,
-                        isViolation: rowData.include_violations_in_count
+                        isViolation: rowData.include_violations_in_count,
+                        timestamp: utils.formatDate(reportData.timestamp)
                     };
                     if (!alertData.level.hasOwnProperty(alert.level)) {
                         alertData.level[alert.level] = 0;
@@ -355,7 +356,6 @@ window.Audit = (function () {
         errors = [];
         data.forEach(function (elem) {
             if (elem.dataType !== 'ADVISOR_RESOURCE') return;
-
             var newObj = {};
             newObj.resourceType = elem.resourceType;
             newObj.resourceName = elem.resourceName;

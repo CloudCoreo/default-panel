@@ -302,43 +302,55 @@ window.Audit = (function () {
             Object.keys(report).forEach(function (resId) {
                 Object.keys(report[resId].violations).forEach(function (violationKey) {
                     var rowData = report[resId].violations[violationKey];
-                    var alert = {
-                        title: rowData.display_name || violationKey,
-                        id: violationKey,
-                        level: rowData.level,
-                        category: rowData.category,
-                        description: rowData.description,
-                        fix: rowData.suggested_action,
-                        service: violations[violationKey].inputs.service,
-                        resource: { id: resId, tags: report[resId].tags, reportId: reportId },
-                        region: rowData.region,
-                        link: rowData.link,
-                        reportId: reportId,
-                        violationId: violations[violationKey]._id,
-                        isViolation: rowData.include_violations_in_count,
-                        timestamp: utils.formatDate(reportData.timestamp)
-                    };
-                    if (!alertData.level.hasOwnProperty(alert.level)) {
-                        alertData.level[alert.level] = 0;
+                    if (violations[violationKey]) {
+                        rowData.violationId = violations[violationKey]._id;
+                        rowData.service = violations[violationKey].inputs.service;
                     }
-                    if (!alertData.category.hasOwnProperty(alert.category)) {
-                        alertData.category[alert.category] = 0;
-                    }
-                    if (!alertData.region.hasOwnProperty(alert.region)) {
-                        alertData.region[alert.region] = 0;
-                    }
-                    if (!alertData.service.hasOwnProperty(alert.service)) {
-                        alertData.service[alert.service] = 0;
-                    }
-                    ++alertData.level[alert.level];
-                    ++alertData.category[alert.category];
-                    ++alertData.region[alert.region];
-                    ++alertData.service[alert.service];
 
-                    alerts.push(alert);
-                    if (alert.isViolation) ++totalViolations;
-                    if (passedViolations[violationKey]) delete passedViolations[violationKey];
-                    if (disabledViolations[violationKey]) delete disabledViolations[violationKey];
+                    if (typeof rowData.include_violations_in_count === 'undefined') {
+                        rowData.include_violations_in_count = true;
+                    }
+
+                    var regionArray = rowData.region.trim().split(' ');
+                    regionArray.forEach( function(region) {
+                        var alert = {
+                            title: rowData.display_name || violationKey,
+                            id: violationKey,
+                            level: rowData.level,
+                            category: rowData.category,
+                            description: rowData.description,
+                            fix: rowData.suggested_action,
+                            service: rowData.service,
+                            resource: { id: resId, tags: report[resId].tags, reportId: reportId },
+                            region: region,
+                            link: rowData.link,
+                            reportId: reportId,
+                            violationId: rowData.violationId,
+                            isViolation: rowData.include_violations_in_count,
+                            timestamp: utils.formatDate(reportData.timestamp)
+                        };
+                        if (!alertData.level.hasOwnProperty(alert.level)) {
+                            alertData.level[alert.level] = 0;
+                        }
+                        if (!alertData.category.hasOwnProperty(alert.category)) {
+                            alertData.category[alert.category] = 0;
+                        }
+                        if (!alertData.region.hasOwnProperty(alert.region)) {
+                            alertData.region[alert.region] = 0;
+                        }
+                        if (!alertData.service.hasOwnProperty(alert.service)) {
+                            alertData.service[alert.service] = 0;
+                        }
+                        ++alertData.level[alert.level];
+                        ++alertData.category[alert.category];
+                        ++alertData.region[alert.region];
+                        ++alertData.service[alert.service];
+
+                        alerts.push(alert);
+                        if (alert.isViolation) ++totalViolations;
+                        if (passedViolations[violationKey]) delete passedViolations[violationKey];
+                        if (disabledViolations[violationKey]) delete disabledViolations[violationKey];
+                    });
                 });
             });
         });

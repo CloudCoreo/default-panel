@@ -74,6 +74,7 @@ $(document).ready(function () {
         var alerts = auditData.getViolationsList();
         if (alerts) {
             alerts.forEach(function (alert) {
+                if (!alert.isViolation) return;
                 var region = alert.region;
                 if (!mapData[region]) mapData[region] = { violations: 0, deployed: 0 };
                 ++mapData[region].violations;

@@ -85,7 +85,8 @@ window.Audit = (function () {
             var params = {
                 violationId: _this.attr('violationId'),
                 resources: listOfAlerts[sortKey].alerts[violationId].resources,
-                color: listOfAlerts[sortKey].color
+                color: listOfAlerts[sortKey].color,
+                region: listOfAlerts[sortKey].alerts[violationId].region
             };
 
             openPopup('showViolationResources', params);

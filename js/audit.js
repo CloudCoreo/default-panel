@@ -85,8 +85,7 @@ window.Audit = (function () {
             var params = {
                 violationId: _this.attr('violationId'),
                 resources: listOfAlerts[sortKey].alerts[violationId].resources,
-                color: listOfAlerts[sortKey].color,
-                region: listOfAlerts[sortKey].alerts[violationId].region
+                color: listOfAlerts[sortKey].color
             };
 
             openPopup('showViolationResources', params);
@@ -313,7 +312,7 @@ window.Audit = (function () {
                     }
 
                     var regionArray = rowData.region.trim().split(' ');
-                    regionArray.forEach( function(region) {
+                    regionArray.forEach(function(region) {
                         var alert = {
                             title: rowData.display_name || violationKey,
                             id: violationKey,
@@ -322,7 +321,7 @@ window.Audit = (function () {
                             description: rowData.description,
                             fix: rowData.suggested_action,
                             service: rowData.service,
-                            resource: { id: resId, tags: report[resId].tags, reportId: reportId },
+                            resource: { id: resId, tags: report[resId].tags, reportId: reportId, region: region },
                             region: region,
                             link: rowData.link,
                             reportId: reportId,

@@ -507,6 +507,7 @@ window.Audit = (function () {
     }
 
     audit.prototype.refreshData = function (data) {
+        debugger
         init(data, $('.audit .chosen-sorting').val());
     };
 

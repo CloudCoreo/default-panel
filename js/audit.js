@@ -10,7 +10,7 @@ window.Audit = (function () {
         region: {},
         service: {}
     };
-    var isExecuted;
+    var executionIsFinished;
     var errors = [];
     var pie;
 
@@ -225,24 +225,35 @@ window.Audit = (function () {
         return sectionSummary;
     }
 
+    function showNoViolationsMessage() {
+        $(containers.noViolationsMessageSelector).removeClass('hidden');
+        pie.drawPie([{
+            label: "Passed",
+            value: Object.keys(passedViolations).length,
+            color: color.Passed
+        }]);
+    }
+
+    function showResourcesIsBeingLoadedMessage() {
+        $(containers.planIsExecuting).removeClass('hidden');
+        $(containers.mainCont).addClass('empty');
+    }
+
+    function showEmptyViolationsMessage() {
+        if (executionIsFinished) {
+            showNoViolationsMessage();
+            return;
+        }
+        showResourcesIsBeingLoadedMessage();
+    }
+
     function renderResourcesList(sortKey) {
         $(containers.mainDataContainerSelector).html('');
         if (!alerts) {
             return;
         }
         if (!alerts.length && !disabledViolations.length && !errors.length) {
-            if (isExecuted) {
-                $(containers.noViolationsMessageSelector).removeClass('hidden');
-                pie.drawPie([{
-                    label: "Passed",
-                    value: Object.keys(passedViolations).length,
-                    color: color.Passed
-                }]);
-                return;
-            }
-
-            $(containers.planIsExecuting).removeClass('hidden');
-            $(containers.mainCont).addClass('empty');
+            showEmptyViolationsMessage();
             return;
         }
 
@@ -283,15 +294,20 @@ window.Audit = (function () {
         return listOfAlerts;
     }
 
+    function showNoAuditResourcesMessage() {
+        $(containers.noAuditResourcesMessageSelector).removeClass('hidden');
+        $(containers.mainCont).addClass('empty');
+        alerts = undefined;
+    }
+
     function fillViolationsList(violations, reports) {
         if (!Object.keys(violations).length && !Object.keys(disabledViolations).length && !Object.keys(passedViolations).length) {
-            $(containers.noAuditResourcesMessageSelector).removeClass('hidden');
-            $(containers.mainCont).addClass('empty');
-            alerts = undefined;
+            showNoAuditResourcesMessage();
             return;
         }
         var totalChecks = 0;
         totalViolations = 0;
+
         reports.forEach(function (reportData) {
             var report = JSON.parse(reportData.outputs.report);
             var reportId = reportData._id;
@@ -348,16 +364,25 @@ window.Audit = (function () {
 
                         alerts.push(alert);
                         if (alert.isViolation) ++totalViolations;
-                        if (passedViolations[violationKey]) delete passedViolations[violationKey];
                         if (disabledViolations[violationKey]) delete disabledViolations[violationKey];
                     });
                 });
             });
         });
 
-        $('.pie-data-header .num').html(totalViolations);
-
         $('.additional-info .checks').html(totalChecks + ' Checks');
+    }
+
+    function fillPassedViolationsList(enabledDefinitions) {
+        enabledDefinitions.forEach(function (key) {
+            if (!disabledViolations[key]) return;
+            passedViolations[key] = disabledViolations[key];
+            delete disabledViolations[key];
+        });
+    }
+
+    function fillHtmlSummaryData() {
+        $('.pie-data-header .num').html(totalViolations);
         $('.additional-info .passed').html((errors.length) ? ' Passed' : Object.keys(passedViolations).length + ' Passed');
         $('.additional-info .disabled').html(Object.keys(disabledViolations).length + ' Disabled');
     }
@@ -365,6 +390,7 @@ window.Audit = (function () {
     function initResourcesList(data) {
         var newData = {};
         var reports = [];
+        var enabledDefinitions = [];
         errors = [];
         data.forEach(function (elem) {
             if (elem.dataType !== 'ADVISOR_RESOURCE') return;
@@ -392,15 +418,19 @@ window.Audit = (function () {
                 newObj.rawOutputs = elem.outputs;
                 errors.push(newObj);
             }
-            else if (newObj.outputs.report) reports.push(newObj);
+            else if (newObj.outputs.report) {
+                reports.push(newObj);
+                enabledDefinitions = enabledDefinitions.concat(newObj.inputs.alerts);
+            }
             else {
                 newData[newObj.resourceName] = newObj;
-                if (!newObj.outputs.included) disabledViolations[newObj.resourceName] = organizeDataForAdditionalSections(newObj);
-                else if (!newObj.outputs.violations) passedViolations[newObj.resourceName] = organizeDataForAdditionalSections(newObj);
+                disabledViolations[newObj.resourceName] = organizeDataForAdditionalSections(newObj);
             }
         });
 
         fillViolationsList(newData, reports);
+        fillPassedViolationsList(enabledDefinitions);
+        fillHtmlSummaryData();
     }
 
     function scrollToElement(element) {
@@ -492,7 +522,7 @@ window.Audit = (function () {
         initView();
 
         pie = new ResourcesPie(containers.pieChartSelector);
-        isExecuted = data.numberOfResources === data.resourcesArray.length;
+        executionIsFinished = data.numberOfResources === data.resourcesArray.length;
         initResourcesList(data.resourcesArray);
         render(sortKey);
     }

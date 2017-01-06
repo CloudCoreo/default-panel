@@ -166,7 +166,7 @@ $(document).ready(function () {
     if (typeof ccThisCont === 'undefined') {
         d3.json("./tmp-data/tmp0.json", function (data) {
             init(data, true);
-            emulateCcThisUpdate(data);
+            //emulateCcThisUpdate(data);
         });
     } else {
         init(ccThisCont.ccThis, true);

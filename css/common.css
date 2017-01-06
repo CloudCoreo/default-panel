@@ -91,25 +91,10 @@
 }
 
 .warning-block {
-    border: 1px solid #E53E2B;
-    background-color: #F0E0DE;
     font-family: Roboto, sans-serif;
     padding: 10px;
-    margin: 10px 0;
     display: none;
     align-items: center;
-}
-
-.warning-block span.message {
-    color: #000;
-    margin-left: 10px;
-}
-
-.warning-block span.error-icon {
-    width: 20px;
-    height: 20px;
-    display: inline-block;
-    background: url('../images/error.png') no-repeat 0 0;
 }
 
 .warning-block a {
@@ -117,6 +102,25 @@
     color: #2B7AE5;
     font-weight: 600;
 }
+
+.warning-note-1 {
+    border: 1px solid #E53E2B;
+    background-color: #F0E0DE;
+    margin: 10px 0;
+}
+
+.warning-note-1 span.message {
+    color: #000;
+    margin-left: 10px;
+}
+
+.warning-note-1 span.error-icon {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    background: url('../images/error.png') no-repeat 0 0;
+}
+
 
 @media screen and (max-width: 600px) {
     .resource-type.map-res {

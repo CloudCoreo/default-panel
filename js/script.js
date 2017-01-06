@@ -147,11 +147,17 @@ $(document).ready(function () {
 
     function setupViewData(isFirstLoad) {
         var violationCount = auditData.getViolationsCount();
+        var warningBlock = $('.warning-block');
+
         if (violationCount) $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').addClass('alert');
+        warningBlock.removeClass('visible');
+
         if (deployData.hasErrors()) {
             $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').addClass('error');
             resourceWithError = deployData.getResourcesWithError();
-            $('.warning-block').addClass('visible');
+            warningBlock.addClass('visible');
+            $('.Disabled').addClass('hidden');
+            $('.Enabled').addClass('hidden');
         }
 
         if (isFirstLoad) {
@@ -178,7 +184,7 @@ $(document).ready(function () {
     if (typeof ccThisCont === 'undefined') {
         d3.json("./tmp-data/tmp0.json", function (data) {
             init(data, true);
-            //emulateCcThisUpdate(data);
+            // emulateCcThisUpdate(data);
         });
     } else {
         init(ccThisCont.ccThis, true);

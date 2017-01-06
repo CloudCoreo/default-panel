@@ -1,5 +1,6 @@
 window.Audit = (function () {
     var callback;
+    var totalViolations = 0;
     var passedViolations = [];
     var disabledViolations = [];
     var alerts = [];
@@ -9,7 +10,7 @@ window.Audit = (function () {
         region: {},
         service: {}
     };
-
+    var isExecuted;
     var errors = [];
     var pie;
 
@@ -38,7 +39,8 @@ window.Audit = (function () {
         noViolationsMessageSelector: '#no-violations-view',
         pieChartSelector: '.pie',
         errorsContSelector: '#advisor-errors',
-        mainCont: '.audit-list'
+        mainCont: '.audit-list',
+        planIsExecuting: '#resources-are-loading'
     };
 
     var headerTpl = $.templates("#list-header-tmpl"),
@@ -186,7 +188,7 @@ window.Audit = (function () {
         };
     }
 
-    function renderSection(violations, key, color, uncountable) {
+    function renderSection(violations, key, color, resultsType) {
         var sectionSummary = { label: key, value: Object.keys(violations).length, color: color };
         if (!sectionSummary.value) {
             return;
@@ -195,15 +197,18 @@ window.Audit = (function () {
         var visibleList = '';
         var restList = '';
         var visibleCount = 0;
-        var headerData = { name: sectionSummary.label, resultsCount: (!uncountable ? sectionSummary.value : 0) };
-        var header = headerTpl.render(headerData);
-
+        var violationsCount = 0;
         Object.keys(violations).forEach(function (vId) {
             var rendered = violationTpl.render(violations[vId]);
             if (visibleCount < 5) visibleList += rendered;
             else restList += rendered;
             visibleCount++;
+
+            if (violations[vId].isViolation) violationsCount += violations[vId].resources.length;
         });
+
+        var headerData = { name: sectionSummary.label, resultsCount: violationsCount, resultsType: resultsType };
+        var header = headerTpl.render(headerData);
 
         var html =
             '<div class="' + headerData.name + ' bg-white layout-padding" style="margin-bottom: 20px;">' +
@@ -221,20 +226,31 @@ window.Audit = (function () {
     }
 
     function renderResourcesList(sortKey) {
+        $(containers.mainDataContainerSelector).html('');
         if (!alerts) {
             return;
         }
         if (!alerts.length && !disabledViolations.length && !errors.length) {
-            $(containers.noViolationsMessageSelector).removeClass('hidden');
+            if (isExecuted) {
+                $(containers.noViolationsMessageSelector).removeClass('hidden');
+                pie.drawPie([{
+                    label: "Passed",
+                    value: Object.keys(passedViolations).length,
+                    color: color.Passed
+                }]);
+                return;
+            }
+
+            $(containers.planIsExecuting).removeClass('hidden');
+            $(containers.mainCont).addClass('empty');
             return;
         }
 
         var pieData = [];
         var listOfAlerts = organizeDataForCurrentRender(sortKey);
-        $(containers.mainDataContainerSelector).html('');
 
-        var fillData = function(key){
-            renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color);
+        var fillData = function (key) {
+            renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color, 'VIOLATIONS');
             pieData.push({
                 label: key,
                 value: Object.keys(listOfAlerts[key].alerts).length,
@@ -275,55 +291,71 @@ window.Audit = (function () {
             return;
         }
         var totalChecks = 0;
-
+        totalViolations = 0;
         reports.forEach(function (reportData) {
             var report = JSON.parse(reportData.outputs.report);
             var reportId = reportData._id;
             totalChecks += reportData.outputs.number_checks;
 
+            if (report.violations) report = report.violations;
+
             Object.keys(report).forEach(function (resId) {
                 Object.keys(report[resId].violations).forEach(function (violationKey) {
                     var rowData = report[resId].violations[violationKey];
-                    var alert = {
-                        title: rowData.display_name || violationKey,
-                        id: violationKey,
-                        level: rowData.level,
-                        category: rowData.category,
-                        description: rowData.description,
-                        fix: rowData.suggested_action,
-                        service: violations[violationKey].inputs.service,
-                        resource: { id: resId, tags: report[resId].tags, reportId: reportId },
-                        region: rowData.region,
-                        link: rowData.link,
-                        reportId: reportId,
-                        violationId: violations[violationKey]._id
-                    };
-                    if (!alertData.level.hasOwnProperty(alert.level)) {
-                        alertData.level[alert.level] = 0;
+                    if (violations[violationKey]) {
+                        rowData.violationId = violations[violationKey]._id;
+                        rowData.service = violations[violationKey].inputs.service;
                     }
-                    if (!alertData.category.hasOwnProperty(alert.category)) {
-                        alertData.category[alert.category] = 0;
-                    }
-                    if (!alertData.region.hasOwnProperty(alert.region)) {
-                        alertData.region[alert.region] = 0;
-                    }
-                    if (!alertData.service.hasOwnProperty(alert.service)) {
-                        alertData.service[alert.service] = 0;
-                    }
-                    ++alertData.level[alert.level];
-                    ++alertData.category[alert.category];
-                    ++alertData.region[alert.region];
-                    ++alertData.service[alert.service];
 
-                    alerts.push(alert);
+                    if (typeof rowData.include_violations_in_count === 'undefined') {
+                        rowData.include_violations_in_count = true;
+                    }
 
-                    if (passedViolations[violationKey]) delete passedViolations[violationKey];
-                    if (disabledViolations[violationKey]) delete disabledViolations[violationKey];
+                    var regionArray = rowData.region.trim().split(' ');
+                    regionArray.forEach(function(region) {
+                        var alert = {
+                            title: rowData.display_name || violationKey,
+                            id: violationKey,
+                            level: rowData.level,
+                            category: rowData.category,
+                            description: rowData.description,
+                            fix: rowData.suggested_action,
+                            service: rowData.service,
+                            resource: { id: resId, tags: report[resId].tags, reportId: reportId, region: region },
+                            region: region,
+                            link: rowData.link,
+                            reportId: reportId,
+                            violationId: rowData.violationId,
+                            isViolation: rowData.include_violations_in_count,
+                            timestamp: utils.formatDate(reportData.timestamp)
+                        };
+                        if (!alertData.level.hasOwnProperty(alert.level)) {
+                            alertData.level[alert.level] = 0;
+                        }
+                        if (!alertData.category.hasOwnProperty(alert.category)) {
+                            alertData.category[alert.category] = 0;
+                        }
+                        if (!alertData.region.hasOwnProperty(alert.region)) {
+                            alertData.region[alert.region] = 0;
+                        }
+                        if (!alertData.service.hasOwnProperty(alert.service)) {
+                            alertData.service[alert.service] = 0;
+                        }
+                        ++alertData.level[alert.level];
+                        ++alertData.category[alert.category];
+                        ++alertData.region[alert.region];
+                        ++alertData.service[alert.service];
+
+                        alerts.push(alert);
+                        if (alert.isViolation) ++totalViolations;
+                        if (passedViolations[violationKey]) delete passedViolations[violationKey];
+                        if (disabledViolations[violationKey]) delete disabledViolations[violationKey];
+                    });
                 });
             });
         });
 
-        $('.pie-data-header .num').html(alerts.length);
+        $('.pie-data-header .num').html(totalViolations);
 
         $('.additional-info .checks').html(totalChecks + ' Checks');
         $('.additional-info .passed').html((errors.length) ? ' Passed' : Object.keys(passedViolations).length + ' Passed');
@@ -336,7 +368,6 @@ window.Audit = (function () {
         errors = [];
         data.forEach(function (elem) {
             if (elem.dataType !== 'ADVISOR_RESOURCE') return;
-
             var newObj = {};
             newObj.resourceType = elem.resourceType;
             newObj.resourceName = elem.resourceName;
@@ -370,6 +401,13 @@ window.Audit = (function () {
         });
 
         fillViolationsList(newData, reports);
+    }
+
+    function scrollToElement(element) {
+        var tabsHeight = $('.options-container').height();
+        $('.scrollable-area').animate({
+            scrollTop: element.offset().top - tabsHeight
+        }, 200);
     }
 
     function setupHandlers() {
@@ -409,16 +447,22 @@ window.Audit = (function () {
 
         $('.browse-composites').click(function () {
             openPopup('redirectToCommunityComposites');
-        })
+        });
+        $('.link.passed').click(function () {
+            scrollToElement($('.Checks.that.Passed'));
+        });
+        $('.link.disabled').click(function () {
+            scrollToElement($('.Disabled'));
+        });
     }
 
     function render(sortKey) {
         var listOfAlerts = renderResourcesList(sortKey);
 
         if (sortKey === 'level' && !errors.length) {
-            renderSection(passedViolations, 'Checks that Passed', color.Passed, true);
+            renderSection(passedViolations, 'Checks that Passed', color.Passed, 'PASSED');
         }
-        renderSection(disabledViolations, 'Disabled', color.Disabled);
+        renderSection(disabledViolations, 'Disabled', color.Disabled, 'DISABLED');
         refreshClickHandlers(listOfAlerts);
     }
 
@@ -439,6 +483,7 @@ window.Audit = (function () {
         $(containers.mainDataContainerSelector).html('');
         $(containers.noAuditResourcesMessageSelector).addClass('hidden');
         $(containers.noViolationsMessageSelector).addClass('hidden');
+        $(containers.planIsExecuting).addClass('hidden');
         $(containers.mainCont).removeClass('empty');
     }
 
@@ -447,7 +492,8 @@ window.Audit = (function () {
         initView();
 
         pie = new ResourcesPie(containers.pieChartSelector);
-        initResourcesList(data);
+        isExecuted = data.numberOfResources === data.resourcesArray.length;
+        initResourcesList(data.resourcesArray);
         render(sortKey);
     }
 
@@ -467,6 +513,9 @@ window.Audit = (function () {
     audit.prototype.renderResourcesList = render;
     audit.prototype.getViolationsList = function () {
         return alerts;
+    };
+    audit.prototype.getViolationsCount = function () {
+        return totalViolations;
     };
     audit.prototype.getColors = function () {
         return color;

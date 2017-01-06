@@ -10,19 +10,14 @@
     <link rel="stylesheet" href="./css/common.css">
 </head>
 <body>
-<div id="backdrop">
-    Loading...
-</div>
+
 <div class="ccthis"></div>
-<div class="modal-window hidden">
-    <div class="modal-content">
-        <span class="close noselect">x</span>
-        <img src="./images/visualization1.png" alt="">
-    </div>
-</div>
 <div class="main-container">
     <div class="container">
         <div class="options-container">
+            <div class="is-executing hidden">
+                <div class="status-spinner"></div> <div>EXECUTING</div>
+            </div>
             <div class="resource-type-toggle">
                 <div class="resource-type audit-res"
                      value="audit">audit <span></span></div>
@@ -99,41 +94,22 @@
                             </div>
                         </div>
                     </div>
-                    <div class="resources-list bg-white "></div>
+                    <div class="scrollable-list">
+                        <div class="resources-list bg-white "></div>
+                    </div>
+                    <div id="no-deploy-resources" class="hidden">This execution has no additional resources.</div>
                     <div class="pagination">
                         <div class="resources-amount"></div>
                         <div class="pages"></div>
                     </div>
                 </div>
-                <div class="deploy hidden">
-                    <div id="no-deploy-resources" class="hidden">This execution has no additional resources.</div>
-                </div>
+
                 <div class="audit hidden">
                     <div id="no-violation-resources" class="hidden">
                         This composite has no audit resources.<br/>
                         <span class="browse-composites">Browse featured Composites</span> to see available audits.
                     </div>
-                    <div id="no-violations-view" class="hidden">
-                        <div class="no-violations-cont md-shadow">
-                            <div class="header">
-                                BEST PRACTICE VIOLATIONS<br/>
-                                <span>ZERO, ZIP, NADA</span>
-                            </div>
-                            <div class="data">
-                                <div class="flex-grow">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="flex-column flex-grow">
-                                    <div class="history-title">Infrastructure Status</div>
-                                    <div class=" flex-row separator-top">
-                                        <div class="history"></div>
-                                        <div class="info">100% AWESOME</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tip">A tip of the hat to you, DevOps Jedi.</div>
-                    </div>
+                    <div id="resources-are-loading" class="hidden">Resources are being loaded</div>
                 </div>
                 <div class="audit flex-row hidden audit-list">
                     <div class="left-column layout-padding-right">
@@ -161,6 +137,16 @@
                     </div>
                     <div class="flex-grow">
                         <div id="advisor-errors"></div>
+                        <div id="no-violations-view" class="hidden">
+                            <div class="md-shadow bg-white no-violations-message layout-margin-bottom-20 layout-margin-top">
+                                <div class="messages layout-padding">
+                                    <div class="message-1">ALL CLEAR!</div>
+                                    <div class="message-2">No violations found.</div>
+                                    <div class="message-3">A tip of the hat to you, DevOps Jedi.</div>
+                                </div>
+                                <div><img src="./images/moose-cropped_no-violations.png"/></div>
+                            </div>
+                        </div>
                         <div class="list"></div>
 
                         <div id="popup" class="hidden">
@@ -172,7 +158,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="map layout-padding hidden bg-white md-shadow">
+                <div class="map map-container no-mobile layout-padding hidden bg-white md-shadow">
+                </div>
+                <div class="map no-map-on-mobile-warning hidden">
+                    Sorry, but map is not available for mobile screens.
                 </div>
             </div>
         </div>
@@ -237,7 +226,7 @@
     <div id="list-header-tmpl">
         <div class="flex-row align-center">
             <div class="subheader flex-grow">{{:name}}</div>
-            <div id="high-counter" class="font-12 medium-grey">{{if resultsCount}} {{:resultsCount}} VIOLATIONS{{/if}}
+            <div class="font-12 medium-grey">{{if resultsCount}} {{:resultsCount}} {{:resultsType}}{{/if}}
             </div>
         </div>
     </div>
@@ -353,12 +342,15 @@
                         <div class="title">{{:title}}</div>
                         <div class="violation-id">AlertId: {{:id}}</div>
                     </div>
-                    <div class="medium-grey layout-padding-right">{{:level}}</div>
+                    <div class="medium-grey">{{:level}}</div>
                     {{if resources.length !== 0}}
-                    <div class="medium-grey">
+                    <div class="medium-grey layout-padding-left">
                         {{:resources.length}} Resources
                     </div>
                     {{/if}}
+                    <div class="medium-grey layout-padding-left">
+                        {{:timestamp}}
+                    </div>
                 </div>
                 <div class="details-btn link">+ view details</div>
             </div>

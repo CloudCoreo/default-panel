@@ -59,7 +59,6 @@ body {
     background: #F2F2F2;
     font-family: sans-serif;
     font-size: 14px;
-    margin: 0 8px;
     max-height: 100vh;
     height: 100%;
 }
@@ -74,12 +73,7 @@ body {
 }
 
 .options-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
     border-bottom: 1px solid #e4e4e4;
-    min-height: 50px;
 }
 
 .data-container {
@@ -95,9 +89,10 @@ body {
     flex-direction: column;
 }
 
-.data-container .deploy .sticky-header {
-    height: 70px;
-    min-height: 70px;
+.data-container .deploy .scrollable-list {
+    height: 100%;
+    max-height: 100%;
+    overflow: auto;
 }
 
 .view-options {
@@ -132,6 +127,7 @@ body {
 
 .messages .messages-container .message-right-part {
     color: grey;
+    display: none;
 }
 
 .messages.ok {
@@ -197,7 +193,7 @@ body {
     display: flex;
     flex-direction: column;
     background: white;
-    color: #2B7AE5;
+    color: #6B6B6B;
     width: 100%;
     position: absolute;
     top: 37px;
@@ -206,8 +202,7 @@ body {
 
 .custom-dropdown ul li {
     list-style-type: none;
-    padding: 8px 10px;
-    border: 1px solid #e6e6e6;
+    padding: 15px;
     border-bottom: none;
     cursor: pointer;
 }
@@ -453,6 +448,10 @@ body {
     display: none !important;
 }
 
+.visible {
+    display: block !important;
+}
+
 .resource-list-header {
     text-transform: uppercase;
     display: flex;
@@ -563,23 +562,13 @@ body {
     display: none;
 }
 
-@media screen and (max-width: 1024px) {
-    .options-container {
-        justify-content: space-between;
-    }
-}
-
 @media screen and (max-width: 600px) {
-    .resource-type.map-res {
-        display: none !important;
-    }
-
     .deploy .custom-dropdown {
         display: block;
     }
 
-    .options-container {
-        flex-direction: column;
+    .data-container .deploy .scrollable-list {
+        overflow: inherit;
     }
 
     .custom-dropdown {

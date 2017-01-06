@@ -120,6 +120,8 @@ var regionsList = {
     'AWS': {region: 'Global'}
 };
 
+var mapCont = '.map-container';
+
 function moveToFront(elem) {
     return elem.each(function() {
         this.parentNode.appendChild(this);
@@ -129,7 +131,7 @@ function moveToFront(elem) {
 function calcRadius(value) {
     var radius = value;
     if(radius < 15) radius = 15;
-    if(radius > 50) radius = 50;
+    if(radius > 30) radius = 30;
     return radius;
 }
 
@@ -190,12 +192,13 @@ function renderRegion(regions, key) {
     data.subregionsWithoutData = unusedRegions.join(', ');
 
     var rendered = tpl.render(data);
-    $('.map').append(rendered);
+    $(mapCont).append(rendered);
 
     if (!regions.length) return;
 
     d3.xml(data.img).get(function(error, xml) {
         if (error) { console.log(error); return; }
+        $('.' + data.cssClass).html('');
 
         var svgNode = xml.getElementsByTagName('svg')[0];
         d3.select('.' + data.cssClass)
@@ -215,7 +218,7 @@ function renderGlobalData(regions) {
         subregions: regions
     };
     var rendered = tpl.render(data);
-    $('.map').append(rendered);
+    $(mapCont).append(rendered);
 
     regions.forEach(function(region) {
         var mapTpl = $.templates('#global-region-tpl');
@@ -234,7 +237,7 @@ function renderGlobalData(regions) {
 }
 
 function render(mapData) {
-    $('.map').html('');
+    $(mapCont).html('');
 
     var regions = {};
     Object.keys(mapData).forEach(function (region) {
@@ -252,7 +255,6 @@ function render(mapData) {
     });
 
     if(regions['Global']) renderGlobalData(regions['Global']);
-
 }
 
 window.staticMaps = (function () {

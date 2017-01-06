@@ -12,7 +12,7 @@ function roundedRect(x, y, width, height, radius) {
 
 function drawPie(pieData, color, cont) {
     $('.pie').html('');
-
+    var tabsHeight = $('.options-container').height();
     var w = 300,
         h = pieData.length * 35 + 10,
         r = 65;
@@ -46,9 +46,9 @@ function drawPie(pieData, color, cont) {
         .attr("class", "arc");
 
     var onclick = function (d, i) {
-        $('.content').animate({
-            scrollTop: $("." + pieData[i].label).offset().top
-        }, 500);
+        $('.scrollable-area').animate({
+            scrollTop: $("." + pieData[i].label).offset().top - tabsHeight
+        }, 200);
     };
 
     g.append("svg:path")
@@ -58,6 +58,7 @@ function drawPie(pieData, color, cont) {
         .attr("d", arc)
         .style("stroke", "#fff")
         .style("stroke-width", "3px")
+        .style("cursor", 'pointer')
         .on("click", onclick);
 
     g.append("svg:text")
@@ -65,7 +66,7 @@ function drawPie(pieData, color, cont) {
             return "translate(" + (r + 50) + ", " + (22 - r + i * 35) + ")";
         })
         .attr("text-anchor", "start")
-        .style("fill",function (d, i) {
+        .style("fill", function (d, i) {
             return d.value > 0 ? "#000000" : "#C4C4C4";
         })
         .style("font-family", "Arial")
@@ -77,6 +78,7 @@ function drawPie(pieData, color, cont) {
             }
             return pieData[i].value + ' ' + pieData[i].label + ' (' + (pieData[i].value * 100 / dataSum).toFixed(1) + '%)';
         })
+        .style("cursor", 'pointer')
         .on("click", onclick);
 
     g.append("path")
@@ -86,15 +88,20 @@ function drawPie(pieData, color, cont) {
         .attr("fill", function (d, i) {
             return pieData[i].color || color(i);
         })
+        .style("cursor", 'pointer')
         .on("click", onclick);
 }
 
 window.ResourcesPie = (function () {
     'use strict';
     var cont = '.pie';
-    function ResourcesPie (_cont) {
+
+    function ResourcesPie(_cont) {
         cont = _cont;
     }
-    ResourcesPie.prototype.drawPie = function (pieData, color) { drawPie(pieData, color, cont);}
+
+    ResourcesPie.prototype.drawPie = function (pieData, color) {
+        drawPie(pieData, color, cont);
+    };
     return ResourcesPie;
 }());

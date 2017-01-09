@@ -15,8 +15,12 @@
 <div class="main-container">
     <div class="container">
         <div class="options-container">
-            <div class="is-executing hidden">
-                <div class="status-spinner"></div> <div>EXECUTING</div>
+            <div class="engine-state hidden">
+                <div class="status-spinner"></div>
+                <div class="message">EXECUTING</div>
+            </div>
+            <div class="data-is-loading" class="hidden">
+                <img src="images/audit-layout_loading-4.gif" />
             </div>
             <div class="resource-type-toggle">
                 <div class="resource-type audit-res"
@@ -109,7 +113,9 @@
                         This composite has no audit resources.<br/>
                         <span class="browse-composites">Browse featured Composites</span> to see available audits.
                     </div>
-                    <div id="resources-are-loading" class="hidden">Resources are being loaded</div>
+                    <div class="resources-are-loading hidden">
+                        <img src="images/audit-layout_loading-4.gif" />
+                    </div>
                 </div>
                 <div class="audit flex-row hidden audit-list">
                     <div class="left-column layout-padding-right">
@@ -159,6 +165,9 @@
                     </div>
                 </div>
                 <div class="map map-container no-mobile layout-padding hidden bg-white md-shadow">
+                </div>
+                <div class="map hidden">
+                    <div class="resources-are-loading"><img src="images/map-layout_loading.gif"/></div>
                 </div>
                 <div class="map no-map-on-mobile-warning hidden">
                     Sorry, but map is not available for mobile screens.

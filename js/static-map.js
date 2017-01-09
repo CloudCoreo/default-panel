@@ -120,8 +120,6 @@ var regionsList = {
     'AWS': {region: 'Global'}
 };
 
-var mapCont = '.map-container';
-
 function moveToFront(elem) {
     return elem.each(function() {
         this.parentNode.appendChild(this);
@@ -192,7 +190,7 @@ function renderRegion(regions, key) {
     data.subregionsWithoutData = unusedRegions.join(', ');
 
     var rendered = tpl.render(data);
-    $(mapCont).append(rendered);
+    $('.map-container').append(rendered);
 
     if (!regions.length) return;
 
@@ -218,7 +216,7 @@ function renderGlobalData(regions) {
         subregions: regions
     };
     var rendered = tpl.render(data);
-    $(mapCont).append(rendered);
+    $('.map-container').append(rendered);
 
     regions.forEach(function(region) {
         var mapTpl = $.templates('#global-region-tpl');
@@ -236,9 +234,18 @@ function renderGlobalData(regions) {
     });
 }
 
-function render(mapData) {
-    $(mapCont).html('');
+function initView() {
+    var mapCont = $('.map-container');
+    mapCont.removeClass('empty');
+    mapCont.html('');
+}
 
+function showResourcesAreBeingLoadedMessage() {
+    $('resources-are-loading').removeClass('hidden');
+    $('.map-container').addClass('empty');
+}
+
+function renderRegions(mapData) {
     var regions = {};
     Object.keys(mapData).forEach(function (region) {
         if(!regions[regionsList[region].region]) regions[regionsList[region].region] = [];
@@ -255,6 +262,15 @@ function render(mapData) {
     });
 
     if(regions['Global']) renderGlobalData(regions['Global']);
+}
+
+function render(mapData) {
+    initView();
+    if (!mapData) {
+        showResourcesAreBeingLoadedMessage();
+        return;
+    }
+    renderRegions(mapData);
 }
 
 window.staticMaps = (function () {

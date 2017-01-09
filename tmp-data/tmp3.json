@@ -1,0 +1,188 @@
+{
+  "resourcesArray": [
+    {
+      "timestamp": "2017-01-09T09:47:04.000Z",
+      "stackName": "CLOUDCOREO-VPC-PUBLIC-TEST-DEFAULT",
+      "runId": "b171598b-3187-4804-88f4-0d54772fb94e",
+      "resourceType": "coreo_aws_vpc_vpc",
+      "resourceName": "test-vpc",
+      "resourceId": "fd7b85a0db14b11078de855b10c995e197bde0b534732b6539da5f2bea1eb887",
+      "outputs": [
+        {
+          "value": "cc_58735baf82c_test-vpc",
+          "name": "ec2_name"
+        },
+        {
+          "value": "vpc-f996259f",
+          "name": "vpc_id"
+        }
+      ],
+      "namespace": "ROOT::CLOUDCOREO-VPC-PUBLIC-TEST-DEFAULT",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "sustain",
+          "name": "action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            ""
+          ],
+          "name": "tags"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "10.11.0.0/16",
+          "name": "cidr"
+        },
+        {
+          "type": "PLA-1366",
+          "value": true,
+          "name": "internet_gateway"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "us-east-1",
+          "name": "region"
+        }
+      ],
+      "executionTime": 14.995762651,
+      "executionNumber": 1,
+      "engineStatus": "OK",
+      "dataType": "DEPLOY_RESOURCE",
+      "_id": "58735c1a699a9d1732085cba"
+    },
+    {
+      "timestamp": "2017-01-09T09:47:12.000Z",
+      "stackName": "CLOUDCOREO-VPC-PUBLIC-TEST-DEFAULT",
+      "runId": "b171598b-3187-4804-88f4-0d54772fb94e",
+      "resourceType": "coreo_aws_vpc_routetable",
+      "resourceName": "test-public-route",
+      "resourceId": "45d03eb032da215b6ccc4becbf1b4f679aac2896d71e61a75c31b5f13c3c9025",
+      "outputs": [
+        {
+          "value": "cc_58735baf82c_test-public-route",
+          "name": "ec2_name"
+        },
+        {
+          "value": "rtb-56da2e2f",
+          "name": "route_table_ids"
+        }
+      ],
+      "namespace": "ROOT::CLOUDCOREO-VPC-PUBLIC-TEST-DEFAULT",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "sustain",
+          "name": "action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "test-vpc",
+          "name": "vpc"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            {
+              "type": "igw",
+              "to": "test-vpc",
+              "from": "0.0.0.0/0"
+            }
+          ],
+          "name": "routes"
+        },
+        {
+          "type": "PLA-1366",
+          "value": 1,
+          "name": "number_of_tables"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "us-east-1",
+          "name": "region"
+        }
+      ],
+      "executionTime": 4.334101484,
+      "executionNumber": 2,
+      "engineStatus": "OK",
+      "dataType": "DEPLOY_RESOURCE",
+      "_id": "58735c21699a9d1732085cbb"
+    },
+    {
+      "timestamp": "2017-01-09T09:47:30.000Z",
+      "stackName": "CLOUDCOREO-VPC-PUBLIC-TEST-DEFAULT",
+      "runId": "b171598b-3187-4804-88f4-0d54772fb94e",
+      "resourceType": "coreo_aws_vpc_subnet",
+      "resourceName": "test-public-subnet",
+      "resourceId": "297b540d5f4c2f024b08daf961c570082eb6744a8a15a9fed595969d22e974e1",
+      "outputs": [
+        {
+          "value": "cc_58735baf82c_test-public-subnet",
+          "name": "ec2_name"
+        },
+        {
+          "value": "subnet-b40d61ef,subnet-ed85f2c0,subnet-7a735733",
+          "name": "subnet_ids"
+        },
+        {
+          "value": 3,
+          "name": "number_of_subnets"
+        },
+        {
+          "value": "us-east-1a,us-east-1c,us-east-1d",
+          "name": "availability_zones"
+        }
+      ],
+      "namespace": "ROOT::CLOUDCOREO-VPC-PUBLIC-TEST-DEFAULT",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "sustain",
+          "name": "action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": 3,
+          "name": "number_of_zones"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "test-public-route",
+          "name": "route_table"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "test-vpc",
+          "name": "vpc"
+        },
+        {
+          "type": "PLA-1366",
+          "value": 25,
+          "name": "percent_of_vpc_allocated"
+        },
+        {
+          "type": "PLA-1366",
+          "value": true,
+          "name": "map_public_ip_on_launch"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "us-east-1",
+          "name": "region"
+        }
+      ],
+      "executionTime": 13.852254491,
+      "executionNumber": 3,
+      "engineStatus": "OK",
+      "dataType": "DEPLOY_RESOURCE",
+      "_id": "58735c33699a9d1732085cbc"
+    }
+  ],
+  "numberOfResources": 3,
+  "planRefreshIntervalInHours": 24,
+  "lastExecutionTime": "2017-01-09T09:46:39.000Z",
+  "engineState": "COMPLETED",
+  "isEnabled": false
+}

@@ -47,7 +47,7 @@ $(document).ready(function () {
         return undefined;
     }
 
-    function goToVIew(view) {
+    function goToView(view) {
         if (currentView === view) return;
         $('.resource-type-toggle .resource-type').removeClass('active');
         $('.' + currentView).addClass('hidden');
@@ -102,7 +102,7 @@ $(document).ready(function () {
     function setupHandlers() {
         $('.resource-type-toggle .resource-type').click(function (e) {
             var view = $(this).attr('value');
-            goToVIew(view);
+            goToView(view);
         });
 
         $('.close').click(function () {

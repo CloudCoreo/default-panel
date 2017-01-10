@@ -173,7 +173,7 @@ $(document).ready(function () {
         $('.engine-state').removeClass('hidden');
         $('.engine-state .message').html(getEngineStateMessage(data.engineState));
 
-        if (!data.resourcesArray || data.engineState === 'COMPILING') {
+        if (!data.resourcesArray && data.engineState !== 'EXECUTING') {
             $('.data-is-loading').removeClass('hidden');
             $('.resource-type-toggle').addClass('hidden');
             $('.scrollable-area').addClass('hidden');

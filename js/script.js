@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    var resourceWithError;
     var auditData;
     var deployData;
     var map;
@@ -46,6 +47,15 @@ $(document).ready(function () {
         return undefined;
     }
 
+    function goToView(view) {
+        if (currentView === view) return;
+        $('.resource-type-toggle .resource-type').removeClass('active');
+        $('.' + currentView).addClass('hidden');
+        $('.' + view).removeClass('hidden');
+        $('.resource-type.' + view + '-res').addClass('active');
+        currentView = view;
+    }
+
     function renderMapData(sortKey) {
         var resources = deployData.getResourcesList();
         if (!resources) return;
@@ -91,16 +101,8 @@ $(document).ready(function () {
 
     function setupHandlers() {
         $('.resource-type-toggle .resource-type').click(function (e) {
-            var inputValue = $(this).attr('value');
-            if (currentView === inputValue) return;
-            $('.' + currentView).addClass('hidden');
-            $('.' + inputValue).removeClass('hidden');
-            currentView = inputValue;
-
-            if (inputValue) {
-                $('.resource-type-toggle .resource-type').removeClass('active');
-                $(this).addClass('active');
-            }
+            var view = $(this).attr('value');
+            goToView(view);
         });
 
         $('.close').click(function () {
@@ -109,6 +111,12 @@ $(document).ready(function () {
 
         $('.backdrop').click(function () {
             $(this).closest('#popup').addClass('hidden');
+        });
+
+        $('.warning-link').click(function () {
+            var rowWithError = $('.resource-row .view-row .name:contains(' + resourceWithError.resourceName + ')').parent();
+            rowWithError.next('.expandable-row').removeClass('hidden');
+            goToView('deploy');
         });
     }
 
@@ -139,8 +147,18 @@ $(document).ready(function () {
 
     function setupViewData(isFirstLoad) {
         var violationCount = auditData.getViolationsCount();
+        var warningBlock = $('.warning-block');
+
         if (violationCount) $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').addClass('alert');
-        if (deployData.hasErrors()) $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').addClass('error');
+        warningBlock.removeClass('visible');
+
+        if (deployData.hasErrors()) {
+            $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').addClass('error');
+            resourceWithError = deployData.getResourcesWithError();
+            warningBlock.addClass('visible');
+            $('.Disabled').addClass('hidden');
+            $('.Enabled').addClass('hidden');
+        }
 
         if (isFirstLoad) {
             currentView = !violationCount ? viewTypes.deploy : viewTypes.audit;
@@ -166,7 +184,7 @@ $(document).ready(function () {
     if (typeof ccThisCont === 'undefined') {
         d3.json("./tmp-data/tmp0.json", function (data) {
             init(data, true);
-            //emulateCcThisUpdate(data);
+            // emulateCcThisUpdate(data);
         });
     } else {
         init(ccThisCont.ccThis, true);

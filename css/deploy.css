@@ -449,7 +449,7 @@ body {
 }
 
 .visible {
-    display: block !important;
+    display: flex !important;
 }
 
 .resource-list-header {

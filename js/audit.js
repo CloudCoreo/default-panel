@@ -318,6 +318,8 @@ window.Audit = (function () {
             Object.keys(report).forEach(function (resId) {
                 Object.keys(report[resId].violations).forEach(function (violationKey) {
                     var rowData = report[resId].violations[violationKey];
+                    if (rowData.level === 'Internal') return;
+
                     if (violations[violationKey]) {
                         rowData.violationId = violations[violationKey]._id;
                         rowData.service = violations[violationKey].inputs.service;
@@ -413,6 +415,7 @@ window.Audit = (function () {
                 newObj.outputs[output.name] = output.value;
             });
 
+            if (newObj.inputs.level === 'Internal') return;
             if (newObj.outputs.error) {
                 newObj.rawInputs = elem.inputs;
                 newObj.rawOutputs = elem.outputs;

@@ -40,7 +40,7 @@ window.Audit = (function () {
         pieChartSelector: '.pie',
         errorsContSelector: '#advisor-errors',
         mainCont: '.audit-list',
-        planIsExecuting: '#resources-are-loading'
+        planIsExecuting: '.resources-are-loading'
     };
 
     var headerTpl = $.templates("#list-header-tmpl"),
@@ -526,6 +526,10 @@ window.Audit = (function () {
 
         pie = new ResourcesPie(containers.pieChartSelector);
         executionIsFinished = data.numberOfResources === data.resourcesArray.length;
+        if (data.engineState != 'COMPLETED' && data.resourcesArray.length !== data.numberOfResources) {
+            showResourcesIsBeingLoadedMessage();
+            return;
+        }
         initResourcesList(data.resourcesArray);
         render(sortKey);
     }

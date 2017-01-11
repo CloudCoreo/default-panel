@@ -17,6 +17,8 @@ $(document).ready(function () {
     };
 
     var currentView;
+    var counter = 0;
+
 
     var externalActions = {
         redirectToCommunityComposites: 'redirectToCommunityComposites',
@@ -55,8 +57,13 @@ $(document).ready(function () {
         $('.resource-type.' + view + '-res').addClass('active');
         currentView = view;
     }
+    
+    function renderMapData(data) {
+        if (data.engineState != 'COMPLETED' && data.resourcesArray.length !== data.numberOfResources) {
+            staticMaps();
+            return;
+        }
 
-    function renderMapData(sortKey) {
         var resources = deployData.getResourcesList();
         if (!resources) return;
         var mapData = {};
@@ -120,16 +127,22 @@ $(document).ready(function () {
         });
     }
 
-    function emulateCcThisUpdate(data) {
+    function emulateCcThisUpdate() {
         setTimeout(function() {
-            d3.json("./tmp-data/tmp0.json", function (data) {
+            ++counter;
+            if (counter > 3) return;
+            d3.json("./tmp-data/tmp"+counter+".json", function (data) {
                 init(data, false);
+                emulateCcThisUpdate();
             });
-        }, 5000);
+        }, 2000);
     }
 
     function initView() {
-        $('.is-executing').addClass('hidden');
+        $('.engine-state').addClass('hidden');
+        $('.data-is-loading').addClass('hidden');
+        $('.resource-type-toggle').removeClass('hidden');
+        $('.scrollable-area').removeClass('hidden');
         $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').removeClass('error');
         $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').removeClass('alert');
     }
@@ -142,7 +155,7 @@ $(document).ready(function () {
             deployData.refreshData(data);
             auditData.refreshData(data);
         }
-        renderMapData('level');
+        renderMapData(data);
     }
 
     function setupViewData(isFirstLoad) {
@@ -167,18 +180,33 @@ $(document).ready(function () {
         }
     }
 
-    function checkExecutionStatus(data){
-        if (data.engineState && data.engineState !== 'COMPLETED'){
-            $('.is-executing').removeClass('hidden');
+    function getEngineStateMessage(engineState) {
+        if (!engineState) return 'queued';
+        return engineState.replace('_', ' ');
+    }
+
+    function setExecutionStatusMessage(data) {
+        if (data.engineState === 'COMPLETED') return;
+
+        $('.engine-state').removeClass('hidden');
+        $('.engine-state .message').html(getEngineStateMessage(data.engineState));
+
+        if (!data.resourcesArray && data.engineState !== 'EXECUTING') {
+            $('.data-is-loading').removeClass('hidden');
+            $('.resource-type-toggle').addClass('hidden');
+            $('.scrollable-area').addClass('hidden');
+            return;
         }
+        var loadedResourcesPercentage = data.resourcesArray.length * 100 / data.numberOfResources;
+        $('.engine-state .status-spinner').css('width', loadedResourcesPercentage + '%');
     }
 
     function init(data, isFirstLoad) {
         setupHandlers();
         initView();
+        setExecutionStatusMessage(data);
         setupData(data, isFirstLoad);
         setupViewData(isFirstLoad);
-        checkExecutionStatus(data);
     }
 
     if (typeof ccThisCont === 'undefined') {

@@ -76,7 +76,7 @@ window.Audit = (function () {
     }
 
     function refreshClickHandlers(listOfAlerts) {
-        $('.resources-link').click(function () {
+        $('.resources-link, .resources-title-link').click(function () {
             var _this = $(this);
             var violationId = _this.attr('violation');
             var sortKey = _this.attr('sortKey');

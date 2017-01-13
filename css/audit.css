@@ -355,6 +355,11 @@ html, body {
     color: #6b6b6b;
 }
 
+.resources-title-link {
+    color: #2b7ae5;
+    cursor: pointer;
+}
+
 @media (max-width: 600px) {
     .left-column {
         width: 100%;

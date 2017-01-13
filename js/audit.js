@@ -92,7 +92,12 @@ window.Audit = (function () {
         });
         $('.more-info-link').click(function () {
             var id = $(this).attr('violation');
-            openPopup('showViolationMoreInfo', id);
+            var link = $(this).attr('link');
+            var params = {
+                id: id,
+                link: link
+            };
+            openPopup('showViolationMoreInfo', params);
         });
         $('.share-link').click(function () {
             openPopup('shareViolation', $(this).attr('violation'));

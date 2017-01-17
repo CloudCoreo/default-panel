@@ -65,7 +65,7 @@ window.Audit = (function () {
         var body = _this.parent().next();
         if (body.hasClass('hidden')) {
             body.removeClass('hidden');
-            body.slideDown()
+            body.slideDown();
             _this.html("- hide details");
         } else {
             body.slideUp(function () {
@@ -204,7 +204,11 @@ window.Audit = (function () {
         var visibleCount = 0;
         var violationsCount = 0;
         Object.keys(violations).forEach(function (vId) {
-            var rendered = violationTpl.render(violations[vId]);
+            var rendered = violationTpl.render({
+                color: color,
+                resultsType: resultsType,
+                violation: violations[vId]
+            });
             if (visibleCount < 5) visibleList += rendered;
             else restList += rendered;
             visibleCount++;
@@ -216,9 +220,9 @@ window.Audit = (function () {
         var header = headerTpl.render(headerData);
 
         var html =
-            '<div class="' + headerData.name + ' bg-white layout-padding" style="margin-bottom: 20px;">' +
+            '<div class="' + headerData.name + ' layout-padding" style="margin-bottom: 20px;">' +
             header +
-            '<div style="border-color: ' + sectionSummary.color + '">' +
+            '<div>' +
             visibleList +
             '<div class="hidden" style="border-color: inherit;">' + restList + '</div>' +
             ((visibleCount > 5) ? showAllBtnTpl : '') +
@@ -226,7 +230,18 @@ window.Audit = (function () {
             '</div>';
 
 
-        $(containers.mainDataContainerSelector).append(html);
+        var htmlForPassedOrDisabled =
+            '<div class="' + headerData.name + ' layout-padding" style="margin-bottom: 20px;">' +
+            header +
+            visibleList +
+            '<div class="hidden" style="border-color: inherit;">' + restList + '</div>' +
+            ((visibleCount > 5) ? showAllBtnTpl : '') +
+            '</div>' +
+            '<div class="violation-divider"></div>';
+
+        if (resultsType === 'PASSED') $(containers.mainDataContainerSelector).append(htmlForPassedOrDisabled);
+        else $(containers.mainDataContainerSelector).append(html);
+
         return sectionSummary;
     }
 
@@ -293,6 +308,9 @@ window.Audit = (function () {
                 fillData(key);
             });
         }
+
+        var endOfViolationsMsg = '<div class="violation-divider"><div class="text">end of violations</div></div>';
+        $(containers.mainDataContainerSelector).append(endOfViolationsMsg);
 
         pie.drawPie(pieData);
 

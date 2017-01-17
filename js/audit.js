@@ -3,6 +3,7 @@ window.Audit = (function () {
     var totalViolations = 0;
     var passedViolations = [];
     var disabledViolations = [];
+    var suppressions = {};
     var alerts = [];
     var alertData = {
         level: {},
@@ -85,6 +86,7 @@ window.Audit = (function () {
             var params = {
                 violationId: _this.attr('violationId'),
                 resources: listOfAlerts[sortKey].alerts[violationId].resources,
+                suppressions: listOfAlerts[sortKey].alerts[violationId].suppressions,
                 color: listOfAlerts[sortKey].color
             };
 
@@ -141,8 +143,13 @@ window.Audit = (function () {
                 listOfAlerts[key].alerts[alert.id] = alert;
                 listOfAlerts[key].alerts[alert.id].sortKey = key;
                 listOfAlerts[key].alerts[alert.id].resources = [];
+                listOfAlerts[key].alerts[alert.id].suppressions = [];
             }
-            listOfAlerts[key].alerts[alert.id].resources.push(alert.resource);
+            if (alert.resource.isSuppressed){
+                listOfAlerts[key].alerts[alert.id].suppressions.push(alert.resource);
+            } else {
+                listOfAlerts[key].alerts[alert.id].resources.push(alert.resource);
+            }
         });
 
         return listOfAlerts;
@@ -189,6 +196,7 @@ window.Audit = (function () {
             service: violation.inputs.service,
             link: violation.inputs.link,
             resources: [],
+            suppressions: [],
             violationId: violation._id
         };
     }
@@ -334,8 +342,17 @@ window.Audit = (function () {
                         rowData.include_violations_in_count = true;
                     }
 
+                    var isSuppressed = suppressions[violationKey] && suppressions[violationKey][resId];
                     var regionArray = rowData.region.trim().split(' ');
                     regionArray.forEach(function(region) {
+                        var resource = {
+                            id: resId,
+                            tags: report[resId].tags,
+                            reportId: reportId,
+                            region: region,
+                            isSuppressed: isSuppressed,
+                            expiredDate: (isSuppressed) ? suppressions[violationKey][resId] : undefined
+                        };
                         var alert = {
                             title: rowData.display_name || violationKey,
                             id: violationKey,
@@ -343,8 +360,8 @@ window.Audit = (function () {
                             category: rowData.category,
                             description: rowData.description,
                             fix: rowData.suggested_action,
+                            resource: resource,
                             service: rowData.service,
-                            resource: { id: resId, tags: report[resId].tags, reportId: reportId, region: region },
                             region: region,
                             link: rowData.link,
                             reportId: reportId,
@@ -394,13 +411,31 @@ window.Audit = (function () {
         $('.additional-info .disabled').html(Object.keys(disabledViolations).length + ' Disabled');
     }
 
+    function checkForSuppressions (elem) {
+        var found = elem.outputs.find(function (output) {
+            return output.name === 'suppression';
+        });
+        if (!found) return;
+        var suppressionsFound = JSON.parse(found.value);
+        Object.keys(suppressionsFound).forEach(function(violationId) {
+            if (!suppressions[violationId]) suppressions[violationId] = [];
+            suppressionsFound[violationId].forEach(function(obj) {
+                var resId = Object.keys(obj)[0];
+                suppressions[violationId][resId] = obj[resId];
+            });
+        });
+    }
+
     function initResourcesList(data) {
         var newData = {};
         var reports = [];
         var enabledDefinitions = [];
         errors = [];
         data.forEach(function (elem) {
-            if (elem.dataType !== 'ADVISOR_RESOURCE') return;
+            if (elem.dataType !== 'ADVISOR_RESOURCE') {
+                checkForSuppressions(elem);
+                return;
+            }
             var newObj = {};
             newObj.resourceType = elem.resourceType;
             newObj.resourceName = elem.resourceName;

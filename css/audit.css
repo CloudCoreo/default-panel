@@ -8,6 +8,18 @@ html, body {
     overflow: visible;
 }
 
+/*Level colors*/
+.Emergency-color { border-color: #770a0a; }
+.Alert-color { border-color: #ad0707; }
+.Critical-color { border-color: #e53e2b; }
+.Error-color { border-color: #fc847c; }
+.Warning-color { border-color: #e49530; }
+.Notice-color { border-color: #eac907; }
+.Informational-color { border-color: #6b6b6b; }
+.Debug-color { border-color: #c4c4c4; }
+.Passed-color { border-color: #2dbf74; }
+.Disabled-color { border-color: #cccccc; }
+
 .flex {
     display: -webkit-flex; /* Safari */
     display: flex;

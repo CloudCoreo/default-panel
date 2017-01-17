@@ -205,7 +205,7 @@ window.Audit = (function () {
         var violationsCount = 0;
         Object.keys(violations).forEach(function (vId) {
             var rendered = violationTpl.render({
-                color: color,
+                level: key,
                 resultsType: resultsType,
                 violation: violations[vId]
             });
@@ -222,7 +222,7 @@ window.Audit = (function () {
         var html =
             '<div class="' + headerData.name + ' layout-padding" style="margin-bottom: 20px;">' +
             header +
-            '<div>' +
+            '<div style="border-color: ' + color + ';">' +
             visibleList +
             '<div class="hidden" style="border-color: inherit;">' + restList + '</div>' +
             ((visibleCount > 5) ? showAllBtnTpl : '') +
@@ -281,7 +281,7 @@ window.Audit = (function () {
         var listOfAlerts = organizeDataForCurrentRender(sortKey);
 
         var fillData = function (key) {
-            renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color, 'VIOLATIONS');
+            renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key], 'VIOLATIONS');
             pieData.push({
                 label: key,
                 value: Object.keys(listOfAlerts[key].alerts).length,
@@ -516,7 +516,7 @@ window.Audit = (function () {
         var listOfAlerts = renderResourcesList(sortKey);
 
         if (sortKey === 'level' && !errors.length) {
-            renderSection(passedViolations, 'Checks that Passed', color.Passed, 'PASSED');
+            renderSection(passedViolations, 'Passed', color.Passed, 'PASSED');
         }
         renderSection(disabledViolations, 'Disabled', color.Disabled, 'DISABLED');
         refreshClickHandlers(listOfAlerts);

@@ -361,7 +361,7 @@
     <div id="row-tmpl">
         <div class="flex-column row bg-white">
             {{if resultsType === 'PASSED' || resultsType === 'DISABLED'}}
-            <div class="flex-column layout-padding border-left more-info-link" violation="{{:violation.violationId}}" link="{{:violation.link}}" style="border-color: {{:color}}">
+            <div class="flex-column layout-padding border-left more-info-link {{:level}}-color" violation="{{:violation.violationId}}" link="{{:violation.link}}">
                 <div class="flex-row row-header flex-wrap">
                     <div class="flex-column flex-grow layout-padding-right">
                         <div class="passed-disabled-title">{{:violation.title}}</div>
@@ -369,7 +369,7 @@
                 </div>
             </div>
             {{else}}
-            <div class="flex-column layout-padding border-left" style="border-color: {{:color}}">
+            <div class="flex-column layout-padding border-left {{:level}}-color">
                 <div class="flex-row row-header flex-wrap">
                     <div class="flex-column flex-grow layout-padding-right">
                         <div class="title">{{:violation.title}}</div>

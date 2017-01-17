@@ -265,7 +265,7 @@ html, body {
     max-width: 1200px;
 }
 
-#no-violation-resources, #no-deploy-resources, #resources-are-loading {
+#no-violation-resources, #no-deploy-resources, .resources-are-loading {
     margin: 0 auto;
     font-size: 18px;
     color: #6d6d6d;
@@ -353,6 +353,11 @@ html, body {
 .no-violations-message .messages .message-3 {
     font-size: 14pt;
     color: #6b6b6b;
+}
+
+.resources-title-link {
+    color: #2b7ae5;
+    cursor: pointer;
 }
 
 @media (max-width: 600px) {

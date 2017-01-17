@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    var resourceWithError;
     var auditData;
     var deployData;
     var map;
@@ -16,6 +17,8 @@ $(document).ready(function () {
     };
 
     var currentView;
+    var counter = 0;
+
 
     var externalActions = {
         redirectToCommunityComposites: 'redirectToCommunityComposites',
@@ -46,7 +49,21 @@ $(document).ready(function () {
         return undefined;
     }
 
-    function renderMapData(sortKey) {
+    function goToView(view) {
+        if (currentView === view) return;
+        $('.resource-type-toggle .resource-type').removeClass('active');
+        $('.' + currentView).addClass('hidden');
+        $('.' + view).removeClass('hidden');
+        $('.resource-type.' + view + '-res').addClass('active');
+        currentView = view;
+    }
+    
+    function renderMapData(data) {
+        if (data.engineState != 'COMPLETED' && data.resourcesArray.length !== data.numberOfResources) {
+            staticMaps();
+            return;
+        }
+
         var resources = deployData.getResourcesList();
         if (!resources) return;
         var mapData = {};
@@ -91,16 +108,8 @@ $(document).ready(function () {
 
     function setupHandlers() {
         $('.resource-type-toggle .resource-type').click(function (e) {
-            var inputValue = $(this).attr('value');
-            if (currentView === inputValue) return;
-            $('.' + currentView).addClass('hidden');
-            $('.' + inputValue).removeClass('hidden');
-            currentView = inputValue;
-
-            if (inputValue) {
-                $('.resource-type-toggle .resource-type').removeClass('active');
-                $(this).addClass('active');
-            }
+            var view = $(this).attr('value');
+            goToView(view);
         });
 
         $('.close').click(function () {
@@ -110,18 +119,30 @@ $(document).ready(function () {
         $('.backdrop').click(function () {
             $(this).closest('#popup').addClass('hidden');
         });
+
+        $('.warning-link').click(function () {
+            var rowWithError = $('.resource-row .view-row .name:contains(' + resourceWithError.resourceName + ')').parent();
+            rowWithError.next('.expandable-row').removeClass('hidden');
+            goToView('deploy');
+        });
     }
 
-    function emulateCcThisUpdate(data) {
+    function emulateCcThisUpdate() {
         setTimeout(function() {
-            d3.json("./tmp-data/tmp0.json", function (data) {
+            ++counter;
+            if (counter > 3) return;
+            d3.json("./tmp-data/tmp"+counter+".json", function (data) {
                 init(data, false);
+                emulateCcThisUpdate();
             });
-        }, 5000);
+        }, 2000);
     }
 
     function initView() {
-        $('.is-executing').addClass('hidden');
+        $('.engine-state').addClass('hidden');
+        $('.data-is-loading').addClass('hidden');
+        $('.resource-type-toggle').removeClass('hidden');
+        $('.scrollable-area').removeClass('hidden');
         $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').removeClass('error');
         $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').removeClass('alert');
     }
@@ -134,13 +155,23 @@ $(document).ready(function () {
             deployData.refreshData(data);
             auditData.refreshData(data);
         }
-        renderMapData('level');
+        renderMapData(data);
     }
 
     function setupViewData(isFirstLoad) {
         var violationCount = auditData.getViolationsCount();
+        var warningBlock = $('.warning-block');
+
         if (violationCount) $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').addClass('alert');
-        if (deployData.hasErrors()) $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').addClass('error');
+        warningBlock.removeClass('visible');
+
+        if (deployData.hasErrors()) {
+            $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').addClass('error');
+            resourceWithError = deployData.getResourcesWithError();
+            warningBlock.addClass('visible');
+            $('.Disabled').addClass('hidden');
+            $('.Enabled').addClass('hidden');
+        }
 
         if (isFirstLoad) {
             currentView = !violationCount ? viewTypes.deploy : viewTypes.audit;
@@ -149,24 +180,39 @@ $(document).ready(function () {
         }
     }
 
-    function checkExecutionStatus(data){
-        if (data.engineState && data.engineState !== 'COMPLETED'){
-            $('.is-executing').removeClass('hidden');
+    function getEngineStateMessage(engineState) {
+        if (!engineState) return 'queued';
+        return engineState.replace('_', ' ');
+    }
+
+    function setExecutionStatusMessage(data) {
+        if (data.engineState === 'COMPLETED') return;
+
+        $('.engine-state').removeClass('hidden');
+        $('.engine-state .message').html(getEngineStateMessage(data.engineState));
+
+        if (!data.resourcesArray && data.engineState !== 'EXECUTING') {
+            $('.data-is-loading').removeClass('hidden');
+            $('.resource-type-toggle').addClass('hidden');
+            $('.scrollable-area').addClass('hidden');
+            return;
         }
+        var loadedResourcesPercentage = data.resourcesArray.length * 100 / data.numberOfResources;
+        $('.engine-state .status-spinner').css('width', loadedResourcesPercentage + '%');
     }
 
     function init(data, isFirstLoad) {
         setupHandlers();
         initView();
+        setExecutionStatusMessage(data);
         setupData(data, isFirstLoad);
         setupViewData(isFirstLoad);
-        checkExecutionStatus(data);
     }
 
     if (typeof ccThisCont === 'undefined') {
         d3.json("./tmp-data/tmp0.json", function (data) {
             init(data, true);
-            emulateCcThisUpdate(data);
+            // emulateCcThisUpdate(data);
         });
     } else {
         init(ccThisCont.ccThis, true);

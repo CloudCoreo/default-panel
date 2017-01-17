@@ -1,23 +1,23 @@
 {
   "resourcesArray": [
     {
-      "timestamp": "2016-12-02T11:15:09.000Z",
-      "stackName": "cloudcoreo-vpc-public12345-test123",
-      "runId": "943f9281-072d-40a9-916e-718881daa708",
+      "timestamp": "2017-01-09T09:47:04.000Z",
+      "stackName": "CLOUDCOREO-VPC-PUBLIC-TEST-DEFAULT",
+      "runId": "b171598b-3187-4804-88f4-0d54772fb94e",
       "resourceType": "coreo_aws_vpc_vpc",
-      "resourceName": "test-vpc-kgbranchtest",
-      "resourceId": "aafeb715a6e577522f281fe44b361318469b5c8602103eac85536609d2c3fb7f",
+      "resourceName": "test-vpc",
+      "resourceId": "fd7b85a0db14b11078de855b10c995e197bde0b534732b6539da5f2bea1eb887",
       "outputs": [
         {
-          "value": {
-            "error_message": "The maximum number of internet gateways has been reached.",
-            "error_type": "AWS::EC2::Errors::InternetGatewayLimitExceeded",
-            "resource_error": "action :sustain on coreo_aws_vpc_vpc[test-vpc-kgbranchtest]"
-          },
-          "name": "error"
+          "value": "cc_58735baf82c_test-vpc",
+          "name": "ec2_name"
+        },
+        {
+          "value": "vpc-f996259f",
+          "name": "vpc_id"
         }
       ],
-      "namespace": "ROOT::CLOUDCOREO-VPC-PUBLIC12345-TEST123",
+      "namespace": "ROOT::CLOUDCOREO-VPC-PUBLIC-TEST-DEFAULT",
       "inputs": [
         {
           "type": "choice",
@@ -47,15 +47,16 @@
           "name": "region"
         }
       ],
-      "executionTime": 12.742825256,
+      "executionTime": 14.995762651,
       "executionNumber": 1,
-      "engineStatus": "PROVIDER_ERROR",
+      "engineStatus": "OK",
       "dataType": "DEPLOY_RESOURCE",
-      "_id": "584157c2dd0ddac77433d704"
+      "_id": "58735c1a699a9d1732085cba"
     }
   ],
   "numberOfResources": 3,
   "planRefreshIntervalInHours": 24,
-  "lastExecutionTime": "2016-12-02T11:14:50.000Z",
-  "engineState": "COMPLETED"
+  "lastExecutionTime": "2017-01-09T09:46:39.000Z",
+  "engineState": "EXECUTING",
+  "isEnabled": false
 }

@@ -56,8 +56,7 @@
     margin: 0 8px;
 }
 
-.is-executing {
-    background: #0dbf7f;
+.engine-state {
     padding: 8px;
     color: white;
     text-transform: uppercase;
@@ -66,16 +65,20 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    position:relative;
+    overflow: auto;
+    background: #6b6b6b;
 }
 
-.status-spinner {
-    width: 20px;
-    height: 20px;
-    background: url('../images/refresh-2.gif') no-repeat;
-    background-size: cover;
-    display: inline-block;
-    position: relative;
-    margin-right: 4px;
+.engine-state .status-spinner {
+    position: absolute;
+    left: 0;
+    background: #0dbf7f;
+    height: 100%;
+    z-index: 1;
+}
+.engine-state .message {
+    z-index: 2;
 }
 
 .sort-label {
@@ -89,6 +92,43 @@
     text-align: center;
     padding: 15px 0;
 }
+
+.data-is-loading {
+    padding-top: 50px;
+    text-align: center;
+}
+
+.warning-block {
+    font-family: Roboto, sans-serif;
+    padding: 10px;
+    display: none;
+    align-items: center;
+}
+
+.warning-block a {
+    text-decoration: none;
+    color: #2B7AE5;
+    font-weight: 600;
+}
+
+.warning-note-1 {
+    border: 1px solid #E53E2B;
+    background-color: #F0E0DE;
+    margin: 10px 0;
+}
+
+.warning-note-1 span.message {
+    color: #000;
+    margin-left: 10px;
+}
+
+.warning-note-1 span.error-icon {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    background: url('../images/error.png') no-repeat 0 0;
+}
+
 
 @media screen and (max-width: 600px) {
     .resource-type.map-res {

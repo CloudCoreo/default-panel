@@ -7,6 +7,7 @@ window.Deploy = (function () {
     var numberOfNotExecutedResources = 0;
     var resourcesAlerts = false;
     var isEnabled = false;
+    var resourceWithError;
     var initialData;
 
     var itemsOnPage = 50;
@@ -209,6 +210,7 @@ window.Deploy = (function () {
                         resource.engineStatus = 'ERROR';
                         numberOfFailedResource = data.executionNumber;
                         numberOfNotExecutedResources++;
+                        resourceWithError = resource;
                     }
                 } else if (resourceData == 'inputs') {
                     for (var i = 0; i < resourceProperty.length; i++) {
@@ -324,6 +326,9 @@ window.Deploy = (function () {
     };
     deploy.prototype.getResourcesList = function () {
         return resources;
+    };
+    deploy.prototype.getResourcesWithError = function () {
+        return resourceWithError;
     };
     deploy.prototype.refreshData = function (data) {
         var currentSort = $('.resource-list-header .sort-label');

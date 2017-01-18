@@ -8,18 +8,6 @@ html, body {
     overflow: visible;
 }
 
-/*Level colors*/
-.Emergency-color { border-color: #770a0a; }
-.Alert-color { border-color: #ad0707; }
-.Critical-color { border-color: #e53e2b; }
-.Error-color { border-color: #fc847c; }
-.Warning-color { border-color: #e49530; }
-.Notice-color { border-color: #eac907; }
-.Informational-color { border-color: #6b6b6b; }
-.Debug-color { border-color: #c4c4c4; }
-.Passed-color { border-color: #2dbf74; }
-.Disabled-color { border-color: #cccccc; }
-
 .flex {
     display: -webkit-flex; /* Safari */
     display: flex;
@@ -112,12 +100,13 @@ html, body {
     border-left-width: 10px;
 }
 
-
+.border-grey {
+    border: 1px solid #eee;
+}
 
 .row {
     color: #333333;
     font-size: 14px;
-    border: 1px solid #eee;
 }
 
 .violation-divider {
@@ -172,6 +161,10 @@ html, body {
 
 .flex-grow {
     flex-grow: 2;
+}
+
+.flex-50 {
+    flex: 0 0 50%;
 }
 
 .align-center {
@@ -259,22 +252,21 @@ html, body {
 .passed-disabled-title {
     font-size: 12pt;
     color: #6b6b6b;
+    font-weight: 600;
 }
 
 .show-all {
     background: #E4E4E4;
-    color: #6b6b6b;
     flex-grow: 1;
     padding: 10px 16px;
     font-size: 14px;
     line-height: 18px;
-    margin: 4px 0;
+    margin: 15px 0 4px 0;
     cursor: pointer;
     text-transform: uppercase;
     color: #2B7AE5;
     text-align: center;
     font-weight: 700;
-    margin-top: 15px;
 }
 
 .show-all:hover {
@@ -411,6 +403,11 @@ html, body {
 .resources-title-link {
     color: #2b7ae5;
     cursor: pointer;
+}
+
+.violation-level {
+    color: #6b6b6b;
+    font-weight: 600;
 }
 
 @media (max-width: 600px) {

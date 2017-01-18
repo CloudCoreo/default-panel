@@ -45,6 +45,7 @@ window.Audit = (function () {
 
     var headerTpl = $.templates("#list-header-tmpl"),
         violationTpl = $.templates("#row-tmpl"),
+        passedAndDisabledViolations = $.templates("#passed-and-disabled-row"),
         showAllBtnTpl = $("#show-all-btn-tmpl").html(),
         errorTpl = $.templates("#violation-error-tpl");
 
@@ -192,6 +193,19 @@ window.Audit = (function () {
             violationId: violation._id
         };
     }
+    
+    function separateViolationRow(html) {
+        var parsed = $.parseHTML(html);
+        var separated = {};
+        separated.row = parsed[1];
+        separated.details = parsed[3];
+
+        return separated;
+    }
+
+    function getColorByLevel(level) {
+        return color.SeverityTones[level];
+    }
 
     function renderSection(violations, key, color, resultsType) {
         var sectionSummary = { label: key, value: Object.keys(violations).length, color: color };
@@ -199,16 +213,39 @@ window.Audit = (function () {
             return;
         }
 
+        var isPassedOrDisabled = (resultsType === 'PASSED' || resultsType === 'DISABLED');
         var visibleList = '';
         var restList = '';
         var visibleCount = 0;
         var violationsCount = 0;
+        var rendered;
+        var separated;
+
         Object.keys(violations).forEach(function (vId) {
-            var rendered = violationTpl.render({
-                level: key,
+            var violationRow = '';
+            var violationDetails;
+            var options = {
                 resultsType: resultsType,
                 violation: violations[vId]
-            });
+            };
+
+            if (isPassedOrDisabled) {
+                rendered = passedAndDisabledViolations.render(options);
+                separated = separateViolationRow(rendered);
+            } else {
+                rendered = violationTpl.render(options);
+                separated = separateViolationRow(rendered);
+            }
+
+            if (!color) color = getColorByLevel(violations[vId].level);
+
+            if (separated.row) {
+                violationRow = $(separated.row);
+                violationRow.css('border-color', color);
+            }
+            violationDetails = separated.details ? $(separated.details)[0].outerHTML : '';
+            rendered = violationRow[0].outerHTML + violationDetails;
+
             if (visibleCount < 5) visibleList += rendered;
             else restList += rendered;
             visibleCount++;
@@ -222,25 +259,13 @@ window.Audit = (function () {
         var html =
             '<div class="' + headerData.name + ' layout-padding" style="margin-bottom: 20px;">' +
             header +
-            '<div style="border-color: ' + color + ';">' +
             visibleList +
             '<div class="hidden" style="border-color: inherit;">' + restList + '</div>' +
             ((visibleCount > 5) ? showAllBtnTpl : '') +
             '</div>' +
-            '</div>';
+            (isPassedOrDisabled ? '<div class="violation-divider"></div>' : '');
 
-
-        var htmlForPassedOrDisabled =
-            '<div class="' + headerData.name + ' layout-padding" style="margin-bottom: 20px;">' +
-            header +
-            visibleList +
-            '<div class="hidden" style="border-color: inherit;">' + restList + '</div>' +
-            ((visibleCount > 5) ? showAllBtnTpl : '') +
-            '</div>' +
-            '<div class="violation-divider"></div>';
-
-        if (resultsType === 'PASSED') $(containers.mainDataContainerSelector).append(htmlForPassedOrDisabled);
-        else $(containers.mainDataContainerSelector).append(html);
+        $(containers.mainDataContainerSelector).append(html);
 
         return sectionSummary;
     }
@@ -281,7 +306,7 @@ window.Audit = (function () {
         var listOfAlerts = organizeDataForCurrentRender(sortKey);
 
         var fillData = function (key) {
-            renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key], 'VIOLATIONS');
+            renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color, 'VIOLATIONS');
             pieData.push({
                 label: key,
                 value: Object.keys(listOfAlerts[key].alerts).length,
@@ -518,7 +543,7 @@ window.Audit = (function () {
         if (sortKey === 'level' && !errors.length) {
             renderSection(passedViolations, 'Passed', color.Passed, 'PASSED');
         }
-        renderSection(disabledViolations, 'Disabled', color.Disabled, 'DISABLED');
+        renderSection(disabledViolations, 'Disabled', null, 'DISABLED');
         refreshClickHandlers(listOfAlerts);
     }
 

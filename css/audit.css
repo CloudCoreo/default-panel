@@ -17,6 +17,10 @@ html, body {
     align-items: flex-start;
 }
 
+.layout-margin-bottom-1 {
+    margin-bottom: 1px;
+}
+
 .layout-margin-top-8 {
     margin-top: 8px;
 }
@@ -208,6 +212,10 @@ html, body {
 
 .bg-light-grey {
     background: #F2F2F2;
+}
+
+.separator {
+    border: 1px solid #E4E4E4;
 }
 
 .separator-top {

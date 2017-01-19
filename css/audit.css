@@ -102,6 +102,7 @@ html, body {
 .border-left {
     border-left-style: solid;
     border-left-width: 10px;
+    border-color: inherit;
 }
 
 .border-grey {

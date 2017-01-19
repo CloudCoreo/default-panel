@@ -211,38 +211,20 @@ window.Audit = (function () {
     function renderPassedOrDisabledSection(options, color) {
         var rendered;
         var parsedHTML;
-        var violationRow = '';
 
         rendered = passedAndDisabledViolations.render(options);
         parsedHTML = $.parseHTML(rendered);
 
-        violationRow = $(parsedHTML[1]); // HTML for row of violation
-        violationRow.css('border-color', color);
+        if (!color) color = colorPalette.SeverityTones[options.violation.level] || colorPalette.Disabled;
 
+        var violationRow = $(parsedHTML[1]); // HTML for row of violation
+        violationRow.css('border-color', color);
         rendered = violationRow[0].outerHTML;
 
         return rendered;
     }
 
-    function renderRegularViolationSection(options, color) {
-        var rendered;
-        var parsedHTML;
-        var violationRow = '';
-        var violationDetails = '';
-
-        rendered = violationTpl.render(options);
-        parsedHTML = $.parseHTML(rendered);
-
-        violationRow = $(parsedHTML[1]); // HTML for row of violation
-        violationDetails = $(parsedHTML[3]); // HTML for details of violation
-        violationRow.css('border-color', color);
-
-        rendered = violationRow[0].outerHTML + violationDetails[0].outerHTML;
-
-        return rendered;
-    }
-
-    function renderSection(violations, key, color, resultsType, sortKey) {
+    function renderSection(violations, key, color, resultsType) {
         var sectionSummary = { label: key, value: Object.keys(violations).length, color: color };
         if (!sectionSummary.value) {
             return;
@@ -255,22 +237,15 @@ window.Audit = (function () {
         var violationsCount = 0;
         var rendered;
 
-        var keys = Object.keys(alertData[sortKey]);
-        var colorsRange = getColorRangeByKeys(keys);
-        var colors = d3.scaleOrdinal(colorsRange);
-
         Object.keys(violations).forEach(function (vId) {
             var options = {
                 resultsType: resultsType,
                 violation: violations[vId]
             };
-
-            if (!color) color = getColor(violations[vId], sortKey, keys, colors);
-
             if (isPassedOrDisabled) {
                 rendered = renderPassedOrDisabledSection(options, color);
             } else {
-                rendered = renderRegularViolationSection(options, color);
+                rendered = violationTpl.render(options);
             }
 
             if (visibleCount < 5) visibleList += rendered;
@@ -286,9 +261,11 @@ window.Audit = (function () {
         var html =
             '<div class="' + headerData.name + ' layout-padding" style="margin-bottom: 20px;">' +
             header +
+            '<div style="border-color: ' + sectionSummary.color + '">' +
             visibleList +
             '<div class="hidden" style="border-color: inherit;">' + restList + '</div>' +
             ((visibleCount > 5) ? showAllBtnTpl : '') +
+            '</div>' +
             '</div>' +
             (isPassedOrDisabled ? '<div class="violation-divider"></div>' : '');
 
@@ -333,7 +310,7 @@ window.Audit = (function () {
         var listOfAlerts = organizeDataForCurrentRender(sortKey);
 
         var fillData = function (key) {
-            renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color, 'VIOLATIONS', sortKey);
+            renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color, 'VIOLATIONS');
             pieData.push({
                 label: key,
                 value: Object.keys(listOfAlerts[key].alerts).length,
@@ -568,9 +545,9 @@ window.Audit = (function () {
         var listOfAlerts = renderResourcesList(sortKey);
 
         if (sortKey === 'level' && !errors.length) {
-            renderSection(passedViolations, 'Passed', colorPalette.Passed, 'PASSED', sortKey);
+            renderSection(passedViolations, 'Passed', colorPalette.Passed, 'PASSED');
         }
-        renderSection(disabledViolations, 'Disabled', null, 'DISABLED', sortKey);
+        renderSection(disabledViolations, 'Disabled', null, 'DISABLED');
         refreshClickHandlers(listOfAlerts);
     }
 

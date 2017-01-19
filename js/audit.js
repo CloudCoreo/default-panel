@@ -14,7 +14,7 @@ window.Audit = (function () {
     var errors = [];
     var pie;
 
-    var color = {
+    var colorPalette = {
         SeverityTones: {
             Emergency: '#770a0a',
             Alert: '#ad0707',
@@ -113,17 +113,22 @@ window.Audit = (function () {
         });
     }
 
+    function getColorRangeByKeys(keys) {
+        var colorsRange;
+
+        if (keys.length <= colorPalette.PurpleTones.length) colorsRange = colorPalette.PurpleTones;
+        else if (keys.length === colorPalette.CoolTones.length) colorsRange = colorPalette.CoolTones;
+        else if (keys.length < 9) colorsRange = colorPalette.RainbowTones;
+        else colorsRange = colorPalette.Default;
+
+        return colorsRange;
+    }
+
     function organizeDataForCurrentRender(sortKey) {
         var keys = Object.keys(alertData[sortKey]);
         var listOfAlerts = {};
 
-        var colorsRange;
-
-        if (keys.length <= color.PurpleTones.length) colorsRange = color.PurpleTones;
-        else if (keys.length === color.CoolTones.length) colorsRange = color.CoolTones;
-        else if (keys.length < 9) colorsRange = color.RainbowTones;
-        else colorsRange = color.Default;
-
+        var colorsRange = getColorRangeByKeys(keys);
         var colors = d3.scaleOrdinal(colorsRange);
 
         alerts.forEach(function (alert) {
@@ -131,11 +136,7 @@ window.Audit = (function () {
             if (!listOfAlerts[key]) {
                 listOfAlerts[key] = {};
                 listOfAlerts[key].alerts = {};
-                if (sortKey === 'level') listOfAlerts[key].color = color.SeverityTones[key];
-                if (!listOfAlerts[key].color) {
-                    var index = keys.indexOf(key);
-                    listOfAlerts[key].color = colors(index);
-                }
+                listOfAlerts[key].color = getColor(alert, sortKey, keys, colors);
             }
 
             if (!listOfAlerts[key].alerts[alert.id]) {
@@ -193,21 +194,55 @@ window.Audit = (function () {
             violationId: violation._id
         };
     }
-    
-    function separateViolationRow(html) {
-        var parsed = $.parseHTML(html);
-        var separated = {};
-        separated.row = parsed[1];
-        separated.details = parsed[3];
 
-        return separated;
+    function getColor(alert, sortKey, keys, colors) {
+        var color;
+        var key = alert[sortKey];
+
+        if (sortKey === 'level') color = colorPalette.SeverityTones[key];
+        if (!color) {
+            var index = keys.indexOf(key);
+            color = colors(index);
+        }
+
+        return color;
     }
 
-    function getColorByLevel(level) {
-        return color.SeverityTones[level];
+    function renderPassedOrDisabledSection(options, color) {
+        var rendered;
+        var parsedHTML;
+        var violationRow = '';
+
+        rendered = passedAndDisabledViolations.render(options);
+        parsedHTML = $.parseHTML(rendered);
+
+        violationRow = $(parsedHTML[1]); // HTML for row of violation
+        violationRow.css('border-color', color);
+
+        rendered = violationRow[0].outerHTML;
+
+        return rendered;
     }
 
-    function renderSection(violations, key, color, resultsType) {
+    function renderRegularViolationSection(options, color) {
+        var rendered;
+        var parsedHTML;
+        var violationRow = '';
+        var violationDetails = '';
+
+        rendered = violationTpl.render(options);
+        parsedHTML = $.parseHTML(rendered);
+
+        violationRow = $(parsedHTML[1]); // HTML for row of violation
+        violationDetails = $(parsedHTML[3]); // HTML for details of violation
+        violationRow.css('border-color', color);
+
+        rendered = violationRow[0].outerHTML + violationDetails[0].outerHTML;
+
+        return rendered;
+    }
+
+    function renderSection(violations, key, color, resultsType, sortKey) {
         var sectionSummary = { label: key, value: Object.keys(violations).length, color: color };
         if (!sectionSummary.value) {
             return;
@@ -219,32 +254,24 @@ window.Audit = (function () {
         var visibleCount = 0;
         var violationsCount = 0;
         var rendered;
-        var separated;
+
+        var keys = Object.keys(alertData[sortKey]);
+        var colorsRange = getColorRangeByKeys(keys);
+        var colors = d3.scaleOrdinal(colorsRange);
 
         Object.keys(violations).forEach(function (vId) {
-            var violationRow = '';
-            var violationDetails;
             var options = {
                 resultsType: resultsType,
                 violation: violations[vId]
             };
 
+            if (!color) color = getColor(violations[vId], sortKey, keys, colors);
+
             if (isPassedOrDisabled) {
-                rendered = passedAndDisabledViolations.render(options);
-                separated = separateViolationRow(rendered);
+                rendered = renderPassedOrDisabledSection(options, color);
             } else {
-                rendered = violationTpl.render(options);
-                separated = separateViolationRow(rendered);
+                rendered = renderRegularViolationSection(options, color);
             }
-
-            if (!color) color = getColorByLevel(violations[vId].level);
-
-            if (separated.row) {
-                violationRow = $(separated.row);
-                violationRow.css('border-color', color);
-            }
-            violationDetails = separated.details ? $(separated.details)[0].outerHTML : '';
-            rendered = violationRow[0].outerHTML + violationDetails;
 
             if (visibleCount < 5) visibleList += rendered;
             else restList += rendered;
@@ -275,7 +302,7 @@ window.Audit = (function () {
         pie.drawPie([{
             label: "Passed",
             value: Object.keys(passedViolations).length,
-            color: color.Passed
+            color: colorPalette.Passed
         }]);
     }
 
@@ -306,7 +333,7 @@ window.Audit = (function () {
         var listOfAlerts = organizeDataForCurrentRender(sortKey);
 
         var fillData = function (key) {
-            renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color, 'VIOLATIONS');
+            renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color, 'VIOLATIONS', sortKey);
             pieData.push({
                 label: key,
                 value: Object.keys(listOfAlerts[key].alerts).length,
@@ -316,13 +343,13 @@ window.Audit = (function () {
 
         if (sortKey === 'level') {
             var unknownLevels = Object.keys(listOfAlerts);
-            Object.keys(color.SeverityTones).forEach(function (key) {
+            Object.keys(colorPalette.SeverityTones).forEach(function (key) {
                 if (listOfAlerts[key]) {
                     fillData(key);
                     unknownLevels.splice(unknownLevels.indexOf(key), 1);
                     return;
                 }
-                pieData.push({ label: key, value: 0, color: color.SeverityTones[key] });
+                pieData.push({ label: key, value: 0, color: colorPalette.SeverityTones[key] });
             });
             unknownLevels.forEach(function (key) {
                 fillData(key);
@@ -541,9 +568,9 @@ window.Audit = (function () {
         var listOfAlerts = renderResourcesList(sortKey);
 
         if (sortKey === 'level' && !errors.length) {
-            renderSection(passedViolations, 'Passed', color.Passed, 'PASSED');
+            renderSection(passedViolations, 'Passed', colorPalette.Passed, 'PASSED', sortKey);
         }
-        renderSection(disabledViolations, 'Disabled', null, 'DISABLED');
+        renderSection(disabledViolations, 'Disabled', null, 'DISABLED', sortKey);
         refreshClickHandlers(listOfAlerts);
     }
 

@@ -158,7 +158,6 @@ window.Audit = (function () {
 
             if (suppressed) listOfAlerts[key].alerts[alert.id].suppressions.push(alert.resource);
             else listOfAlerts[key].alerts[alert.id].resources.push(alert.resource);
-
         });
 
         return listOfAlerts;
@@ -211,9 +210,9 @@ window.Audit = (function () {
     }
 
     function renderSection(violations, key, color, resultsType) {
-        var sectionSummary = { label: key, value: Object.keys(violations).length, color: color };
-        if (!sectionSummary.value) {
-            return;
+        var sectionSummary = { label: key, value: 0, color: color };
+        if (!Object.keys(violations).length) {
+            return sectionSummary;
         }
 
         var visibleList = '';
@@ -226,6 +225,7 @@ window.Audit = (function () {
             else restList += rendered;
             visibleCount++;
 
+            sectionSummary.value += violations[vId].resources.length;
             if (violations[vId].isViolation) violationsCount += violations[vId].resources.length;
         });
 
@@ -283,12 +283,8 @@ window.Audit = (function () {
         var listOfAlerts = organizeDataForCurrentRender(sortKey);
 
         var fillData = function (key) {
-            renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color, 'VIOLATIONS');
-            pieData.push({
-                label: key,
-                value: Object.keys(listOfAlerts[key].alerts).length,
-                color: listOfAlerts[key].color
-            });
+            var summary = renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color, 'VIOLATIONS');
+            pieData.push(summary);
         };
 
         if (sortKey === 'level') {
@@ -351,7 +347,7 @@ window.Audit = (function () {
                         rowData.include_violations_in_count = true;
                     }
 
-                    var isSuppressed = suppressions[violationKey] && suppressions[violationKey][resId];
+                    var isSuppressed = suppressions[violationKey] && typeof suppressions[violationKey][resId] !== 'undefined';
                     var regionArray = rowData.region.trim().split(' ');
                     regionArray.forEach(function(region) {
                         var resource = {

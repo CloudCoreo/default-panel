@@ -145,11 +145,20 @@ window.Audit = (function () {
                 listOfAlerts[key].alerts[alert.id].resources = [];
                 listOfAlerts[key].alerts[alert.id].suppressions = [];
             }
-            if (alert.resource.isSuppressed){
-                listOfAlerts[key].alerts[alert.id].suppressions.push(alert.resource);
-            } else {
-                listOfAlerts[key].alerts[alert.id].resources.push(alert.resource);
+
+            var suppressed = false;
+            if (alert.resource.isSuppressed) {
+                var now = new Date();
+                var suppressedDate = new Date(alert.resource.expiresAt);
+
+                if (suppressedDate.getTime() > now) {
+                    suppressed = true;
+                }
             }
+
+            if (suppressed) listOfAlerts[key].alerts[alert.id].suppressions.push(alert.resource);
+            else listOfAlerts[key].alerts[alert.id].resources.push(alert.resource);
+
         });
 
         return listOfAlerts;

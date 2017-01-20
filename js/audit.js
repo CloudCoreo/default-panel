@@ -208,22 +208,6 @@ window.Audit = (function () {
         return color;
     }
 
-    function renderPassedOrDisabledSection(options, color) {
-        var rendered;
-        var parsedHTML;
-
-        rendered = passedAndDisabledViolations.render(options);
-        parsedHTML = $.parseHTML(rendered);
-
-        if (!color) color = colorPalette.SeverityTones[options.violation.level] || colorPalette.Disabled;
-
-        var violationRow = $(parsedHTML[1]); // HTML for row of violation
-        violationRow.css('border-color', color);
-        rendered = violationRow[0].outerHTML;
-
-        return rendered;
-    }
-
     function renderSection(violations, key, color, resultsType) {
         var sectionSummary = { label: key, value: Object.keys(violations).length, color: color };
         if (!sectionSummary.value) {
@@ -243,7 +227,8 @@ window.Audit = (function () {
                 violation: violations[vId]
             };
             if (isPassedOrDisabled) {
-                rendered = renderPassedOrDisabledSection(options, color);
+                var borderColor = color || colorPalette.SeverityTones[violations[vId].level] || colorPalette.Disabled;
+                rendered = '<div style="border-color: ' + borderColor + '">' + passedAndDisabledViolations.render(options) + '</div>';
             } else {
                 rendered = violationTpl.render(options);
             }

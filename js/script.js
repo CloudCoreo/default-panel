@@ -112,6 +112,10 @@ $(document).ready(function () {
             goToView(view);
         });
 
+        $('.compile-error-details').click(function (e) {
+            openPopup('showCompileErrorModal', {});
+        });
+
         $('.close').click(function () {
             $(this).closest('#popup').addClass('hidden');
         });
@@ -140,6 +144,7 @@ $(document).ready(function () {
 
     function initView() {
         $('.engine-state').addClass('hidden');
+        $('.compile-error').addClass('hidden');
         $('.data-is-loading').addClass('hidden');
         $('.resource-type-toggle').removeClass('hidden');
         $('.scrollable-area').removeClass('hidden');
@@ -185,9 +190,32 @@ $(document).ready(function () {
         return engineState.replace('_', ' ');
     }
 
-    function setExecutionStatusMessage(data) {
-        if (data.engineState === 'COMPLETED') return;
+    function appendNextExecutionTime() {
+        var hoursTillNextExecution = deployData.accountAndGetHoursTillNextExecution();
+        var nextExecutionTime = '';
+        if (hoursTillNextExecution > 1) {
+            nextExecutionTime = 'in ' + hoursTillNextExecution + ' hours';
+        } else {
+            nextExecutionTime = 'will start less than an hour';
+        }
+        $('.compile-error .next-execution-time span').html(nextExecutionTime)
+    }
 
+    function setExecutionStatusMessage(data) {
+        $('.compile-error').addClass('hidden');
+
+        if (data.engineStatus === 'COMPILE_ERROR') {
+            var date = new Date(data.lastExecutionTime);
+            var lastExecutionTime = utils.formatDate(date);
+
+            $('.compile-error').removeClass('hidden');
+            $('.last-successful-run span').html(lastExecutionTime);
+
+            appendNextExecutionTime();
+        }
+        debugger
+        if (data.engineState === 'COMPLETED' || data.engineState === 'PLANNED') return;
+debugger
         $('.engine-state').removeClass('hidden');
         $('.engine-state .message').html(getEngineStateMessage(data.engineState));
 
@@ -202,10 +230,10 @@ $(document).ready(function () {
     }
 
     function init(data, isFirstLoad) {
-        setupHandlers();
+        setupHandlers(data);
         initView();
-        setExecutionStatusMessage(data);
         setupData(data, isFirstLoad);
+        setExecutionStatusMessage(data);
         setupViewData(isFirstLoad);
     }
 

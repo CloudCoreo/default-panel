@@ -56,6 +56,34 @@
     margin: 0 8px;
 }
 
+.compile-error {
+    padding: 8px;
+    display: flex;
+    background: #F0E0DE;
+}
+
+.compile-error .error-state {
+    font-family: 'Roboto', sans-serif;
+    color: #E53E2B;
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+.last-successful-run {
+    color: #6b6b6b;
+    margin-right: 5px;
+}
+.last-successful-run a {
+    text-decoration: underline;
+}
+.last-successful-run a:hover {
+    cursor: pointer;
+}
+.next-execution-time {
+    margin-left: auto;
+    color: #6b6b6b;
+}
+
 .engine-state {
     padding: 8px;
     color: white;

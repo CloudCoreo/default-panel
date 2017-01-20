@@ -415,10 +415,6 @@ html, body {
     white-space: nowrap;
 }
 
-.resources-suppressed-link {
-    pointer-events: ;
-}
-
 .suppressed {
     padding: 1px 3px;
     text-transform: uppercase;

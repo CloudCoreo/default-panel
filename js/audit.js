@@ -14,7 +14,7 @@ window.Audit = (function () {
     var errors = [];
     var pie;
 
-    var color = {
+    var colorPalette = {
         SeverityTones: {
             Emergency: '#770a0a',
             Alert: '#ad0707',
@@ -45,6 +45,7 @@ window.Audit = (function () {
 
     var headerTpl = $.templates("#list-header-tmpl"),
         violationTpl = $.templates("#row-tmpl"),
+        passedAndDisabledViolations = $.templates("#passed-and-disabled-row"),
         showAllBtnTpl = $("#show-all-btn-tmpl").html(),
         errorTpl = $.templates("#violation-error-tpl");
 
@@ -65,7 +66,7 @@ window.Audit = (function () {
         var body = _this.parent().next();
         if (body.hasClass('hidden')) {
             body.removeClass('hidden');
-            body.slideDown()
+            body.slideDown();
             _this.html("- hide details");
         } else {
             body.slideUp(function () {
@@ -112,17 +113,22 @@ window.Audit = (function () {
         });
     }
 
+    function getColorRangeByKeys(keys) {
+        var colorsRange;
+
+        if (keys.length <= colorPalette.PurpleTones.length) colorsRange = colorPalette.PurpleTones;
+        else if (keys.length === colorPalette.CoolTones.length) colorsRange = colorPalette.CoolTones;
+        else if (keys.length < 9) colorsRange = colorPalette.RainbowTones;
+        else colorsRange = colorPalette.Default;
+
+        return colorsRange;
+    }
+
     function organizeDataForCurrentRender(sortKey) {
         var keys = Object.keys(alertData[sortKey]);
         var listOfAlerts = {};
 
-        var colorsRange;
-
-        if (keys.length <= color.PurpleTones.length) colorsRange = color.PurpleTones;
-        else if (keys.length === color.CoolTones.length) colorsRange = color.CoolTones;
-        else if (keys.length < 9) colorsRange = color.RainbowTones;
-        else colorsRange = color.Default;
-
+        var colorsRange = getColorRangeByKeys(keys);
         var colors = d3.scaleOrdinal(colorsRange);
 
         alerts.forEach(function (alert) {
@@ -130,11 +136,7 @@ window.Audit = (function () {
             if (!listOfAlerts[key]) {
                 listOfAlerts[key] = {};
                 listOfAlerts[key].alerts = {};
-                if (sortKey === 'level') listOfAlerts[key].color = color.SeverityTones[key];
-                if (!listOfAlerts[key].color) {
-                    var index = keys.indexOf(key);
-                    listOfAlerts[key].color = colors(index);
-                }
+                listOfAlerts[key].color = getColor(alert, sortKey, keys, colors);
             }
 
             if (!listOfAlerts[key].alerts[alert.id]) {
@@ -193,18 +195,44 @@ window.Audit = (function () {
         };
     }
 
+    function getColor(alert, sortKey, keys, colors) {
+        var color;
+        var key = alert[sortKey];
+
+        if (sortKey === 'level') color = colorPalette.SeverityTones[key];
+        if (!color) {
+            var index = keys.indexOf(key);
+            color = colors(index);
+        }
+
+        return color;
+    }
+
     function renderSection(violations, key, color, resultsType) {
         var sectionSummary = { label: key, value: Object.keys(violations).length, color: color };
         if (!sectionSummary.value) {
             return;
         }
 
+        var isPassedOrDisabled = (resultsType === 'PASSED' || resultsType === 'DISABLED');
         var visibleList = '';
         var restList = '';
         var visibleCount = 0;
         var violationsCount = 0;
+        var rendered;
+
         Object.keys(violations).forEach(function (vId) {
-            var rendered = violationTpl.render(violations[vId]);
+            var options = {
+                resultsType: resultsType,
+                violation: violations[vId]
+            };
+            if (isPassedOrDisabled) {
+                var borderColor = color || colorPalette.SeverityTones[violations[vId].level] || colorPalette.Disabled;
+                rendered = '<div style="border-color: ' + borderColor + '">' + passedAndDisabledViolations.render(options) + '</div>';
+            } else {
+                rendered = violationTpl.render(options);
+            }
+
             if (visibleCount < 5) visibleList += rendered;
             else restList += rendered;
             visibleCount++;
@@ -216,17 +244,18 @@ window.Audit = (function () {
         var header = headerTpl.render(headerData);
 
         var html =
-            '<div class="' + headerData.name + ' bg-white layout-padding" style="margin-bottom: 20px;">' +
+            '<div class="' + headerData.name + ' layout-padding" style="margin-bottom: 20px;">' +
             header +
             '<div style="border-color: ' + sectionSummary.color + '">' +
             visibleList +
             '<div class="hidden" style="border-color: inherit;">' + restList + '</div>' +
             ((visibleCount > 5) ? showAllBtnTpl : '') +
             '</div>' +
-            '</div>';
-
+            '</div>' +
+            (isPassedOrDisabled ? '<div class="violation-divider"></div>' : '');
 
         $(containers.mainDataContainerSelector).append(html);
+
         return sectionSummary;
     }
 
@@ -235,7 +264,7 @@ window.Audit = (function () {
         pie.drawPie([{
             label: "Passed",
             value: Object.keys(passedViolations).length,
-            color: color.Passed
+            color: colorPalette.Passed
         }]);
     }
 
@@ -276,13 +305,13 @@ window.Audit = (function () {
 
         if (sortKey === 'level') {
             var unknownLevels = Object.keys(listOfAlerts);
-            Object.keys(color.SeverityTones).forEach(function (key) {
+            Object.keys(colorPalette.SeverityTones).forEach(function (key) {
                 if (listOfAlerts[key]) {
                     fillData(key);
                     unknownLevels.splice(unknownLevels.indexOf(key), 1);
                     return;
                 }
-                pieData.push({ label: key, value: 0, color: color.SeverityTones[key] });
+                pieData.push({ label: key, value: 0, color: colorPalette.SeverityTones[key] });
             });
             unknownLevels.forEach(function (key) {
                 fillData(key);
@@ -293,6 +322,9 @@ window.Audit = (function () {
                 fillData(key);
             });
         }
+
+        var endOfViolationsMsg = '<div class="violation-divider"><div class="text">end of violations</div></div>';
+        $(containers.mainDataContainerSelector).append(endOfViolationsMsg);
 
         pie.drawPie(pieData);
 
@@ -498,9 +530,9 @@ window.Audit = (function () {
         var listOfAlerts = renderResourcesList(sortKey);
 
         if (sortKey === 'level' && !errors.length) {
-            renderSection(passedViolations, 'Checks that Passed', color.Passed, 'PASSED');
+            renderSection(passedViolations, 'Passed', colorPalette.Passed, 'PASSED');
         }
-        renderSection(disabledViolations, 'Disabled', color.Disabled, 'DISABLED');
+        renderSection(disabledViolations, 'Disabled', null, 'DISABLED');
         refreshClickHandlers(listOfAlerts);
     }
 

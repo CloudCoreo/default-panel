@@ -328,24 +328,6 @@
         </div>
     </div>
 
-    <div id="passed-and-disabled-row">
-        <div class="flex-column bg-white border-left more-info-link" violation="{{:violation.violationId}}" link="{{:violation.link}}">
-            <div class="flex-row row-header flex-wrap border-grey layout-padding bg-white">
-                <div class="flex-column flex-50 layout-padding-right">
-                    <div class="passed-disabled-title">{{:violation.title}}</div>
-                </div>
-                <div class="flex-column flex-50 layout-padding-right">
-                    {{if resultsType === 'PASSED'}}
-                    <div class="violation-level">PASSED</div>
-                    {{else}}
-                    <div class="violation-level">{{:violation.level}}</div>
-                    {{/if}}
-                </div>
-            </div>
-        </div>
-    </div>
-
-
     <div id="audit-resources-tpl">
         <div class="row audit-resources">
             <div class="header flex-row">
@@ -382,11 +364,17 @@
                 <div class="flex-column flex-50 layout-padding-right">
                     <div class="passed-disabled-title">{{:violation.title}}</div>
                 </div>
-                <div class="flex-column flex-50 layout-padding-right">
+                <div class="flex-row flex-50 layout-padding-right">
                     {{if resultsType === 'PASSED'}}
-                    <div class="violation-level">PASSED</div>
+                        <div class="violation-level flex-50">PASSED</div>
+                        {{if violation.suppressions.length}}
+                        <span class="suppressed resources-suppressed-link"
+                              violation="{{:violation.id}}"
+                              violationId="{{:violation.violationId}}">
+                            <span class="value">{{:violation.suppressions.length}} </span>SUPPRESSED</span>
+                        {{/if}}
                     {{else}}
-                    <div class="violation-level">{{:violation.level}}</div>
+                        <div class="violation-level">{{:violation.level}}</div>
                     {{/if}}
                 </div>
             </div>
@@ -402,7 +390,9 @@
                 </div>
                 <div class="medium-grey">{{:violation.level}}</div>
                 {{if violation.resources.length || violation.suppressions.length }}
-                <div class="layout-padding-left resources-title-link flex-column" violation="{{:violation.id}}" violationId="{{:violation.violationId}}"
+                <div class="layout-padding-left resources-title-link flex-column"
+                     violation="{{:violation.id}}"
+                     violationId="{{:violation.violationId}}"
                      sortKey="{{:violation.sortKey}}"
                      reportId="{{:violation.reportId}}">
                     {{if violation.resources.length }}

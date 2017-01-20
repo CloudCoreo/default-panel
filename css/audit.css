@@ -412,6 +412,11 @@ html, body {
 .resources-title-link {
     color: #2b7ae5;
     cursor: pointer;
+    white-space: nowrap;
+}
+
+.resources-suppressed-link {
+    pointer-events: ;
 }
 
 .suppressed {
@@ -422,6 +427,7 @@ html, body {
     border-radius: 3px;
     font-size: 11px;
     text-align: center;
+    white-space: nowrap;
 }
 
 .violation-level {

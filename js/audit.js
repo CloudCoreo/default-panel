@@ -93,6 +93,21 @@ window.Audit = (function () {
 
             openPopup('showViolationResources', params);
         });
+        $('.resources-suppressed-link').click(function (event) {
+            var _this = $(this);
+            var violationId = _this.attr('violation');
+
+            var params = {
+                violationId: _this.attr('violationId'),
+                suppressions: passedViolations[violationId].suppressions,
+                color: colorPalette.Passed
+            };
+
+            event.preventDefault();
+            event.stopPropagation();
+            openPopup('showViolationResources', params);
+        });
+
         $('.more-info-link').click(function () {
             var id = $(this).attr('violation');
             var link = $(this).attr('link');
@@ -133,6 +148,8 @@ window.Audit = (function () {
         var colorsRange = getColorRangeByKeys(keys);
         var colors = d3.scaleOrdinal(colorsRange);
 
+        var suppressedViolations = {};
+
         alerts.forEach(function (alert) {
             var key = alert[sortKey];
             if (!listOfAlerts[key]) {
@@ -158,8 +175,22 @@ window.Audit = (function () {
                 }
             }
 
-            if (suppressed) listOfAlerts[key].alerts[alert.id].suppressions.push(alert.resource);
-            else listOfAlerts[key].alerts[alert.id].resources.push(alert.resource);
+            if (suppressed) {
+                listOfAlerts[key].alerts[alert.id].suppressions.push(alert.resource);
+                if (!suppressedViolations[alert.id]) suppressedViolations[alert.id] = {allSuppressed: true, key: key};
+            }
+            else {
+                listOfAlerts[key].alerts[alert.id].resources.push(alert.resource);
+                suppressedViolations[alert.id] = {allSuppressed: false};
+            }
+        });
+
+        Object.keys(suppressedViolations).forEach(function (alertId) {
+            if (suppressedViolations[alertId].allSuppressed) {
+                var key = suppressedViolations[alertId].key;
+                passedViolations[alertId] = listOfAlerts[key].alerts[alertId];
+                delete listOfAlerts[key].alerts[alertId];
+            }
         });
 
         return listOfAlerts;
@@ -224,22 +255,6 @@ window.Audit = (function () {
         return color;
     }
 
-    function renderPassedOrDisabledSection(options, color) {
-        var rendered;
-        var parsedHTML;
-
-        rendered = passedAndDisabledViolations.render(options);
-        parsedHTML = $.parseHTML(rendered);
-
-        if (!color) color = colorPalette.SeverityTones[options.violation.level] || colorPalette.Disabled;
-
-        var violationRow = $(parsedHTML[1]); // HTML for row of violation
-        violationRow.css('border-color', color);
-        rendered = violationRow[0].outerHTML;
-
-        return rendered;
-    }
-
     function renderSection(violations, key, color, resultsType) {
         var sectionSummary = { label: key, value: 0, color: color };
         if (!Object.keys(violations).length) {
@@ -259,7 +274,8 @@ window.Audit = (function () {
                 violation: violations[vId]
             };
             if (isPassedOrDisabled) {
-                rendered = renderPassedOrDisabledSection(options, color);
+                var borderColor = color || colorPalette.SeverityTones[violations[vId].level] || colorPalette.Disabled;
+                rendered = '<div style="border-color: ' + borderColor + '">' + passedAndDisabledViolations.render(options) + '</div>';
             } else {
                 rendered = violationTpl.render(options);
             }
@@ -453,6 +469,7 @@ window.Audit = (function () {
         enabledDefinitions.forEach(function (key) {
             if (!disabledViolations[key]) return;
             passedViolations[key] = disabledViolations[key];
+            if (suppressions[key]) passedViolations[key].suppressions = Object.keys(suppressions[key]);
             delete disabledViolations[key];
         });
     }
@@ -470,7 +487,7 @@ window.Audit = (function () {
         if (!found) return;
         var suppressionsFound = JSON.parse(found.value);
         Object.keys(suppressionsFound).forEach(function(violationId) {
-            if (!suppressions[violationId]) suppressions[violationId] = [];
+            if (!suppressions[violationId]) suppressions[violationId] = {};
             suppressionsFound[violationId].forEach(function(obj) {
                 var resId = Object.keys(obj)[0];
                 suppressions[violationId][resId] = obj[resId];

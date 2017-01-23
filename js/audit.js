@@ -520,7 +520,6 @@ window.Audit = (function () {
             } else if (disabledLink.length > 0) {
                 scrollToElement(disabledLink);
             }
-
         });
     }
 

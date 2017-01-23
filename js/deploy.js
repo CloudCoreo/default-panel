@@ -49,6 +49,12 @@ window.Deploy = (function () {
             var resId = $(this).attr('resource');
             openPopup('showFullResourceData', resId);
         });
+        $('.truncated').on('click', function (e) {
+            var objectKey = $(this).attr('objectKey');
+            var runId = $(this).parent().parent().attr('runId');
+            var resourceId = $(this).parent().parent().attr('resource');
+            openPopup('showTruncatedObject', { objectKey: objectKey, resourceId: resourceId, runId: runId });
+        });
     }
 
     function appendLogs(data, appendTo) {
@@ -56,7 +62,19 @@ window.Deploy = (function () {
         Object.keys(data).some(function (key) {
             ++count;
             var inputOutputRecordHtml = '';
-            if (data[key].name == 'error') {
+            if (data[key].value.truncated){
+                var objectKey = data[key].value.truncated.object_key;
+                var objectSize = data[key].value.truncated.object_size;
+
+                var linkHtml =  '<div class="input-record">' +
+                                    data[key].name + ': ' +
+                                        '<span class="truncated" objectKey="'+objectKey+'">' +
+                                            'Click to view full message ('+objectSize+' bytes)' +
+                                        '</span>' +
+                                '</div>';
+                inputOutputRecordHtml = $(linkHtml);
+            }
+            else if (data[key].name == 'error') {
                 appendTo.find('.label').hide();
                 var errorTpl = $.templates('#error-tpl');
                 inputOutputRecordHtml = $(errorTpl.render(data[key].value));
@@ -66,7 +84,8 @@ window.Deploy = (function () {
                 if (typeof data[key].value !== 'string') {
                     parsed = JSON.stringify(parsed);
                 }
-                inputOutputRecordHtml = '<div class="input-record">' + data[key].name + ': <span>' + parsed + '</span></div>';
+                inputOutputRecordHtml = $('<div class="input-record">' + data[key].name + ': <span class="value"></span></div>');
+                inputOutputRecordHtml.find('.value').text(parsed);
             }
             appendTo.append(inputOutputRecordHtml);
             if (appendTo.html().length > 1500 || count >= 11) {
@@ -74,7 +93,7 @@ window.Deploy = (function () {
                 return true;
             }
             return false;
-        })
+        });
     }
 
     function appendNumberOfResultsLabel() {

@@ -425,7 +425,6 @@ body {
 
 .custom-radio-btns-group .custom-radio-button:before {
     content: '';
-    background: url(../images/radio-btrn.png) 0 0;
     padding: 0 8px;
     position: relative;
     left: -5px;
@@ -560,6 +559,11 @@ body {
 
 .deploy .custom-dropdown {
     display: none;
+}
+
+.truncated {
+    color: #2b7ae5;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 600px) {

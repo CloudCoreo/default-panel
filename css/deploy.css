@@ -220,7 +220,6 @@ body {
     flex-direction: row;
     justify-content: flex-start;
     border: 1px solid #e6e6e6;
-    /*border-bottom: none;*/
     font-weight: bold;
     color: #6B6B6B;
     position: relative;
@@ -281,6 +280,11 @@ body {
     width: 5px;
     top: 3px;
     height: 11px;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -ms-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
 }
 
 .data-container .resources-list .resource-row .view-row.opened:before {
@@ -288,6 +292,11 @@ body {
     -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
     transform: rotate(90deg);
     top: 3px;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -ms-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
 }
 
 .data-container .resources-list .resource-row:last-child {
@@ -350,8 +359,14 @@ body {
 
 .data-container .resources-list .resource-row .expandable-row {
     background: #f2f2f2;
-    margin: 5px;
     padding: 0 15px;
+    max-height: 350px;
+    overflow: hidden;
+    -webkit-transition: max-height 0.5s;
+    -moz-transition: max-height 0.5s;
+    -ms-transition: max-height 0.5s;
+    -o-transition: max-height 0.5s;
+    transition: max-height 0.5s;
 }
 
 .data-container .resources-list .resource-row .expandable-row .message {
@@ -456,10 +471,6 @@ body {
 
 .v-hidden {
     visibility: hidden !important;
-}
-
-.hidden {
-    display: none !important;
 }
 
 .visible {

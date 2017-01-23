@@ -120,6 +120,7 @@ html, body {
     margin: 20px;
     height: 20px;
 }
+
 .violation-divider .text {
     position: absolute;
     left: 0;
@@ -135,6 +136,7 @@ html, body {
     font-weight: 600;
     background-color: #f2f2f2;
 }
+
 .violation-divider:before {
     content: '';
     width: 100%;
@@ -246,6 +248,10 @@ html, body {
 
 .details-btn {
     font-size: 12px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .row-header {
@@ -297,10 +303,6 @@ html, body {
     color: #6b6b6b;
 }
 
-.hidden {
-    display: none !important;
-}
-
 .flex-wrap {
     -webkit-flex-wrap: nowrap;
     flex-wrap: nowrap;
@@ -313,6 +315,16 @@ html, body {
 
 .list {
     width: 100%;
+}
+
+.list .row-body {
+    max-height: 200px;
+    -webkit-transition: max-height 0.5s;
+    -moz-transition: max-height 0.5s;
+    -ms-transition: max-height 0.5s;
+    -o-transition: max-height 0.5s;
+    transition: max-height 0.5s;
+    overflow: hidden;
 }
 
 .map-cont {
@@ -334,7 +346,6 @@ html, body {
     text-align: center;
     padding: 25px;
 }
-
 
 .advisor-error {
     padding: 10px;
@@ -391,12 +402,14 @@ html, body {
     display: flex;
     flex-direction: column;
 }
+
 .no-violations-message .messages .message-1 {
     text-transform: uppercase;
     font-weight: bold;
     font-size: 36pt;
     color: #2B9F85;
 }
+
 .no-violations-message .messages .message-2 {
     color: #000000;
     font-size: 36pt;
@@ -404,6 +417,7 @@ html, body {
     border-bottom: 1px solid #E4E4E4;
     margin-bottom: 25px;
 }
+
 .no-violations-message .messages .message-3 {
     font-size: 14pt;
     color: #6b6b6b;

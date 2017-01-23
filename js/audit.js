@@ -64,16 +64,9 @@ window.Audit = (function () {
     function onDetailsBtnClick(elem) {
         var _this = $(elem);
         var body = _this.parent().next();
-        if (body.hasClass('hidden')) {
-            body.removeClass('hidden');
-            body.slideDown();
-            _this.html("- hide details");
-        } else {
-            body.slideUp(function () {
-                body.addClass('hidden');
-            });
-            _this.html("+ view details");
-        }
+        body.toggleClass('hidden-row');
+        var text = _this.text() === "- hide details" ? "+ view details" : "- hide details";
+        _this.text(text);
     }
 
     function refreshClickHandlers(listOfAlerts) {

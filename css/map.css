@@ -63,7 +63,13 @@
     width: 100%;
     height: 500px;
 }
+.map-region .region-img circle:hover {
+    opacity: .8;
+}
 
+.map-region .region-img .st0 path:hover {
+    opacity: .8;
+}
 
 .global-region-chart {
     background: #E4E4E4;

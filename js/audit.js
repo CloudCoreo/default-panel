@@ -512,7 +512,7 @@ window.Audit = (function () {
             openPopup('redirectToCommunityComposites');
         });
         $('.link.passed-disabled-link').click(function () {
-            var passedLink = $('.Checks.that.Passed');
+            var passedLink = $('.Passed');
             var disabledLink = $('.Disabled');
 
             if (passedLink.length > 0) {

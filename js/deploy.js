@@ -116,11 +116,11 @@ window.Deploy = (function () {
         });
     }
 
-    function convertMillisecondsToHours(millisecinds) {
-        return Math.floor(millisecinds / 1000 / 60 / 60);
+    function convertMillisecondsToHours(milliseconds) {
+        return Math.floor(milliseconds / 3600000);
     }
 
-    function accountAdnGetHoursTillNextExecution() {
+    function accountAndGetHoursTillNextExecution() {
         if (lastExecutionDate && typeof lastExecutionDate !== Date) {
             lastExecutionDate = new Date(lastExecutionDate);
         }
@@ -131,7 +131,7 @@ window.Deploy = (function () {
     }
 
     function appendNextExecutionTime() {
-        var hoursTillNextExecution = accountAdnGetHoursTillNextExecution();
+        var hoursTillNextExecution = accountAndGetHoursTillNextExecution();
         var hoursLeftString = '';
         if (hoursTillNextExecution > 1) {
             hoursLeftString = 'in ' + hoursTillNextExecution + ' hours';
@@ -318,6 +318,7 @@ window.Deploy = (function () {
     }
 
     deploy.prototype.renderResourcesList = sort;
+    deploy.prototype.accountAndGetHoursTillNextExecution = accountAndGetHoursTillNextExecution;
     deploy.prototype.hasErrors = function () {
         return numberOfNotExecutedResources;
     };

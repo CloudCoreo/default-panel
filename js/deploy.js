@@ -43,6 +43,7 @@ window.Deploy = (function () {
 
     function initializeRowsActions() {
         $('.resources-list .resource-row .view-row').click(function (e) {
+            $(this).toggleClass('opened');
             $(this).next('.expandable-row').toggleClass('hidden');
         });
         $('.openInputs').on('click', function (e) {

@@ -213,9 +213,9 @@ $(document).ready(function () {
 
             appendNextExecutionTime();
         }
-        debugger
+
         if (data.engineState === 'COMPLETED' || data.engineState === 'PLANNED') return;
-debugger
+
         $('.engine-state').removeClass('hidden');
         $('.engine-state .message').html(getEngineStateMessage(data.engineState));
 

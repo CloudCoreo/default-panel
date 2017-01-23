@@ -117,7 +117,7 @@ window.Deploy = (function () {
     }
 
     function convertMillisecondsToHours(milliseconds) {
-        return Math.floor(milliseconds / 1000 / 60 / 60);
+        return Math.floor(milliseconds / 3600000);
     }
 
     function accountAndGetHoursTillNextExecution() {

@@ -261,7 +261,7 @@ body {
 .data-container .resources-list .resource-row .view-row {
     display: flex;
     flex-direction: row;
-    padding: 16px 0 10px 0;
+    padding: 12px 0;
     cursor: pointer;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -269,6 +269,25 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+.data-container .resources-list .resource-row .view-row:before {
+    content: "";
+    background: url(../images/chevron.png) no-repeat;
+    background-size: contain;
+    padding: 0 3px;
+    position: relative;
+    left: 5px;
+    width: 5px;
+    top: 3px;
+    height: 11px;
+}
+
+.data-container .resources-list .resource-row .view-row.opened:before {
+    -ms-transform: rotate(90deg); /* IE 9 */
+    -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+    transform: rotate(90deg);
+    top: 3px;
 }
 
 .data-container .resources-list .resource-row:last-child {
@@ -279,10 +298,6 @@ body {
     word-wrap: break-word;
     box-sizing: border-box;
     padding-left: 20px;
-}
-
-.data-container .resources-list .resource-row .view-row .name {
-    color: #2B7AE5;
 }
 
 .data-container .resources-list .resource-row .view-row .status {

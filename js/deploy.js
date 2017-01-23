@@ -52,9 +52,7 @@ window.Deploy = (function () {
         });
         $('.truncated').on('click', function (e) {
             var objectKey = $(this).attr('objectKey');
-            var runId = $(this).parent().parent().attr('runId');
-            var resourceId = $(this).parent().parent().attr('resource');
-            openPopup('showTruncatedObject', { objectKey: objectKey, resourceId: resourceId, runId: runId });
+            openPopup('showTruncatedObject', { objectKey: objectKey });
         });
     }
 

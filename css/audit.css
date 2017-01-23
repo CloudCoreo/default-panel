@@ -63,6 +63,10 @@ html, body {
     padding-top: 0px;
 }
 
+.pie .arc path:hover {
+    opacity: .8;
+}
+
 .pie-data-header {
     font-size: 18px;
     margin: 16px 0;
@@ -177,10 +181,19 @@ html, body {
     align-items: center;
 }
 
+.opacity-hover-80:hover {
+    opacity: .8;
+    cursor: pointer;
+}
+
 .link {
     text-transform: uppercase;
     color: #2B7AE5;
     cursor: pointer;
+}
+
+.link:hover {
+    opacity: .8;
 }
 
 .link a {

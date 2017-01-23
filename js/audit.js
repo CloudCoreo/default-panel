@@ -367,7 +367,7 @@ window.Audit = (function () {
                     }
 
                     var regionArray = rowData.region.trim().split(' ');
-                    regionArray.forEach(function(region) {
+                    regionArray.forEach(function (region) {
                         var alert = {
                             title: rowData.display_name || violationKey,
                             id: violationKey,

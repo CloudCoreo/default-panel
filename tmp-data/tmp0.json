@@ -831,7 +831,7 @@
           "name": "packages_file"
         },
         {
-          "value": "{\"rds-short-backup-retention-period\":[{\"cc-57980ce2d13-kubedev\":\"2017-01-10T00:00Z\"}],\"rds-no-auto-minor-version-upgrade\":[{\"put-your-object-id-here-1\":\"\"},{\"put-your-object-id-here-2\":\"\"}],\"rds-db-publicly-accessible\":[{\"put-your-object-id-here\":\"\"}],\"rds-inventory\":[{\"cc-57980ce2d13-kubedev\":\"2017-01-30T14:44Z\"}]}\n",
+          "value": "{\"rds-short-backup-retention-period\":[{\"cc-57980ce2d13-kubedev\":\"2017-01-20T00:00Z\"}, {\"cc-581e59ffbd6-kubestg\" :\"2017-01-20T00:00Z\"}],\"rds-inventory\":[{\"cc-57980ce2d13-kubedev\":\"2017-01-30T14:44Z\"}]}\n",
           "name": "suppression"
         }
       ],

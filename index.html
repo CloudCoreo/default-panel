@@ -20,7 +20,7 @@
                 <div class="message">EXECUTING</div>
             </div>
             <div class="data-is-loading hidden">
-                <img src="images/audit-layout_loading-4.gif" />
+                <img src="images/audit-layout_loading-4.gif"/>
             </div>
             <div class="resource-type-toggle">
                 <div class="resource-type audit-res"
@@ -114,7 +114,7 @@
                         <span class="browse-composites">Browse featured Composites</span> to see available audits.
                     </div>
                     <div class="resources-are-loading hidden">
-                        <img src="images/audit-layout_loading-4.gif" />
+                        <img src="images/audit-layout_loading-4.gif"/>
                     </div>
                 </div>
                 <div class="audit flex-row hidden audit-list">
@@ -136,9 +136,7 @@
                         </div>
                         <div class="pie"></div>
                         <div class="additional-info separator-top layout-margin-top flex-row">
-                            <div class="checks"></div>
-                            <div class="passed link"></div>
-                            <div class="disabled link"></div>
+                            <div class="passed-disabled-link link">View Passed & Disabled Rules</div>
                         </div>
                     </div>
                     <div class="flex-grow">
@@ -156,7 +154,8 @@
 
                         <div class="warning-block warning-note-1">
                             <span class="error-icon"></span>
-                            <span class="message">Violation checks may be incomplete. <a href="#" id="warning-link" class="warning-link">Please review</a> the error and run again to ensure completeness.</span>
+                            <span class="message">Violation checks may be incomplete. <a href="#" id="warning-link"
+                                                                                         class="warning-link">Please review</a> the error and run again to ensure completeness.</span>
                         </div>
 
                         <div class="list"></div>
@@ -264,6 +263,7 @@
     <div id="resource-row-tmpl">
         <div class="resource-row">
             <div class="view-row {{:engineStatusClass}}">
+                <div class="chevron"></div>
                 <div class="type">{{:resourceType}}</div>
                 <div class="name">{{:resourceName}}</div>
                 <div class="status">{{:engineStatus}}</div>
@@ -271,7 +271,7 @@
                 <div class="executionTime">{{:executionTime}}</div>
                 <div class="status-timestamp">{{:timestamp}}</div>
             </div>
-            <div class="expandable-row hidden">
+            <div class="expandable-row hidden-row">
                 <div class="logs">
                     <div class="inputs logs-output">
                         <div class="data-cont" resource="{{:_id}}">
@@ -359,7 +359,8 @@
     </div>
 
     <div id="passed-and-disabled-row">
-        <div class="flex-column bg-white border-left more-info-link opacity-hover-80" violation="{{:violation.violationId}}" link="{{:violation.link}}">
+        <div class="flex-column bg-white border-left more-info-link opacity-hover-80" violation="{{:violation.violationId}}"
+             link="{{:violation.link}}">
             <div class="flex-row row-header flex-wrap border-grey layout-padding bg-white">
                 <div class="flex-column flex-50 layout-padding-right">
                     <div class="passed-disabled-title">{{:violation.title}}</div>
@@ -384,7 +385,8 @@
                 </div>
                 <div class="medium-grey">{{:level}}</div>
                 {{if violation.resources.length !== 0}}
-                <div class="medium-grey layout-padding-left resources-title-link" violation="{{:violation.id}}" violationId="{{:violation.violationId}}"
+                <div class="medium-grey layout-padding-left resources-title-link" violation="{{:violation.id}}"
+                     violationId="{{:violation.violationId}}"
                      sortKey="{{:violation.sortKey}}"
                      reportId="{{:violation.reportId}}">
                     {{:violation.resources.length}} Resources
@@ -396,7 +398,7 @@
             </div>
             <div class="details-btn link">+ view details</div>
         </div>
-        <div class="row-body hidden bg-white" style="display: none;">
+        <div class="row-body hidden-row bg-white">
             <div class="flex-row separator flex-wrap">
                 <div class="flex-column separator-right flex-grow">
                     <div class="layout-padding">
@@ -416,7 +418,8 @@
                 </div>
                 <div class="flex-column row-right-column layout-padding">
                     {{if violation.resources.length !== 0}}
-                    <div class="link flex resources-link" violation="{{:violation.id}}" violationId="{{:violation.violationId}}"
+                    <div class="link flex resources-link" violation="{{:violation.id}}"
+                         violationId="{{:violation.violationId}}"
                          sortKey="{{:violation.sortKey}}"
                          reportId="{{:violation.reportId}}">
                         {{:violation.resources.length}} Resources
@@ -424,7 +427,8 @@
                     </div>
                     {{/if}}
                     {{if violation.link}}
-                    <div class="link flex more-info-link" violation="{{:violation.violationId}}" link="{{:violation.link}}">
+                    <div class="link flex more-info-link" violation="{{:violation.violationId}}"
+                         link="{{:violation.link}}">
                         <span>more info</span>
                         <img src="./images/right-chevron.svg" class="fa right"/>
                     </div>

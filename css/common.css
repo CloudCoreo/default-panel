@@ -31,6 +31,20 @@
     opacity: .8;
 }
 
+.hidden {
+    display: none !important;
+}
+
+.hidden-row {
+    max-height: 0 !important;
+    -webkit-transition: max-height 0.5s;
+    -moz-transition: max-height 0.5s;
+    -ms-transition: max-height 0.5s;
+    -o-transition: max-height 0.5s;
+    transition: max-height 0.5s;
+    overflow: hidden;
+}
+
 .resource-type-toggle .resource-type span {
     display: inline-block;
     width: 19px;
@@ -69,7 +83,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    position:relative;
+    position: relative;
     overflow: auto;
     background: #6b6b6b;
 }
@@ -81,6 +95,7 @@
     height: 100%;
     z-index: 1;
 }
+
 .engine-state .message {
     z-index: 2;
 }
@@ -135,7 +150,6 @@
     display: inline-block;
     background: url('../images/error.png') no-repeat 0 0;
 }
-
 
 @media screen and (max-width: 600px) {
     .resource-type.map-res {

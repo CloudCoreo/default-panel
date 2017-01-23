@@ -43,7 +43,8 @@ window.Deploy = (function () {
 
     function initializeRowsActions() {
         $('.resources-list .resource-row .view-row').click(function (e) {
-            $(this).next('.expandable-row').toggleClass('hidden');
+            $(this).toggleClass('opened');
+            $(this).next('.expandable-row').toggleClass('hidden-row');
         });
         $('.openInputs').on('click', function (e) {
             var resId = $(this).attr('resource');
@@ -60,16 +61,16 @@ window.Deploy = (function () {
         Object.keys(data).some(function (key) {
             ++count;
             var inputOutputRecordHtml = '';
-            if (data[key].value.truncated){
+            if (data[key].value.truncated) {
                 var objectKey = data[key].value.truncated.object_key;
                 var objectSize = data[key].value.truncated.object_size;
 
-                var linkHtml =  '<div class="input-record">' +
-                                    data[key].name + ': ' +
-                                        '<span class="truncated" objectKey="'+objectKey+'">' +
-                                            'Click to view full message ('+objectSize+' bytes)' +
-                                        '</span>' +
-                                '</div>';
+                var linkHtml = '<div class="input-record">' +
+                    data[key].name + ': ' +
+                    '<span class="truncated" objectKey="' + objectKey + '">' +
+                    'Click to view full message (' + objectSize + ' bytes)' +
+                    '</span>' +
+                    '</div>';
                 inputOutputRecordHtml = $(linkHtml);
             }
             else if (data[key].name == 'error') {

@@ -64,16 +64,9 @@ window.Audit = (function () {
     function onDetailsBtnClick(elem) {
         var _this = $(elem);
         var body = _this.parent().next();
-        if (body.hasClass('hidden')) {
-            body.removeClass('hidden');
-            body.slideDown();
-            _this.html("- hide details");
-        } else {
-            body.slideUp(function () {
-                body.addClass('hidden');
-            });
-            _this.html("+ view details");
-        }
+        body.toggleClass('hidden-row');
+        var text = _this.text() === "- hide details" ? "+ view details" : "- hide details";
+        _this.text(text);
     }
 
     function refreshClickHandlers(listOfAlerts) {
@@ -367,7 +360,7 @@ window.Audit = (function () {
                     }
 
                     var regionArray = rowData.region.trim().split(' ');
-                    regionArray.forEach(function(region) {
+                    regionArray.forEach(function (region) {
                         var alert = {
                             title: rowData.display_name || violationKey,
                             id: violationKey,
@@ -518,11 +511,15 @@ window.Audit = (function () {
         $('.browse-composites').click(function () {
             openPopup('redirectToCommunityComposites');
         });
-        $('.link.passed').click(function () {
-            scrollToElement($('.Checks.that.Passed'));
-        });
-        $('.link.disabled').click(function () {
-            scrollToElement($('.Disabled'));
+        $('.link.passed-disabled-link').click(function () {
+            var passedLink = $('.Passed');
+            var disabledLink = $('.Disabled');
+
+            if (passedLink.length > 0) {
+                scrollToElement(passedLink);
+            } else if (disabledLink.length > 0) {
+                scrollToElement(disabledLink);
+            }
         });
     }
 

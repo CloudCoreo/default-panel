@@ -27,6 +27,10 @@
     align-items: center;
 }
 
+.resource-type-toggle .resource-type:hover {
+    opacity: .8;
+}
+
 .resource-type-toggle .resource-type span {
     display: inline-block;
     width: 19px;
@@ -84,6 +88,9 @@
 .sort-label {
     word-break: break-all;
     word-wrap: break-word;
+}
+.sort-label:hover {
+    opacity: .8;
 }
 
 .no-map-on-mobile-warning {

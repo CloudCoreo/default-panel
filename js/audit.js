@@ -511,11 +511,16 @@ window.Audit = (function () {
         $('.browse-composites').click(function () {
             openPopup('redirectToCommunityComposites');
         });
-        $('.link.passed').click(function () {
-            scrollToElement($('.Checks.that.Passed'));
-        });
-        $('.link.disabled').click(function () {
-            scrollToElement($('.Disabled'));
+        $('.link.passed-disabled-link').click(function () {
+            var passedLink = $('.Checks.that.Passed');
+            var disabledLink = $('.Disabled');
+
+            if (passedLink.length > 0) {
+                scrollToElement(passedLink);
+            } else if (disabledLink.length > 0) {
+                scrollToElement(disabledLink);
+            }
+
         });
     }
 

@@ -367,7 +367,7 @@ window.Audit = (function () {
                     }
 
                     var regionArray = rowData.region.trim().split(' ');
-                    regionArray.forEach(function(region) {
+                    regionArray.forEach(function (region) {
                         var alert = {
                             title: rowData.display_name || violationKey,
                             id: violationKey,
@@ -518,11 +518,16 @@ window.Audit = (function () {
         $('.browse-composites').click(function () {
             openPopup('redirectToCommunityComposites');
         });
-        $('.link.passed').click(function () {
-            scrollToElement($('.Checks.that.Passed'));
-        });
-        $('.link.disabled').click(function () {
-            scrollToElement($('.Disabled'));
+        $('.link.passed-disabled-link').click(function () {
+            var passedLink = $('.Checks.that.Passed');
+            var disabledLink = $('.Disabled');
+
+            if (passedLink.length > 0) {
+                scrollToElement(passedLink);
+            } else if (disabledLink.length > 0) {
+                scrollToElement(disabledLink);
+            }
+
         });
     }
 

@@ -1,9 +1,12 @@
 window.Audit = (function () {
     var callback;
-    var totalViolations = 0;
     var passedViolations = [];
     var disabledViolations = [];
     var suppressions = {};
+
+    var totalViolations = 0;
+
+    var definitions;
     var alerts = [];
     var alertData = {
         level: {},
@@ -82,7 +85,6 @@ window.Audit = (function () {
             var _this = $(this);
             var violationId = _this.attr('violation');
             var sortKey = _this.attr('sortKey');
-            var reportId = _this.attr('reportId');
 
             var params = {
                 violationId: _this.attr('violationId'),
@@ -151,7 +153,7 @@ window.Audit = (function () {
         var suppressedViolations = {};
 
         alerts.forEach(function (alert) {
-            var key = alert[sortKey];
+            var key = definitions[alert.id].inputs[sortKey];
             if (!listOfAlerts[key]) {
                 listOfAlerts[key] = {};
                 listOfAlerts[key].alerts = {};
@@ -230,12 +232,6 @@ window.Audit = (function () {
         return {
             title: violation.inputs.display_name || violation.resourceName,
             id: violation.resourceName,
-            level: violation.inputs.level,
-            category: violation.inputs.category,
-            description: violation.inputs.description,
-            fix: violation.inputs.suggested_action,
-            service: violation.inputs.service,
-            link: violation.inputs.link,
             resources: [],
             suppressions: [],
             violationId: violation._id
@@ -244,7 +240,7 @@ window.Audit = (function () {
 
     function getColor(alert, sortKey, keys, colors) {
         var color;
-        var key = alert[sortKey];
+        var key = definitions[alert.id].inputs[sortKey];
 
         if (sortKey === 'level') color = colorPalette.SeverityTones[key];
         if (!color) {
@@ -271,10 +267,11 @@ window.Audit = (function () {
         Object.keys(violations).forEach(function (vId) {
             var options = {
                 resultsType: resultsType,
+                definition: definitions[vId].inputs,
                 violation: violations[vId]
             };
             if (isPassedOrDisabled) {
-                var borderColor = color || colorPalette.SeverityTones[violations[vId].level] || colorPalette.Disabled;
+                var borderColor = color || colorPalette.SeverityTones[options.definition.level] || colorPalette.Disabled;
                 rendered = '<div style="border-color: ' + borderColor + '">' + passedAndDisabledViolations.render(options) + '</div>';
             } else {
                 rendered = violationTpl.render(options);
@@ -285,7 +282,7 @@ window.Audit = (function () {
             visibleCount++;
 
             sectionSummary.value += violations[vId].resources.length;
-            if (violations[vId].isViolation) violationsCount += violations[vId].resources.length;
+            if (options.definition.include_violations_in_count) violationsCount += violations[vId].resources.length;
         });
 
         var headerData = { name: sectionSummary.label, resultsCount: violationsCount, resultsType: resultsType };
@@ -381,6 +378,25 @@ window.Audit = (function () {
         alerts = undefined;
     }
 
+    function incrementDataCounters(definition, region) {
+        if (!alertData.level.hasOwnProperty(definition.level)) {
+            alertData.level[definition.level] = 0;
+        }
+        if (!alertData.category.hasOwnProperty(definition.category)) {
+            alertData.category[definition.category] = 0;
+        }
+        if (!alertData.region.hasOwnProperty(definition.region)) {
+            alertData.region[definition.region] = 0;
+        }
+        if (!alertData.service.hasOwnProperty(definition.service)) {
+            alertData.service[definition.service] = 0;
+        }
+        ++alertData.level[definition.level];
+        ++alertData.category[definition.category];
+        ++alertData.region[definition.region];
+        ++alertData.service[definition.service];
+    }
+
     function fillViolationsList(violations, reports) {
         if (!Object.keys(violations).length && !Object.keys(disabledViolations).length && !Object.keys(passedViolations).length) {
             showNoAuditResourcesMessage();
@@ -388,24 +404,20 @@ window.Audit = (function () {
         }
         var totalChecks = 0;
         totalViolations = 0;
+        definitions = violations;
 
         reports.forEach(function (reportData) {
             var report = JSON.parse(reportData.outputs.report);
-            var reportId = reportData._id;
             totalChecks += reportData.outputs.number_checks;
 
             if (report.violations) report = report.violations;
 
             Object.keys(report).forEach(function (resId) {
+                var timestamp = utils.formatDate(reportData.timestamp);
+
                 Object.keys(report[resId].violations).forEach(function (violationKey) {
                     var rowData = report[resId].violations[violationKey];
                     if (rowData.level === 'Internal') return;
-
-                    if (violations[violationKey]) {
-                        rowData.violationId = violations[violationKey]._id;
-                        rowData.service = violations[violationKey].inputs.service;
-                    }
-
                     if (typeof rowData.include_violations_in_count === 'undefined') {
                         rowData.include_violations_in_count = true;
                     }
@@ -416,46 +428,19 @@ window.Audit = (function () {
                         var resource = {
                             id: resId,
                             tags: report[resId].tags,
-                            reportId: reportId,
                             region: region,
                             isSuppressed: isSuppressed,
                             expiresAt: (isSuppressed) ? suppressions[violationKey][resId] : undefined
                         };
                         var alert = {
-                            title: rowData.display_name || violationKey,
                             id: violationKey,
-                            level: rowData.level,
-                            category: rowData.category,
-                            description: rowData.description,
-                            fix: rowData.suggested_action,
                             resource: resource,
-                            service: rowData.service,
-                            region: region,
-                            link: rowData.link,
-                            reportId: reportId,
-                            violationId: rowData.violationId,
-                            isViolation: rowData.include_violations_in_count,
-                            timestamp: utils.formatDate(reportData.timestamp)
+                            timestamp: timestamp
                         };
-                        if (!alertData.level.hasOwnProperty(alert.level)) {
-                            alertData.level[alert.level] = 0;
-                        }
-                        if (!alertData.category.hasOwnProperty(alert.category)) {
-                            alertData.category[alert.category] = 0;
-                        }
-                        if (!alertData.region.hasOwnProperty(alert.region)) {
-                            alertData.region[alert.region] = 0;
-                        }
-                        if (!alertData.service.hasOwnProperty(alert.service)) {
-                            alertData.service[alert.service] = 0;
-                        }
-                        ++alertData.level[alert.level];
-                        ++alertData.category[alert.category];
-                        ++alertData.region[alert.region];
-                        ++alertData.service[alert.service];
-
                         alerts.push(alert);
-                        if (alert.isViolation) ++totalViolations;
+
+                        incrementDataCounters(violations[violationKey].inputs, resource.region);
+                        if (rowData.include_violations_in_count) ++totalViolations;
                         if (disabledViolations[violationKey]) delete disabledViolations[violationKey];
                     });
                 });
@@ -463,7 +448,10 @@ window.Audit = (function () {
         });
 
         $('.additional-info .checks').html(totalChecks + ' Checks');
+        $('.pie-data-header .num').html(totalViolations);
     }
+
+
 
     function fillPassedViolationsList(enabledDefinitions) {
         enabledDefinitions.forEach(function (key) {
@@ -475,7 +463,6 @@ window.Audit = (function () {
     }
 
     function fillHtmlSummaryData() {
-        $('.pie-data-header .num').html(totalViolations);
         $('.additional-info .passed').html((errors.length) ? ' Passed' : Object.keys(passedViolations).length + ' Passed');
         $('.additional-info .disabled').html(Object.keys(disabledViolations).length + ' Disabled');
     }
@@ -535,6 +522,7 @@ window.Audit = (function () {
                 enabledDefinitions = enabledDefinitions.concat(newObj.inputs.alerts);
             }
             else {
+                newObj.inputs.violationId = newObj._id;
                 newData[newObj.resourceName] = newObj;
                 disabledViolations[newObj.resourceName] = organizeDataForAdditionalSections(newObj);
             }

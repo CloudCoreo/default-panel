@@ -22,7 +22,7 @@
             <div class="data-is-loading hidden">
                 <img src="images/audit-layout_loading-4.gif" />
             </div>
-            <div class="compile-error">
+            <div class="compile-error hidden">
                 <div class="error-state">COMPILE ERROR</div>
                 <div class="last-successful-run">prevented a run on <span></span></div>
                 <div class="last-successful-run"><a class="compile-error-details">view details</a></div>
@@ -365,10 +365,11 @@
     </div>
 
     <div id="passed-and-disabled-row">
-        <div class="flex-column bg-white border-left more-info-link opacity-hover-80" violation="{{:violation.violationId}}" link="{{:violation.link}}">
+        <div class="flex-column bg-white border-left more-info-link opacity-hover-80" violation="{{:definition.violationId}}"
+             link="{{:definition.link}}">
             <div class="flex-row row-header flex-wrap border-grey layout-padding bg-white">
                 <div class="flex-column flex-50 layout-padding-right">
-                    <div class="passed-disabled-title">{{:violation.title}}</div>
+                    <div class="passed-disabled-title">{{:(definition.display_name || violation.id)}}</div>
                 </div>
                 <div class="flex-row flex-50 layout-padding-right">
                     {{if resultsType === 'PASSED'}}
@@ -376,11 +377,11 @@
                         {{if violation.suppressions.length}}
                         <span class="suppressed resources-suppressed-link"
                               violation="{{:violation.id}}"
-                              violationId="{{:violation.violationId}}">
+                              violationId="{{:definition.violationId}}">
                             <span class="value">{{:violation.suppressions.length}} </span>SUPPRESSED</span>
                         {{/if}}
                     {{else}}
-                        <div class="violation-level">{{:violation.level}}</div>
+                        <div class="violation-level">{{:definition.level}}</div>
                     {{/if}}
                 </div>
             </div>
@@ -391,16 +392,15 @@
         <div class="flex-column layout-padding border-left bg-white layout-margin-bottom-1 opacity-hover-80">
             <div class="flex-row row-header flex-wrap">
                 <div class="flex-column flex-grow layout-padding-right">
-                    <div class="title">{{:violation.title}}</div>
+                    <div class="title">{{:(definition.display_name || violation.id)}}</div>
                     <div class="violation-id">AlertId: {{:violation.id}}</div>
                 </div>
-                <div class="medium-grey">{{:violation.level}}</div>
+                <div class="medium-grey">{{:definition.level}}</div>
                 {{if violation.resources.length || violation.suppressions.length }}
                 <div class="layout-padding-left resources-title-link flex-column"
                      violation="{{:violation.id}}"
                      violationId="{{:violation.violationId}}"
-                     sortKey="{{:violation.sortKey}}"
-                     reportId="{{:violation.reportId}}">
+                     sortKey="{{:violation.sortKey}}">
                     {{if violation.resources.length }}
                     {{:violation.resources.length}} Cloud Objects
                     {{/if}}
@@ -424,35 +424,36 @@
                     <div class="layout-padding">
                         <div class="layout-margin-bottom-8">
                             <i>Category</i><br/>
-                            {{:violation.category}}
+                            {{:definition.category}}
                         </div>
                         <div>
                             <i>Description</i><br/>
-                            {{:violation.description}}
+                            {{:definition.description}}
                         </div>
                     </div>
                     <div class="layout-padding bg-white">
                         <i>Suggested Fix</i><br/>
-                        {{:violation.fix}}
+                        {{:definition.suggested_action}}
                     </div>
                 </div>
                 <div class="flex-column row-right-column layout-padding">
                     {{if violation.resources.length !== 0}}
-                    <div class="link flex resources-link" violation="{{:violation.id}}" violationId="{{:violation.violationId}}"
-                         sortKey="{{:violation.sortKey}}"
-                         reportId="{{:violation.reportId}}">
+                    <div class="link flex resources-link" violation="{{:violation.id}}"
+                         violationId="{{:definition.violationId}}"
+                         sortKey="{{:violation.sortKey}}">
                         {{:violation.resources.length}} Cloud Objects
                         <img src="./images/right-chevron.svg" class="fa right"/>
                     </div>
                     {{/if}}
                     {{if violation.link}}
-                    <div class="link flex more-info-link" violation="{{:violation.violationId}}" link="{{:violation.link}}">
+                    <div class="link flex more-info-link" violation="{{:definition.violationId}}"
+                         link="{{:definition.link}}">
                         <span>more info</span>
                         <img src="./images/right-chevron.svg" class="fa right"/>
                     </div>
                     {{/if}}
                     <div class="separator-top layout-margin-top-8 layout-margin-bottom-8"></div>
-                    <div class="link flex share-link" violation="{{:violation.violationId}}">
+                    <div class="link flex share-link" violation="{{:definition.violationId}}">
                         <img src="./images/envelope.svg" class="fa left"/>
                         share
                     </div>

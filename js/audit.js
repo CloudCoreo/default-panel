@@ -3,6 +3,7 @@ window.Audit = (function () {
     var totalViolations = 0;
     var passedViolations = [];
     var disabledViolations = [];
+    var suppressions = {};
     var alerts = [];
     var alertData = {
         level: {},
@@ -79,11 +80,27 @@ window.Audit = (function () {
             var params = {
                 violationId: _this.attr('violationId'),
                 resources: listOfAlerts[sortKey].alerts[violationId].resources,
+                suppressions: listOfAlerts[sortKey].alerts[violationId].suppressions,
                 color: listOfAlerts[sortKey].color
             };
 
             openPopup('showViolationResources', params);
         });
+        $('.resources-suppressed-link').click(function (event) {
+            var _this = $(this);
+            var violationId = _this.attr('violation');
+
+            var params = {
+                violationId: _this.attr('violationId'),
+                suppressions: passedViolations[violationId].suppressions,
+                color: colorPalette.Passed
+            };
+
+            event.preventDefault();
+            event.stopPropagation();
+            openPopup('showViolationResources', params);
+        });
+
         $('.more-info-link').click(function () {
             var id = $(this).attr('violation');
             var link = $(this).attr('link');
@@ -124,6 +141,8 @@ window.Audit = (function () {
         var colorsRange = getColorRangeByKeys(keys);
         var colors = d3.scaleOrdinal(colorsRange);
 
+        var suppressedViolations = {};
+
         alerts.forEach(function (alert) {
             var key = alert[sortKey];
             if (!listOfAlerts[key]) {
@@ -136,8 +155,35 @@ window.Audit = (function () {
                 listOfAlerts[key].alerts[alert.id] = alert;
                 listOfAlerts[key].alerts[alert.id].sortKey = key;
                 listOfAlerts[key].alerts[alert.id].resources = [];
+                listOfAlerts[key].alerts[alert.id].suppressions = [];
             }
-            listOfAlerts[key].alerts[alert.id].resources.push(alert.resource);
+
+            var suppressed = false;
+            if (alert.resource.isSuppressed) {
+                var now = new Date();
+                var suppressedDate = new Date(alert.resource.expiresAt);
+
+                if (suppressedDate.getTime() > now) {
+                    suppressed = true;
+                }
+            }
+
+            if (suppressed) {
+                listOfAlerts[key].alerts[alert.id].suppressions.push(alert.resource);
+                if (!suppressedViolations[alert.id]) suppressedViolations[alert.id] = {allSuppressed: true, key: key};
+            }
+            else {
+                listOfAlerts[key].alerts[alert.id].resources.push(alert.resource);
+                suppressedViolations[alert.id] = {allSuppressed: false};
+            }
+        });
+
+        Object.keys(suppressedViolations).forEach(function (alertId) {
+            if (suppressedViolations[alertId].allSuppressed) {
+                var key = suppressedViolations[alertId].key;
+                passedViolations[alertId] = listOfAlerts[key].alerts[alertId];
+                delete listOfAlerts[key].alerts[alertId];
+            }
         });
 
         return listOfAlerts;
@@ -184,6 +230,7 @@ window.Audit = (function () {
             service: violation.inputs.service,
             link: violation.inputs.link,
             resources: [],
+            suppressions: [],
             violationId: violation._id
         };
     }
@@ -202,9 +249,9 @@ window.Audit = (function () {
     }
 
     function renderSection(violations, key, color, resultsType) {
-        var sectionSummary = { label: key, value: Object.keys(violations).length, color: color };
-        if (!sectionSummary.value) {
-            return;
+        var sectionSummary = { label: key, value: 0, color: color };
+        if (!Object.keys(violations).length) {
+            return sectionSummary;
         }
 
         var isPassedOrDisabled = (resultsType === 'PASSED' || resultsType === 'DISABLED');
@@ -230,6 +277,7 @@ window.Audit = (function () {
             else restList += rendered;
             visibleCount++;
 
+            sectionSummary.value += violations[vId].resources.length;
             if (violations[vId].isViolation) violationsCount += violations[vId].resources.length;
         });
 
@@ -288,12 +336,8 @@ window.Audit = (function () {
         var listOfAlerts = organizeDataForCurrentRender(sortKey);
 
         var fillData = function (key) {
-            renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color, 'VIOLATIONS');
-            pieData.push({
-                label: key,
-                value: Object.keys(listOfAlerts[key].alerts).length,
-                color: listOfAlerts[key].color
-            });
+            var summary = renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color, 'VIOLATIONS');
+            pieData.push(summary);
         };
 
         if (sortKey === 'level') {
@@ -359,8 +403,17 @@ window.Audit = (function () {
                         rowData.include_violations_in_count = true;
                     }
 
+                    var isSuppressed = suppressions[violationKey] && typeof suppressions[violationKey][resId] !== 'undefined';
                     var regionArray = rowData.region.trim().split(' ');
                     regionArray.forEach(function (region) {
+                        var resource = {
+                            id: resId,
+                            tags: report[resId].tags,
+                            reportId: reportId,
+                            region: region,
+                            isSuppressed: isSuppressed,
+                            expiresAt: (isSuppressed) ? suppressions[violationKey][resId] : undefined
+                        };
                         var alert = {
                             title: rowData.display_name || violationKey,
                             id: violationKey,
@@ -368,8 +421,8 @@ window.Audit = (function () {
                             category: rowData.category,
                             description: rowData.description,
                             fix: rowData.suggested_action,
+                            resource: resource,
                             service: rowData.service,
-                            resource: { id: resId, tags: report[resId].tags, reportId: reportId, region: region },
                             region: region,
                             link: rowData.link,
                             reportId: reportId,
@@ -409,6 +462,7 @@ window.Audit = (function () {
         enabledDefinitions.forEach(function (key) {
             if (!disabledViolations[key]) return;
             passedViolations[key] = disabledViolations[key];
+            if (suppressions[key]) passedViolations[key].suppressions = Object.keys(suppressions[key]);
             delete disabledViolations[key];
         });
     }
@@ -419,13 +473,31 @@ window.Audit = (function () {
         $('.additional-info .disabled').html(Object.keys(disabledViolations).length + ' Disabled');
     }
 
+    function checkForSuppressions (elem) {
+        var found = elem.outputs.find(function (output) {
+            return output.name === 'suppression';
+        });
+        if (!found) return;
+        var suppressionsFound = JSON.parse(found.value);
+        Object.keys(suppressionsFound).forEach(function(violationId) {
+            if (!suppressions[violationId]) suppressions[violationId] = {};
+            suppressionsFound[violationId].forEach(function(obj) {
+                var resId = Object.keys(obj)[0];
+                suppressions[violationId][resId] = obj[resId];
+            });
+        });
+    }
+
     function initResourcesList(data) {
         var newData = {};
         var reports = [];
         var enabledDefinitions = [];
         errors = [];
         data.forEach(function (elem) {
-            if (elem.dataType !== 'ADVISOR_RESOURCE') return;
+            if (elem.dataType !== 'ADVISOR_RESOURCE') {
+                checkForSuppressions(elem);
+                return;
+            }
             var newObj = {};
             newObj.resourceType = elem.resourceType;
             newObj.resourceName = elem.resourceName;

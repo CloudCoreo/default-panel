@@ -22,7 +22,7 @@
             <div class="data-is-loading hidden">
                 <img src="images/audit-layout_loading-4.gif"/>
             </div>
-            <div class="compile-error">
+            <div class="compile-error hidden">
                 <div class="error-state">COMPILE ERROR</div>
                 <div class="last-successful-run">prevented a run on <span></span></div>
                 <div class="last-successful-run"><a class="compile-error-details">view details</a></div>
@@ -365,7 +365,8 @@
     </div>
 
     <div id="passed-and-disabled-row">
-        <div class="flex-column bg-white border-left more-info-link opacity-hover-80" violation="{{:violation.violationId}}"
+        <div class="flex-column bg-white border-left more-info-link opacity-hover-80"
+             violation="{{:violation.violationId}}"
              link="{{:violation.link}}">
             <div class="flex-row row-header flex-wrap border-grey layout-padding bg-white">
                 <div class="flex-column flex-50 layout-padding-right">
@@ -373,15 +374,15 @@
                 </div>
                 <div class="flex-row flex-50 layout-padding-right">
                     {{if resultsType === 'PASSED'}}
-                        <div class="violation-level flex-50">PASSED</div>
-                        {{if violation.suppressions.length}}
-                        <span class="suppressed resources-suppressed-link"
-                              violation="{{:violation.id}}"
-                              violationId="{{:violation.violationId}}">
+                    <div class="violation-level flex-50">PASSED</div>
+                    {{if violation.suppressions.length}}
+                    <span class="suppressed resources-suppressed-link"
+                          violation="{{:violation.id}}"
+                          violationId="{{:violation.violationId}}">
                             <span class="value">{{:violation.suppressions.length}} </span>SUPPRESSED</span>
-                        {{/if}}
+                    {{/if}}
                     {{else}}
-                        <div class="violation-level">{{:violation.level}}</div>
+                    <div class="violation-level">{{:violation.level}}</div>
                     {{/if}}
                 </div>
             </div>
@@ -406,7 +407,8 @@
                     {{:violation.resources.length}} Cloud Objects
                     {{/if}}
                     {{if violation.suppressions.length}}
-                    <span class="suppressed"><span class="value">{{:violation.suppressions.length}} </span>SUPPRESSED</span>
+                    <span class="suppressed"><span
+                            class="value">{{:violation.suppressions.length}} </span>SUPPRESSED</span>
                     {{/if}}
                 </div>
                 {{/if}}

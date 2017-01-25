@@ -133,36 +133,179 @@ function calcRadius(value) {
     return radius;
 }
 
-function drawCircle(g, value, fillColor, strokeColor, textColor, shift) {
+function appendCircleIntoElement(element, options) {
+    return element
+        .append('circle')
+        .attrs(options);
+}
+
+function appendTextIntoElement(element, text, options) {
+    return element.append('text')
+        .attrs(options)
+        .text(text);
+}
+
+function showTooltip(position, element, region) {
+
+    var circleRadius = element.select('circle').attr('r');
+    var rectX = position.cx + parseFloat(circleRadius) + 5;
+    var rectY = position.cy - 10;
+
+    element.append('rect')
+        .attr('x', rectX)
+        .attr('y', rectY)
+        .attr('width', 150)
+        .attr('height', 45)
+        .attr('fill', '#eee');
+
+    appendTextIntoElement(element, region.key, {
+        'id': region.key + '-info',
+        'x': rectX + 20,
+        'y': rectY + 10,
+        'dy': '.5em',
+        'font-size': '7pt',
+        'font-weight': '600'
+    });
+
+    if (!region.deployed && !region.violations) {
+        appendTextIntoElement(element, 'Null', {
+            'id': region.key + '-info',
+            'x': rectX + 20,
+            'y': rectY + 20,
+            'dy': '.5em',
+            'font-size': '6pt'
+        });
+
+        appendCircleIntoElement(element, {
+            'id': region.key + '-info',
+            'r': 4,
+            'cx': rectX + 10,
+            'cy': rectY + 21,
+            'fill': '#eee',
+            'stroke': '#bbb',
+            'stroke-width': '1px'
+        });
+    } else {
+
+        appendTextIntoElement(element, region.deployed + ' Resources Deployed', {
+            'id': region.key + '-info',
+            'x': rectX + 20,
+            'y': rectY + 20,
+            'dy': '.5em',
+            'font-size': '6pt'
+        });
+
+        appendCircleIntoElement(element, {
+            'id': region.key + '-info',
+            'r': 4,
+            'cx': rectX + 10,
+            'cy': rectY + 21,
+            'fill': '#2B7AE5',
+            'stroke-width': '1px'
+        });
+
+        appendTextIntoElement(element, region.violations + ' Violations Found in Audit', {
+            'id': region.key + '-info',
+            'x': rectX + 20,
+            'y': rectY + 30,
+            'dy': '.5em',
+            'font-size': '6pt'
+        });
+
+        appendCircleIntoElement(element, {
+            'id': region.key + '-info',
+            'r': 4,
+            'cx': rectX + 10,
+            'cy': rectY + 31,
+            'fill': '#fff',
+            'stroke': '#ff0000',
+            'stroke-width': '1px'
+        });
+    }
+}
+
+function drawNullCircle(element, region) {
+
+    var position = {};
+    position.cx = parseFloat(element.attr('cx'));
+    position.cy = parseFloat(element.attr('cy'));
+
+    function onMouseOver(d) {
+        showTooltip(position, element, region);
+        moveToFront(element);
+    }
+
+    function onMouseOut(d) {
+        element.select('rect').remove();
+        element.selectAll('#' + region.key + '-info').remove();
+    }
+
+    element
+        .on('mouseover', onMouseOver)
+        .on('mouseout', onMouseOut);
+
+    appendCircleIntoElement(element, {
+        'r': 10,
+        'cx': position.cx,
+        'cy': position.cy,
+        'fill': '#eee',
+        'stroke': '#bbb',
+        'stroke-width': '2px'
+    });
+
+    element.append('svg:image')
+        .attr('xlink:href', './images/not_used_region.svg')
+        .attr('width', 14)
+        .attr('height', 12)
+        .attr('x', position.cx - 7)
+        .attr('y', position.cy - 6);
+}
+
+function drawCircle(element, value, fillColor, strokeColor, textColor, region, shift) {
     if(!value) return;
 
     var radius = calcRadius(value);
     var shiftRadius = 0;
     if (shift) shiftRadius = calcRadius(shift < 25 ? 25 : shift);
 
-    var cx = g.attr('cx')*1.0 + shiftRadius;
-    var cy = g.attr('cy');
+    var position = {};
+    position.cx = element.attr('cx') * 1.0 + shiftRadius;
+    position.cy = element.attr('cy');
 
-    var circle = g.append('g')
-        .on('mouseover', function(d) {
-            moveToFront(d3.select(this));
-        });
+    element.on('mouseover', function(d) {
+        moveToFront(d3.select(this));
+    });
 
-    circle.append("circle")
-        .attr('r', radius)
-        .attr('cx', cx)
-        .attr('cy', cy)
-        .attr("fill", fillColor)
-        .attr("stroke", strokeColor)
-        .attr("stroke-width", '1px');
+    function onMouseOver(d) {
+        showTooltip(position, element, region);
+        moveToFront(element);
+    }
 
-    circle.append("svg:text")
-        .attr("dy", "0.4em")
-        .attr('x', cx)
-        .attr('y', cy)
-        .attr("text-anchor", "middle")
-        .attr("fill", textColor)
-        .text(value);
+    function onMouseOut(d) {
+        element.select('rect').remove();
+        element.selectAll('#' + region.key + '-info').remove();
+    }
+
+    element
+        .on('mouseover', onMouseOver)
+        .on('mouseout', onMouseOut);
+
+    appendCircleIntoElement(element, {
+        'r': radius,
+        'cx': position.cx,
+        'cy': position.cy,
+        'fill': fillColor,
+        'stroke': strokeColor,
+        'stroke-width': '1px'
+    });
+
+    appendTextIntoElement(element, value, {
+        'x': position.cx,
+        'y': position.cy,
+        'dy': '0.4em',
+        'text-anchor': 'middle',
+        'fill': textColor
+    });
 }
 
 function drawCircleOnMap(region) {
@@ -171,8 +314,13 @@ function drawCircleOnMap(region) {
         moveToFront(d3.select(this));
     });
 
-    drawCircle(g, region.deployed, '#2B7AE5', '#2B7AE5', '#ffffff');
-    drawCircle(g, region.violations, '#fff', '#ff0000', '#E53E2B', region.deployed);
+    if (!region.violations && !region.deployed) {
+        drawNullCircle(g, region);
+        return;
+    }
+
+    drawCircle(g, region.deployed, '#2B7AE5', '#2B7AE5', '#ffffff', region);
+    drawCircle(g, region.violations, '#fff', '#ff0000', '#E53E2B', region, region.deployed);
 }
 
 function renderRegion(regions, key) {
@@ -192,8 +340,6 @@ function renderRegion(regions, key) {
     var rendered = tpl.render(data);
     $('.map-container').append(rendered);
 
-    if (!regions.length) return;
-
     d3.xml(data.img).get(function(error, xml) {
         if (error) { console.log(error); return; }
         $('.' + data.cssClass).html('');
@@ -202,8 +348,17 @@ function renderRegion(regions, key) {
         d3.select('.' + data.cssClass)
             .append('svg').node().appendChild(svgNode);
 
-        data.subregions.forEach(function(region) {
-            drawCircleOnMap(region);
+        data.subregions.forEach(function(subRegion) {
+            drawCircleOnMap(subRegion);
+        });
+
+        unusedRegions.forEach(function(subRegionKey) {
+            var subRegion = {
+                key: subRegionKey,
+                violations: 0,
+                deployed: 0
+            };
+            drawCircleOnMap(subRegion);
         });
     });
 }
@@ -221,13 +376,13 @@ function renderGlobalData(regions) {
     regions.forEach(function(region) {
         var mapTpl = $.templates('#global-region-tpl');
         $('.' + data.cssClass).append(mapTpl.render(region));
-        $('.' + data.cssClass).find('img').attr('src', 'images/maps/'+region.key+'.png');
+        $('.' + data.cssClass).find('img').attr('src', 'images/maps/' + region.key+'.png');
 
         var g = d3.select('.' + data.cssClass + ' .' + region.key)
             .append('svg')
             .style('max-width', '185px')
             .append('g')
-            .attr('cx', 95 - calcRadius(region.deployed)/2)
+            .attr('cx', 95 - calcRadius(region.deployed) / 2)
             .attr('cy', 75);
         drawCircle(g, region.deployed, '#2B7AE5', '#2B7AE5', '#ffffff');
         drawCircle(g, region.violations, '#fff', '#ff0000', '#E53E2B', region.deployed);
@@ -246,22 +401,29 @@ function showResourcesAreBeingLoadedMessage() {
 }
 
 function renderRegions(mapData) {
-    var regions = {};
-    Object.keys(mapData).forEach(function (region) {
-        if(!regions[regionsList[region].region]) regions[regionsList[region].region] = [];
-        var data = mapData[region];
-        data.key = region;
-        regions[regionsList[region].region].push(data);
+    var regions = mapRegions;
+
+    Object.keys(mapData).forEach(function(subRegionName) {
+        var regionName = regionsList[subRegionName].region;
+
+        if (regionName in regions) {
+            if(!regions[regionName].subregions) regions[regionName].subregions = [];
+            var data = mapData[subRegionName];
+            data.key = subRegionName;
+            regions[regionName].subregions.push(data);
+        }
     });
+
     Object.keys(regions).forEach(function (key) {
-        if(key !== 'Global') renderRegion(regions[key], key);
+        var subRegions = regions[key].subregions || [];
+        if(key !== 'Global') renderRegion(subRegions, key);
     });
 
-    Object.keys(mapRegions).forEach(function(region)  {
-        if(!regions[region]) renderRegion([], region);
-    });
+    // Object.keys(mapRegions).forEach(function(region)  {
+    //     if(regions[region] && !regions[region].subregions) renderRegion([], region);
+    // });
 
-    if(regions['Global']) renderGlobalData(regions['Global']);
+    if(regions['Global']) renderGlobalData(regions['Global'].subregions);
 }
 
 function render(mapData) {

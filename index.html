@@ -198,6 +198,7 @@
         <div class="map-region">
             <div class="map-data-header">{{:region}}</div>
             <div class="flex-row">
+                {{if region == 'Global'}}
                 <div class="regions-list">
                     <div class="region">
                         {{for subregions}}
@@ -225,6 +226,7 @@
                         {{/if}}
                     </div>
                 </div>
+                {{/if}}
                 <div class="flex-row region-img {{:cssClass}}"></div>
             </div>
         </div>
@@ -443,6 +445,7 @@
 <script type="text/javascript" src="./js/jquery-2.2.4.min.js"></script>
 <script type="text/javascript" src="./js/jsrender.min.js"></script>
 <script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/d3-selection-multi.v1.min.js"></script>
 <script type="text/javascript" src="./js/utils.js"></script>
 <script type="text/javascript" src="./js/pie.js"></script>
 <script type="text/javascript" src="./js/static-map.js"></script>

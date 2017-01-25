@@ -201,7 +201,9 @@
 <div class="hidden">
     <div id="map-region-tpl">
         <div class="map-region">
+            {{if subregions}}
             <div class="map-data-header">{{:region}}</div>
+            {{/if}}
             <div class="flex-row">
                 {{if region == 'Global'}}
                 <div class="regions-list">

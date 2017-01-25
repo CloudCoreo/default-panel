@@ -286,9 +286,11 @@ function drawCircle(element, value, fillColor, strokeColor, textColor, region, s
         element.selectAll('#' + region.key + '-info').remove();
     }
 
-    element
-        .on('mouseover', onMouseOver)
-        .on('mouseout', onMouseOut);
+    if (region.key !== 'CloudCoreo' && region.key !== 'AWS') {
+        element
+            .on('mouseover', onMouseOver)
+            .on('mouseout', onMouseOut);
+    }
 
     appendCircleIntoElement(element, {
         'r': radius,
@@ -384,8 +386,9 @@ function renderGlobalData(regions) {
             .append('g')
             .attr('cx', 95 - calcRadius(region.deployed) / 2)
             .attr('cy', 75);
-        drawCircle(g, region.deployed, '#2B7AE5', '#2B7AE5', '#ffffff');
-        drawCircle(g, region.violations, '#fff', '#ff0000', '#E53E2B', region.deployed);
+
+        drawCircle(g, region.deployed, '#2B7AE5', '#2B7AE5', '#ffffff', region);
+        drawCircle(g, region.violations, '#fff', '#ff0000', '#E53E2B', region, region.deployed);
     });
 }
 
@@ -418,10 +421,6 @@ function renderRegions(mapData) {
         var subRegions = regions[key].subregions || [];
         if(key !== 'Global') renderRegion(subRegions, key);
     });
-
-    // Object.keys(mapRegions).forEach(function(region)  {
-    //     if(regions[region] && !regions[region].subregions) renderRegion([], region);
-    // });
 
     if(regions['Global']) renderGlobalData(regions['Global'].subregions);
 }

@@ -143,6 +143,7 @@ $(document).ready(function () {
     }
 
     function initView() {
+        $('.compile-error').addClass('hidden');
         $('.engine-state').addClass('hidden');
         $('.data-is-loading').addClass('hidden');
         $('.resource-type-toggle').removeClass('hidden');
@@ -201,17 +202,19 @@ $(document).ready(function () {
     }
 
     function setExecutionStatusMessage(data) {
-        if (data.engineStatus === 'COMPILE_ERROR') {
+        if (data.engineStatus === 'COMPILE_ERROR' || data.engineStatus === 'INITIALIZATION_ERROR') {
             var date = new Date(data.lastExecutionTime);
             var lastExecutionTime = utils.formatDate(date);
 
+            $('.error-state').text(data.engineStatus.replace('_', ' '));
             $('.compile-error').removeClass('hidden');
             $('.last-successful-run span').html(lastExecutionTime);
 
             appendNextExecutionTime();
+            return;
         }
 
-        if (data.engineState === 'COMPLETED' || data.engineState === 'PLANNED') return;
+        if (data.engineState === 'COMPLETED') return;
 
         $('.engine-state').removeClass('hidden');
         $('.engine-state .message').html(getEngineStateMessage(data.engineState));

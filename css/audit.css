@@ -181,8 +181,12 @@ html, body {
     align-items: center;
 }
 
-.opacity-hover-80:hover {
+.opacity-hover-80:hover{
     opacity: .8;
+    cursor: pointer;
+}
+.opacity-hover-60-static {
+    opacity: .6;
     cursor: pointer;
 }
 

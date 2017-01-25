@@ -213,7 +213,8 @@ window.Deploy = (function () {
         renderResourcesList();
     }
 
-    function initResourcesList(ccThisData) {
+    function initResourcesList(ccthis) {
+        var ccThisData = ccthis.resourcesArray;
         initialData = ccThisData;
         var resource = {};
         ccThisData.forEach(function (data) {
@@ -246,6 +247,7 @@ window.Deploy = (function () {
                     resource[resourceData] = resourceProperty;
                 }
             });
+            resource.isOld = resource.runId !== ccthis.runId;
             resources.push(resource);
             resource = {};
         });
@@ -326,7 +328,7 @@ window.Deploy = (function () {
         isEnabled = data.isEnabled;
         initGlobalVariables(data);
         initView();
-        initResourcesList(data.resourcesArray);
+        initResourcesList(data);
         sort(sortKey, desc);
     }
 

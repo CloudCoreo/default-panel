@@ -57,7 +57,7 @@ $(document).ready(function () {
         $('.resource-type.' + view + '-res').addClass('active');
         currentView = view;
     }
-    
+
     function renderMapData(data) {
         if (data.engineState != 'COMPLETED' && data.resourcesArray.length !== data.numberOfResources) {
             staticMaps();
@@ -132,10 +132,10 @@ $(document).ready(function () {
     }
 
     function emulateCcThisUpdate() {
-        setTimeout(function() {
+        setTimeout(function () {
             ++counter;
             if (counter > 3) return;
-            d3.json("./tmp-data/tmp"+counter+".json", function (data) {
+            d3.json("./tmp-data/tmp" + counter + ".json", function (data) {
                 init(data, false);
                 emulateCcThisUpdate();
             });

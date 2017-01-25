@@ -144,7 +144,7 @@ $(document).ready(function () {
 
     function initView() {
         $('.engine-state').addClass('hidden');
-        $('.compile-error').addClass('hidden');
+        // $('.compile-error').addClass('hidden');
         $('.data-is-loading').addClass('hidden');
         $('.resource-type-toggle').removeClass('hidden');
         $('.scrollable-area').removeClass('hidden');
@@ -202,7 +202,7 @@ $(document).ready(function () {
     }
 
     function setExecutionStatusMessage(data) {
-        $('.compile-error').addClass('hidden');
+        // $('.compile-error').addClass('hidden');
 
         if (data.engineStatus === 'COMPILE_ERROR') {
             var date = new Date(data.lastExecutionTime);

@@ -350,7 +350,7 @@ window.Deploy = (function () {
         return resourceWithError;
     };
     deploy.prototype.refreshData = function (data) {
-        var currentSort = $('.resource-list-header .sort-label');
+        var currentSort = $('.resource-list-header .sort-label.active');
         init(data, currentSort.attr('key'), currentSort.hasClass('desc'));
     };
     return deploy;

@@ -23,7 +23,7 @@
                 <img src="images/audit-layout_loading-4.gif"/>
             </div>
             <div class="compile-error hidden">
-                <div class="error-state">COMPILE ERROR</div>
+                <div class="error-state"></div>
                 <div class="last-successful-run">prevented a run on <span></span></div>
                 <div class="last-successful-run"><a class="compile-error-details">view details</a></div>
                 <div class="next-execution-time">Next execution: <span></span></div>
@@ -271,7 +271,7 @@
     </div>
 
     <div id="resource-row-tmpl">
-        <div class="resource-row">
+        <div class="resource-row {{if isOld}}opacity-hover-60-static{{/if}}">
             <div class="view-row {{:engineStatusClass}}">
                 <div class="chevron"></div>
                 <div class="type">{{:resourceType}}</div>

@@ -143,6 +143,7 @@ $(document).ready(function () {
     }
 
     function initView() {
+        $('.compile-error').addClass('hidden');
         $('.engine-state').addClass('hidden');
         $('.data-is-loading').addClass('hidden');
         $('.resource-type-toggle').removeClass('hidden');
@@ -200,18 +201,28 @@ $(document).ready(function () {
         $('.compile-error .next-execution-time span').html(nextExecutionTime)
     }
 
+    function countCurrentRunResourcesNumber(data) {
+        var count = 0;
+        data.resourcesArray.forEach( function (resource) {
+            count += (resource.runId !== data.runId) ? 0 : 1;
+        });
+        return count;
+    }
+    
     function setExecutionStatusMessage(data) {
-        if (data.engineStatus === 'COMPILE_ERROR') {
+        if (data.engineStatus === 'COMPILE_ERROR' || data.engineStatus === 'INITIALIZATION_ERROR') {
             var date = new Date(data.lastExecutionTime);
             var lastExecutionTime = utils.formatDate(date);
 
+            $('.error-state').text(data.engineStatus.replace('_', ' '));
             $('.compile-error').removeClass('hidden');
             $('.last-successful-run span').html(lastExecutionTime);
 
             appendNextExecutionTime();
+            return;
         }
 
-        if (data.engineState === 'COMPLETED' || data.engineState === 'PLANNED') return;
+        if (data.engineState === 'COMPLETED' || data.engineState === 'INITIALIZED') return;
 
         $('.engine-state').removeClass('hidden');
         $('.engine-state .message').html(getEngineStateMessage(data.engineState));
@@ -222,7 +233,7 @@ $(document).ready(function () {
             $('.scrollable-area').addClass('hidden');
             return;
         }
-        var loadedResourcesPercentage = data.resourcesArray.length * 100 / data.numberOfResources;
+        var loadedResourcesPercentage = countCurrentRunResourcesNumber(data) * 100 / data.numberOfResources;
         $('.engine-state .status-spinner').css('width', loadedResourcesPercentage + '%');
     }
 

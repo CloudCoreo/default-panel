@@ -126,7 +126,7 @@ $(document).ready(function () {
 
         $('.warning-link').click(function () {
             var rowWithError = $('.resource-row .view-row .name:contains(' + resourceWithError.resourceName + ')').parent();
-            rowWithError.next('.expandable-row').removeClass('hidden');
+            rowWithError.next('.expandable-row').removeClass('hidden-row');
             goToView('deploy');
         });
     }

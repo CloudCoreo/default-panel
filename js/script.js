@@ -222,7 +222,7 @@ $(document).ready(function () {
             return;
         }
 
-        if (data.engineState === 'COMPLETED') return;
+        if (data.engineState === 'COMPLETED' || data.engineState === 'INITIALIZED') return;
 
         $('.engine-state').removeClass('hidden');
         $('.engine-state .message').html(getEngineStateMessage(data.engineState));

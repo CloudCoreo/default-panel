@@ -285,9 +285,9 @@ window.Audit = (function () {
         var header = headerTpl.render(headerData);
 
         var html =
-            '<div class="' + headerData.name + ' layout-padding" style="margin-bottom: 20px;">' +
+            '<div class="' + headerData.name + ' layout-padding ' + (!isPassedOrDisabled ? 'bg-white' : '') + '" style="margin-bottom: 20px;">' +
             header +
-            '<div style="border-color: ' + sectionSummary.color + '">' +
+            '<div class="border-left" style="border-color: ' + sectionSummary.color + '">' +
             visibleList +
             '<div class="hidden" style="border-color: inherit;">' + restList + '</div>' +
             ((visibleCount > 5) ? showAllBtnTpl : '') +

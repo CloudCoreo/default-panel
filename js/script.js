@@ -201,6 +201,14 @@ $(document).ready(function () {
         $('.compile-error .next-execution-time span').html(nextExecutionTime)
     }
 
+    function countCurrentRunResourcesNumber(data) {
+        var count = 0;
+        data.resourcesArray.forEach( function (resource) {
+            count += (resource.runId !== data.runId) ? 0 : 1;
+        });
+        return count;
+    }
+    
     function setExecutionStatusMessage(data) {
         if (data.engineStatus === 'COMPILE_ERROR' || data.engineStatus === 'INITIALIZATION_ERROR') {
             var date = new Date(data.lastExecutionTime);
@@ -225,7 +233,7 @@ $(document).ready(function () {
             $('.scrollable-area').addClass('hidden');
             return;
         }
-        var loadedResourcesPercentage = data.resourcesArray.length * 100 / data.numberOfResources;
+        var loadedResourcesPercentage = countCurrentRunResourcesNumber(data) * 100 / data.numberOfResources;
         $('.engine-state .status-spinner').css('width', loadedResourcesPercentage + '%');
     }
 

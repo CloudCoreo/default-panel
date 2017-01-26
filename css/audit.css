@@ -116,6 +116,10 @@ html, body {
     font-size: 14px;
 }
 
+.violation-row {
+    border: 1px solid #dedede;
+}
+
 .violation-divider {
     text-align: center;
     position: relative;

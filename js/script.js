@@ -203,7 +203,7 @@ $(document).ready(function () {
 
     function countCurrentRunResourcesNumber(data) {
         var count = 0;
-        if (!data.resourcesArray) return 0;
+        if (!data.resourcesArray || !data.resourcesArray.length) return 0;
         data.resourcesArray.forEach( function (resource) {
             count += (resource.runId !== data.runId) ? 0 : 1;
         });
@@ -234,7 +234,11 @@ $(document).ready(function () {
             $('.scrollable-area').addClass('hidden');
             return;
         }
-        var loadedResourcesPercentage = countCurrentRunResourcesNumber(data) * 100 / data.numberOfResources;
+
+        var loadedResourcesPercentage = 0;
+        if (data.numberOfResources) {
+            loadedResourcesPercentage = countCurrentRunResourcesNumber(data) * 100 / data.numberOfResources;
+        }
         $('.engine-state .status-spinner').css('width', loadedResourcesPercentage + '%');
     }
 

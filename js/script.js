@@ -203,6 +203,7 @@ $(document).ready(function () {
 
     function countCurrentRunResourcesNumber(data) {
         var count = 0;
+        if (!data.resourcesArray) return 0;
         data.resourcesArray.forEach( function (resource) {
             count += (resource.runId !== data.runId) ? 0 : 1;
         });

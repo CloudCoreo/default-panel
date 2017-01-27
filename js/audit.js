@@ -411,7 +411,7 @@ window.Audit = (function () {
                             reportId: reportId,
                             region: region,
                             isSuppressed: isSuppressed,
-                            expiresAt: (isSuppressed) ? rowData.suppression_expired : undefined
+                            expiresAt: (isSuppressed) ? rowData.suppressed_until : undefined
                         };
                         var alert = {
                             title: rowData.display_name || violationKey,

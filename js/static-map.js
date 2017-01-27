@@ -366,6 +366,8 @@ function renderRegion(regions, key) {
 }
 
 function renderGlobalData(regions) {
+    if (!regions) return;
+
     var tpl = $.templates('#map-region-tpl');
     var data = {
         region: 'Global',
@@ -374,8 +376,6 @@ function renderGlobalData(regions) {
     };
     var rendered = tpl.render(data);
     $('.map-container').append(rendered);
-
-    if (!regions) return;
 
     regions.forEach(function(region) {
         var mapTpl = $.templates('#global-region-tpl');

@@ -3,7 +3,6 @@ window.Audit = (function () {
     var totalViolations = 0;
     var passedViolations = [];
     var disabledViolations = [];
-    var suppressions = {};
     var alerts = [];
     var alertData = {
         level: {},
@@ -287,7 +286,7 @@ window.Audit = (function () {
         var html =
             '<div class="' + headerData.name + ' layout-padding ' + (!isPassedOrDisabled ? 'bg-white' : '') + '" style="margin-bottom: 20px;">' +
             header +
-            '<div class="border-left" style="border-color: ' + sectionSummary.color + '">' +
+            '<div style="border-color: ' + sectionSummary.color + '">' +
             visibleList +
             '<div class="hidden" style="border-color: inherit;">' + restList + '</div>' +
             ((visibleCount > 5) ? showAllBtnTpl : '') +
@@ -403,7 +402,7 @@ window.Audit = (function () {
                         rowData.include_violations_in_count = true;
                     }
 
-                    var isSuppressed = suppressions[violationKey] && typeof suppressions[violationKey][resId] !== 'undefined';
+                    var isSuppressed = rowData.suppressed;
                     var regionArray = rowData.region.trim().split(' ');
                     regionArray.forEach(function (region) {
                         var resource = {
@@ -412,7 +411,7 @@ window.Audit = (function () {
                             reportId: reportId,
                             region: region,
                             isSuppressed: isSuppressed,
-                            expiresAt: (isSuppressed) ? suppressions[violationKey][resId] : undefined
+                            expiresAt: (isSuppressed) ? rowData.suppressed_until : undefined
                         };
                         var alert = {
                             title: rowData.display_name || violationKey,
@@ -462,7 +461,6 @@ window.Audit = (function () {
         enabledDefinitions.forEach(function (key) {
             if (!disabledViolations[key]) return;
             passedViolations[key] = disabledViolations[key];
-            if (suppressions[key]) passedViolations[key].suppressions = Object.keys(suppressions[key]);
             delete disabledViolations[key];
         });
     }
@@ -473,31 +471,13 @@ window.Audit = (function () {
         $('.additional-info .disabled').html(Object.keys(disabledViolations).length + ' Disabled');
     }
 
-    function checkForSuppressions (elem) {
-        var found = elem.outputs.find(function (output) {
-            return output.name === 'suppression';
-        });
-        if (!found) return;
-        var suppressionsFound = JSON.parse(found.value);
-        Object.keys(suppressionsFound).forEach(function(violationId) {
-            if (!suppressions[violationId]) suppressions[violationId] = {};
-            suppressionsFound[violationId].forEach(function(obj) {
-                var resId = Object.keys(obj)[0];
-                suppressions[violationId][resId] = obj[resId];
-            });
-        });
-    }
-
     function initResourcesList(data) {
         var newData = {};
         var reports = [];
         var enabledDefinitions = [];
         errors = [];
         data.forEach(function (elem) {
-            if (elem.dataType !== 'ADVISOR_RESOURCE') {
-                checkForSuppressions(elem);
-                return;
-            }
+            if (elem.dataType !== 'ADVISOR_RESOURCE') return;
             var newObj = {};
             newObj.resourceType = elem.resourceType;
             newObj.resourceName = elem.resourceName;

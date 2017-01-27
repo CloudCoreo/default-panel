@@ -366,6 +366,8 @@ function renderRegion(regions, key) {
 }
 
 function renderGlobalData(regions) {
+    if (!regions) return;
+
     var tpl = $.templates('#map-region-tpl');
     var data = {
         region: 'Global',
@@ -422,11 +424,12 @@ function renderRegions(mapData) {
         if(key !== 'Global') renderRegion(subRegions, key);
     });
 
-    if(regions['Global']) renderGlobalData(regions['Global'].subregions);
+    if(regions['Global'] && regions['Global'].subregions) renderGlobalData(regions['Global'].subregions);
 }
 
 function render(mapData) {
     initView();
+
     if (!mapData) {
         showResourcesAreBeingLoadedMessage();
         return;

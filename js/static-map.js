@@ -375,6 +375,8 @@ function renderGlobalData(regions) {
     var rendered = tpl.render(data);
     $('.map-container').append(rendered);
 
+    if (!regions) return;
+
     regions.forEach(function(region) {
         var mapTpl = $.templates('#global-region-tpl');
         $('.' + data.cssClass).append(mapTpl.render(region));
@@ -422,11 +424,12 @@ function renderRegions(mapData) {
         if(key !== 'Global') renderRegion(subRegions, key);
     });
 
-    if(regions['Global']) renderGlobalData(regions['Global'].subregions);
+    if(regions['Global'] && regions['Global'].subregions) renderGlobalData(regions['Global'].subregions);
 }
 
 function render(mapData) {
     initView();
+
     if (!mapData) {
         showResourcesAreBeingLoadedMessage();
         return;

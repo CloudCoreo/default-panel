@@ -200,10 +200,6 @@ window.Deploy = (function () {
         $('.alert.messages').removeClass('hidden');
     }
 
-    function appendSuccessulBuildNotification() {
-        $('.ok.messages').removeClass('hidden');
-    }
-
     function sort(sortKey, desc) {
         if (!resources) return;
         resources = resources.sort(function (a, b) {
@@ -269,9 +265,6 @@ window.Deploy = (function () {
         }
         if (resourcesAlerts) {
             appendResourcesAlertsNotification();
-        }
-        if (numberOfNotExecutedResources <= 0 && !resourcesAlerts) {
-            appendSuccessulBuildNotification();
         }
     }
 

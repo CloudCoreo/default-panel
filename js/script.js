@@ -58,6 +58,12 @@ $(document).ready(function () {
         currentView = view;
     }
 
+    function removeSplitters() {
+        var warningBlock2 =  $('.warning-note-2');
+        warningBlock2.removeClass('visible');
+        $('.violation-divider').remove();
+    }
+
     function renderMapData(data) {
         if (data.engineState != 'COMPLETED' && data.resourcesArray.length !== data.numberOfResources) {
             staticMaps();
@@ -102,6 +108,8 @@ $(document).ready(function () {
             if (mapData.CloudCoreo.violations > 1) mapData.CloudCoreo.errorMessage += 's';
             if (mapData.CloudCoreo.deployed > 1) mapData.CloudCoreo.successMessage += 's';
         }
+
+        if (!alerts.length) removeSplitters();
 
         staticMaps(mapData);
     }
@@ -160,24 +168,14 @@ $(document).ready(function () {
             deployData.refreshData(data);
             auditData.refreshData(data);
         }
+        checkError();
         renderMapData(data);
     }
 
     function setupViewData(isFirstLoad) {
         var violationCount = auditData.getViolationsCount();
-        var warningBlock = $('.warning-block');
 
         if (violationCount) $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').addClass('alert');
-        warningBlock.removeClass('visible');
-
-        if (deployData.hasErrors()) {
-            $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').addClass('error');
-            resourceWithError = deployData.getResourcesWithError();
-            warningBlock.addClass('visible');
-            $('.Disabled').addClass('hidden');
-            $('.Enabled').addClass('hidden');
-        }
-
         if (isFirstLoad) {
             currentView = !violationCount ? viewTypes.deploy : viewTypes.audit;
             $('.resource-type-toggle .resource-type.' + currentView + '-res').addClass('active');
@@ -240,6 +238,19 @@ $(document).ready(function () {
             loadedResourcesPercentage = countCurrentRunResourcesNumber(data) * 100 / data.numberOfResources;
         }
         $('.engine-state .status-spinner').css('width', loadedResourcesPercentage + '%');
+    }
+
+    function checkError() {
+        var warningBlock = $('.warning-block');
+        warningBlock.removeClass('visible');
+
+        if (deployData.hasErrors()) {
+            $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').addClass('error');
+            resourceWithError = deployData.getResourcesWithError();
+            warningBlock.addClass('visible');
+            $('.Disabled').addClass('hidden');
+            $('.Enabled').addClass('hidden');
+        }
     }
 
     function init(data, isFirstLoad) {

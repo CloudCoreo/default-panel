@@ -397,7 +397,7 @@ window.Audit = (function () {
                         var isSuppressed = rowData.suppressed;
                         var resource = {
                             id: resId,
-                            tags: object.tags,
+                            tags: report[region][resId].tags,
                             region: region,
                             isSuppressed: isSuppressed,
                             expiresAt: (isSuppressed) ? rowData.suppressed_until : undefined

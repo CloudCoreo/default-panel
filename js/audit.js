@@ -372,6 +372,25 @@ window.Audit = (function () {
         alerts = undefined;
     }
 
+    function incrementDataCounters(definition, region) {
+        if (!alertData.level.hasOwnProperty(definition.level)) {
+            alertData.level[definition.level] = 0;
+        }
+        if (!alertData.category.hasOwnProperty(definition.category)) {
+            alertData.category[definition.category] = 0;
+        }
+        if (!alertData.region.hasOwnProperty(definition.region)) {
+            alertData.region[definition.region] = 0;
+        }
+        if (!alertData.service.hasOwnProperty(definition.service)) {
+            alertData.service[definition.service] = 0;
+        }
+        ++alertData.level[definition.level];
+        ++alertData.category[definition.category];
+        ++alertData.region[definition.region];
+        ++alertData.service[definition.service];
+    }
+
     function fillViolationsList(violations, reports) {
         if (!Object.keys(violations).length && !Object.keys(disabledViolations).length && !Object.keys(passedViolations).length) {
             showNoAuditResourcesMessage();
@@ -390,6 +409,12 @@ window.Audit = (function () {
                     Object.keys(report[region][resId].violations).forEach(function (violationKey) {
                         var rowData = report[region][resId].violations[violationKey];
                         if (rowData.level === 'Internal') return;
+
+                        if (violations[violationKey]) {
+                            rowData.violationId = violations[violationKey]._id;
+                            rowData.service = violations[violationKey].inputs.service;
+                        }
+
                         if (typeof rowData.include_violations_in_count === 'undefined') {
                             rowData.include_violations_in_count = true;
                         }
@@ -417,24 +442,9 @@ window.Audit = (function () {
                             isViolation: rowData.include_violations_in_count,
                             timestamp: timestamp
                         };
-                        if (!alertData.level.hasOwnProperty(alert.level)) {
-                            alertData.level[alert.level] = 0;
-                        }
-                        if (!alertData.category.hasOwnProperty(alert.category)) {
-                            alertData.category[alert.category] = 0;
-                        }
-                        if (!alertData.region.hasOwnProperty(alert.region)) {
-                            alertData.region[alert.region] = 0;
-                        }
-                        if (!alertData.service.hasOwnProperty(alert.service)) {
-                            alertData.service[alert.service] = 0;
-                        }
-                        ++alertData.level[alert.level];
-                        ++alertData.category[alert.category];
-                        ++alertData.region[alert.region];
-                        ++alertData.service[alert.service];
-
                         alerts.push(alert);
+
+                        incrementDataCounters(violations[violationKey].inputs, region);
                         if (alert.isViolation) ++totalViolations;
                         if (disabledViolations[violationKey]) delete disabledViolations[violationKey];
                     });

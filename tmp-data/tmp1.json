@@ -1,21 +1,49 @@
 {
-  "_id": "588178c99623e9585a324b97",
-  "runId": "eb68fd95-540f-4de6-823e-61293c4f3a65",
+  "_id": "5888890dfce6612f1318caea",
+  "runId": "611a2321-c6d3-4d25-a95f-10ea4b1e8462",
   "resourcesArray": [
     {
-      "timestamp": "2017-01-27T04:11:14.000Z",
-      "stackName": "AUDIT-AWS-RDS.GIT-45646456",
-      "runId": "eb68fd95-540f-4de6-823e-61293c4f3a65",
+      "timestamp": "2017-01-27T03:02:45.000Z",
+      "stackName": null,
+      "runId": "43742663-43e9-4ca1-86b4-142c2065dbd3",
+      "resourceType": "coreo_uni_util_notify",
+      "resourceName": "advise-cloudtrail-to-tag-values",
+      "resourceId": "ROOT::AUDIT-AWS-CLOUDTRAIL-EQR_advise-cloudtrail-to-tag-values",
+      "outputs": [],
+      "namespace": "ROOT::AUDIT-AWS-CLOUDTRAIL-EQR",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "nothing",
+          "name": "action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "COMPOSITE::coreo_uni_util_jsrunner.cloudtrail-tags-to-notifiers-array.return",
+          "name": "notifiers"
+        }
+      ],
+      "executionTime": 0,
+      "executionNumber": -1,
+      "engineStatus": "OK",
+      "engineState": "EXECUTING",
+      "dataType": "DEPLOY_RESOURCE",
+      "_id": "588889e529c8ca9c9d2b8d1c"
+    },
+    {
+      "timestamp": "2017-01-30T03:21:25.000Z",
+      "stackName": "AUDIT-AWS-CLOUDTRAIL-EQR",
+      "runId": "611a2321-c6d3-4d25-a95f-10ea4b1e8462",
       "resourceType": "coreo_aws_advisor_alert",
-      "resourceName": "rds-inventory",
-      "resourceId": "cfb06ce9f1288dd691c895f8146b2cf27e78cda6d465bb03b3bfd83af01105c7",
+      "resourceName": "cloudtrail-inventory",
+      "resourceId": "d5ca27e862cdd3a5c8632e69e61c531375cd7f41cc6bdba3fa0e5e3d92ef372c",
       "outputs": [
         {
-          "value": "cc_588178c9962_rds-inventory",
+          "value": "cc_5888890dfce_cloudtrail-inventory",
           "name": "ec2_name"
         }
       ],
-      "namespace": "ROOT::AUDIT-AWS-RDS.GIT-45646456",
+      "namespace": "ROOT::AUDIT-AWS-CLOUDTRAIL-EQR",
       "inputs": [
         {
           "type": "choice",
@@ -24,17 +52,17 @@
         },
         {
           "type": "PLA-1366",
-          "value": "RDS Instance Inventory",
+          "value": "ELB Object Inventory",
           "name": "display_name"
         },
         {
           "type": "PLA-1366",
-          "value": "object.db_instances.db_instance_identifier",
+          "value": "object.trail_list.name",
           "name": "id_map"
         },
         {
           "type": "PLA-1366",
-          "value": "rds",
+          "value": "cloudtrail",
           "name": "service"
         },
         {
@@ -47,7 +75,7 @@
         {
           "type": "PLA-1366",
           "value": [
-            "db_instances"
+            "trails"
           ],
           "name": "objectives"
         },
@@ -65,7 +93,7 @@
         },
         {
           "type": "PLA-1366",
-          "value": "This rule performs an inventory on all RDS DB instances in the target AWS account.",
+          "value": "This rule performs an inventory on all trails in the target AWS account.",
           "name": "description"
         },
         {
@@ -86,7 +114,7 @@
         {
           "type": "PLA-1366",
           "value": [
-            "object.db_instances.db_instance_identifier"
+            "object.trail_list.name"
           ],
           "name": "audit_objects"
         },
@@ -96,27 +124,27 @@
           "name": "include_violations_in_count"
         }
       ],
-      "executionTime": 9.624966897,
+      "executionTime": 8.980380564,
       "executionNumber": 1,
       "engineStatus": "OK",
       "engineState": "EXECUTING",
       "dataType": "ADVISOR_RESOURCE",
-      "_id": "5888805e29c8ca9c9d2b8cf7"
+      "_id": "5888898929c8ca9c9d2b8d11"
     },
     {
-      "timestamp": "2017-01-27T04:11:20.000Z",
-      "stackName": "AUDIT-AWS-RDS.GIT-45646456",
-      "runId": "eb68fd95-540f-4de6-823e-61293c4f3a65",
+      "timestamp": "2017-01-30T03:21:28.000Z",
+      "stackName": "AUDIT-AWS-CLOUDTRAIL-EQR",
+      "runId": "611a2321-c6d3-4d25-a95f-10ea4b1e8462",
       "resourceType": "coreo_aws_advisor_alert",
-      "resourceName": "rds-no-auto-minor-version-upgrade",
-      "resourceId": "4d44b1eab7d82001e034a95c1301c448ac051cd88f53c5433709fc4b1f618632",
+      "resourceName": "cloudtrail-service-disabled",
+      "resourceId": "b715e5419979742d6bdfe8416c109785489650ecf032b7b54f18d29074022227",
       "outputs": [
         {
-          "value": "cc_588178c9962_rds-no-auto-minor-version-upgrade",
+          "value": "cc_5888890dfce_cloudtrail-service-disabled",
           "name": "ec2_name"
         }
       ],
-      "namespace": "ROOT::AUDIT-AWS-RDS.GIT-45646456",
+      "namespace": "ROOT::AUDIT-AWS-CLOUDTRAIL-EQR",
       "inputs": [
         {
           "type": "choice",
@@ -125,41 +153,41 @@
         },
         {
           "type": "PLA-1366",
-          "value": "RDS not set to automatically upgrade",
+          "value": "Cloudtrail Service is disabled",
           "name": "display_name"
         },
         {
           "type": "PLA-1366",
-          "value": "object.db_instances.db_instance_identifier",
+          "value": "stack.current_region",
           "name": "id_map"
         },
         {
           "type": "PLA-1366",
-          "value": "rds",
+          "value": "cloudtrail",
           "name": "service"
         },
         {
           "type": "PLA-1366",
           "value": [
-            false
+            0
           ],
           "name": "alert_when"
         },
         {
           "type": "PLA-1366",
           "value": [
-            "db_instances"
+            "trails"
           ],
           "name": "objectives"
         },
         {
           "type": "PLA-1366",
-          "value": "http://kb.cloudcoreo.com/mydoc_rds-no-auto-minor-version-upgrade.html",
+          "value": "http://kb.cloudcoreo.com/mydoc_cloudtrail-service-disabled.html",
           "name": "link"
         },
         {
           "type": "PLA-1366",
-          "value": "Critical",
+          "value": "Warning",
           "name": "level"
         },
         {
@@ -171,17 +199,17 @@
         },
         {
           "type": "PLA-1366",
-          "value": "RDS is not set to automatically upgrade minor versions on your database instance.",
+          "value": "CloudTrail logging is not enabled for this region. It should be enabled.",
           "name": "description"
         },
         {
           "type": "PLA-1366",
-          "value": "Reliability",
+          "value": "Audit",
           "name": "category"
         },
         {
           "type": "PLA-1366",
-          "value": "Consider whether you would like AWS to automatically upgrade minor versions on your database instance. Modify your settings to allow minor version upgrades if possible.",
+          "value": "Enable CloudTrail logs for each region.",
           "name": "suggested_action"
         },
         {
@@ -192,7 +220,14 @@
         {
           "type": "PLA-1366",
           "value": [
-            "db_instances.auto_minor_version_upgrade"
+            "count"
+          ],
+          "name": "formulas"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "trail_list"
           ],
           "name": "audit_objects"
         },
@@ -202,27 +237,27 @@
           "name": "include_violations_in_count"
         }
       ],
-      "executionTime": 1.30085882,
-      "executionNumber": 3,
+      "executionTime": 1.214747665,
+      "executionNumber": 2,
       "engineStatus": "OK",
       "engineState": "EXECUTING",
       "dataType": "ADVISOR_RESOURCE",
-      "_id": "5888806329c8ca9c9d2b8cf9"
+      "_id": "5888898f29c8ca9c9d2b8d12"
     },
     {
-      "timestamp": "2017-01-27T04:11:22.000Z",
-      "stackName": "AUDIT-AWS-RDS.GIT-45646456",
-      "runId": "eb68fd95-540f-4de6-823e-61293c4f3a65",
+      "timestamp": "2017-01-30T03:21:30.000Z",
+      "stackName": "AUDIT-AWS-CLOUDTRAIL-EQR",
+      "runId": "611a2321-c6d3-4d25-a95f-10ea4b1e8462",
       "resourceType": "coreo_aws_advisor_alert",
-      "resourceName": "rds-db-publicly-accessible",
-      "resourceId": "2e0f1ec82a3f34f853a7cd47eba9f78c54d4e06e13f9eb86c9fac707e6ad3019",
+      "resourceName": "no-global-trails",
+      "resourceId": "358937959bb5d85cb481b77472bbc3e7609e8fcc0b2b13afc7b70378b93d0097",
       "outputs": [
         {
-          "value": "cc_588178c9962_rds-db-publicly-accessible",
+          "value": "cc_5888890dfce_no-global-trails",
           "name": "ec2_name"
         }
       ],
-      "namespace": "ROOT::AUDIT-AWS-RDS.GIT-45646456",
+      "namespace": "ROOT::AUDIT-AWS-CLOUDTRAIL-EQR",
       "inputs": [
         {
           "type": "choice",
@@ -231,17 +266,12 @@
         },
         {
           "type": "PLA-1366",
-          "value": "RDS is publicly accessible to the world",
-          "name": "display_name"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "object.db_instances.db_instance_identifier",
+          "value": "",
           "name": "id_map"
         },
         {
           "type": "PLA-1366",
-          "value": "rds",
+          "value": "cloudtrail",
           "name": "service"
         },
         {
@@ -254,18 +284,119 @@
         {
           "type": "PLA-1366",
           "value": [
-            "db_instances"
+            ""
           ],
           "name": "objectives"
         },
         {
           "type": "PLA-1366",
-          "value": "http://kb.cloudcoreo.com/mydoc_rds-db-publicly-accessible.html",
+          "value": "jsrunner",
+          "name": "level"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            ""
+          ],
+          "name": "operators"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "Custom Alert",
+          "name": "description"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "jsrunner",
+          "name": "category"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "The metadata for this definition is defined in the jsrunner below. Do not put metadata here.",
+          "name": "suggested_action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [],
+          "name": "call_modifiers"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            ""
+          ],
+          "name": "audit_objects"
+        },
+        {
+          "type": "PLA-1366",
+          "value": true,
+          "name": "include_violations_in_count"
+        }
+      ],
+      "executionTime": 1.148450172,
+      "executionNumber": 3,
+      "engineStatus": "OK",
+      "engineState": "EXECUTING",
+      "dataType": "ADVISOR_RESOURCE",
+      "_id": "5888899129c8ca9c9d2b8d13"
+    },
+    {
+      "timestamp": "2017-01-30T03:21:32.000Z",
+      "stackName": "AUDIT-AWS-CLOUDTRAIL-EQR",
+      "runId": "611a2321-c6d3-4d25-a95f-10ea4b1e8462",
+      "resourceType": "coreo_aws_advisor_alert",
+      "resourceName": "cloudtrail-trail-with-global",
+      "resourceId": "4e9052dd75c50895cbb855bd5fd5ad20132eac4f8de29c001621f21ce205c79d",
+      "outputs": [
+        {
+          "value": "cc_5888890dfce_cloudtrail-trail-with-global",
+          "name": "ec2_name"
+        }
+      ],
+      "namespace": "ROOT::AUDIT-AWS-CLOUDTRAIL-EQR",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "define",
+          "name": "action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "CloudCoreo Use Only",
+          "name": "display_name"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "stack.current_region",
+          "name": "id_map"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "cloudtrail",
+          "name": "service"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            true
+          ],
+          "name": "alert_when"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            "trails"
+          ],
+          "name": "objectives"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "http://kb.cloudcoreo.com/mydoc_unused-alert-definition.html",
           "name": "link"
         },
         {
           "type": "PLA-1366",
-          "value": "Critical",
+          "value": "Internal",
           "name": "level"
         },
         {
@@ -277,17 +408,17 @@
         },
         {
           "type": "PLA-1366",
-          "value": "The affected RDS database is publicly accessible to the world.",
+          "value": "This is an internally defined alert.",
           "name": "description"
         },
         {
           "type": "PLA-1366",
-          "value": "Security",
+          "value": "Internal",
           "name": "category"
         },
         {
           "type": "PLA-1366",
-          "value": "Consider whether the affected RDS database should be publicly accessible to the world. If not, modify the option which enables your RDS database to become publicly accessible.",
+          "value": "Ignore",
           "name": "suggested_action"
         },
         {
@@ -298,33 +429,33 @@
         {
           "type": "PLA-1366",
           "value": [
-            "db_instances.publicly_accessible"
+            "trail_list.include_global_service_events"
           ],
           "name": "audit_objects"
         },
         {
           "type": "PLA-1366",
-          "value": true,
+          "value": false,
           "name": "include_violations_in_count"
         }
       ],
-      "executionTime": 1.29241376,
+      "executionTime": 1.221782924,
       "executionNumber": 4,
       "engineStatus": "OK",
       "engineState": "EXECUTING",
       "dataType": "ADVISOR_RESOURCE",
-      "_id": "5888806529c8ca9c9d2b8cfa"
+      "_id": "5888899229c8ca9c9d2b8d14"
     },
     {
-      "timestamp": "2017-01-27T04:12:02.000Z",
-      "stackName": "AUDIT-AWS-RDS.GIT-45646456",
-      "runId": "eb68fd95-540f-4de6-823e-61293c4f3a65",
-      "resourceType": "coreo_aws_advisor_rds",
-      "resourceName": "advise-rds",
-      "resourceId": "847ebd34f078484cb4d8b20ee27d571a2ab396c27ed294b2dbbb95b622538f50",
+      "timestamp": "2017-01-30T03:21:43.000Z",
+      "stackName": "AUDIT-AWS-CLOUDTRAIL-EQR",
+      "runId": "611a2321-c6d3-4d25-a95f-10ea4b1e8462",
+      "resourceType": "coreo_aws_advisor_cloudtrail",
+      "resourceName": "advise-cloudtrail",
+      "resourceId": "44b5757deae71eafed0c6873a82c18806230412da031baa88258268bd93ba613",
       "outputs": [
         {
-          "value": "cc_588178c9962_advise-rds",
+          "value": "cc_5888890dfce_advise-cloudtrail",
           "name": "ec2_name"
         },
         {
@@ -332,19 +463,19 @@
           "name": "number_ignored_violations"
         },
         {
-          "value": 0,
+          "value": 3,
           "name": "number_violations"
         },
         {
-          "value": 4,
+          "value": 9,
           "name": "number_checks"
         },
         {
-          "value": "{\"cc-57980ce2d13-kubedev\":{\"tags\":[{\"value\":\"george+1@cloudcoreo.com\",\"key\":\"coreo_owner\"},{\"value\":\"kubedev\",\"key\":\"Name\"}],\"violations\":{\"rds-inventory\":{\"service\":\"rds\",\"display_name\":\"RDS Instance Inventory\",\"violating_object\":[{\"place\":\"db_instances:db_instances[0].db_instance_identifier\",\"object\":{\"truncated\":{\"object_key\":\"588178c99623e9585a324b97/eb68fd95-540f-4de6-823e-61293c4f3a65/847ebd34f078484cb4d8b20ee27d571a2ab396c27ed294b2dbbb95b622538f50/32858dd6ad70b3d282d0c3c7760d8fac67d2f808\",\"object_size\":1760}}}],\"description\":\"This rule performs an inventory on all RDS DB instances in the target AWS account.\",\"category\":\"Inventory\",\"suggested_action\":\"None.\",\"level\":\"Informational\",\"include_violations_in_count\":false,\"region\":\"us-east-1\",\"suppressed\":true,\"suppressed_until\":\"2017-01-30T00:00Z\",\"suppression_expired\":false}}},\"cc-581e59ffbd6-kubestg\":{\"tags\":[{\"value\":\"george+2@cloudcoreo.com\",\"key\":\"coreo_owner\"},{\"value\":\"kubestg\",\"key\":\"Name\"}],\"violations\":{\"rds-inventory\":{\"service\":\"rds\",\"display_name\":\"RDS Instance Inventory\",\"violating_object\":[{\"place\":\"db_instances:db_instances[1].db_instance_identifier\",\"object\":{\"truncated\":{\"object_key\":\"588178c99623e9585a324b97/eb68fd95-540f-4de6-823e-61293c4f3a65/847ebd34f078484cb4d8b20ee27d571a2ab396c27ed294b2dbbb95b622538f50/4fc71e7fb4487697e4be270c907560242d7d300a\",\"object_size\":1760}}}],\"description\":\"This rule performs an inventory on all RDS DB instances in the target AWS account.\",\"category\":\"Inventory\",\"suggested_action\":\"None.\",\"level\":\"Informational\",\"include_violations_in_count\":false,\"region\":\"us-east-1\",\"suppressed\":true,\"suppressed_until\":\"2017-01-30T00:00Z\",\"suppression_expired\":false}}}}",
+          "value": "{\"us-east-1\":{\"us-east-1\":{\"violations\":{\"cloudtrail-service-disabled\":{\"service\":\"cloudtrail\",\"display_name\":\"Cloudtrail Service is disabled\",\"result_info\":[{\"place\":\"trails:trail_list.#count\",\"object\":{\"truncated\":{\"object_key\":\"5888890dfce6612f1318caea/611a2321-c6d3-4d25-a95f-10ea4b1e8462/44b5757deae71eafed0c6873a82c18806230412da031baa88258268bd93ba613/b6589fc6ab0dc82cf12099d1c2d40ab994e8410c\",\"object_size\":1}}}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs for each region.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_cloudtrail-service-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[]}},\"us-east-2\":{\"ohio_trail\":{\"violations\":{\"cloudtrail-inventory\":{\"service\":\"cloudtrail\",\"display_name\":\"ELB Object Inventory\",\"result_info\":[{\"place\":\"trails:trail_list[0].name\",\"object\":{\"truncated\":{\"object_key\":\"5888890dfce6612f1318caea/611a2321-c6d3-4d25-a95f-10ea4b1e8462/44b5757deae71eafed0c6873a82c18806230412da031baa88258268bd93ba613/c217ae285f91dbe829c1b5d380f9be01afe50727\",\"object_size\":309}}}],\"description\":\"This rule performs an inventory on all trails in the target AWS account.\",\"category\":\"Inventory\",\"suggested_action\":\"None.\",\"level\":\"Informational\",\"include_violations_in_count\":false,\"region\":\"us-east-2\"}},\"tags\":[]},\"us-east-2\":{\"violations\":{\"cloudtrail-trail-with-global\":{\"service\":\"cloudtrail\",\"display_name\":\"CloudCoreo Use Only\",\"result_info\":[{\"place\":\"trails:trail_list[0].include_global_service_events\",\"object\":{\"truncated\":{\"object_key\":\"5888890dfce6612f1318caea/611a2321-c6d3-4d25-a95f-10ea4b1e8462/44b5757deae71eafed0c6873a82c18806230412da031baa88258268bd93ba613/c217ae285f91dbe829c1b5d380f9be01afe50727\",\"object_size\":309}}}],\"description\":\"This is an internally defined alert.\",\"category\":\"Internal\",\"suggested_action\":\"Ignore\",\"level\":\"Internal\",\"link\":\"http://kb.cloudcoreo.com/mydoc_unused-alert-definition.html\",\"include_violations_in_count\":false,\"region\":\"us-east-2\"}},\"tags\":[]}},\"us-west-1\":{\"us-west-1\":{\"violations\":{\"cloudtrail-service-disabled\":{\"service\":\"cloudtrail\",\"display_name\":\"Cloudtrail Service is disabled\",\"result_info\":[{\"place\":\"trails:trail_list.#count\",\"object\":{\"truncated\":{\"object_key\":\"5888890dfce6612f1318caea/611a2321-c6d3-4d25-a95f-10ea4b1e8462/44b5757deae71eafed0c6873a82c18806230412da031baa88258268bd93ba613/b6589fc6ab0dc82cf12099d1c2d40ab994e8410c\",\"object_size\":1}}}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs for each region.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_cloudtrail-service-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-west-1\"}},\"tags\":[]}},\"us-west-2\":{\"oregon_trail\":{\"violations\":{\"cloudtrail-inventory\":{\"service\":\"cloudtrail\",\"display_name\":\"ELB Object Inventory\",\"result_info\":[{\"place\":\"trails:trail_list[0].name\",\"object\":{\"truncated\":{\"object_key\":\"5888890dfce6612f1318caea/611a2321-c6d3-4d25-a95f-10ea4b1e8462/44b5757deae71eafed0c6873a82c18806230412da031baa88258268bd93ba613/10171414ea460cd55552109566f52bd595ae0093\",\"object_size\":314}}}],\"description\":\"This rule performs an inventory on all trails in the target AWS account.\",\"category\":\"Inventory\",\"suggested_action\":\"None.\",\"level\":\"Informational\",\"include_violations_in_count\":false,\"region\":\"us-west-2\"}},\"tags\":[]}},\"eu-west-1\":{\"eu-west-1\":{\"violations\":{\"cloudtrail-service-disabled\":{\"service\":\"cloudtrail\",\"display_name\":\"Cloudtrail Service is disabled\",\"result_info\":[{\"place\":\"trails:trail_list.#count\",\"object\":{\"truncated\":{\"object_key\":\"5888890dfce6612f1318caea/611a2321-c6d3-4d25-a95f-10ea4b1e8462/44b5757deae71eafed0c6873a82c18806230412da031baa88258268bd93ba613/b6589fc6ab0dc82cf12099d1c2d40ab994e8410c\",\"object_size\":1}}}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs for each region.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_cloudtrail-service-disabled.html\",\"include_violations_in_count\":true,\"region\":\"eu-west-1\"}},\"tags\":[]}}}",
           "name": "report"
         }
       ],
-      "namespace": "ROOT::AUDIT-AWS-RDS.GIT-45646456",
+      "namespace": "ROOT::AUDIT-AWS-CLOUDTRAIL-EQR",
       "inputs": [
         {
           "type": "choice",
@@ -365,59 +496,38 @@
         {
           "type": "PLA-1366",
           "value": [
-            "rds-db-publicly-accessible",
-            "rds-inventory"
+            "cloudtrail-service-disabled",
+            "cloudtrail-trail-with-global",
+            "cloudtrail-inventory"
           ],
           "name": "alerts"
         }
       ],
-      "executionTime": 9.270575709,
+      "executionTime": 7.864079823,
       "executionNumber": 5,
       "engineStatus": "OK",
       "engineState": "EXECUTING",
       "dataType": "ADVISOR_RESOURCE",
-      "_id": "5888807629c8ca9c9d2b8cfb"
+      "_id": "5888899e29c8ca9c9d2b8d15"
     },
     {
-      "timestamp": "2017-01-27T04:11:45.000Z",
-      "stackName": "AUDIT-AWS-RDS.GIT-45646456",
-      "runId": "eb68fd95-540f-4de6-823e-61293c4f3a65",
+      "timestamp": "2017-01-30T03:21:55.000Z",
+      "stackName": "audit-aws-cloudtrail-eqr",
+      "runId": "611a2321-c6d3-4d25-a95f-10ea4b1e8462",
       "resourceType": "coreo_uni_util_jsrunner",
-      "resourceName": "rds-aggregate",
-      "resourceId": "5831c38297f21f065acd3358127594f87fc3f62cf72e07f98c070d9f690bc562",
+      "resourceName": "cloudtrail-aggregate",
+      "resourceId": "59d89a588099b0aaaff4a2cc68638f4f10acfcc686f69e54f914fd767fa5ea11",
       "outputs": [
         {
-          "value": "cc_588178c9962_rds-aggregate",
-          "name": "ec2_name"
-        },
-        {
           "value": {
-            "truncated": {
-              "object_size": 5334,
-              "object_key": "588178c99623e9585a324b97/eb68fd95-540f-4de6-823e-61293c4f3a65/5831c38297f21f065acd3358127594f87fc3f62cf72e07f98c070d9f690bc562/a21c74ea9af767a75deaa4b02e2e84ebf1f04079"
-            }
+            "error_message": "Error running coreo_uni_util_jsrunner script:",
+            "error_type": "RuntimeError",
+            "resource_error": "action :run on coreo_uni_util_jsrunner[cloudtrail-aggregate]"
           },
-          "name": "return"
-        },
-        {
-          "value": {
-            "truncated": {
-              "object_size": 6496,
-              "object_key": "588178c99623e9585a324b97/eb68fd95-540f-4de6-823e-61293c4f3a65/5831c38297f21f065acd3358127594f87fc3f62cf72e07f98c070d9f690bc562/b336c77be0ac73f56a55a7014ed2917edced8578"
-            }
-          },
-          "name": "jsrunner_file"
-        },
-        {
-          "value": "{\"name\":\"jsrunner\",\"description\":\"jsrunner\",\"engine\":\"node 6.6.0\",\"dependencies\": {\n}}\n",
-          "name": "packages_file"
-        },
-        {
-          "value": "",
-          "name": "stdout"
+          "name": "error"
         }
       ],
-      "namespace": "ROOT::AUDIT-AWS-RDS.GIT-45646456",
+      "namespace": "ROOT::AUDIT-AWS-CLOUDTRAIL-EQR",
       "inputs": [
         {
           "type": "choice",
@@ -433,15 +543,20 @@
           "type": "PLA-1366",
           "value": {
             "truncated": {
-              "object_size": 5276,
-              "object_key": "588178c99623e9585a324b97/eb68fd95-540f-4de6-823e-61293c4f3a65/5831c38297f21f065acd3358127594f87fc3f62cf72e07f98c070d9f690bc562/2fac27bf85d3ff998d34dea80836a879a42abaa4"
+              "object_size": 4451,
+              "object_key": "5888890dfce6612f1318caea/611a2321-c6d3-4d25-a95f-10ea4b1e8462/59d89a588099b0aaaff4a2cc68638f4f10acfcc686f69e54f914fd767fa5ea11/6a0e66d28f8d4987f89cbc6559b6a12982bd69af"
             }
           },
           "name": "json_input"
         },
         {
           "type": "PLA-1366",
-          "value": "\nvar_regions = \"['us-east-1','us-east-2','us-west-1','us-west-2','eu-west-1']\";\n\nvar result = {};\nresult['composite name'] = json_input['composite name'];\nresult['plan name'] = json_input['plan name'];\nresult['number_of_checks'] = json_input['number_of_checks'];\nresult['number_of_violations'] = json_input['number_of_violations'];\nresult['number_violations_ignored'] = json_input['number_violations_ignored'];\nresult['regions'] = var_regions;\nresult['violations'] = json_input['violations'];\n\ncallback(result);\n",
+          "value": {
+            "truncated": {
+              "object_size": 2044,
+              "object_key": "5888890dfce6612f1318caea/611a2321-c6d3-4d25-a95f-10ea4b1e8462/59d89a588099b0aaaff4a2cc68638f4f10acfcc686f69e54f914fd767fa5ea11/8b31c94a64a0b703257ecd4d78cdba16a54dfc95"
+            }
+          },
           "name": "function"
         },
         {
@@ -450,638 +565,40 @@
           "name": "provide_composite_access"
         }
       ],
-      "executionTime": 4.648765772,
+      "executionTime": 8.501586417,
       "executionNumber": 6,
-      "engineStatus": "OK",
-      "engineState": "EXECUTING",
+      "engineStatus": "EXECUTION_ERROR",
+      "engineState": "COMPLETED",
       "dataType": "DEPLOY_RESOURCE",
-      "_id": "5888808029c8ca9c9d2b8cfc"
+      "_id": "588889a829c8ca9c9d2b8d16"
     },
     {
-      "timestamp": "2017-01-25T10:51:54.000Z",
-      "stackName": "AUDIT-AWS-RDS.GIT-45646456",
-      "runId": "559ebba7-e472-4723-9bf9-e499f0e644f2",
-      "resourceType": "coreo_uni_util_jsrunner",
-      "resourceName": "jsrunner-process-suppressions",
-      "resourceId": "2e4e7bf79156753201a971fb3d1c23a42ae1654ca3847edd6068f94154ea0c11",
-      "outputs": [
-        {
-          "value": "cc_588178c9962_jsrunner-process-suppressions",
-          "name": "ec2_name"
-        },
-        {
-          "value": {
-            "truncated": {
-              "object_size": 5271,
-              "object_key": "588178c99623e9585a324b97/559ebba7-e472-4723-9bf9-e499f0e644f2/2e4e7bf79156753201a971fb3d1c23a42ae1654ca3847edd6068f94154ea0c11/5874aa2c72130184fb922cf73d1b1c126ec356e6"
-            }
-          },
-          "name": "return"
-        },
-        {
-          "value": {
-            "truncated": {
-              "object_size": 13475,
-              "object_key": "588178c99623e9585a324b97/559ebba7-e472-4723-9bf9-e499f0e644f2/2e4e7bf79156753201a971fb3d1c23a42ae1654ca3847edd6068f94154ea0c11/76bd3d5dd685b95302f99feab8e442729cf218ff"
-            }
-          },
-          "name": "jsrunner_file"
-        },
-        {
-          "value": "{\"name\":\"jsrunner\",\"description\":\"jsrunner\",\"engine\":\"node 6.6.0\",\"dependencies\": {\n\"js-yaml\": \"3.7.0\"}}\n",
-          "name": "packages_file"
-        },
-        {
-          "value": {
-            "truncated": {
-              "object_size": 1903,
-              "object_key": "588178c99623e9585a324b97/559ebba7-e472-4723-9bf9-e499f0e644f2/2e4e7bf79156753201a971fb3d1c23a42ae1654ca3847edd6068f94154ea0c11/f8eb29a39e783c7610e13a74fae6e39b5859ed4f"
-            }
-          },
-          "name": "stdout"
-        }
-      ],
-      "namespace": "ROOT::AUDIT-AWS-RDS.GIT-45646456",
-      "inputs": [
-        {
-          "type": "choice",
-          "value": "run",
-          "name": "action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "json",
-          "name": "data_type"
-        },
-        {
-          "type": "PLA-1366",
-          "value": {
-            "truncated": {
-              "object_size": 10436,
-              "object_key": "588178c99623e9585a324b97/559ebba7-e472-4723-9bf9-e499f0e644f2/2e4e7bf79156753201a971fb3d1c23a42ae1654ca3847edd6068f94154ea0c11/6a89e66c73cdb148ca47a12fe6cdf37e2f58ba39"
-            }
-          },
-          "name": "json_input"
-        },
-        {
-          "type": "PLA-1366",
-          "value": {
-            "truncated": {
-              "object_size": 2328,
-              "object_key": "588178c99623e9585a324b97/559ebba7-e472-4723-9bf9-e499f0e644f2/2e4e7bf79156753201a971fb3d1c23a42ae1654ca3847edd6068f94154ea0c11/d365d1fa152f76e53927c8c5525d6940090ceaa8"
-            }
-          },
-          "name": "function"
-        },
-        {
-          "type": "PLA-1366",
-          "value": true,
-          "name": "provide_composite_access"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            {
-              "version": "3.7.0",
-              "name": "js-yaml"
-            }
-          ],
-          "name": "packages"
-        }
-      ],
-      "executionTime": 7.037627138,
-      "executionNumber": 7,
-      "engineStatus": "OK",
-      "engineState": "EXECUTING",
-      "dataType": "DEPLOY_RESOURCE",
-      "_id": "5888809129c8ca9c9d2b8cfd"
-    },
-    {
-      "timestamp": "2017-01-25T10:52:10.000Z",
-      "stackName": "AUDIT-AWS-RDS.GIT-45646456",
-      "runId": "559ebba7-e472-4723-9bf9-e499f0e644f2",
-      "resourceType": "coreo_uni_util_jsrunner",
-      "resourceName": "jsrunner-output-table",
-      "resourceId": "f9ce867c9071021d0c5e6937614b915dfcd1a2e4f838b9e307f08aaff2a3d255",
-      "outputs": [
-        {
-          "value": "cc_588178c9962_jsrunner-output-table",
-          "name": "ec2_name"
-        },
-        {
-          "value": "{\"rds-inventory\":{\"header\":\"AWS Region\",\"nrows\":2,\"rows\":{\"0\":\"us-east-1#https://us-east-1.console.aws.amazon.com/cloudtrail/home?region=us-east-1\",\"1\":\"us-east-1#https://us-east-1.console.aws.amazon.com/cloudtrail/home?region=us-east-1\"}}}",
-          "name": "return"
-        },
-        {
-          "value": {
-            "truncated": {
-              "object_size": 10064,
-              "object_key": "588178c99623e9585a324b97/559ebba7-e472-4723-9bf9-e499f0e644f2/f9ce867c9071021d0c5e6937614b915dfcd1a2e4f838b9e307f08aaff2a3d255/fe7334cb70ac3d40ae1d49e2fb3411d412f7884c"
-            }
-          },
-          "name": "jsrunner_file"
-        },
-        {
-          "value": "{\"name\":\"jsrunner\",\"description\":\"jsrunner\",\"engine\":\"node 6.6.0\",\"dependencies\": {\n\"js-yaml\": \"3.7.0\"}}\n",
-          "name": "packages_file"
-        },
-        {
-          "value": {
-            "truncated": {
-              "object_size": 3392,
-              "object_key": "588178c99623e9585a324b97/559ebba7-e472-4723-9bf9-e499f0e644f2/f9ce867c9071021d0c5e6937614b915dfcd1a2e4f838b9e307f08aaff2a3d255/6c0d0e21dc87852c5e5dfff7eb30ebd5d6a2b445"
-            }
-          },
-          "name": "stdout"
-        }
-      ],
-      "namespace": "ROOT::AUDIT-AWS-RDS.GIT-45646456",
-      "inputs": [
-        {
-          "type": "choice",
-          "value": "run",
-          "name": "action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "json",
-          "name": "data_type"
-        },
-        {
-          "type": "PLA-1366",
-          "value": {
-            "truncated": {
-              "object_size": 5271,
-              "object_key": "588178c99623e9585a324b97/559ebba7-e472-4723-9bf9-e499f0e644f2/f9ce867c9071021d0c5e6937614b915dfcd1a2e4f838b9e307f08aaff2a3d255/5874aa2c72130184fb922cf73d1b1c126ec356e6"
-            }
-          },
-          "name": "json_input"
-        },
-        {
-          "type": "PLA-1366",
-          "value": {
-            "truncated": {
-              "object_size": 4082,
-              "object_key": "588178c99623e9585a324b97/559ebba7-e472-4723-9bf9-e499f0e644f2/f9ce867c9071021d0c5e6937614b915dfcd1a2e4f838b9e307f08aaff2a3d255/ce6c66add2acc6f229df4422daea09888c3ef99d"
-            }
-          },
-          "name": "function"
-        },
-        {
-          "type": "PLA-1366",
-          "value": true,
-          "name": "provide_composite_access"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            {
-              "version": "3.7.0",
-              "name": "js-yaml"
-            }
-          ],
-          "name": "packages"
-        }
-      ],
-      "executionTime": 6.833028355,
-      "executionNumber": 8,
-      "engineStatus": "OK",
-      "engineState": "EXECUTING",
-      "dataType": "DEPLOY_RESOURCE",
-      "_id": "5888809f29c8ca9c9d2b8cfe"
-    },
-    {
-      "timestamp": "2017-01-27T04:12:22.000Z",
-      "stackName": "AUDIT-AWS-RDS.GIT-45646456",
-      "runId": "eb68fd95-540f-4de6-823e-61293c4f3a65",
-      "resourceType": "coreo_uni_util_jsrunner",
-      "resourceName": "tags-to-notifiers-array-rds",
-      "resourceId": "12dc2ab45e69cc4ddb2aff5ea7545191d1bd844c4afbf0a99e0accd8e6f845d9",
-      "outputs": [
-        {
-          "value": "cc_588178c9962_tags-to-notifiers-array-rds",
-          "name": "ec2_name"
-        },
-        {
-          "value": "[{\"type\":\"email\",\"send_on\":\"change\",\"allow_empty\":\"false\",\"payload_type\":\"html\",\"endpoint\":{\"to\":\"sdsdsfsdf\"},\"payload\":\"<h2>Composite name: audit-aws-rds.git</h2><h3>Plan name: 45646456</h3><p>Number of violations: 0</p>\",\"num_violations\":\"0\",\"num_instances\":\"0\"}]",
-          "name": "return"
-        },
-        {
-          "value": {
-            "truncated": {
-              "object_size": 8657,
-              "object_key": "588178c99623e9585a324b97/eb68fd95-540f-4de6-823e-61293c4f3a65/12dc2ab45e69cc4ddb2aff5ea7545191d1bd844c4afbf0a99e0accd8e6f845d9/be86c83946feb42366b875dc1c3356cd252a8c3e"
-            }
-          },
-          "name": "jsrunner_file"
-        },
-        {
-          "value": "{\"name\":\"jsrunner\",\"description\":\"jsrunner\",\"engine\":\"node 6.6.0\",\"dependencies\": {\n\"cloudcoreo-jsrunner-commons\": \"1.6.0\"}}\n",
-          "name": "packages_file"
-        },
-        {
-          "value": "",
-          "name": "stdout"
-        }
-      ],
-      "namespace": "ROOT::AUDIT-AWS-RDS.GIT-45646456",
-      "inputs": [
-        {
-          "type": "choice",
-          "value": "run",
-          "name": "action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "json",
-          "name": "data_type"
-        },
-        {
-          "type": "PLA-1366",
-          "value": {
-            "truncated": {
-              "object_size": 6895,
-              "object_key": "588178c99623e9585a324b97/eb68fd95-540f-4de6-823e-61293c4f3a65/12dc2ab45e69cc4ddb2aff5ea7545191d1bd844c4afbf0a99e0accd8e6f845d9/7207b826f98fecc42ae59ca77657008321bdba8f"
-            }
-          },
-          "name": "json_input"
-        },
-        {
-          "type": "PLA-1366",
-          "value": {
-            "truncated": {
-              "object_size": 1071,
-              "object_key": "588178c99623e9585a324b97/eb68fd95-540f-4de6-823e-61293c4f3a65/12dc2ab45e69cc4ddb2aff5ea7545191d1bd844c4afbf0a99e0accd8e6f845d9/f5f790e718dd24c159d0edbf9814685b0d6521d6"
-            }
-          },
-          "name": "function"
-        },
-        {
-          "type": "PLA-1366",
-          "value": false,
-          "name": "provide_composite_access"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            {
-              "version": "1.6.0",
-              "name": "cloudcoreo-jsrunner-commons"
-            }
-          ],
-          "name": "packages"
-        }
-      ],
-      "executionTime": 3.881315277,
-      "executionNumber": 11,
-      "engineStatus": "OK",
-      "engineState": "EXECUTING",
-      "dataType": "DEPLOY_RESOURCE",
-      "_id": "588880a929c8ca9c9d2b8cff"
-    },
-    {
-      "timestamp": "2017-01-27T04:12:37.000Z",
-      "stackName": null,
-      "runId": "eb68fd95-540f-4de6-823e-61293c4f3a65",
-      "resourceType": "coreo_uni_util_notify",
-      "resourceName": "advise-rds-json",
-      "resourceId": "ROOT::AUDIT-AWS-RDS.GIT-45646456_advise-rds-json",
-      "outputs": [],
-      "namespace": "ROOT::AUDIT-AWS-RDS.GIT-45646456",
-      "inputs": [
-        {
-          "type": "choice",
-          "value": "nothing",
-          "name": "action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "email",
-          "name": "type"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "json",
-          "name": "payload_type"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "{\"composite name\":\"PLAN::stack_name\",\n  \"plan name\":\"PLAN::name\",\n  \"number_of_checks\":\"COMPOSITE::coreo_aws_advisor_rds.advise-rds.number_checks\",\n  \"number_of_violations\":\"COMPOSITE::coreo_aws_advisor_rds.advise-rds.number_violations\",\n  \"number_violations_ignored\":\"COMPOSITE::coreo_aws_advisor_rds.advise-rds.number_ignored_violations\",\n  \"violations\": COMPOSITE::coreo_uni_util_jsrunner.jsrunner-process-suppression.report }",
-          "name": "payload"
-        },
-        {
-          "type": "PLA-1366",
-          "value": {
-            "subject": "CloudCoreo rds advisor alerts on PLAN::stack_name :: PLAN::name",
-            "to": "sdsdsfsdf"
-          },
-          "name": "endpoint"
-        },
-        {
-          "type": "PLA-1366",
-          "value": false,
-          "name": "allow_empty"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "change",
-          "name": "send_on"
-        }
-      ],
-      "executionTime": 0,
-      "executionNumber": -1,
-      "engineStatus": "OK",
-      "engineState": "EXECUTING",
-      "dataType": "DEPLOY_RESOURCE",
-      "_id": "588880b629c8ca9c9d2b8d02"
-    },
-    {
-      "timestamp": "2017-01-25T10:52:33.000Z",
-      "stackName": null,
-      "runId": "559ebba7-e472-4723-9bf9-e499f0e644f2",
-      "resourceType": "coreo_uni_util_notify",
-      "resourceName": "advise-rds-rollup",
-      "resourceId": "ROOT::AUDIT-AWS-RDS.GIT-45646456_advise-rds-rollup",
-      "outputs": [],
-      "namespace": "ROOT::AUDIT-AWS-RDS.GIT-45646456",
-      "inputs": [
-        {
-          "type": "choice",
-          "value": "nothing",
-          "name": "action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "email",
-          "name": "type"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "text",
-          "name": "payload_type"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "\ncomposite name: PLAN::stack_name\nplan name: PLAN::name\nCOMPOSITE::coreo_uni_util_jsrunner.tags-rollup-rds.return\n  ",
-          "name": "payload"
-        },
-        {
-          "type": "PLA-1366",
-          "value": {
-            "subject": "CloudCoreo rds advisor alerts on PLAN::stack_name :: PLAN::name",
-            "to": "natalia@cloudcoreo.com"
-          },
-          "name": "endpoint"
-        },
-        {
-          "type": "PLA-1366",
-          "value": false,
-          "name": "allow_empty"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "change",
-          "name": "send_on"
-        }
-      ],
-      "executionTime": 0,
-      "executionNumber": -1,
-      "engineStatus": "OK",
-      "engineState": "EXECUTING",
-      "dataType": "DEPLOY_RESOURCE",
-      "_id": "588880ba29c8ca9c9d2b8d03"
-    },
-    {
-      "timestamp": "2017-01-27T04:11:17.000Z",
-      "stackName": "AUDIT-AWS-RDS.GIT-45646456",
-      "runId": "eb68fd95-540f-4de6-823e-61293c4f3a65",
-      "resourceType": "coreo_aws_advisor_alert",
-      "resourceName": "rds-short-backup-retention-period",
-      "resourceId": "69bb8f14bd728bae764bba1c857e5106be7a801cd864790cd63d8dc1891040b9",
-      "outputs": [
-        {
-          "value": "cc_588178c9962_rds-short-backup-retention-period",
-          "name": "ec2_name"
-        }
-      ],
-      "namespace": "ROOT::AUDIT-AWS-RDS.GIT-45646456",
-      "inputs": [
-        {
-          "type": "choice",
-          "value": "define",
-          "name": "action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "RDS short backup retention period",
-          "name": "display_name"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "object.db_instances.db_instance_identifier",
-          "name": "id_map"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "rds",
-          "name": "service"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            30
-          ],
-          "name": "alert_when"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "db_instances"
-          ],
-          "name": "objectives"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "http://kb.cloudcoreo.com/mydoc_rds-short-backup-retention-period.html",
-          "name": "link"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Warning",
-          "name": "level"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "<"
-          ],
-          "name": "operators"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "The affected RDS database has a short backup retention period (less than 30 days).",
-          "name": "description"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Dataloss",
-          "name": "category"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Modify the backup retension period to increase it to greater than 30 days.",
-          "name": "suggested_action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [],
-          "name": "call_modifiers"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "db_instances.backup_retention_period"
-          ],
-          "name": "audit_objects"
-        },
-        {
-          "type": "PLA-1366",
-          "value": true,
-          "name": "include_violations_in_count"
-        }
-      ],
-      "executionTime": 1.30586537,
-      "executionNumber": 2,
-      "engineStatus": "OK",
-      "engineState": "EXECUTING",
-      "dataType": "ADVISOR_RESOURCE",
-      "_id": "5888806129c8ca9c9d2b8cf8"
-    },
-    {
-      "timestamp": "2017-01-27T04:11:57.000Z",
-      "stackName": "AUDIT-AWS-RDS.GIT-45646456",
-      "runId": "eb68fd95-540f-4de6-823e-61293c4f3a65",
-      "resourceType": "coreo_uni_util_jsrunner",
-      "resourceName": "jsrunner-process-suppression-rds",
-      "resourceId": "38b074bc697db673e73707f4ec8d35b6332342d0081fc42eab2ad12d6281bd49",
-      "outputs": [
-        {
-          "value": "cc_588178c9962_jsrunner-process-suppression-rds",
-          "name": "ec2_name"
-        },
-        {
-          "value": {
-            "truncated": {
-              "object_size": 5263,
-              "object_key": "588178c99623e9585a324b97/eb68fd95-540f-4de6-823e-61293c4f3a65/38b074bc697db673e73707f4ec8d35b6332342d0081fc42eab2ad12d6281bd49/76578936e5d5a9e4853336b1f05906ae6cc8783c"
-            }
-          },
-          "name": "return"
-        },
-        {
-          "value": {
-            "truncated": {
-              "object_size": 9309,
-              "object_key": "588178c99623e9585a324b97/eb68fd95-540f-4de6-823e-61293c4f3a65/38b074bc697db673e73707f4ec8d35b6332342d0081fc42eab2ad12d6281bd49/f280c62029b168ab5f46f34fe2dd5eabf583924e"
-            }
-          },
-          "name": "jsrunner_file"
-        },
-        {
-          "value": "{\"name\":\"jsrunner\",\"description\":\"jsrunner\",\"engine\":\"node 6.6.0\",\"dependencies\": {\n\"js-yaml\": \"3.7.0\"}}\n",
-          "name": "packages_file"
-        },
-        {
-          "value": "suppression={\"rds-inventory\":[{\"cc-57980ce2d13-kubedev\":\"2017-01-30T00:00Z\"},{\"cc-581e59ffbd6-kubestg\":\"2017-01-30T00:00Z\"}]}",
-          "name": "stdout"
-        },
-        {
-          "value": "{\"rds-inventory\":[{\"cc-57980ce2d13-kubedev\":\"2017-01-30T00:00Z\"},{\"cc-581e59ffbd6-kubestg\":\"2017-01-30T00:00Z\"}]}\n",
-          "name": "suppression"
-        }
-      ],
-      "namespace": "ROOT::AUDIT-AWS-RDS.GIT-45646456",
-      "inputs": [
-        {
-          "type": "choice",
-          "value": "run",
-          "name": "action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "json",
-          "name": "data_type"
-        },
-        {
-          "type": "PLA-1366",
-          "value": {
-            "truncated": {
-              "object_size": 5334,
-              "object_key": "588178c99623e9585a324b97/eb68fd95-540f-4de6-823e-61293c4f3a65/38b074bc697db673e73707f4ec8d35b6332342d0081fc42eab2ad12d6281bd49/a21c74ea9af767a75deaa4b02e2e84ebf1f04079"
-            }
-          },
-          "name": "json_input"
-        },
-        {
-          "type": "PLA-1366",
-          "value": {
-            "truncated": {
-              "object_size": 3264,
-              "object_key": "588178c99623e9585a324b97/eb68fd95-540f-4de6-823e-61293c4f3a65/38b074bc697db673e73707f4ec8d35b6332342d0081fc42eab2ad12d6281bd49/f5afcd20fffbbb59d317cf406ae71c06c143fca4"
-            }
-          },
-          "name": "function"
-        },
-        {
-          "type": "PLA-1366",
-          "value": true,
-          "name": "provide_composite_access"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            {
-              "version": "3.7.0",
-              "name": "js-yaml"
-            }
-          ],
-          "name": "packages"
-        }
-      ],
-      "executionTime": 5.629077277,
-      "executionNumber": 7,
-      "engineStatus": "OK",
-      "engineState": "EXECUTING",
-      "dataType": "DEPLOY_RESOURCE",
-      "_id": "588963f929c8ca9c9d2b8d1f"
-    },
-    {
-      "timestamp": "2017-01-27T04:12:03.000Z",
-      "stackName": "AUDIT-AWS-RDS.GIT-45646456",
-      "runId": "eb68fd95-540f-4de6-823e-61293c4f3a65",
+      "timestamp": "2017-01-27T03:01:56.000Z",
+      "stackName": "AUDIT-AWS-CLOUDTRAIL-EQR",
+      "runId": "43742663-43e9-4ca1-86b4-142c2065dbd3",
       "resourceType": "coreo_uni_util_variables",
       "resourceName": "update-advisor-output",
-      "resourceId": "1abd517025036bd81eb0b12aa2838273b433a4c697c30a4e49f43748dfa5a1f1",
+      "resourceId": "b56edb8ff7d4f928017d2f7778a907e73e9e7891deb038f3c2d1ac46a41bcec4",
       "outputs": [
         {
-          "value": "cc_588178c9962_update-advisor-output",
+          "value": "cc_5888890dfce_update-advisor-output",
           "name": "ec2_name"
         },
         {
-          "value": "{\"cc-57980ce2d13-kubedev\":{\"tags\":[{\"value\":\"george+1@cloudcoreo.com\",\"key\":\"coreo_owner\"},{\"value\":\"kubedev\",\"key\":\"Name\"}],\"violations\":{\"rds-inventory\":{\"service\":\"rds\",\"display_name\":\"RDS Instance Inventory\",\"violating_object\":[{\"place\":\"db_instances:db_instances[0].db_instance_identifier\",\"object\":{\"truncated\":{\"object_key\":\"588178c99623e9585a324b97/eb68fd95-540f-4de6-823e-61293c4f3a65/1abd517025036bd81eb0b12aa2838273b433a4c697c30a4e49f43748dfa5a1f1/32858dd6ad70b3d282d0c3c7760d8fac67d2f808\",\"object_size\":1760}}}],\"description\":\"This rule performs an inventory on all RDS DB instances in the target AWS account.\",\"category\":\"Inventory\",\"suggested_action\":\"None.\",\"level\":\"Informational\",\"include_violations_in_count\":false,\"region\":\"us-east-1\",\"suppressed\":true,\"suppressed_until\":\"2017-01-30T00:00Z\",\"suppression_expired\":false}}},\"cc-581e59ffbd6-kubestg\":{\"tags\":[{\"value\":\"george+2@cloudcoreo.com\",\"key\":\"coreo_owner\"},{\"value\":\"kubestg\",\"key\":\"Name\"}],\"violations\":{\"rds-inventory\":{\"service\":\"rds\",\"display_name\":\"RDS Instance Inventory\",\"violating_object\":[{\"place\":\"db_instances:db_instances[1].db_instance_identifier\",\"object\":{\"truncated\":{\"object_key\":\"588178c99623e9585a324b97/eb68fd95-540f-4de6-823e-61293c4f3a65/1abd517025036bd81eb0b12aa2838273b433a4c697c30a4e49f43748dfa5a1f1/4fc71e7fb4487697e4be270c907560242d7d300a\",\"object_size\":1760}}}],\"description\":\"This rule performs an inventory on all RDS DB instances in the target AWS account.\",\"category\":\"Inventory\",\"suggested_action\":\"None.\",\"level\":\"Informational\",\"include_violations_in_count\":false,\"region\":\"us-east-1\",\"suppressed\":true,\"suppressed_until\":\"2017-01-30T00:00Z\",\"suppression_expired\":false}}}}",
+          "value": "{\"us-east-1\":{\"violations\":{\"cloudtrail-service-disabled\":{\"service\":\"cloudtrail\",\"display_name\":\"Cloudtrail Service is disabled\",\"violating_object\":[{\"place\":\"trails:trail_list.#count\",\"object\":{\"truncated\":{\"object_key\":\"5888890dfce6612f1318caea/43742663-43e9-4ca1-86b4-142c2065dbd3/b56edb8ff7d4f928017d2f7778a907e73e9e7891deb038f3c2d1ac46a41bcec4/b6589fc6ab0dc82cf12099d1c2d40ab994e8410c\",\"object_size\":1}}}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs for each region.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_cloudtrail-service-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[]},\"ohio_trail\":{\"violations\":{\"cloudtrail-inventory\":{\"service\":\"cloudtrail\",\"display_name\":\"ELB Object Inventory\",\"violating_object\":[{\"place\":\"trails:trail_list[0].name\",\"object\":{\"truncated\":{\"object_key\":\"5888890dfce6612f1318caea/43742663-43e9-4ca1-86b4-142c2065dbd3/b56edb8ff7d4f928017d2f7778a907e73e9e7891deb038f3c2d1ac46a41bcec4/c217ae285f91dbe829c1b5d380f9be01afe50727\",\"object_size\":309}}}],\"description\":\"This rule performs an inventory on all trails in the target AWS account.\",\"category\":\"Inventory\",\"suggested_action\":\"None.\",\"level\":\"Informational\",\"include_violations_in_count\":false,\"region\":\"us-east-2\"}},\"tags\":[]},\"us-west-1\":{\"violations\":{\"cloudtrail-service-disabled\":{\"service\":\"cloudtrail\",\"display_name\":\"Cloudtrail Service is disabled\",\"violating_object\":[{\"place\":\"trails:trail_list.#count\",\"object\":{\"truncated\":{\"object_key\":\"5888890dfce6612f1318caea/43742663-43e9-4ca1-86b4-142c2065dbd3/b56edb8ff7d4f928017d2f7778a907e73e9e7891deb038f3c2d1ac46a41bcec4/b6589fc6ab0dc82cf12099d1c2d40ab994e8410c\",\"object_size\":1}}}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs for each region.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_cloudtrail-service-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-west-1\"}},\"tags\":[]},\"oregon_trail\":{\"violations\":{\"cloudtrail-inventory\":{\"service\":\"cloudtrail\",\"display_name\":\"ELB Object Inventory\",\"violating_object\":[{\"place\":\"trails:trail_list[0].name\",\"object\":{\"truncated\":{\"object_key\":\"5888890dfce6612f1318caea/43742663-43e9-4ca1-86b4-142c2065dbd3/b56edb8ff7d4f928017d2f7778a907e73e9e7891deb038f3c2d1ac46a41bcec4/10171414ea460cd55552109566f52bd595ae0093\",\"object_size\":314}}}],\"description\":\"This rule performs an inventory on all trails in the target AWS account.\",\"category\":\"Inventory\",\"suggested_action\":\"None.\",\"level\":\"Informational\",\"include_violations_in_count\":false,\"region\":\"us-west-2\"}},\"tags\":[]},\"eu-west-1\":{\"violations\":{\"cloudtrail-service-disabled\":{\"service\":\"cloudtrail\",\"display_name\":\"Cloudtrail Service is disabled\",\"violating_object\":[{\"place\":\"trails:trail_list.#count\",\"object\":{\"truncated\":{\"object_key\":\"5888890dfce6612f1318caea/43742663-43e9-4ca1-86b4-142c2065dbd3/b56edb8ff7d4f928017d2f7778a907e73e9e7891deb038f3c2d1ac46a41bcec4/b6589fc6ab0dc82cf12099d1c2d40ab994e8410c\",\"object_size\":1}}}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs for each region.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_cloudtrail-service-disabled.html\",\"include_violations_in_count\":true,\"region\":\"eu-west-1\"}},\"tags\":[]}}",
           "name": "report"
         },
         {
           "value": {
             "truncated": {
-              "object_size": 6316,
-              "object_key": "588178c99623e9585a324b97/eb68fd95-540f-4de6-823e-61293c4f3a65/1abd517025036bd81eb0b12aa2838273b433a4c697c30a4e49f43748dfa5a1f1/b8769326000591b3d50d6b6da6325a5584d0d926"
+              "object_size": 4028,
+              "object_key": "5888890dfce6612f1318caea/43742663-43e9-4ca1-86b4-142c2065dbd3/b56edb8ff7d4f928017d2f7778a907e73e9e7891deb038f3c2d1ac46a41bcec4/d4eeba9d505c5cd2e3b4fd9955c96152f3dc2932"
             }
           },
           "name": "variables"
         }
       ],
-      "namespace": "ROOT::AUDIT-AWS-RDS.GIT-45646456",
+      "namespace": "ROOT::AUDIT-AWS-CLOUDTRAIL-EQR",
       "inputs": [
         {
           "type": "choice",
@@ -1092,37 +609,37 @@
           "type": "PLA-1366",
           "value": {
             "truncated": {
-              "object_size": 5320,
-              "object_key": "588178c99623e9585a324b97/eb68fd95-540f-4de6-823e-61293c4f3a65/1abd517025036bd81eb0b12aa2838273b433a4c697c30a4e49f43748dfa5a1f1/473c00fd54f3406ad6b988e1941d4684dae28422"
+              "object_size": 3412,
+              "object_key": "5888890dfce6612f1318caea/43742663-43e9-4ca1-86b4-142c2065dbd3/b56edb8ff7d4f928017d2f7778a907e73e9e7891deb038f3c2d1ac46a41bcec4/1a8d8ed3c0dc3f89c6b58c331d198919f2f581e9"
             }
           },
           "name": "variables"
         }
       ],
-      "executionTime": 2.747289031,
-      "executionNumber": 8,
+      "executionTime": 3.280759173,
+      "executionNumber": 7,
       "engineStatus": "OK",
       "engineState": "EXECUTING",
       "dataType": "DEPLOY_RESOURCE",
-      "_id": "588963fe29c8ca9c9d2b8d20"
+      "_id": "588889ae29c8ca9c9d2b8d17"
     },
     {
-      "timestamp": "2017-01-27T04:12:13.000Z",
-      "stackName": "AUDIT-AWS-RDS.GIT-45646456",
-      "runId": "eb68fd95-540f-4de6-823e-61293c4f3a65",
+      "timestamp": "2017-01-27T03:02:14.000Z",
+      "stackName": "AUDIT-AWS-CLOUDTRAIL-EQR",
+      "runId": "43742663-43e9-4ca1-86b4-142c2065dbd3",
       "resourceType": "coreo_uni_util_jsrunner",
-      "resourceName": "jsrunner-process-table-rds",
-      "resourceId": "7d31d015de2ced9d5b9b3164d9e127bdf7e6fbdb45dc09559b466ab637a1d2c4",
+      "resourceName": "jsrunner-process-suppression-cloudtrail",
+      "resourceId": "7171582b4a1a826c4acd791ee28d651cfd3712775504d39ea8257d2f807bd3f3",
       "outputs": [
         {
-          "value": "cc_588178c9962_jsrunner-process-table-rds",
+          "value": "cc_5888890dfce_jsrunner-process-suppression-cloudtrail",
           "name": "ec2_name"
         },
         {
           "value": {
             "truncated": {
-              "object_size": 1481,
-              "object_key": "588178c99623e9585a324b97/eb68fd95-540f-4de6-823e-61293c4f3a65/7d31d015de2ced9d5b9b3164d9e127bdf7e6fbdb45dc09559b466ab637a1d2c4/a7d5fbad896e21baf15dbbb885548ae4c487d9d7"
+              "object_size": 3596,
+              "object_key": "5888890dfce6612f1318caea/43742663-43e9-4ca1-86b4-142c2065dbd3/7171582b4a1a826c4acd791ee28d651cfd3712775504d39ea8257d2f807bd3f3/0ac3c91eeb88db054d388460039642d4b76dbecf"
             }
           },
           "name": "return"
@@ -1130,8 +647,8 @@
         {
           "value": {
             "truncated": {
-              "object_size": 6298,
-              "object_key": "588178c99623e9585a324b97/eb68fd95-540f-4de6-823e-61293c4f3a65/7d31d015de2ced9d5b9b3164d9e127bdf7e6fbdb45dc09559b466ab637a1d2c4/df8ed6b146cc14edb82566fb23200ddea68caff1"
+              "object_size": 7301,
+              "object_key": "5888890dfce6612f1318caea/43742663-43e9-4ca1-86b4-142c2065dbd3/7171582b4a1a826c4acd791ee28d651cfd3712775504d39ea8257d2f807bd3f3/f8d6b3e9cbecd14463bb55894be017df1e8c105e"
             }
           },
           "name": "jsrunner_file"
@@ -1141,25 +658,15 @@
           "name": "packages_file"
         },
         {
-          "value": {
-            "truncated": {
-              "object_size": 1487,
-              "object_key": "588178c99623e9585a324b97/eb68fd95-540f-4de6-823e-61293c4f3a65/7d31d015de2ced9d5b9b3164d9e127bdf7e6fbdb45dc09559b466ab637a1d2c4/5f0f6f384310a79b8a6ec0493a731aef82ca72b6"
-            }
-          },
+          "value": "suppression={\"cloudtrail-service-disabled\":[{\"put-your-object-id-here-1\":\"\"},{\"put-your-object-id-here-2\":\"2017-01-10T00:00Z\"}],\"cloudtrail-inventory\":[{\"put-your-object-id-here-1\":\"\"},{\"put-your-object-id-here-2\":\"2017-01-10T00:00Z\"}],\"no-global-trails\":[{\"put-your-object-id-here-1\":\"\"},{\"put-your-object-id-here-2\":\"2017-01-10T00:00Z\"}]}",
           "name": "stdout"
         },
         {
-          "value": {
-            "truncated": {
-              "object_size": 1483,
-              "object_key": "588178c99623e9585a324b97/eb68fd95-540f-4de6-823e-61293c4f3a65/7d31d015de2ced9d5b9b3164d9e127bdf7e6fbdb45dc09559b466ab637a1d2c4/a10714ec5d6e141acbcde31d5d742aaa26de490f"
-            }
-          },
-          "name": "table"
+          "value": "{\"cloudtrail-service-disabled\":[{\"put-your-object-id-here-1\":\"\"},{\"put-your-object-id-here-2\":\"2017-01-10T00:00Z\"}],\"cloudtrail-inventory\":[{\"put-your-object-id-here-1\":\"\"},{\"put-your-object-id-here-2\":\"2017-01-10T00:00Z\"}],\"no-global-trails\":[{\"put-your-object-id-here-1\":\"\"},{\"put-your-object-id-here-2\":\"2017-01-10T00:00Z\"}]}\n",
+          "name": "suppression"
         }
       ],
-      "namespace": "ROOT::AUDIT-AWS-RDS.GIT-45646456",
+      "namespace": "ROOT::AUDIT-AWS-CLOUDTRAIL-EQR",
       "inputs": [
         {
           "type": "choice",
@@ -1175,15 +682,20 @@
           "type": "PLA-1366",
           "value": {
             "truncated": {
-              "object_size": 5334,
-              "object_key": "588178c99623e9585a324b97/eb68fd95-540f-4de6-823e-61293c4f3a65/7d31d015de2ced9d5b9b3164d9e127bdf7e6fbdb45dc09559b466ab637a1d2c4/a21c74ea9af767a75deaa4b02e2e84ebf1f04079"
+              "object_size": 3462,
+              "object_key": "5888890dfce6612f1318caea/43742663-43e9-4ca1-86b4-142c2065dbd3/7171582b4a1a826c4acd791ee28d651cfd3712775504d39ea8257d2f807bd3f3/1fbaaef028273155e69fd93c45d41489afca3bd4"
             }
           },
           "name": "json_input"
         },
         {
           "type": "PLA-1366",
-          "value": "    var fs = require('fs');\n    var yaml = require('js-yaml');\n    try {\n        var table = yaml.safeLoad(fs.readFileSync('./table.yaml', 'utf8'));\n    } catch (e) {\n    }\n    coreoExport('table', JSON.stringify(table));\n    callback(table);\n",
+          "value": {
+            "truncated": {
+              "object_size": 3148,
+              "object_key": "5888890dfce6612f1318caea/43742663-43e9-4ca1-86b4-142c2065dbd3/7171582b4a1a826c4acd791ee28d651cfd3712775504d39ea8257d2f807bd3f3/fd7e948313d441058d6b5c1a4ca5fb5a17c78ce5"
+            }
+          },
           "name": "function"
         },
         {
@@ -1202,34 +714,137 @@
           "name": "packages"
         }
       ],
-      "executionTime": 5.651666888,
-      "executionNumber": 9,
+      "executionTime": 10.838058283,
+      "executionNumber": 8,
       "engineStatus": "OK",
       "engineState": "EXECUTING",
       "dataType": "DEPLOY_RESOURCE",
-      "_id": "5889640929c8ca9c9d2b8d21"
+      "_id": "588889be29c8ca9c9d2b8d18"
     },
     {
-      "timestamp": "2017-01-27T04:12:30.000Z",
-      "stackName": "AUDIT-AWS-RDS.GIT-45646456",
-      "runId": "eb68fd95-540f-4de6-823e-61293c4f3a65",
+      "timestamp": "2017-01-27T03:02:25.000Z",
+      "stackName": "AUDIT-AWS-CLOUDTRAIL-EQR",
+      "runId": "43742663-43e9-4ca1-86b4-142c2065dbd3",
       "resourceType": "coreo_uni_util_jsrunner",
-      "resourceName": "tags-rollup-rds",
-      "resourceId": "a592b278e8407eef66bf826aaf644eb3bf03f34a93ab73929e530ffcab98e90f",
+      "resourceName": "jsrunner-process-table-cloudtrail",
+      "resourceId": "47dd84dfc7d8c28445e5b90dc693156ab89adacf2ee5a533de61aa894daeb6e3",
       "outputs": [
         {
-          "value": "cc_588178c9962_tags-rollup-rds",
+          "value": "cc_5888890dfce_jsrunner-process-table-cloudtrail",
           "name": "ec2_name"
         },
         {
-          "value": "number of Violations: 0\nRollup\nrecipient: sdsdsfsdf - nViolations: 0",
+          "value": {
+            "truncated": {
+              "object_size": 1086,
+              "object_key": "5888890dfce6612f1318caea/43742663-43e9-4ca1-86b4-142c2065dbd3/47dd84dfc7d8c28445e5b90dc693156ab89adacf2ee5a533de61aa894daeb6e3/2762e7ee60928a49b6b4446ce3d02f754a642b3d"
+            }
+          },
           "name": "return"
         },
         {
           "value": {
             "truncated": {
-              "object_size": 1685,
-              "object_key": "588178c99623e9585a324b97/eb68fd95-540f-4de6-823e-61293c4f3a65/a592b278e8407eef66bf826aaf644eb3bf03f34a93ab73929e530ffcab98e90f/acce2e63f2b74f8399c5c61ff8d75518d4a9400d"
+              "object_size": 4287,
+              "object_key": "5888890dfce6612f1318caea/43742663-43e9-4ca1-86b4-142c2065dbd3/47dd84dfc7d8c28445e5b90dc693156ab89adacf2ee5a533de61aa894daeb6e3/43b2b37898c1c275262e1d824cf8768001d7a429"
+            }
+          },
+          "name": "jsrunner_file"
+        },
+        {
+          "value": "{\"name\":\"jsrunner\",\"description\":\"jsrunner\",\"engine\":\"node 6.6.0\",\"dependencies\": {\n\"js-yaml\": \"3.7.0\"}}\n",
+          "name": "packages_file"
+        },
+        {
+          "value": {
+            "truncated": {
+              "object_size": 1092,
+              "object_key": "5888890dfce6612f1318caea/43742663-43e9-4ca1-86b4-142c2065dbd3/47dd84dfc7d8c28445e5b90dc693156ab89adacf2ee5a533de61aa894daeb6e3/02d5a4c9f0fe8ada9a1f8ddf6961a6d1f9de996f"
+            }
+          },
+          "name": "stdout"
+        },
+        {
+          "value": {
+            "truncated": {
+              "object_size": 1088,
+              "object_key": "5888890dfce6612f1318caea/43742663-43e9-4ca1-86b4-142c2065dbd3/47dd84dfc7d8c28445e5b90dc693156ab89adacf2ee5a533de61aa894daeb6e3/e02c665e5460f8533e0a782ab2f46630189004bf"
+            }
+          },
+          "name": "table"
+        }
+      ],
+      "namespace": "ROOT::AUDIT-AWS-CLOUDTRAIL-EQR",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "run",
+          "name": "action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "json",
+          "name": "data_type"
+        },
+        {
+          "type": "PLA-1366",
+          "value": {
+            "truncated": {
+              "object_size": 3341,
+              "object_key": "5888890dfce6612f1318caea/43742663-43e9-4ca1-86b4-142c2065dbd3/47dd84dfc7d8c28445e5b90dc693156ab89adacf2ee5a533de61aa894daeb6e3/1de2a491f1080fb6d26f6f17fccb943d26e3e310"
+            }
+          },
+          "name": "json_input"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "    var fs = require('fs');\n    var yaml = require('js-yaml');\n    try {\n        var table = yaml.safeLoad(fs.readFileSync('./table.yaml', 'utf8'));\n    }catch(e) {\n  \n    }\n    coreoExport('table', JSON.stringify(table));\n    callback(table);\n",
+          "name": "function"
+        },
+        {
+          "type": "PLA-1366",
+          "value": true,
+          "name": "provide_composite_access"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            {
+              "version": "3.7.0",
+              "name": "js-yaml"
+            }
+          ],
+          "name": "packages"
+        }
+      ],
+      "executionTime": 5.563642767,
+      "executionNumber": 9,
+      "engineStatus": "OK",
+      "engineState": "EXECUTING",
+      "dataType": "DEPLOY_RESOURCE",
+      "_id": "588889d329c8ca9c9d2b8d19"
+    },
+    {
+      "timestamp": "2017-01-27T03:02:42.000Z",
+      "stackName": "AUDIT-AWS-CLOUDTRAIL-EQR",
+      "runId": "43742663-43e9-4ca1-86b4-142c2065dbd3",
+      "resourceType": "coreo_uni_util_jsrunner",
+      "resourceName": "tags-rollup",
+      "resourceId": "b30db2f02cb4da64baca79731427dfb90bbd244cf974bc52e5065d7ae56be6e9",
+      "outputs": [
+        {
+          "value": "cc_5888890dfce_tags-rollup",
+          "name": "ec2_name"
+        },
+        {
+          "value": "number of Violations: 0\nRollup",
+          "name": "return"
+        },
+        {
+          "value": {
+            "truncated": {
+              "object_size": 13861,
+              "object_key": "5888890dfce6612f1318caea/43742663-43e9-4ca1-86b4-142c2065dbd3/b30db2f02cb4da64baca79731427dfb90bbd244cf974bc52e5065d7ae56be6e9/9d5857128589c9ada358bc3770688ab62f51f759"
             }
           },
           "name": "jsrunner_file"
@@ -1243,7 +858,7 @@
           "name": "stdout"
         }
       ],
-      "namespace": "ROOT::AUDIT-AWS-RDS.GIT-45646456",
+      "namespace": "ROOT::AUDIT-AWS-CLOUDTRAIL-EQR",
       "inputs": [
         {
           "type": "choice",
@@ -1257,12 +872,17 @@
         },
         {
           "type": "PLA-1366",
-          "value": "[{\"type\":\"email\",\"send_on\":\"change\",\"allow_empty\":\"false\",\"payload_type\":\"html\",\"endpoint\":{\"to\":\"sdsdsfsdf\"},\"payload\":\"<h2>Composite name: audit-aws-rds.git</h2><h3>Plan name: 45646456</h3><p>Number of violations: 0</p>\",\"num_violations\":\"0\",\"num_instances\":\"0\"}]",
+          "value": {
+            "truncated": {
+              "object_size": 12518,
+              "object_key": "5888890dfce6612f1318caea/43742663-43e9-4ca1-86b4-142c2065dbd3/b30db2f02cb4da64baca79731427dfb90bbd244cf974bc52e5065d7ae56be6e9/6dbd4a2960d1013042c080bf1a12edb7c29482c3"
+            }
+          },
           "name": "json_input"
         },
         {
           "type": "PLA-1366",
-          "value": "var rollup_string = \"\";\nlet rollup = '';\nlet emailText = '';\nlet numberOfViolations = 0;\nfor (var entry=0; entry < json_input.length; entry++) {\n    if (json_input[entry]['endpoint']['to'].length) {\n        numberOfViolations += parseInt(json_input[entry]['num_violations']);\n        emailText += \"recipient: \" + json_input[entry]['endpoint']['to'] + \" - \" + \"nViolations: \" + json_input[entry]['num_violations'] + \"\\n\";\n    }\n}\n\nrollup += 'number of Violations: ' + numberOfViolations + \"\\n\";\nrollup += 'Rollup' + \"\\n\";\nrollup += emailText;\n\nrollup_string = rollup;\ncallback(rollup_string);\n",
+          "value": "var rollup_string = \"\";\nlet rollup = '';\nlet emailText = '';\nlet numberOfViolations = 0;\nfor (var entry=0; entry < json_input.length; entry++) {\n    if (json_input[entry]['endpoint']['to'].length) {\n        numberOfViolations += parseInt(json_input[entry]['num_violations']);\n        emailText += \"recipient: \" + json_input[entry]['endpoint']['to'] + \" - \" + \"Violations: \" + json_input[entry]['num_violations'] + \"\\n\";\n    }\n}\n\nrollup += 'number of Violations: ' + numberOfViolations + \"\\n\";\nrollup += 'Rollup' + \"\\n\";\nrollup += emailText;\n\nrollup_string = rollup;\ncallback(rollup_string);\n",
           "name": "function"
         },
         {
@@ -1271,55 +891,163 @@
           "name": "provide_composite_access"
         }
       ],
-      "executionTime": 2.467360965,
-      "executionNumber": 12,
+      "executionTime": 2.73473251,
+      "executionNumber": 11,
       "engineStatus": "OK",
       "engineState": "EXECUTING",
       "dataType": "DEPLOY_RESOURCE",
-      "_id": "588880b129c8ca9c9d2b8d00"
+      "_id": "588889e429c8ca9c9d2b8d1b"
     },
     {
-      "timestamp": "2017-01-27T04:12:37.000Z",
-      "stackName": "audit-aws-rds.git-45646456",
-      "runId": "eb68fd95-540f-4de6-823e-61293c4f3a65",
-      "resourceType": "coreo_uni_util_notify",
-      "resourceName": "advise-rds-to-tag-values",
-      "resourceId": "9e89bd1e1ab6cc575b0d6f4a9c92d9020308173a3c9def888c11d2c93b525cde",
+      "timestamp": "2017-01-27T03:02:34.000Z",
+      "stackName": "AUDIT-AWS-CLOUDTRAIL-EQR",
+      "runId": "43742663-43e9-4ca1-86b4-142c2065dbd3",
+      "resourceType": "coreo_uni_util_jsrunner",
+      "resourceName": "cloudtrail-tags-to-notifiers-array",
+      "resourceId": "7801a8ce51762f4aea916a6049bd12ea93f0368f95fcb801fc1afcae3511d84f",
       "outputs": [
         {
+          "value": "cc_5888890dfce_cloudtrail-tags-to-notifiers-array",
+          "name": "ec2_name"
+        },
+        {
           "value": {
-            "error_message": "Missing final '@domain'",
-            "error_type": "AWS::SimpleEmailService::Errors::InvalidParameterValue",
-            "resource_error": "action :notify on coreo_uni_util_notify[advise-rds-to-tag-values]"
+            "truncated": {
+              "object_size": 12518,
+              "object_key": "5888890dfce6612f1318caea/43742663-43e9-4ca1-86b4-142c2065dbd3/7801a8ce51762f4aea916a6049bd12ea93f0368f95fcb801fc1afcae3511d84f/6dbd4a2960d1013042c080bf1a12edb7c29482c3"
+            }
           },
-          "name": "error"
+          "name": "return"
+        },
+        {
+          "value": {
+            "truncated": {
+              "object_size": 6068,
+              "object_key": "5888890dfce6612f1318caea/43742663-43e9-4ca1-86b4-142c2065dbd3/7801a8ce51762f4aea916a6049bd12ea93f0368f95fcb801fc1afcae3511d84f/679f124f73592a909c27f9a104093b22604f349e"
+            }
+          },
+          "name": "jsrunner_file"
+        },
+        {
+          "value": "{\"name\":\"jsrunner\",\"description\":\"jsrunner\",\"engine\":\"node 6.6.0\",\"dependencies\": {\n\"cloudcoreo-jsrunner-commons\": \"1.6.6\"}}\n",
+          "name": "packages_file"
+        },
+        {
+          "value": "0\n0",
+          "name": "stdout"
         }
       ],
-      "namespace": "ROOT::AUDIT-AWS-RDS.GIT-45646456",
+      "namespace": "ROOT::AUDIT-AWS-CLOUDTRAIL-EQR",
       "inputs": [
         {
           "type": "choice",
-          "value": "notify",
+          "value": "run",
           "name": "action"
         },
         {
           "type": "PLA-1366",
-          "value": "[{\"type\":\"email\",\"send_on\":\"change\",\"allow_empty\":\"false\",\"payload_type\":\"html\",\"endpoint\":{\"to\":\"sdsdsfsdf\"},\"payload\":\"<h2>Composite name: audit-aws-rds.git</h2><h3>Plan name: 45646456</h3><p>Number of violations: 0</p>\",\"num_violations\":\"0\",\"num_instances\":\"0\"}]",
-          "name": "notifiers"
+          "value": "json",
+          "name": "data_type"
+        },
+        {
+          "type": "PLA-1366",
+          "value": {
+            "truncated": {
+              "object_size": 4831,
+              "object_key": "5888890dfce6612f1318caea/43742663-43e9-4ca1-86b4-142c2065dbd3/7801a8ce51762f4aea916a6049bd12ea93f0368f95fcb801fc1afcae3511d84f/6ddc8c9bb476ab6e86c74b187b8cab3e6348264e"
+            }
+          },
+          "name": "json_input"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "  \nconst JSON_INPUT = json_input;\nconst NO_OWNER_EMAIL = \"\";\nconst OWNER_TAG = \"NOT_A_TAG\";\nconst ALLOW_EMPTY = \"false\";\nconst SEND_ON = \"change\";\nconst SHOWN_NOT_SORTED_VIOLATIONS_COUNTER = false;\n\n\nconst VARIABLES = { NO_OWNER_EMAIL, OWNER_TAG, \n  ALLOW_EMPTY, SEND_ON, SHOWN_NOT_SORTED_VIOLATIONS_COUNTER};\n\nconst CloudCoreoJSRunner = require('cloudcoreo-jsrunner-commons');\nconst AuditCLOUDTRAIL = new CloudCoreoJSRunner(JSON_INPUT, VARIABLES);\nconst notifiers = AuditCLOUDTRAIL.getNotifiers();\ncallback(notifiers);\n",
+          "name": "function"
+        },
+        {
+          "type": "PLA-1366",
+          "value": false,
+          "name": "provide_composite_access"
+        },
+        {
+          "type": "PLA-1366",
+          "value": [
+            {
+              "version": "1.6.6",
+              "name": "cloudcoreo-jsrunner-commons"
+            }
+          ],
+          "name": "packages"
         }
       ],
-      "executionTime": 4.516741612,
-      "executionNumber": 13,
-      "engineStatus": "PROVIDER_ERROR",
-      "engineState": "COMPLETED",
+      "executionTime": 3.724898158,
+      "executionNumber": 10,
+      "engineStatus": "OK",
+      "engineState": "EXECUTING",
       "dataType": "DEPLOY_RESOURCE",
-      "_id": "588880b529c8ca9c9d2b8d01"
+      "_id": "5889bd9b29c8ca9c9d2b8d22"
+    },
+    {
+      "timestamp": "2017-01-27T03:02:45.000Z",
+      "stackName": null,
+      "runId": "43742663-43e9-4ca1-86b4-142c2065dbd3",
+      "resourceType": "coreo_uni_util_notify",
+      "resourceName": "advise-cloudtrail-rollup",
+      "resourceId": "ROOT::AUDIT-AWS-CLOUDTRAIL-EQR_advise-cloudtrail-rollup",
+      "outputs": [],
+      "namespace": "ROOT::AUDIT-AWS-CLOUDTRAIL-EQR",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "nothing",
+          "name": "action"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "email",
+          "name": "type"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "text",
+          "name": "payload_type"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "\ncomposite name: PLAN::stack_name\nplan name: PLAN::name\nCOMPOSITE::coreo_uni_util_jsrunner.tags-rollup.return\n  ",
+          "name": "payload"
+        },
+        {
+          "type": "PLA-1366",
+          "value": {
+            "subject": "CloudCoreo cloudtrail advisor alerts on PLAN::stack_name :: PLAN::name",
+            "to": ""
+          },
+          "name": "endpoint"
+        },
+        {
+          "type": "PLA-1366",
+          "value": false,
+          "name": "allow_empty"
+        },
+        {
+          "type": "PLA-1366",
+          "value": "change",
+          "name": "send_on"
+        }
+      ],
+      "executionTime": 0,
+      "executionNumber": -1,
+      "engineStatus": "OK",
+      "engineState": "EXECUTING",
+      "dataType": "DEPLOY_RESOURCE",
+      "_id": "588ab75029c8ca9c9d2b8d2a"
     }
   ],
   "numberOfResources": 14,
   "planRefreshIntervalInHours": 24,
-  "lastExecutionTime": "2017-01-27T04:10:56.000Z",
+  "lastExecutionTime": "2017-01-30T03:21:08.000Z",
   "engineState": "COMPLETED",
-  "engineStatus": "PROVIDER_ERROR",
+  "engineStatus": "EXECUTION_ERROR",
   "isEnabled": false
 }

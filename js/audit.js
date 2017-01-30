@@ -74,7 +74,6 @@ window.Audit = (function () {
             var _this = $(this);
             var violationId = _this.attr('violation');
             var sortKey = _this.attr('sortKey');
-            var reportId = _this.attr('reportId');
 
             var params = {
                 violationId: _this.attr('violationId'),
@@ -383,32 +382,22 @@ window.Audit = (function () {
 
         reports.forEach(function (reportData) {
             var report = JSON.parse(reportData.outputs.report);
-            var reportId = reportData._id;
             totalChecks += reportData.outputs.number_checks;
+            var timestamp = utils.formatDate(reportData.timestamp);
 
-            if (report.violations) report = report.violations;
+            Object.keys(report).forEach(function (region) {
+                Object.keys(report[region]).forEach(function (resId) {
+                    Object.keys(report[region][resId].violations).forEach(function (violationKey) {
+                        var rowData = report[region][resId].violations[violationKey];
+                        if (rowData.level === 'Internal') return;
+                        if (typeof rowData.include_violations_in_count === 'undefined') {
+                            rowData.include_violations_in_count = true;
+                        }
 
-            Object.keys(report).forEach(function (resId) {
-                Object.keys(report[resId].violations).forEach(function (violationKey) {
-                    var rowData = report[resId].violations[violationKey];
-                    if (rowData.level === 'Internal') return;
-
-                    if (violations[violationKey]) {
-                        rowData.violationId = violations[violationKey]._id;
-                        rowData.service = violations[violationKey].inputs.service;
-                    }
-
-                    if (typeof rowData.include_violations_in_count === 'undefined') {
-                        rowData.include_violations_in_count = true;
-                    }
-
-                    var isSuppressed = rowData.suppressed;
-                    var regionArray = rowData.region.trim().split(' ');
-                    regionArray.forEach(function (region) {
+                        var isSuppressed = rowData.suppressed;
                         var resource = {
                             id: resId,
-                            tags: report[resId].tags,
-                            reportId: reportId,
+                            tags: object.tags,
                             region: region,
                             isSuppressed: isSuppressed,
                             expiresAt: (isSuppressed) ? rowData.suppressed_until : undefined
@@ -422,12 +411,11 @@ window.Audit = (function () {
                             fix: rowData.suggested_action,
                             resource: resource,
                             service: rowData.service,
-                            region: region,
+                            region: rowData.region,
                             link: rowData.link,
-                            reportId: reportId,
                             violationId: rowData.violationId,
                             isViolation: rowData.include_violations_in_count,
-                            timestamp: utils.formatDate(reportData.timestamp)
+                            timestamp: timestamp
                         };
                         if (!alertData.level.hasOwnProperty(alert.level)) {
                             alertData.level[alert.level] = 0;

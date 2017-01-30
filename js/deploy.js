@@ -223,9 +223,15 @@ window.Deploy = (function () {
                     } else {
                         resource.engineStatusClass = 'error-status';
                         resource.engineStatus = 'ERROR';
-                        numberOfFailedResource = data.executionNumber;
-                        numberOfNotExecutedResources++;
-                        resourceWithError = resource;
+
+                        var isCurrentError = data.runId === ccthis.runId;
+                        var showPreviousData = ccthis.engineState === 'INITIALIZED' || (ccthis.engineState === 'PLANNED' && ccthis.engineStatus !== 'OK');
+
+                        if (isCurrentError || (showPreviousData && !isCurrentError)) {
+                            numberOfFailedResource = data.executionNumber;
+                            numberOfNotExecutedResources++;
+                            resourceWithError = resource;
+                        }
                     }
                 } else if (resourceData == 'inputs') {
                     for (var i = 0; i < resourceProperty.length; i++) {

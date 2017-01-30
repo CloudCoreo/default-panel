@@ -40,7 +40,8 @@ window.Audit = (function () {
         pieChartSelector: '.pie',
         errorsContSelector: '#advisor-errors',
         mainCont: '.audit-list',
-        planIsExecuting: '.resources-are-loading'
+        planIsExecuting: '.resources-are-loading',
+        endOfViolationLabel: '.violation-divider'
     };
 
     var headerTpl = $.templates("#list-header-tmpl"),
@@ -132,6 +133,32 @@ window.Audit = (function () {
         return colorsRange;
     }
 
+    function checkIfResourceIsSuppressed (date) {
+        var now = new Date();
+        var suppressedDate = new Date();
+        if (date.length !== 0) suppressedDate = new Date(date);
+        return suppressedDate.getTime() >= now;
+    }
+
+    function removeTotallySuppressedViolations(listOfAlerts, suppressedViolations) {
+        Object.keys(suppressedViolations).forEach(function (alertId) {
+            delete passedViolations[alertId];
+            Object.keys(suppressedViolations[alertId]).forEach(function (key) {
+                if (suppressedViolations[alertId][key]) {
+                    if (!passedViolations[alertId]) {
+                        passedViolations[alertId] = listOfAlerts[key].alerts[alertId];
+                    }
+                    else {
+                        passedViolations[alertId].suppressions = passedViolations[alertId].suppressions.concat(listOfAlerts[key].alerts[alertId].suppressions);
+                    }
+
+                    delete listOfAlerts[key].alerts[alertId];
+                }
+            });
+        });
+        return listOfAlerts;
+    }
+
     function organizeDataForCurrentRender(sortKey) {
         var keys = Object.keys(alertData[sortKey]);
         var listOfAlerts = {};
@@ -155,35 +182,19 @@ window.Audit = (function () {
                 listOfAlerts[key].alerts[alert.id].resources = [];
                 listOfAlerts[key].alerts[alert.id].suppressions = [];
             }
+            if (!suppressedViolations[alert.id]) suppressedViolations[alert.id] = {};
 
-            var suppressed = false;
             if (alert.resource.isSuppressed) {
-                var now = new Date();
-                var suppressedDate = new Date(alert.resource.expiresAt);
-
-                if (suppressedDate.getTime() > now) {
-                    suppressed = true;
-                }
-            }
-
-            if (suppressed) {
                 listOfAlerts[key].alerts[alert.id].suppressions.push(alert.resource);
-                if (!suppressedViolations[alert.id]) suppressedViolations[alert.id] = {allSuppressed: true, key: key};
+                if (typeof suppressedViolations[alert.id][key] === 'undefined') suppressedViolations[alert.id][key] = true;
             }
             else {
                 listOfAlerts[key].alerts[alert.id].resources.push(alert.resource);
-                suppressedViolations[alert.id] = {allSuppressed: false};
+                suppressedViolations[alert.id][key] = false;
             }
         });
 
-        Object.keys(suppressedViolations).forEach(function (alertId) {
-            if (suppressedViolations[alertId].allSuppressed) {
-                var key = suppressedViolations[alertId].key;
-                passedViolations[alertId] = listOfAlerts[key].alerts[alertId];
-                delete listOfAlerts[key].alerts[alertId];
-            }
-        });
-
+        listOfAlerts = removeTotallySuppressedViolations(listOfAlerts, suppressedViolations);
         return listOfAlerts;
     }
 
@@ -358,10 +369,11 @@ window.Audit = (function () {
             });
         }
 
-        var endOfViolationsMsg = '<div class="violation-divider"><div class="text">end of violations</div></div>';
-        $(containers.mainDataContainerSelector).append(endOfViolationsMsg);
-
-        pie.drawPie(pieData);
+        if (totalViolations) {
+            var endOfViolationsMsg = '<div class="violation-divider"><div class="text">end of violations</div></div>';
+            $(containers.mainDataContainerSelector).append(endOfViolationsMsg);
+            pie.drawPie(pieData);
+        }
 
         return listOfAlerts;
     }
@@ -371,26 +383,6 @@ window.Audit = (function () {
         $(containers.mainCont).addClass('empty');
         alerts = undefined;
     }
-
-    function incrementDataCounters(definition, region) {
-        if (!alertData.level.hasOwnProperty(definition.level)) {
-            alertData.level[definition.level] = 0;
-        }
-        if (!alertData.category.hasOwnProperty(definition.category)) {
-            alertData.category[definition.category] = 0;
-        }
-        if (!alertData.region.hasOwnProperty(definition.region)) {
-            alertData.region[definition.region] = 0;
-        }
-        if (!alertData.service.hasOwnProperty(definition.service)) {
-            alertData.service[definition.service] = 0;
-        }
-        ++alertData.level[definition.level];
-        ++alertData.category[definition.category];
-        ++alertData.region[definition.region];
-        ++alertData.service[definition.service];
-    }
-
     function fillViolationsList(violations, reports) {
         if (!Object.keys(violations).length && !Object.keys(disabledViolations).length && !Object.keys(passedViolations).length) {
             showNoAuditResourcesMessage();
@@ -419,7 +411,7 @@ window.Audit = (function () {
                             rowData.include_violations_in_count = true;
                         }
 
-                        var isSuppressed = rowData.suppressed;
+                        var isSuppressed = rowData.suppressed  && checkIfResourceIsSuppressed(rowData.suppressed_until || '');
                         var resource = {
                             id: resId,
                             tags: report[region][resId].tags,
@@ -444,8 +436,24 @@ window.Audit = (function () {
                         };
                         alerts.push(alert);
 
-                        incrementDataCounters(violations[violationKey].inputs, region);
-                        if (alert.isViolation) ++totalViolations;
+                        if (!alertData.level.hasOwnProperty(alert.level)) {
+                            alertData.level[alert.level] = 0;
+                        }
+                        if (!alertData.category.hasOwnProperty(alert.category)) {
+                            alertData.category[alert.category] = 0;
+                        }
+                        if (!alertData.region.hasOwnProperty(alert.region)) {
+                            alertData.region[alert.region] = 0;
+                        }
+                        if (!alertData.service.hasOwnProperty(alert.service)) {
+                            alertData.service[alert.service] = 0;
+                        }
+                        ++alertData.level[alert.level];
+                        ++alertData.category[alert.category];
+                        ++alertData.region[alert.region];
+                        ++alertData.service[alert.service];
+
+                        if (alert.isViolation && !isSuppressed) ++totalViolations;
                         if (disabledViolations[violationKey]) delete disabledViolations[violationKey];
                     });
                 });
@@ -513,7 +521,6 @@ window.Audit = (function () {
 
         fillViolationsList(newData, reports);
         fillPassedViolationsList(enabledDefinitions);
-        fillHtmlSummaryData();
     }
 
     function scrollToElement(element) {
@@ -575,10 +582,7 @@ window.Audit = (function () {
 
     function render(sortKey) {
         var listOfAlerts = renderResourcesList(sortKey);
-
-        if (sortKey === 'level' && !errors.length) {
-            renderSection(passedViolations, 'Passed', colorPalette.Passed, 'PASSED');
-        }
+        renderSection(passedViolations, 'Passed', colorPalette.Passed, 'PASSED');
         renderSection(disabledViolations, 'Disabled', null, 'DISABLED');
         refreshClickHandlers(listOfAlerts);
     }
@@ -616,6 +620,7 @@ window.Audit = (function () {
         }
         initResourcesList(data.resourcesArray);
         render(sortKey);
+        fillHtmlSummaryData();
     }
 
     function audit(data, sortKey, _callback, selectors) {

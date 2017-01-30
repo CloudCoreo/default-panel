@@ -511,68 +511,6 @@
       "_id": "5888899e29c8ca9c9d2b8d15"
     },
     {
-      "timestamp": "2017-01-30T03:21:55.000Z",
-      "stackName": "audit-aws-cloudtrail-eqr",
-      "runId": "611a2321-c6d3-4d25-a95f-10ea4b1e8462",
-      "resourceType": "coreo_uni_util_jsrunner",
-      "resourceName": "cloudtrail-aggregate",
-      "resourceId": "59d89a588099b0aaaff4a2cc68638f4f10acfcc686f69e54f914fd767fa5ea11",
-      "outputs": [
-        {
-          "value": {
-            "error_message": "Error running coreo_uni_util_jsrunner script:",
-            "error_type": "RuntimeError",
-            "resource_error": "action :run on coreo_uni_util_jsrunner[cloudtrail-aggregate]"
-          },
-          "name": "error"
-        }
-      ],
-      "namespace": "ROOT::AUDIT-AWS-CLOUDTRAIL-EQR",
-      "inputs": [
-        {
-          "type": "choice",
-          "value": "run",
-          "name": "action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "json",
-          "name": "data_type"
-        },
-        {
-          "type": "PLA-1366",
-          "value": {
-            "truncated": {
-              "object_size": 4451,
-              "object_key": "5888890dfce6612f1318caea/611a2321-c6d3-4d25-a95f-10ea4b1e8462/59d89a588099b0aaaff4a2cc68638f4f10acfcc686f69e54f914fd767fa5ea11/6a0e66d28f8d4987f89cbc6559b6a12982bd69af"
-            }
-          },
-          "name": "json_input"
-        },
-        {
-          "type": "PLA-1366",
-          "value": {
-            "truncated": {
-              "object_size": 2044,
-              "object_key": "5888890dfce6612f1318caea/611a2321-c6d3-4d25-a95f-10ea4b1e8462/59d89a588099b0aaaff4a2cc68638f4f10acfcc686f69e54f914fd767fa5ea11/8b31c94a64a0b703257ecd4d78cdba16a54dfc95"
-            }
-          },
-          "name": "function"
-        },
-        {
-          "type": "PLA-1366",
-          "value": false,
-          "name": "provide_composite_access"
-        }
-      ],
-      "executionTime": 8.501586417,
-      "executionNumber": 6,
-      "engineStatus": "EXECUTION_ERROR",
-      "engineState": "COMPLETED",
-      "dataType": "DEPLOY_RESOURCE",
-      "_id": "588889a829c8ca9c9d2b8d16"
-    },
-    {
       "timestamp": "2017-01-27T03:01:56.000Z",
       "stackName": "AUDIT-AWS-CLOUDTRAIL-EQR",
       "runId": "43742663-43e9-4ca1-86b4-142c2065dbd3",

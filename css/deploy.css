@@ -134,11 +134,6 @@ body {
     display: none;
 }
 
-.messages.ok {
-    background: lightgrey;
-    border-bottom: 1px solid grey;
-}
-
 .messages.alert {
     background: rgba(255, 129, 14, 0.15);
     border-bottom: 1px solid orange;
@@ -165,14 +160,9 @@ body {
     content: 'ERROR';
 }
 
-.messages.ok .messages-container .message-left-part .message-status,
 .messages.alert .messages-container .message-left-part .message-status,
 .messages.error .messages-container .message-left-part .message-status {
     font-weight: bold;
-}
-
-.messages.ok .messages-container .message-left-part .message-status {
-    color: #0dbf7f;
 }
 
 .messages.error .messages-container .message-left-part .message-status {

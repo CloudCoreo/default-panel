@@ -200,10 +200,6 @@ window.Deploy = (function () {
         $('.alert.messages').removeClass('hidden');
     }
 
-    function appendSuccessulBuildNotification() {
-        $('.ok.messages').removeClass('hidden');
-    }
-
     function sort(sortKey, desc) {
         if (!resources) return;
         resources = resources.sort(function (a, b) {
@@ -227,9 +223,15 @@ window.Deploy = (function () {
                     } else {
                         resource.engineStatusClass = 'error-status';
                         resource.engineStatus = 'ERROR';
-                        numberOfFailedResource = data.executionNumber;
-                        numberOfNotExecutedResources++;
-                        resourceWithError = resource;
+
+                        var isCurrentError = data.runId === ccthis.runId;
+                        var showPreviousData = ccthis.engineState === 'INITIALIZED' || (ccthis.engineState === 'PLANNED' && ccthis.engineStatus !== 'OK');
+
+                        if (isCurrentError || (showPreviousData && !isCurrentError)) {
+                            numberOfFailedResource = data.executionNumber;
+                            numberOfNotExecutedResources++;
+                            resourceWithError = resource;
+                        }
                     }
                 } else if (resourceData == 'inputs') {
                     for (var i = 0; i < resourceProperty.length; i++) {
@@ -269,9 +271,6 @@ window.Deploy = (function () {
         }
         if (resourcesAlerts) {
             appendResourcesAlertsNotification();
-        }
-        if (numberOfNotExecutedResources <= 0 && !resourcesAlerts) {
-            appendSuccessulBuildNotification();
         }
     }
 

@@ -58,12 +58,6 @@ $(document).ready(function () {
         currentView = view;
     }
 
-    function removeSplitters() {
-        var warningBlock2 =  $('.warning-note-2');
-        warningBlock2.removeClass('visible');
-        $('.violation-divider').remove();
-    }
-
     function renderMapData(data) {
         if (data.engineState != 'COMPLETED' && data.resourcesArray.length !== data.numberOfResources) {
             staticMaps();
@@ -108,8 +102,6 @@ $(document).ready(function () {
             if (mapData.CloudCoreo.violations > 1) mapData.CloudCoreo.errorMessage += 's';
             if (mapData.CloudCoreo.deployed > 1) mapData.CloudCoreo.successMessage += 's';
         }
-
-        if (!alerts.length) removeSplitters();
 
         staticMaps(mapData);
     }
@@ -240,6 +232,11 @@ $(document).ready(function () {
         $('.engine-state .status-spinner').css('width', loadedResourcesPercentage + '%');
     }
 
+    function removeSecondErrorMsg() {
+        var warningBlock2 = $('.warning-note-2');
+        warningBlock2.removeClass('visible');
+    }
+
     function checkError() {
         var warningBlock = $('.warning-block');
         warningBlock.removeClass('visible');
@@ -251,6 +248,9 @@ $(document).ready(function () {
             $('.Disabled').addClass('hidden');
             $('.Enabled').addClass('hidden');
         }
+
+        var alerts = auditData.getViolationsList();
+        if (!alerts.length) removeSecondErrorMsg();
     }
 
     function init(data, isFirstLoad) {

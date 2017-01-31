@@ -291,8 +291,8 @@ window.Audit = (function () {
             '<div class="hidden" style="border-color: inherit;">' + restList + '</div>' +
             ((visibleCount > 5) ? showAllBtnTpl : '') +
             '</div>' +
-            '</div>' +
-            (isPassedOrDisabled ? '<div class="violation-divider"></div>' : '');
+            (isPassedOrDisabled ? '<div class="violation-divider"></div>' : '')
+            '</div>';
 
         $(containers.mainDataContainerSelector).append(html);
 
@@ -323,7 +323,7 @@ window.Audit = (function () {
 
     function renderResourcesList(sortKey) {
         $(containers.mainDataContainerSelector).html('');
-        if (!alerts) {
+        if (!alerts || !alerts.length) {
             return;
         }
         if (!alerts.length && !disabledViolations.length && !errors.length) {

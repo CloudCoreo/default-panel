@@ -48,15 +48,11 @@
                             <input type="hidden" class="chosen-item-is-reverse" value="true">
                         </div>
                         <ul class="hidden resource-list-header deploy-list-header">
-                            <li class="sort-label mobile" key="resourceType" data-value="resourceType">Resource type
-                            </li>
-                            <li class="sort-label mobile" key="resourceName" data-value="resourceName">Resource name
-                            </li>
+                            <li class="sort-label mobile" key="resourceType" data-value="resourceType">Resource type</li>
+                            <li class="sort-label mobile" key="resourceName" data-value="resourceName">Resource name</li>
                             <li class="sort-label mobile" key="engineState" data-value="engineStatus">Status</li>
                             <li class="sort-label mobile" key="action" data-value="action">Action</li>
-                            <li class="sort-label mobile" key="executionTime" data-value="executionTime">Execution
-                                time
-                            </li>
+                            <li class="sort-label mobile" key="executionTime" data-value="executionTime">Execution time</li>
                             <li class="sort-label mobile" key="timestamp" data-value="timestamp">Timestamp</li>
                         </ul>
                     </div>
@@ -112,75 +108,75 @@
                     <div class="resources-are-loading hidden">
                         <img src="images/audit-layout_loading-4.gif"/>
                     </div>
-                </div>
-                <div class="audit flex-row hidden audit-list">
-                    <div class="left-column layout-padding-right">
-                        <div class="pie-data-header"><span class="num">0</span> Violating Cloud Objects</div>
-                        <div class="custom-dropdown noselect layout-margin-bottom-20">
-                            <div class="dropdown-button">
-                                <div>SORT BY</div>
-                                <div class="chosen-item-text">Severity Level</div>
-                                <input type="hidden" class="chosen-item-value chosen-sorting" value="level">
-                                <input type="hidden" class="chosen-item-is-reverse" value="true">
-                            </div>
-                            <ul class="hidden">
-                                <li data-value="level">Severity Level</li>
-                                <li data-value="category">Category</li>
-                                <li data-value="service">Service</li>
-                                <li data-value="region">Region</li>
-                            </ul>
-                        </div>
-                        <div class="pie"></div>
-                        <div class="additional-info separator-top layout-margin-top flex-row">
-                            <div class="passed-disabled-link link">View Passed & Disabled Rules</div>
-                        </div>
-                    </div>
-                    <div class="flex-grow">
-                        <div id="advisor-errors"></div>
-                        <div id="no-violations-view" class="hidden">
-                            <div class="md-shadow bg-white no-violations-message layout-margin-bottom-20 layout-margin-top">
-                                <div class="messages layout-padding">
-                                    <div class="message-1">ALL CLEAR!</div>
-                                    <div class="message-2">No violations found.</div>
-                                    <div class="message-3">A tip of the hat to you, DevOps Jedi.</div>
+                    <div class="flex-row audit-list">
+                        <div class="left-column layout-padding-right">
+                            <div class="pie-data-header"><span class="num">0</span> Violating Cloud Objects</div>
+                            <div class="custom-dropdown noselect layout-margin-bottom-20">
+                                <div class="dropdown-button">
+                                    <div>SORT BY</div>
+                                    <div class="chosen-item-text">Severity Level</div>
+                                    <input type="hidden" class="chosen-item-value chosen-sorting" value="level">
+                                    <input type="hidden" class="chosen-item-is-reverse" value="true">
                                 </div>
-                                <div><img src="./images/moose-cropped_no-violations.png"/></div>
+                                <ul class="hidden">
+                                    <li data-value="level">Severity Level</li>
+                                    <li data-value="category">Category</li>
+                                    <li data-value="service">Service</li>
+                                    <li data-value="region">Region</li>
+                                </ul>
+                            </div>
+                            <div class="pie"></div>
+                            <div class="additional-info separator-top layout-margin-top flex-row">
+                                <div class="passed-disabled-link link">View Passed & Disabled Rules</div>
                             </div>
                         </div>
+                        <div class="flex-grow">
+                            <div id="advisor-errors"></div>
+                            <div id="no-violations-view" class="hidden">
+                                <div class="md-shadow bg-white no-violations-message layout-margin-bottom-20 layout-margin-top">
+                                    <div class="messages layout-padding">
+                                        <div class="message-1">ALL CLEAR!</div>
+                                        <div class="message-2">No violations found.</div>
+                                        <div class="message-3">A tip of the hat to you, DevOps Jedi.</div>
+                                    </div>
+                                    <div><img src="./images/moose-cropped_no-violations.png"/></div>
+                                </div>
+                            </div>
 
-                        <div class="warning-block warning-note-1">
-                            <span class="error-icon"></span>
-                            <span class="message">Violation checks may be incomplete. <a href="#" id="warning-link"
-                                                                                         class="warning-link">Please review</a> the error and run again to ensure completeness.</span>
-                        </div>
+                            <div class="warning-block warning-note-1">
+                                <span class="error-icon"></span>
+                                <span class="message">Violation checks may be incomplete. <a href="#" id="warning-link"
+                                                                                             class="warning-link">Please review</a> the error and run again to ensure completeness.</span>
+                            </div>
 
-                        <div class="list"></div>
+                            <div class="list"></div>
 
-                        <div class="warning-block warning-note-2">
-                            <span class="error-icon"></span>
-                            <span class="message">
-                                Violation checks
-                                <a href="#warning-link">may be incomplete</a>,
-                                so we cannot show passed or disabled violations.
-                            </span>
-                        </div>
+                            <div class="warning-block warning-note-2">
+                                <span class="error-icon"></span>
+                                <span class="message">
+                                    Violation checks
+                                    <a href="#warning-link">may be incomplete</a>,
+                                    so we cannot show passed or disabled violations.
+                                </span>
+                            </div>
 
-                        <div id="popup" class="hidden">
-                            <div class="backdrop"></div>
-                            <div class="popup-body">
-                                <div class="close">X</div>
-                                <div class="popup-content"></div>
+                            <div id="popup" class="hidden">
+                                <div class="backdrop"></div>
+                                <div class="popup-body">
+                                    <div class="close">X</div>
+                                    <div class="popup-content"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="map map-container no-mobile layout-padding hidden bg-white md-shadow">
                 </div>
                 <div class="map hidden">
+                    <div class="mask hidden"></div>
+                    <div class="map-container no-mobile layout-padding bg-white md-shadow"></div>
                     <div class="resources-are-loading"><img src="images/map-layout_loading.gif"/></div>
-                </div>
-                <div class="map no-map-on-mobile-warning hidden">
-                    Sorry, but map is not available for mobile screens.
+                    <div class="no-map-on-mobile-warning">
+                        Sorry, but map is not available for mobile screens.
+                    </div>
                 </div>
             </div>
         </div>
@@ -261,7 +257,7 @@
     </div>
 
     <div id="resource-row-tmpl">
-        <div class="resource-row {{if isOld}}opacity-hover-60-static{{/if}}">
+        <div class="resource-row {{if isOld}}old-data-mask{{/if}}">
             <div class="view-row {{:engineStatusClass}}">
                 <div class="chevron"></div>
                 <div class="type">{{:resourceType}}</div>

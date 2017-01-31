@@ -318,7 +318,7 @@ window.Audit = (function () {
         }]);
     }
 
-    function showResourcesIsBeingLoadedMessage() {
+    function showResourcesAreBeingLoadedMessage() {
         $(containers.planIsExecuting).removeClass('hidden');
         $(containers.mainCont).addClass('empty');
     }
@@ -328,7 +328,7 @@ window.Audit = (function () {
             showNoViolationsMessage();
             return;
         }
-        showResourcesIsBeingLoadedMessage();
+        showResourcesAreBeingLoadedMessage();
     }
 
     function renderResourcesList(sortKey) {
@@ -383,6 +383,7 @@ window.Audit = (function () {
         $(containers.mainCont).addClass('empty');
         alerts = undefined;
     }
+
     function fillViolationsList(violations, reports) {
         if (!Object.keys(violations).length && !Object.keys(disabledViolations).length && !Object.keys(passedViolations).length) {
             showNoAuditResourcesMessage();
@@ -581,6 +582,7 @@ window.Audit = (function () {
     }
 
     function render(sortKey) {
+        pie = new ResourcesPie(containers.pieChartSelector);
         var listOfAlerts = renderResourcesList(sortKey);
         renderSection(passedViolations, 'Passed', colorPalette.Passed, 'PASSED');
         renderSection(disabledViolations, 'Disabled', null, 'DISABLED');
@@ -612,10 +614,12 @@ window.Audit = (function () {
         initGlobalVariables();
         initView();
 
-        pie = new ResourcesPie(containers.pieChartSelector);
-        executionIsFinished = data.numberOfResources === data.resourcesArray.length;
-        if (data.engineState != 'COMPLETED' && data.resourcesArray.length !== data.numberOfResources) {
-            showResourcesIsBeingLoadedMessage();
+        executionIsFinished = data.engineState === 'COMPLETED' ||
+            data.engineState === 'INITIALIZED' ||
+            (data.engineState === 'PLANNED' && data.engineStatus !== 'OK');
+
+        if (!executionIsFinished && data.resourcesArray.length < data.numberOfResources) {
+            showResourcesAreBeingLoadedMessage();
             return;
         }
         initResourcesList(data.resourcesArray);

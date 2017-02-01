@@ -40,7 +40,8 @@ window.Audit = (function () {
         pieChartSelector: '.pie',
         errorsContSelector: '#advisor-errors',
         mainCont: '.audit-list',
-        planIsExecuting: '.resources-are-loading'
+        planIsExecuting: '.resources-are-loading',
+        warningBlock: '.warning-block'
     };
 
     var headerTpl = $.templates("#list-header-tmpl"),
@@ -599,6 +600,7 @@ window.Audit = (function () {
     }
 
     function initView() {
+        $(containers.warningBlock).addClass('hidden');
         $(containers.mainDataContainerSelector).html('');
         $(containers.noAuditResourcesMessageSelector).addClass('hidden');
         $(containers.noViolationsMessageSelector).addClass('hidden');

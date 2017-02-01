@@ -150,9 +150,6 @@ $(document).ready(function () {
         $('.scrollable-area').removeClass('hidden');
         $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').removeClass('error');
         $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').removeClass('alert');
-
-        var alerts = auditData.getViolationsList();
-        if (!alerts.length) removeSecondErrorMsg();
     }
 
     function setupData(data, isFirstLoad) {
@@ -235,28 +232,23 @@ $(document).ready(function () {
         $('.engine-state .status-spinner').css('width', loadedResourcesPercentage + '%');
     }
 
-    function removeSecondErrorMsg() {
-        var warningBlock2 = $('.warning-note-2');
-        warningBlock2.removeClass('visible');
-    }
-
     function checkError() {
-        var warningBlock = $('.warning-block');
-        warningBlock.removeClass('visible');
-
         if (deployData.hasErrors()) {
             $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').addClass('error');
             resourceWithError = deployData.getResourcesWithError();
-            warningBlock.addClass('visible');
+            $('.warning-block').removeClass('hidden');
             $('.Disabled').addClass('hidden');
             $('.Enabled').addClass('hidden');
         }
+
+        var alerts = auditData.getViolationsList();
+        if (!alerts.length) $('.warning-note-2').addClass('hidden');
     }
 
     function init(data, isFirstLoad) {
         setupHandlers(data);
-        setupData(data, isFirstLoad);
         initView();
+        setupData(data, isFirstLoad);
         setExecutionStatusMessage(data);
         setupViewData(isFirstLoad);
     }

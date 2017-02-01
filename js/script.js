@@ -150,6 +150,9 @@ $(document).ready(function () {
         $('.scrollable-area').removeClass('hidden');
         $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').removeClass('error');
         $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').removeClass('alert');
+
+        var alerts = auditData.getViolationsList();
+        if (!alerts.length) removeSecondErrorMsg();
     }
 
     function setupData(data, isFirstLoad) {
@@ -248,15 +251,12 @@ $(document).ready(function () {
             $('.Disabled').addClass('hidden');
             $('.Enabled').addClass('hidden');
         }
-
-        var alerts = auditData.getViolationsList();
-        if (!alerts.length) removeSecondErrorMsg();
     }
 
     function init(data, isFirstLoad) {
         setupHandlers(data);
-        initView();
         setupData(data, isFirstLoad);
+        initView();
         setExecutionStatusMessage(data);
         setupViewData(isFirstLoad);
     }

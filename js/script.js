@@ -218,8 +218,7 @@ $(document).ready(function () {
         var isError = data.engineStatus === 'COMPILE_ERROR' || data.engineStatus === 'INITIALIZATION_ERROR' || data.engineStatus === 'PROVIDER_ERROR';
 
         if (isError || data.isMissingVariables) {
-
-            var status = isError ? data.engineStatus : 'MISSING_VARIABLES';
+            var status = data.isMissingVariables ? 'MISSING_VARIABLES' : data.engineStatus;
             var date = new Date(data.lastExecutionTime);
             var lastExecutionTime = utils.formatDate(date);
 

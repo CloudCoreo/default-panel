@@ -243,6 +243,7 @@ $(document).ready(function () {
             $('.data-is-loading').removeClass('hidden');
             $('.resource-type-toggle').addClass('hidden');
             $('.scrollable-area').addClass('hidden');
+            $('.engine-state .status-spinner').css('width', '0%');
             return;
         }
 

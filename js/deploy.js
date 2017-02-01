@@ -244,7 +244,8 @@ window.Deploy = (function () {
                     }
                     resource[resourceData] = resourceProperty;
                 } else if (resourceData == 'timestamp') {
-                    resource.timestamp = utils.formatDate(resourceProperty);
+                    resource.formattedTimestamp = utils.formatDate(resourceProperty);
+                    resource[resourceData] = resourceProperty;
                 } else if (resourceData == 'executionTime') {
                     resource.executionTime = utils.formatTime(resourceProperty);
                 } else {

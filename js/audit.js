@@ -14,6 +14,7 @@ window.Audit = (function () {
     var errors = [];
     var pie;
 
+    var hasOld = false;
     var colorPalette = {
         SeverityTones: {
             Emergency: '#770a0a',
@@ -478,12 +479,16 @@ window.Audit = (function () {
         $('.additional-info .disabled').html(Object.keys(disabledViolations).length + ' Disabled');
     }
 
-    function initResourcesList(data) {
+    function initResourcesList(ccthisData) {
+        var data = ccthisData.resourcesArray;
         var newData = {};
         var reports = [];
         var enabledDefinitions = [];
         errors = [];
+        hasOld = false;
+
         data.forEach(function (elem) {
+            if (elem.runId !== ccthisData.runId) hasOld = true;
             if (elem.dataType !== 'ADVISOR_RESOURCE') return;
             var newObj = {};
             newObj.resourceType = elem.resourceType;
@@ -613,16 +618,17 @@ window.Audit = (function () {
     function init(data, sortKey) {
         initGlobalVariables();
         initView();
+        initResourcesList(data);
 
         executionIsFinished = data.engineState === 'COMPLETED' ||
             data.engineState === 'INITIALIZED' ||
             (data.engineState === 'PLANNED' && data.engineStatus !== 'OK');
 
-        if (!executionIsFinished && data.resourcesArray.length < data.numberOfResources) {
+        if (!executionIsFinished && !hasOld && data.resourcesArray.length < data.numberOfResources) {
             showResourcesAreBeingLoadedMessage();
             return;
         }
-        initResourcesList(data.resourcesArray);
+
         render(sortKey);
         fillHtmlSummaryData();
     }

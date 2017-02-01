@@ -63,7 +63,7 @@ $(document).ready(function () {
                                     data.engineState === 'INITIALIZED' ||
                                     (data.engineState === 'PLANNED' && data.engineStatus !== 'OK');
 
-        if (!executionIsFinished && data.resourcesArray.length < data.numberOfResources) {
+        if (!executionIsFinished && !deployData.hasOldResources() && data.resourcesArray.length < data.numberOfResources) {
             staticMaps();
             return;
         }

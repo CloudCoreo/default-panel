@@ -74,13 +74,13 @@
     margin: 0 8px;
 }
 
-.compile-error {
+.error-container {
     padding: 8px;
     display: flex;
     background: #F0E0DE;
 }
 
-.compile-error .error-state {
+.error-container .error-status {
     font-family: 'Roboto', sans-serif;
     color: #E53E2B;
     font-weight: 600;

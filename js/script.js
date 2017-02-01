@@ -112,8 +112,12 @@ $(document).ready(function () {
             goToView(view);
         });
 
-        $('.compile-error-details').click(function (e) {
-            openPopup('showErrorModal', {});
+        $('.error-container-details').click(function (e) {
+            var status = $('.error-status').attr('status');
+
+            openPopup('showErrorModal', {
+                status: status
+            });
         });
 
         $('.close').click(function () {
@@ -143,7 +147,7 @@ $(document).ready(function () {
     }
 
     function initView() {
-        $('.compile-error').addClass('hidden');
+        $('.error-container').addClass('hidden');
         $('.engine-state').addClass('hidden');
         $('.data-is-loading').addClass('hidden');
         $('.resource-type-toggle').removeClass('hidden');
@@ -198,7 +202,7 @@ $(document).ready(function () {
         } else {
             nextExecutionTime = 'will start less than an hour';
         }
-        $('.compile-error .next-execution-time span').html(nextExecutionTime)
+        $('.error-container .next-execution-time span').html(nextExecutionTime)
     }
 
     function countCurrentRunResourcesNumber(data) {
@@ -209,14 +213,19 @@ $(document).ready(function () {
         });
         return count;
     }
-    
+
     function setExecutionStatusMessage(data) {
-        if (data.engineStatus === 'COMPILE_ERROR' || data.engineStatus === 'INITIALIZATION_ERROR' || data.engineStatus === 'PROVIDER_ERROR') {
+        var isError = data.engineStatus === 'COMPILE_ERROR' || data.engineStatus === 'INITIALIZATION_ERROR' || data.engineStatus === 'PROVIDER_ERROR';
+
+        if (isError || data.isMissingVariables) {
+
+            var status = isError ? data.engineStatus : 'MISSING_VARIABLES';
             var date = new Date(data.lastExecutionTime);
             var lastExecutionTime = utils.formatDate(date);
 
-            $('.error-state').text(data.engineStatus.replace('_', ' '));
-            $('.compile-error').removeClass('hidden');
+            $('.error-status').text(status.replace('_', ' '));
+            $('.error-status').attr('status', status);
+            $('.error-container').removeClass('hidden');
             $('.last-successful-run span').html(lastExecutionTime);
 
             appendNextExecutionTime();

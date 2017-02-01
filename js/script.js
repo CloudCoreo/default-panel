@@ -113,7 +113,7 @@ $(document).ready(function () {
         });
 
         $('.compile-error-details').click(function (e) {
-            openPopup('showCompileErrorModal', {});
+            openPopup('showErrorModal', {});
         });
 
         $('.close').click(function () {
@@ -201,7 +201,7 @@ $(document).ready(function () {
     }
     
     function setExecutionStatusMessage(data) {
-        if (data.engineStatus === 'COMPILE_ERROR' || data.engineStatus === 'INITIALIZATION_ERROR') {
+        if (data.engineStatus === 'COMPILE_ERROR' || data.engineStatus === 'INITIALIZATION_ERROR' || data.engineStatus === 'PROVIDER_ERROR') {
             var date = new Date(data.lastExecutionTime);
             var lastExecutionTime = utils.formatDate(date);
 

@@ -93,16 +93,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="messages ok hidden">
-                            <div class="messages-container">
-                                <div class="message-left-part">
-                                    <span class="message-status">OK</span>
-                                </div>
-                                <div class="message-right-part">
-                                    Next execution: <span class="next-execution"></span>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div class="scrollable-list">
                         <div class="resources-list bg-white "></div>
@@ -405,10 +395,9 @@
                 <div class="medium-grey layout-padding-left resources-title-link flex-column"
                      violation="{{:violation.id}}"
                      violationId="{{:violation.violationId}}"
-                     sortKey="{{:violation.sortKey}}"
-                     reportId="{{:violation.reportId}}">
-                    {{if violation.resources.length }}
-                    {{:violation.resources.length}} Cloud Objects
+                     sortKey="{{:violation.sortKey}}">
+                    {{if violation.resources.length}}
+                    {{:violation.resources.length}} Cloud Object{{if violation.resources.length !== 1}}s{{/if}}
                     {{/if}}
                     {{if violation.suppressions.length}}
                     <span class="suppressed"><span
@@ -447,9 +436,8 @@
                     {{if violation.resources.length !== 0}}
                     <div class="link flex resources-link" violation="{{:violation.id}}"
                          violationId="{{:violation.violationId}}"
-                         sortKey="{{:violation.sortKey}}"
-                         reportId="{{:violation.reportId}}">
-                        {{:violation.resources.length}} Cloud Objects
+                         sortKey="{{:violation.sortKey}}">
+                        {{:violation.resources.length}} Cloud Object{{if violation.resources.length !== 1}}s{{/if}}
                         <img src="./images/right-chevron.svg" class="fa right"/>
                     </div>
                     {{/if}}

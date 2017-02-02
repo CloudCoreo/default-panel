@@ -42,7 +42,8 @@ window.Audit = (function () {
         errorsContSelector: '#advisor-errors',
         mainCont: '.audit-list',
         planIsExecuting: '.resources-are-loading',
-        endOfViolationLabel: '.violation-divider'
+        endOfViolationLabel: '.violation-divider',
+        warningBlock: '.warning-block'
     };
 
     var headerTpl = $.templates("#list-header-tmpl"),
@@ -302,8 +303,8 @@ window.Audit = (function () {
             '<div class="hidden" style="border-color: inherit;">' + restList + '</div>' +
             ((visibleCount > 5) ? showAllBtnTpl : '') +
             '</div>' +
-            '</div>' +
-            (isPassedOrDisabled ? '<div class="violation-divider"></div>' : '');
+            (isPassedOrDisabled ? '<div class="violation-divider"></div>' : '')
+            '</div>';
 
         $(containers.mainDataContainerSelector).append(html);
 
@@ -334,7 +335,7 @@ window.Audit = (function () {
 
     function renderResourcesList(sortKey) {
         $(containers.mainDataContainerSelector).html('');
-        if (!alerts) {
+        if (!alerts || !alerts.length) {
             return;
         }
         if (!alerts.length && !disabledViolations.length && !errors.length) {
@@ -608,6 +609,7 @@ window.Audit = (function () {
     }
 
     function initView() {
+        $(containers.warningBlock).addClass('hidden');
         $(containers.mainDataContainerSelector).html('');
         $(containers.noAuditResourcesMessageSelector).addClass('hidden');
         $(containers.noViolationsMessageSelector).addClass('hidden');

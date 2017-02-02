@@ -356,6 +356,7 @@ window.Deploy = (function () {
     };
     deploy.prototype.refreshData = function (data) {
         var currentSort = $('.resource-list-header .sort-label.active');
+        hasOldResources = false;
         init(data, currentSort.attr('key'), currentSort.hasClass('desc'));
     };
     deploy.prototype.hasOldResources = function() {

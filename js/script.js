@@ -59,7 +59,11 @@ $(document).ready(function () {
     }
 
     function renderMapData(data) {
-        if (data.engineState != 'COMPLETED' && data.resourcesArray.length !== data.numberOfResources) {
+        var executionIsFinished =   data.engineState === 'COMPLETED' ||
+                                    data.engineState === 'INITIALIZED' ||
+                                    (data.engineState === 'PLANNED' && data.engineStatus !== 'OK');
+
+        if (!executionIsFinished && !deployData.hasOldResources() && data.resourcesArray.length < data.numberOfResources) {
             staticMaps();
             return;
         }
@@ -150,6 +154,8 @@ $(document).ready(function () {
         $('.scrollable-area').removeClass('hidden');
         $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').removeClass('error');
         $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').removeClass('alert');
+        $('.audit').removeClass('old-data-mask');
+        $('.map').removeClass('old-data-mask');
     }
 
     function setupData(data, isFirstLoad) {
@@ -159,6 +165,11 @@ $(document).ready(function () {
         } else {
             deployData.refreshData(data);
             auditData.refreshData(data);
+        }
+
+        if (deployData.hasOldResources()) {
+            $('.audit').addClass('old-data-mask');
+            $('.map').addClass('old-data-mask');
         }
         checkError();
         renderMapData(data);
@@ -222,6 +233,7 @@ $(document).ready(function () {
             $('.data-is-loading').removeClass('hidden');
             $('.resource-type-toggle').addClass('hidden');
             $('.scrollable-area').addClass('hidden');
+            $('.engine-state .status-spinner').css('width', '0%');
             return;
         }
 

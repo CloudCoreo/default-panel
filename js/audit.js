@@ -14,6 +14,7 @@ window.Audit = (function () {
     var errors = [];
     var pie;
 
+    var hasOld = false;
     var colorPalette = {
         SeverityTones: {
             Emergency: '#770a0a',
@@ -319,7 +320,7 @@ window.Audit = (function () {
         }]);
     }
 
-    function showResourcesIsBeingLoadedMessage() {
+    function showResourcesAreBeingLoadedMessage() {
         $(containers.planIsExecuting).removeClass('hidden');
         $(containers.mainCont).addClass('empty');
     }
@@ -329,7 +330,7 @@ window.Audit = (function () {
             showNoViolationsMessage();
             return;
         }
-        showResourcesIsBeingLoadedMessage();
+        showResourcesAreBeingLoadedMessage();
     }
 
     function renderResourcesList(sortKey) {
@@ -384,6 +385,7 @@ window.Audit = (function () {
         $(containers.mainCont).addClass('empty');
         alerts = undefined;
     }
+
     function fillViolationsList(violations, reports) {
         if (!Object.keys(violations).length && !Object.keys(disabledViolations).length && !Object.keys(passedViolations).length) {
             showNoAuditResourcesMessage();
@@ -478,12 +480,16 @@ window.Audit = (function () {
         $('.additional-info .disabled').html(Object.keys(disabledViolations).length + ' Disabled');
     }
 
-    function initResourcesList(data) {
+    function initResourcesList(ccthisData) {
+        var data = ccthisData.resourcesArray;
         var newData = {};
         var reports = [];
         var enabledDefinitions = [];
         errors = [];
+        hasOld = false;
+
         data.forEach(function (elem) {
+            if (elem.runId !== ccthisData.runId) hasOld = true;
             if (elem.dataType !== 'ADVISOR_RESOURCE') return;
             var newObj = {};
             newObj.resourceType = elem.resourceType;
@@ -582,6 +588,7 @@ window.Audit = (function () {
     }
 
     function render(sortKey) {
+        pie = new ResourcesPie(containers.pieChartSelector);
         var listOfAlerts = renderResourcesList(sortKey);
         renderSection(passedViolations, 'Passed', colorPalette.Passed, 'PASSED');
         renderSection(disabledViolations, 'Disabled', null, 'DISABLED');
@@ -613,14 +620,17 @@ window.Audit = (function () {
     function init(data, sortKey) {
         initGlobalVariables();
         initView();
+        initResourcesList(data);
 
-        pie = new ResourcesPie(containers.pieChartSelector);
-        executionIsFinished = data.numberOfResources === data.resourcesArray.length;
-        if (data.engineState != 'COMPLETED' && data.resourcesArray.length !== data.numberOfResources) {
-            showResourcesIsBeingLoadedMessage();
+        executionIsFinished = data.engineState === 'COMPLETED' ||
+            data.engineState === 'INITIALIZED' ||
+            (data.engineState === 'PLANNED' && data.engineStatus !== 'OK');
+
+        if (!executionIsFinished && !hasOld && data.resourcesArray.length < data.numberOfResources) {
+            showResourcesAreBeingLoadedMessage();
             return;
         }
-        initResourcesList(data.resourcesArray);
+
         render(sortKey);
         fillHtmlSummaryData();
     }

@@ -401,7 +401,7 @@ function initView() {
 }
 
 function showResourcesAreBeingLoadedMessage() {
-    $('resources-are-loading').removeClass('hidden');
+    $('.map .resources-are-loading').removeClass('hidden');
     $('.map-container').addClass('empty');
 }
 

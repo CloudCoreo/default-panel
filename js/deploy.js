@@ -12,6 +12,8 @@ window.Deploy = (function () {
 
     var itemsOnPage = 50;
     var currentPage = 0;
+    var hasOldResources = false;
+
 
     function getYesterdayDate() {
         var yesterdayDate = new Date();
@@ -242,7 +244,8 @@ window.Deploy = (function () {
                     }
                     resource[resourceData] = resourceProperty;
                 } else if (resourceData == 'timestamp') {
-                    resource.timestamp = utils.formatDate(resourceProperty);
+                    resource.formattedTimestamp = utils.formatDate(resourceProperty);
+                    resource[resourceData] = resourceProperty;
                 } else if (resourceData == 'executionTime') {
                     resource.executionTime = utils.formatTime(resourceProperty);
                 } else {
@@ -250,6 +253,7 @@ window.Deploy = (function () {
                 }
             });
             resource.isOld = resource.runId !== ccthis.runId;
+            if (resource.isOld) hasOldResources = true;
             resources.push(resource);
             resource = {};
         });
@@ -353,6 +357,9 @@ window.Deploy = (function () {
     deploy.prototype.refreshData = function (data) {
         var currentSort = $('.resource-list-header .sort-label.active');
         init(data, currentSort.attr('key'), currentSort.hasClass('desc'));
+    };
+    deploy.prototype.hasOldResources = function() {
+        return hasOldResources;
     };
     return deploy;
 })();

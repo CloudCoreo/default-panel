@@ -254,7 +254,7 @@ $(document).ready(function () {
         }
 
         var alerts = auditData.getViolationsList();
-        if (!alerts.length) $('.warning-note-2').addClass('hidden');
+        if (alerts && !alerts.length) $('.warning-note-2').addClass('hidden');
     }
 
     function init(data, isFirstLoad) {

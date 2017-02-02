@@ -160,24 +160,14 @@ $(document).ready(function () {
             deployData.refreshData(data);
             auditData.refreshData(data);
         }
+        checkError();
         renderMapData(data);
     }
 
     function setupViewData(isFirstLoad) {
         var violationCount = auditData.getViolationsCount();
-        var warningBlock = $('.warning-block');
 
         if (violationCount) $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').addClass('alert');
-        warningBlock.removeClass('visible');
-
-        if (deployData.hasErrors()) {
-            $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').addClass('error');
-            resourceWithError = deployData.getResourcesWithError();
-            warningBlock.addClass('visible');
-            $('.Disabled').addClass('hidden');
-            $('.Enabled').addClass('hidden');
-        }
-
         if (isFirstLoad) {
             currentView = !violationCount ? viewTypes.deploy : viewTypes.audit;
             $('.resource-type-toggle .resource-type.' + currentView + '-res').addClass('active');
@@ -240,6 +230,19 @@ $(document).ready(function () {
             loadedResourcesPercentage = countCurrentRunResourcesNumber(data) * 100 / data.numberOfResources;
         }
         $('.engine-state .status-spinner').css('width', loadedResourcesPercentage + '%');
+    }
+
+    function checkError() {
+        if (deployData.hasErrors()) {
+            $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').addClass('error');
+            resourceWithError = deployData.getResourcesWithError();
+            $('.warning-block').removeClass('hidden');
+            $('.Disabled').addClass('hidden');
+            $('.Enabled').addClass('hidden');
+        }
+
+        var alerts = auditData.getViolationsList();
+        if (!alerts.length) $('.warning-note-2').addClass('hidden');
     }
 
     function init(data, isFirstLoad) {

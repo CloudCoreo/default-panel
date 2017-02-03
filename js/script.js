@@ -188,7 +188,7 @@ $(document).ready(function () {
 
     function getEngineStateMessage(engineState) {
         if (!engineState) return 'queued';
-        return engineState.replace('_', ' ');
+        return (engineState === "EXECUTING" || engineState === "COMPLETED") ? engineState : "COMPILING";
     }
 
     function appendNextExecutionTime() {

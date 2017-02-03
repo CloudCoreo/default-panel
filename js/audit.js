@@ -139,7 +139,7 @@ window.Audit = (function () {
         var now = new Date();
         var suppressedDate = new Date();
         if (date.length !== 0) suppressedDate = new Date(date);
-        return suppressedDate.getTime() >= now;
+        return suppressedDate.getTime() >= now.getTime();
     }
 
     function removeTotallySuppressedViolations(listOfAlerts, suppressedViolations) {
@@ -343,6 +343,8 @@ window.Audit = (function () {
             return;
         }
 
+        debugger;
+
         var pieData = [];
         var listOfAlerts = organizeDataForCurrentRender(sortKey);
 
@@ -480,7 +482,7 @@ window.Audit = (function () {
         $('.additional-info .disabled').html(Object.keys(disabledViolations).length + ' Disabled');
     }
 
-    function initResourcesList(ccthisData) {
+    function  (ccthisData) {
         var data = ccthisData.resourcesArray;
         var newData = {};
         var reports = [];

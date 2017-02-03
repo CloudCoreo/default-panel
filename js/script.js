@@ -176,6 +176,9 @@ $(document).ready(function () {
             $('.map').addClass('old-data-mask');
         }
         checkError();
+
+        if (!isFirstLoad && data.engineState !== 'COMPLETED') return;
+
         renderMapData(data);
     }
 

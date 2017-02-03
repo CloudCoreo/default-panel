@@ -172,6 +172,9 @@ $(document).ready(function () {
             $('.map').addClass('old-data-mask');
         }
         checkError();
+
+        if (!isFirstLoad && data.engineState !== 'COMPLETED') return;
+
         renderMapData(data);
     }
 
@@ -210,7 +213,7 @@ $(document).ready(function () {
         });
         return count;
     }
-    
+
     function setExecutionStatusMessage(data) {
         if (data.engineStatus === 'COMPILE_ERROR' || data.engineStatus === 'INITIALIZATION_ERROR' || data.engineStatus === 'PROVIDER_ERROR') {
             var date = new Date(data.lastExecutionTime);

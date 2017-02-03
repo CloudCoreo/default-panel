@@ -297,13 +297,13 @@ window.Audit = (function () {
 
         var html =
             '<div class="' + headerData.name + ' layout-padding ' + (!isPassedOrDisabled ? 'bg-white' : '') + '" style="margin-bottom: 20px;">' +
-            header +
-            '<div style="border-color: ' + sectionSummary.color + '">' +
-            visibleList +
-            '<div class="hidden" style="border-color: inherit;">' + restList + '</div>' +
-            ((visibleCount > 5) ? showAllBtnTpl : '') +
-            '</div>' +
-            (isPassedOrDisabled ? '<div class="violation-divider"></div>' : '')
+                header +
+                '<div style="border-color: ' + sectionSummary.color + '">' +
+                    visibleList +
+                    '<div class="hidden" style="border-color: inherit;">' + restList + '</div>' +
+                    ((visibleCount > 5) ? showAllBtnTpl : '') +
+                '</div>' +
+                (isPassedOrDisabled ? '<div class="violation-divider"></div>' : '') +
             '</div>';
 
         $(containers.mainDataContainerSelector).append(html);

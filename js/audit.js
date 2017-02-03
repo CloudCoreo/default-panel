@@ -343,8 +343,6 @@ window.Audit = (function () {
             return;
         }
 
-        debugger;
-
         var pieData = [];
         var listOfAlerts = organizeDataForCurrentRender(sortKey);
 

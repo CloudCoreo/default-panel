@@ -272,6 +272,8 @@ window.Audit = (function () {
         var violationsCount = 0;
         var rendered;
 
+        debugger;
+
         Object.keys(violations).forEach(function (vId) {
             var options = {
                 resultsType: resultsType,
@@ -342,8 +344,6 @@ window.Audit = (function () {
             showEmptyViolationsMessage();
             return;
         }
-
-        debugger;
 
         var pieData = [];
         var listOfAlerts = organizeDataForCurrentRender(sortKey);
@@ -590,6 +590,7 @@ window.Audit = (function () {
     }
 
     function render(sortKey) {
+              debugger;
         pie = new ResourcesPie(containers.pieChartSelector);
         var listOfAlerts = renderResourcesList(sortKey);
         renderSection(passedViolations, 'Passed', colorPalette.Passed, 'PASSED');
@@ -632,7 +633,7 @@ window.Audit = (function () {
             showResourcesAreBeingLoadedMessage();
             return;
         }
-
+        debugger;
         render(sortKey);
         fillHtmlSummaryData();
     }

@@ -192,7 +192,7 @@ $(document).ready(function () {
 
     function getEngineStateMessage(engineState) {
         if (!engineState) return 'queued';
-        return engineState.replace('_', ' ');
+        return (engineState === "EXECUTING" || engineState === "COMPLETED") ? engineState : "COMPILING";
     }
 
     function appendNextExecutionTime() {
@@ -246,7 +246,7 @@ $(document).ready(function () {
         }
 
         var loadedResourcesPercentage = 0;
-        if (data.numberOfResources) {
+        if (data.numberOfResources && data.engineState === 'EXECUTING') {
             loadedResourcesPercentage = countCurrentRunResourcesNumber(data) * 100 / data.numberOfResources;
         }
         $('.engine-state .status-spinner').css('width', loadedResourcesPercentage + '%');

@@ -343,6 +343,8 @@ window.Audit = (function () {
             return;
         }
 
+        debugger;
+
         var pieData = [];
         var listOfAlerts = organizeDataForCurrentRender(sortKey);
 
@@ -480,7 +482,7 @@ window.Audit = (function () {
         $('.additional-info .disabled').html(Object.keys(disabledViolations).length + ' Disabled');
     }
 
-    function  (ccthisData) {
+    function initResourcesList(ccthisData) {
         var data = ccthisData.resourcesArray;
         var newData = {};
         var reports = [];

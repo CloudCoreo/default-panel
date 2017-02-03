@@ -136,9 +136,10 @@ window.Audit = (function () {
     }
 
     function checkIfResourceIsSuppressed (date) {
+        if(date === '') return true;
+        if(date === undefined) return false;
         var now = new Date();
-        var suppressedDate = new Date();
-        if (date.length !== 0) suppressedDate = new Date(date);
+        var suppressedDate = new Date(date);
         return suppressedDate.getTime() >= now;
     }
 
@@ -414,13 +415,13 @@ window.Audit = (function () {
                             rowData.include_violations_in_count = true;
                         }
 
-                        var isSuppressed = rowData.suppressed  && checkIfResourceIsSuppressed(rowData.suppressed_until || '');
+                        var isSuppressed = rowData['suppressed'] || checkIfResourceIsSuppressed(rowData['suppression_until']);
                         var resource = {
                             id: resId,
                             tags: report[region][resId].tags,
                             region: region,
                             isSuppressed: isSuppressed,
-                            expiresAt: (isSuppressed) ? rowData.suppressed_until : undefined
+                            expiresAt: rowData['suppression_until']
                         };
                         var alert = {
                             title: rowData.display_name || violationKey,

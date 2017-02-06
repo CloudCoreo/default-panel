@@ -304,13 +304,13 @@ window.Audit = (function () {
 
         var html =
             '<div class="' + headerData.name + ' layout-padding ' + (!isPassedOrDisabled ? 'bg-white' : '') + '" style="margin-bottom: 20px;">' +
-            header +
-            '<div style="border-color: ' + sectionSummary.color + '">' +
-            visibleList +
-            '<div class="hidden" style="border-color: inherit;">' + restList + '</div>' +
-            ((visibleCount > 5) ? showAllBtnTpl : '') +
-            '</div>' +
-            (isPassedOrDisabled ? '<div class="violation-divider"></div>' : '')
+                header +
+                '<div style="border-color: ' + sectionSummary.color + '">' +
+                    visibleList +
+                    '<div class="hidden" style="border-color: inherit;">' + restList + '</div>' +
+                    ((visibleCount > 5) ? showAllBtnTpl : '') +
+                '</div>' +
+                (isPassedOrDisabled ? '<div class="violation-divider"></div>' : '') +
             '</div>';
 
         $(containers.mainDataContainerSelector).append(html);
@@ -421,13 +421,13 @@ window.Audit = (function () {
                             rowData.include_violations_in_count = true;
                         }
 
-                        var isSuppressed = rowData.suppressed  && checkIfResourceIsSuppressed(rowData.suppressed_until || '');
+                        var isSuppressed = rowData['suppressed'] || checkIfResourceIsSuppressed(rowData['suppression_until']);
                         var resource = {
                             id: resId,
                             tags: report[region][resId].tags,
                             region: region,
                             isSuppressed: isSuppressed,
-                            expiresAt: (isSuppressed) ? rowData.suppressed_until : undefined
+                            expiresAt: rowData['suppression_until']
                         };
                         var alert = {
                             title: rowData.display_name || violationKey,

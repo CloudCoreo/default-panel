@@ -589,7 +589,6 @@ window.Audit = (function () {
     }
 
     function render(sortKey) {
-              debugger;
         pie = new ResourcesPie(containers.pieChartSelector);
         var listOfAlerts = renderResourcesList(sortKey);
         renderSection(passedViolations, 'Passed', colorPalette.Passed, 'PASSED');
@@ -628,11 +627,17 @@ window.Audit = (function () {
             data.engineState === 'INITIALIZED' ||
             (data.engineState === 'PLANNED' && data.engineStatus !== 'OK');
 
+        if (executionIsFinished) {
+          $('div.audit').removeClass('opacity-block');
+        } else {
+          $('div.audit').addClass('opacity-block');
+        }
+
         if (!executionIsFinished && !hasOld && data.resourcesArray.length < data.numberOfResources) {
             showResourcesAreBeingLoadedMessage();
             return;
         }
-        debugger;
+
         render(sortKey);
         fillHtmlSummaryData();
     }

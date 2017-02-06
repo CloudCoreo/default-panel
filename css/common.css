@@ -191,3 +191,7 @@
         display: block;
     }
 }
+
+.opacity-block {
+    opacity: .7;
+}

@@ -136,11 +136,16 @@ window.Audit = (function () {
     }
 
     function checkIfResourceIsSuppressed (date) {
-        if(date === '') return true;
-        if(date === undefined) return false;
+        if (date === undefined) return false;
+
         var now = new Date();
-        var suppressedDate = new Date(date);
-        return suppressedDate.getTime() >= now;
+
+        if (date.length) {
+          var suppressedDate = new Date(date);
+          return suppressedDate.getTime() >= now.getTime();
+        }
+
+        return true;
     }
 
     function removeTotallySuppressedViolations(listOfAlerts, suppressedViolations) {
@@ -272,6 +277,7 @@ window.Audit = (function () {
         var visibleCount = 0;
         var violationsCount = 0;
         var rendered;
+
 
         Object.keys(violations).forEach(function (vId) {
             var options = {
@@ -646,6 +652,7 @@ window.Audit = (function () {
     }
 
     audit.prototype.refreshData = function (data) {
+        if (data.engineState !== 'COMPLETED') return;
         init(data, $('.audit .chosen-sorting').val());
     };
 

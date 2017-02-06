@@ -647,7 +647,7 @@ window.Audit = (function () {
     }
 
     audit.prototype.refreshData = function (data) {
-        if (!data.engineState !== 'COMPLETED') return;
+        if (data.engineState !== 'COMPLETED') return;
         init(data, $('.audit .chosen-sorting').val());
     };
 

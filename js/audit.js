@@ -137,9 +137,13 @@ window.Audit = (function () {
 
     function checkIfResourceIsSuppressed (date) {
         var now = new Date();
-        var suppressedDate = new Date();
-        if (date.length !== 0) suppressedDate = new Date(date);
-        return suppressedDate.getTime() >= now.getTime();
+
+        if (date.length) {
+          var suppressedDate = new Date(date);
+          return suppressedDate.getTime() >= now.getTime();
+        }
+
+        return true;
     }
 
     function removeTotallySuppressedViolations(listOfAlerts, suppressedViolations) {

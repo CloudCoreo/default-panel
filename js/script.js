@@ -116,7 +116,7 @@ $(document).ready(function () {
             goToView(view);
         });
 
-        $('.error-container-details').click(function (e) {
+        $('.error-container-details').unbind().click(function (e) {
             var status = $('.error-status').attr('status');
 
             openPopup('showErrorModal', {

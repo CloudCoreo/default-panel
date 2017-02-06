@@ -272,7 +272,6 @@ window.Audit = (function () {
         var violationsCount = 0;
         var rendered;
 
-        debugger;
 
         Object.keys(violations).forEach(function (vId) {
             var options = {
@@ -648,6 +647,7 @@ window.Audit = (function () {
     }
 
     audit.prototype.refreshData = function (data) {
+        if (!data.engineState !== 'COMPLETED') return;
         init(data, $('.audit .chosen-sorting').val());
     };
 

@@ -29,20 +29,29 @@ $(document).ready(function () {
     };
 
     function getRegion(resource) {
+        function getRegionValue() {
+            var found = resource.inputs.find(function (elem) {
+                return elem.name === 'region'
+            });
+            if (found) return found.value;
+            return undefined;
+        };
+
         if (resource.engineStatus.indexOf('ERROR') !== -1) return 'CloudCoreo';
-        if (resource.resourceType.indexOf('aws_iam_') !== -1) return 'AWS';
-        if (resource.resourceType.indexOf('aws_route53_') !== -1) return 'AWS';
+
+        if (resource.resourceType.indexOf('coreo_aws_rule') !== -1 ||
+            resource.resourceType.indexOf('coreo_uni_util') !== -1) return 'CloudCoreo';
+
+        if (resource.resourceType.indexOf('aws_iam_') !== -1 ||
+            resource.resourceType.indexOf('aws_route53_') !== -1) return 'AWS';
+
         if (resource.resourceType.indexOf('aws_ec2_') !== -1 ||
             resource.resourceType.indexOf('aws_elasticache_') !== -1 ||
             resource.resourceType.indexOf('aws_s3_') !== -1 ||
             resource.resourceType.indexOf('aws_vpc_') !== -1 ||
             resource.resourceType.indexOf('aws_vpn_') !== -1) {
-            var found = resource.inputs.find(function (elem) {
-                return elem.name === 'region'
-            });
-            if (found) return found.value;
+            return getRegionValue();
         }
-        if (resource.resourceType.indexOf('coreo_') !== -1) return 'CloudCoreo';
         return undefined;
     }
 

@@ -136,6 +136,8 @@ window.Audit = (function () {
     }
 
     function checkIfResourceIsSuppressed (date) {
+        if (date === undefined) return false;
+
         var now = new Date();
 
         if (date.length) {

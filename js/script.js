@@ -30,11 +30,8 @@ $(document).ready(function () {
 
     function getRegion(resource) {
         if (resource.engineStatus.indexOf('ERROR') !== -1) return 'CloudCoreo';
-        if (resource.resourceType.indexOf('aws_advisor_') !== -1) return 'CloudCoreo';
         if (resource.resourceType.indexOf('aws_iam_') !== -1) return 'AWS';
         if (resource.resourceType.indexOf('aws_route53_') !== -1) return 'AWS';
-        if (resource.resourceType.indexOf('uni_util_') !== -1) return 'CloudCoreo';
-
         if (resource.resourceType.indexOf('aws_ec2_') !== -1 ||
             resource.resourceType.indexOf('aws_elasticache_') !== -1 ||
             resource.resourceType.indexOf('aws_s3_') !== -1 ||
@@ -45,7 +42,7 @@ $(document).ready(function () {
             });
             if (found) return found.value;
         }
-
+        if (resource.resourceType.indexOf('coreo_') !== -1) return 'CloudCoreo';
         return undefined;
     }
 

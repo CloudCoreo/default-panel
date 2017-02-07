@@ -12,6 +12,8 @@ window.Deploy = (function () {
 
     var itemsOnPage = 50;
     var currentPage = 0;
+    var hasOldResources = false;
+
 
     function getYesterdayDate() {
         var yesterdayDate = new Date();
@@ -43,11 +45,16 @@ window.Deploy = (function () {
 
     function initializeRowsActions() {
         $('.resources-list .resource-row .view-row').click(function (e) {
-            $(this).next('.expandable-row').toggleClass('hidden');
+            $(this).toggleClass('opened');
+            $(this).next('.expandable-row').toggleClass('hidden-row');
         });
         $('.openInputs').on('click', function (e) {
             var resId = $(this).attr('resource');
             openPopup('showFullResourceData', resId);
+        });
+        $('.truncated').on('click', function (e) {
+            var objectKey = $(this).attr('objectKey');
+            openPopup('showTruncatedObject', { objectKey: objectKey });
         });
     }
 
@@ -56,7 +63,19 @@ window.Deploy = (function () {
         Object.keys(data).some(function (key) {
             ++count;
             var inputOutputRecordHtml = '';
-            if (data[key].name == 'error') {
+            if (data[key].value.truncated) {
+                var objectKey = data[key].value.truncated.object_key;
+                var objectSize = data[key].value.truncated.object_size;
+
+                var linkHtml = '<div class="input-record">' +
+                    data[key].name + ': ' +
+                    '<span class="truncated" objectKey="' + objectKey + '">' +
+                    'Click to view full message (' + objectSize + ' bytes)' +
+                    '</span>' +
+                    '</div>';
+                inputOutputRecordHtml = $(linkHtml);
+            }
+            else if (data[key].name == 'error') {
                 appendTo.find('.label').hide();
                 var errorTpl = $.templates('#error-tpl');
                 inputOutputRecordHtml = $(errorTpl.render(data[key].value));
@@ -66,7 +85,8 @@ window.Deploy = (function () {
                 if (typeof data[key].value !== 'string') {
                     parsed = JSON.stringify(parsed);
                 }
-                inputOutputRecordHtml = '<div class="input-record">' + data[key].name + ': <span>' + parsed + '</span></div>';
+                inputOutputRecordHtml = $('<div class="input-record">' + data[key].name + ': <span class="value"></span></div>');
+                inputOutputRecordHtml.find('.value').text(parsed);
             }
             appendTo.append(inputOutputRecordHtml);
             if (appendTo.html().length > 1500 || count >= 11) {
@@ -74,7 +94,7 @@ window.Deploy = (function () {
                 return true;
             }
             return false;
-        })
+        });
     }
 
     function appendNumberOfResultsLabel() {
@@ -116,11 +136,11 @@ window.Deploy = (function () {
         });
     }
 
-    function convertMillisecondsToHours(millisecinds) {
-        return Math.floor(millisecinds / 1000 / 60 / 60);
+    function convertMillisecondsToHours(milliseconds) {
+        return Math.floor(milliseconds / 3600000);
     }
 
-    function accountAdnGetHoursTillNextExecution() {
+    function accountAndGetHoursTillNextExecution() {
         if (lastExecutionDate && typeof lastExecutionDate !== Date) {
             lastExecutionDate = new Date(lastExecutionDate);
         }
@@ -131,7 +151,7 @@ window.Deploy = (function () {
     }
 
     function appendNextExecutionTime() {
-        var hoursTillNextExecution = accountAdnGetHoursTillNextExecution();
+        var hoursTillNextExecution = accountAndGetHoursTillNextExecution();
         var hoursLeftString = '';
         if (hoursTillNextExecution > 1) {
             hoursLeftString = 'in ' + hoursTillNextExecution + ' hours';
@@ -182,10 +202,6 @@ window.Deploy = (function () {
         $('.alert.messages').removeClass('hidden');
     }
 
-    function appendSuccessulBuildNotification() {
-        $('.ok.messages').removeClass('hidden');
-    }
-
     function sort(sortKey, desc) {
         if (!resources) return;
         resources = resources.sort(function (a, b) {
@@ -195,7 +211,8 @@ window.Deploy = (function () {
         renderResourcesList();
     }
 
-    function initResourcesList(ccThisData) {
+    function initResourcesList(ccthis) {
+        var ccThisData = ccthis.resourcesArray;
         initialData = ccThisData;
         var resource = {};
         ccThisData.forEach(function (data) {
@@ -208,9 +225,15 @@ window.Deploy = (function () {
                     } else {
                         resource.engineStatusClass = 'error-status';
                         resource.engineStatus = 'ERROR';
-                        numberOfFailedResource = data.executionNumber;
-                        numberOfNotExecutedResources++;
-                        resourceWithError = resource;
+
+                        var isCurrentError = data.runId === ccthis.runId;
+                        var showPreviousData = ccthis.engineState === 'INITIALIZED' || (ccthis.engineState === 'PLANNED' && ccthis.engineStatus !== 'OK');
+
+                        if (isCurrentError || (showPreviousData && !isCurrentError)) {
+                            numberOfFailedResource = data.executionNumber;
+                            numberOfNotExecutedResources++;
+                            resourceWithError = resource;
+                        }
                     }
                 } else if (resourceData == 'inputs') {
                     for (var i = 0; i < resourceProperty.length; i++) {
@@ -221,13 +244,16 @@ window.Deploy = (function () {
                     }
                     resource[resourceData] = resourceProperty;
                 } else if (resourceData == 'timestamp') {
-                    resource.timestamp = utils.formatDate(resourceProperty);
+                    resource.formattedTimestamp = utils.formatDate(resourceProperty);
+                    resource[resourceData] = resourceProperty;
                 } else if (resourceData == 'executionTime') {
                     resource.executionTime = utils.formatTime(resourceProperty);
                 } else {
                     resource[resourceData] = resourceProperty;
                 }
             });
+            resource.isOld = resource.runId !== ccthis.runId;
+            if (resource.isOld) hasOldResources = true;
             resources.push(resource);
             resource = {};
         });
@@ -249,9 +275,6 @@ window.Deploy = (function () {
         }
         if (resourcesAlerts) {
             appendResourcesAlertsNotification();
-        }
-        if (numberOfNotExecutedResources <= 0 && !resourcesAlerts) {
-            appendSuccessulBuildNotification();
         }
     }
 
@@ -308,7 +331,7 @@ window.Deploy = (function () {
         isEnabled = data.isEnabled;
         initGlobalVariables(data);
         initView();
-        initResourcesList(data.resourcesArray);
+        initResourcesList(data);
         sort(sortKey, desc);
     }
 
@@ -318,6 +341,7 @@ window.Deploy = (function () {
     }
 
     deploy.prototype.renderResourcesList = sort;
+    deploy.prototype.accountAndGetHoursTillNextExecution = accountAndGetHoursTillNextExecution;
     deploy.prototype.hasErrors = function () {
         return numberOfNotExecutedResources;
     };
@@ -331,8 +355,12 @@ window.Deploy = (function () {
         return resourceWithError;
     };
     deploy.prototype.refreshData = function (data) {
-        var currentSort = $('.resource-list-header .sort-label');
+        var currentSort = $('.resource-list-header .sort-label.active');
+        hasOldResources = false;
         init(data, currentSort.attr('key'), currentSort.hasClass('desc'));
+    };
+    deploy.prototype.hasOldResources = function() {
+        return hasOldResources;
     };
     return deploy;
 })();

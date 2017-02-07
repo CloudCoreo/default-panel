@@ -20,7 +20,13 @@
                 <div class="message">EXECUTING</div>
             </div>
             <div class="data-is-loading hidden">
-                <img src="images/audit-layout_loading-4.gif" />
+                <img src="images/audit-layout_loading-4.gif"/>
+            </div>
+            <div class="error-container hidden">
+                <div class="error-status"></div>
+                <div class="last-successful-run">prevented a run on <span></span></div>
+                <div class="last-successful-run"><a class="error-container-details">view details</a></div>
+                <div class="next-execution-time">Next execution: <span></span></div>
             </div>
             <div class="resource-type-toggle">
                 <div class="resource-type audit-res"
@@ -42,15 +48,11 @@
                             <input type="hidden" class="chosen-item-is-reverse" value="true">
                         </div>
                         <ul class="hidden resource-list-header deploy-list-header">
-                            <li class="sort-label mobile" key="resourceType" data-value="resourceType">Resource type
-                            </li>
-                            <li class="sort-label mobile" key="resourceName" data-value="resourceName">Resource name
-                            </li>
+                            <li class="sort-label mobile" key="resourceType" data-value="resourceType">Resource type</li>
+                            <li class="sort-label mobile" key="resourceName" data-value="resourceName">Resource name</li>
                             <li class="sort-label mobile" key="engineState" data-value="engineStatus">Status</li>
                             <li class="sort-label mobile" key="action" data-value="action">Action</li>
-                            <li class="sort-label mobile" key="executionTime" data-value="executionTime">Execution
-                                time
-                            </li>
+                            <li class="sort-label mobile" key="executionTime" data-value="executionTime">Execution time</li>
                             <li class="sort-label mobile" key="timestamp" data-value="timestamp">Timestamp</li>
                         </ul>
                     </div>
@@ -87,16 +89,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="messages ok hidden">
-                            <div class="messages-container">
-                                <div class="message-left-part">
-                                    <span class="message-status">OK</span>
-                                </div>
-                                <div class="message-right-part">
-                                    Next execution: <span class="next-execution"></span>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div class="scrollable-list">
                         <div class="resources-list bg-white "></div>
@@ -114,78 +106,76 @@
                         <span class="browse-composites">Browse featured Composites</span> to see available audits.
                     </div>
                     <div class="resources-are-loading hidden">
-                        <img src="images/audit-layout_loading-4.gif" />
+                        <img src="images/audit-layout_loading-4.gif"/>
                     </div>
-                </div>
-                <div class="audit flex-row hidden audit-list">
-                    <div class="left-column layout-padding-right">
-                        <div class="pie-data-header"><span class="num">0</span> Audit Violations</div>
-                        <div class="custom-dropdown noselect layout-margin-bottom-20">
-                            <div class="dropdown-button">
-                                <div>SORT BY</div>
-                                <div class="chosen-item-text">Severity Level</div>
-                                <input type="hidden" class="chosen-item-value chosen-sorting" value="level">
-                                <input type="hidden" class="chosen-item-is-reverse" value="true">
-                            </div>
-                            <ul class="hidden">
-                                <li data-value="level">Severity Level</li>
-                                <li data-value="category">Category</li>
-                                <li data-value="service">Service</li>
-                                <li data-value="region">Region</li>
-                            </ul>
-                        </div>
-                        <div class="pie"></div>
-                        <div class="additional-info separator-top layout-margin-top flex-row">
-                            <div class="checks"></div>
-                            <div class="passed link"></div>
-                            <div class="disabled link"></div>
-                        </div>
-                    </div>
-                    <div class="flex-grow">
-                        <div id="advisor-errors"></div>
-                        <div id="no-violations-view" class="hidden">
-                            <div class="md-shadow bg-white no-violations-message layout-margin-bottom-20 layout-margin-top">
-                                <div class="messages layout-padding">
-                                    <div class="message-1">ALL CLEAR!</div>
-                                    <div class="message-2">No violations found.</div>
-                                    <div class="message-3">A tip of the hat to you, DevOps Jedi.</div>
+                    <div class="flex-row audit-list">
+                        <div class="left-column layout-padding-right">
+                            <div class="pie-data-header"><span class="num">0</span> Violating Cloud Objects</div>
+                            <div class="custom-dropdown noselect layout-margin-bottom-20">
+                                <div class="dropdown-button">
+                                    <div>SORT BY</div>
+                                    <div class="chosen-item-text">Severity Level</div>
+                                    <input type="hidden" class="chosen-item-value chosen-sorting" value="level">
+                                    <input type="hidden" class="chosen-item-is-reverse" value="true">
                                 </div>
-                                <div><img src="./images/moose-cropped_no-violations.png"/></div>
+                                <ul class="hidden">
+                                    <li data-value="level">Severity Level</li>
+                                    <li data-value="category">Category</li>
+                                    <li data-value="service">Service</li>
+                                    <li data-value="region">Region</li>
+                                </ul>
+                            </div>
+                            <div class="pie"></div>
+                            <div class="additional-info separator-top layout-margin-top flex-row">
+                                <div class="passed-disabled-link link">View Passed &amp; Disabled Rules</div>
                             </div>
                         </div>
+                        <div class="flex-grow">
+                            <div id="advisor-errors"></div>
+                            <div id="no-violations-view" class="hidden">
+                                <div class="md-shadow bg-white no-violations-message layout-margin-bottom-20 layout-margin-top">
+                                    <div class="messages layout-padding">
+                                        <div class="message-1">ALL CLEAR!</div>
+                                        <div class="message-2">No violations found.</div>
+                                        <div class="message-3">A tip of the hat to you, DevOps Jedi.</div>
+                                    </div>
+                                    <div><img src="./images/moose-cropped_no-violations.png"/></div>
+                                </div>
+                            </div>
 
-                        <div class="warning-block warning-note-1">
-                            <span class="error-icon"></span>
-                            <span class="message">Violation checks may be incomplete. <a href="#" id="warning-link" class="warning-link">Please review</a> the error and run again to ensure completeness.</span>
-                        </div>
+                            <div class="warning-block warning-note-1">
+                                <span class="error-icon"></span>
+                                <span class="message">Violation checks may be incomplete. <a href="#" id="warning-link"
+                                                                                             class="warning-link">Please review</a> the error and run again to ensure completeness.</span>
+                            </div>
 
-                        <div class="list"></div>
+                            <div class="list"></div>
 
-                        <div class="warning-block warning-note-2">
-                            <span class="error-icon"></span>
-                            <span class="message">
-                                Violation checks
-                                <a href="#warning-link">may be incomplete</a>,
-                                so we cannot show passed or disabled violations.
-                            </span>
-                        </div>
+                            <div class="warning-block warning-note-2">
+                                <span class="error-icon"></span>
+                                <span class="message">
+                                    Violation checks
+                                    <a href="#warning-link">may be incomplete</a>,
+                                    so we cannot show passed or disabled violations.
+                                </span>
+                            </div>
 
-                        <div id="popup" class="hidden">
-                            <div class="backdrop"></div>
-                            <div class="popup-body">
-                                <div class="close">X</div>
-                                <div class="popup-content"></div>
+                            <div id="popup" class="hidden">
+                                <div class="backdrop"></div>
+                                <div class="popup-body">
+                                    <div class="close">X</div>
+                                    <div class="popup-content"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="map map-container no-mobile layout-padding hidden bg-white md-shadow">
                 </div>
                 <div class="map hidden">
+                    <div class="map-container no-mobile layout-padding bg-white md-shadow"></div>
                     <div class="resources-are-loading"><img src="images/map-layout_loading.gif"/></div>
-                </div>
-                <div class="map no-map-on-mobile-warning hidden">
-                    Sorry, but map is not available for mobile screens.
+                    <div class="no-map-on-mobile-warning">
+                        Sorry, but map is not available for mobile screens.
+                    </div>
                 </div>
             </div>
         </div>
@@ -196,8 +186,11 @@
 <div class="hidden">
     <div id="map-region-tpl">
         <div class="map-region">
+            {{if subregions}}
             <div class="map-data-header">{{:region}}</div>
+            {{/if}}
             <div class="flex-row">
+                {{if region == 'Global'}}
                 <div class="regions-list">
                     <div class="region">
                         {{for subregions}}
@@ -225,6 +218,7 @@
                         {{/if}}
                     </div>
                 </div>
+                {{/if}}
                 <div class="flex-row region-img {{:cssClass}}"></div>
             </div>
         </div>
@@ -262,19 +256,20 @@
     </div>
 
     <div id="resource-row-tmpl">
-        <div class="resource-row">
+        <div class="resource-row {{if isOld}}old-data-mask{{/if}}">
             <div class="view-row {{:engineStatusClass}}">
+                <div class="chevron"></div>
                 <div class="type">{{:resourceType}}</div>
                 <div class="name">{{:resourceName}}</div>
                 <div class="status">{{:engineStatus}}</div>
                 <div class="action">{{:action}}</div>
                 <div class="executionTime">{{:executionTime}}</div>
-                <div class="status-timestamp">{{:timestamp}}</div>
+                <div class="status-timestamp">{{:formattedTimestamp}}</div>
             </div>
-            <div class="expandable-row hidden">
+            <div class="expandable-row hidden-row">
                 <div class="logs">
                     <div class="inputs logs-output">
-                        <div class="data-cont " resource="{{:_id}}">
+                        <div class="data-cont" resource="{{:_id}}">
                             <div class="label">Inputs:</div>
                         </div>
                         <div class='view-more layout-padding-8 hidden'>...<br/><br/> <span class="openInputs link"
@@ -359,14 +354,22 @@
     </div>
 
     <div id="passed-and-disabled-row">
-        <div class="flex-column bg-white border-left more-info-link" violation="{{:violation.violationId}}" link="{{:violation.link}}">
+        <div class="flex-column bg-white border-left {{if violation.link}}more-info-link opacity-hover-80{{/if}}"
+             violation="{{:violation.violationId}}"
+             link="{{:violation.link}}">
             <div class="flex-row row-header flex-wrap border-grey layout-padding bg-white">
                 <div class="flex-column flex-50 layout-padding-right">
                     <div class="passed-disabled-title">{{:violation.title}}</div>
                 </div>
-                <div class="flex-column flex-50 layout-padding-right">
+                <div class="flex-row flex-50 layout-padding-right">
                     {{if resultsType === 'PASSED'}}
-                    <div class="violation-level">PASSED</div>
+                    <div class="violation-level flex-50">PASSED</div>
+                    {{if violation.suppressions.length}}
+                    <span class="suppressed resources-suppressed-link"
+                          violation="{{:violation.id}}"
+                          violationId="{{:violation.violationId}}">
+                            <span class="value">{{:violation.suppressions.length}} </span>SUPPRESSED</span>
+                    {{/if}}
                     {{else}}
                     <div class="violation-level">{{:violation.level}}</div>
                     {{/if}}
@@ -376,27 +379,37 @@
     </div>
 
     <div id="row-tmpl">
-        <div class="flex-column layout-padding border-left bg-white layout-margin-bottom-1">
-            <div class="flex-row row-header flex-wrap" border-grey>
+        <div class="violation-row flex-column layout-padding bg-white layout-margin-bottom-1 border-left">
+            <div class="flex-row row-header flex-wrap">
                 <div class="flex-column flex-grow layout-padding-right">
                     <div class="title">{{:violation.title}}</div>
-                    <div class="violation-id">AlertId: {{:violation.id}}</div>
+                    <div class="violation-id">RuleId: {{:violation.id}}</div>
                 </div>
-                <div class="medium-grey">{{:level}}</div>
-                {{if violation.resources.length !== 0}}
-                <div class="medium-grey layout-padding-left resources-title-link" violation="{{:violation.id}}" violationId="{{:violation.violationId}}"
-                     sortKey="{{:violation.sortKey}}"
-                     reportId="{{:violation.reportId}}">
-                    {{:violation.resources.length}} Resources
+                <div class="medium-grey">{{:violation.level}}</div>
+                {{if violation.resources.length || violation.suppressions.length }}
+                <div class="medium-grey layout-padding-left resources-title-link flex-column"
+                     violation="{{:violation.id}}"
+                     violationId="{{:violation.violationId}}"
+                     sortKey="{{:violation.sortKey}}">
+                    {{if violation.resources.length}}
+                    {{:violation.resources.length}} Cloud Object{{if violation.resources.length !== 1}}s{{/if}}
+                    {{/if}}
+                    {{if violation.suppressions.length}}
+                    <span class="suppressed"><span
+                            class="value">{{:violation.suppressions.length}} </span>SUPPRESSED</span>
+                    {{/if}}
                 </div>
                 {{/if}}
+
+                {{if violation.timestamp}}
                 <div class="medium-grey layout-padding-left">
                     {{:violation.timestamp}}
                 </div>
+                {{/if}}
             </div>
             <div class="details-btn link">+ view details</div>
         </div>
-        <div class="row-body hidden bg-white" style="display: none;">
+        <div class="row-body hidden-row bg-white border-left">
             <div class="flex-row separator flex-wrap">
                 <div class="flex-column separator-right flex-grow">
                     <div class="layout-padding">
@@ -416,21 +429,22 @@
                 </div>
                 <div class="flex-column row-right-column layout-padding">
                     {{if violation.resources.length !== 0}}
-                    <div class="link flex resources-link" violation="{{:violation.id}}" violationId="{{:violation.violationId}}"
-                         sortKey="{{:violation.sortKey}}"
-                         reportId="{{:violation.reportId}}">
-                        {{:violation.resources.length}} Resources
+                    <div class="link flex resources-link" violation="{{:violation.id}}"
+                         violationId="{{:violation.violationId}}"
+                         sortKey="{{:violation.sortKey}}">
+                        {{:violation.resources.length}} Cloud Object{{if violation.resources.length !== 1}}s{{/if}}
                         <img src="./images/right-chevron.svg" class="fa right"/>
                     </div>
                     {{/if}}
                     {{if violation.link}}
-                    <div class="link flex more-info-link" violation="{{:violation.violationId}}" link="{{:violation.link}}">
+                    <div class="link flex more-info-link" violation="{{:violation.violationId}}"
+                         link="{{:violation.link}}">
                         <span>more info</span>
                         <img src="./images/right-chevron.svg" class="fa right"/>
                     </div>
                     {{/if}}
                     <div class="separator-top layout-margin-top-8 layout-margin-bottom-8"></div>
-                    <div class="link flex share-link" violation="{{:violation.violationId}}">
+                    <div class="link flex share-link hidden" violation="{{:violation.violationId}}">
                         <img src="./images/envelope.svg" class="fa left"/>
                         share
                     </div>
@@ -443,6 +457,7 @@
 <script type="text/javascript" src="./js/jquery-2.2.4.min.js"></script>
 <script type="text/javascript" src="./js/jsrender.min.js"></script>
 <script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/d3-selection-multi.v1.min.js"></script>
 <script type="text/javascript" src="./js/utils.js"></script>
 <script type="text/javascript" src="./js/pie.js"></script>
 <script type="text/javascript" src="./js/static-map.js"></script>

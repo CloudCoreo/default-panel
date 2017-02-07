@@ -14,6 +14,7 @@ window.Audit = (function () {
     var errors = [];
     var pie;
 
+    var hasOld = false;
     var colorPalette = {
         SeverityTones: {
             Emergency: '#770a0a',
@@ -40,7 +41,9 @@ window.Audit = (function () {
         pieChartSelector: '.pie',
         errorsContSelector: '#advisor-errors',
         mainCont: '.audit-list',
-        planIsExecuting: '.resources-are-loading'
+        planIsExecuting: '.resources-are-loading',
+        endOfViolationLabel: '.violation-divider',
+        warningBlock: '.warning-block'
     };
 
     var headerTpl = $.templates("#list-header-tmpl"),
@@ -64,16 +67,9 @@ window.Audit = (function () {
     function onDetailsBtnClick(elem) {
         var _this = $(elem);
         var body = _this.parent().next();
-        if (body.hasClass('hidden')) {
-            body.removeClass('hidden');
-            body.slideDown();
-            _this.html("- hide details");
-        } else {
-            body.slideUp(function () {
-                body.addClass('hidden');
-            });
-            _this.html("+ view details");
-        }
+        body.toggleClass('hidden-row');
+        var text = _this.text() === "- hide details" ? "+ view details" : "- hide details";
+        _this.text(text);
     }
 
     function refreshClickHandlers(listOfAlerts) {
@@ -81,16 +77,31 @@ window.Audit = (function () {
             var _this = $(this);
             var violationId = _this.attr('violation');
             var sortKey = _this.attr('sortKey');
-            var reportId = _this.attr('reportId');
 
             var params = {
                 violationId: _this.attr('violationId'),
                 resources: listOfAlerts[sortKey].alerts[violationId].resources,
+                suppressions: listOfAlerts[sortKey].alerts[violationId].suppressions,
                 color: listOfAlerts[sortKey].color
             };
 
             openPopup('showViolationResources', params);
         });
+        $('.resources-suppressed-link').click(function (event) {
+            var _this = $(this);
+            var violationId = _this.attr('violation');
+
+            var params = {
+                violationId: _this.attr('violationId'),
+                suppressions: passedViolations[violationId].suppressions,
+                color: colorPalette.Passed
+            };
+
+            event.preventDefault();
+            event.stopPropagation();
+            openPopup('showViolationResources', params);
+        });
+
         $('.more-info-link').click(function () {
             var id = $(this).attr('violation');
             var link = $(this).attr('link');
@@ -124,12 +135,46 @@ window.Audit = (function () {
         return colorsRange;
     }
 
+    function checkIfResourceIsSuppressed (date) {
+        if (date === undefined) return false;
+
+        var now = new Date();
+
+        if (date.length) {
+          var suppressedDate = new Date(date);
+          return suppressedDate.getTime() >= now.getTime();
+        }
+
+        return true;
+    }
+
+    function removeTotallySuppressedViolations(listOfAlerts, suppressedViolations) {
+        Object.keys(suppressedViolations).forEach(function (alertId) {
+            delete passedViolations[alertId];
+            Object.keys(suppressedViolations[alertId]).forEach(function (key) {
+                if (suppressedViolations[alertId][key]) {
+                    if (!passedViolations[alertId]) {
+                        passedViolations[alertId] = listOfAlerts[key].alerts[alertId];
+                    }
+                    else {
+                        passedViolations[alertId].suppressions = passedViolations[alertId].suppressions.concat(listOfAlerts[key].alerts[alertId].suppressions);
+                    }
+
+                    delete listOfAlerts[key].alerts[alertId];
+                }
+            });
+        });
+        return listOfAlerts;
+    }
+
     function organizeDataForCurrentRender(sortKey) {
         var keys = Object.keys(alertData[sortKey]);
         var listOfAlerts = {};
 
         var colorsRange = getColorRangeByKeys(keys);
         var colors = d3.scaleOrdinal(colorsRange);
+
+        var suppressedViolations = {};
 
         alerts.forEach(function (alert) {
             var key = alert[sortKey];
@@ -143,10 +188,21 @@ window.Audit = (function () {
                 listOfAlerts[key].alerts[alert.id] = alert;
                 listOfAlerts[key].alerts[alert.id].sortKey = key;
                 listOfAlerts[key].alerts[alert.id].resources = [];
+                listOfAlerts[key].alerts[alert.id].suppressions = [];
             }
-            listOfAlerts[key].alerts[alert.id].resources.push(alert.resource);
+            if (!suppressedViolations[alert.id]) suppressedViolations[alert.id] = {};
+
+            if (alert.resource.isSuppressed) {
+                listOfAlerts[key].alerts[alert.id].suppressions.push(alert.resource);
+                if (typeof suppressedViolations[alert.id][key] === 'undefined') suppressedViolations[alert.id][key] = true;
+            }
+            else {
+                listOfAlerts[key].alerts[alert.id].resources.push(alert.resource);
+                suppressedViolations[alert.id][key] = false;
+            }
         });
 
+        listOfAlerts = removeTotallySuppressedViolations(listOfAlerts, suppressedViolations);
         return listOfAlerts;
     }
 
@@ -191,6 +247,7 @@ window.Audit = (function () {
             service: violation.inputs.service,
             link: violation.inputs.link,
             resources: [],
+            suppressions: [],
             violationId: violation._id
         };
     }
@@ -209,9 +266,9 @@ window.Audit = (function () {
     }
 
     function renderSection(violations, key, color, resultsType) {
-        var sectionSummary = { label: key, value: Object.keys(violations).length, color: color };
-        if (!sectionSummary.value) {
-            return;
+        var sectionSummary = { label: key, value: 0, color: color };
+        if (!Object.keys(violations).length) {
+            return sectionSummary;
         }
 
         var isPassedOrDisabled = (resultsType === 'PASSED' || resultsType === 'DISABLED');
@@ -220,6 +277,7 @@ window.Audit = (function () {
         var visibleCount = 0;
         var violationsCount = 0;
         var rendered;
+
 
         Object.keys(violations).forEach(function (vId) {
             var options = {
@@ -237,6 +295,7 @@ window.Audit = (function () {
             else restList += rendered;
             visibleCount++;
 
+            sectionSummary.value += violations[vId].resources.length;
             if (violations[vId].isViolation) violationsCount += violations[vId].resources.length;
         });
 
@@ -244,15 +303,15 @@ window.Audit = (function () {
         var header = headerTpl.render(headerData);
 
         var html =
-            '<div class="' + headerData.name + ' layout-padding" style="margin-bottom: 20px;">' +
-            header +
-            '<div style="border-color: ' + sectionSummary.color + '">' +
-            visibleList +
-            '<div class="hidden" style="border-color: inherit;">' + restList + '</div>' +
-            ((visibleCount > 5) ? showAllBtnTpl : '') +
-            '</div>' +
-            '</div>' +
-            (isPassedOrDisabled ? '<div class="violation-divider"></div>' : '');
+            '<div class="' + headerData.name + ' layout-padding ' + (!isPassedOrDisabled ? 'bg-white' : '') + '" style="margin-bottom: 20px;">' +
+                header +
+                '<div style="border-color: ' + sectionSummary.color + '">' +
+                    visibleList +
+                    '<div class="hidden" style="border-color: inherit;">' + restList + '</div>' +
+                    ((visibleCount > 5) ? showAllBtnTpl : '') +
+                '</div>' +
+                (isPassedOrDisabled ? '<div class="violation-divider"></div>' : '') +
+            '</div>';
 
         $(containers.mainDataContainerSelector).append(html);
 
@@ -268,7 +327,7 @@ window.Audit = (function () {
         }]);
     }
 
-    function showResourcesIsBeingLoadedMessage() {
+    function showResourcesAreBeingLoadedMessage() {
         $(containers.planIsExecuting).removeClass('hidden');
         $(containers.mainCont).addClass('empty');
     }
@@ -278,12 +337,12 @@ window.Audit = (function () {
             showNoViolationsMessage();
             return;
         }
-        showResourcesIsBeingLoadedMessage();
+        showResourcesAreBeingLoadedMessage();
     }
 
     function renderResourcesList(sortKey) {
         $(containers.mainDataContainerSelector).html('');
-        if (!alerts) {
+        if (!alerts || !alerts.length) {
             return;
         }
         if (!alerts.length && !disabledViolations.length && !errors.length) {
@@ -295,12 +354,8 @@ window.Audit = (function () {
         var listOfAlerts = organizeDataForCurrentRender(sortKey);
 
         var fillData = function (key) {
-            renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color, 'VIOLATIONS');
-            pieData.push({
-                label: key,
-                value: Object.keys(listOfAlerts[key].alerts).length,
-                color: listOfAlerts[key].color
-            });
+            var summary = renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color, 'VIOLATIONS');
+            pieData.push(summary);
         };
 
         if (sortKey === 'level') {
@@ -323,10 +378,11 @@ window.Audit = (function () {
             });
         }
 
-        var endOfViolationsMsg = '<div class="violation-divider"><div class="text">end of violations</div></div>';
-        $(containers.mainDataContainerSelector).append(endOfViolationsMsg);
-
-        pie.drawPie(pieData);
+        if (totalViolations) {
+            var endOfViolationsMsg = '<div class="violation-divider"><div class="text">end of violations</div></div>';
+            $(containers.mainDataContainerSelector).append(endOfViolationsMsg);
+            pie.drawPie(pieData);
+        }
 
         return listOfAlerts;
     }
@@ -347,27 +403,32 @@ window.Audit = (function () {
 
         reports.forEach(function (reportData) {
             var report = JSON.parse(reportData.outputs.report);
-            var reportId = reportData._id;
             totalChecks += reportData.outputs.number_checks;
+            var timestamp = utils.formatDate(reportData.timestamp);
 
-            if (report.violations) report = report.violations;
+            Object.keys(report).forEach(function (region) {
+                Object.keys(report[region]).forEach(function (resId) {
+                    Object.keys(report[region][resId].violations).forEach(function (violationKey) {
+                        var rowData = report[region][resId].violations[violationKey];
+                        if (rowData.level === 'Internal') return;
 
-            Object.keys(report).forEach(function (resId) {
-                Object.keys(report[resId].violations).forEach(function (violationKey) {
-                    var rowData = report[resId].violations[violationKey];
-                    if (rowData.level === 'Internal') return;
+                        if (violations[violationKey]) {
+                            rowData.violationId = violations[violationKey]._id;
+                            rowData.service = violations[violationKey].inputs.service;
+                        }
 
-                    if (violations[violationKey]) {
-                        rowData.violationId = violations[violationKey]._id;
-                        rowData.service = violations[violationKey].inputs.service;
-                    }
+                        if (typeof rowData.include_violations_in_count === 'undefined') {
+                            rowData.include_violations_in_count = true;
+                        }
 
-                    if (typeof rowData.include_violations_in_count === 'undefined') {
-                        rowData.include_violations_in_count = true;
-                    }
-
-                    var regionArray = rowData.region.trim().split(' ');
-                    regionArray.forEach(function(region) {
+                        var isSuppressed = rowData['suppressed'] || checkIfResourceIsSuppressed(rowData['suppression_until']);
+                        var resource = {
+                            id: resId,
+                            tags: report[region][resId].tags,
+                            region: region,
+                            isSuppressed: isSuppressed,
+                            expiresAt: rowData['suppression_until']
+                        };
                         var alert = {
                             title: rowData.display_name || violationKey,
                             id: violationKey,
@@ -375,15 +436,16 @@ window.Audit = (function () {
                             category: rowData.category,
                             description: rowData.description,
                             fix: rowData.suggested_action,
+                            resource: resource,
                             service: rowData.service,
-                            resource: { id: resId, tags: report[resId].tags, reportId: reportId, region: region },
-                            region: region,
+                            region: rowData.region,
                             link: rowData.link,
-                            reportId: reportId,
                             violationId: rowData.violationId,
                             isViolation: rowData.include_violations_in_count,
-                            timestamp: utils.formatDate(reportData.timestamp)
+                            timestamp: timestamp
                         };
+                        alerts.push(alert);
+
                         if (!alertData.level.hasOwnProperty(alert.level)) {
                             alertData.level[alert.level] = 0;
                         }
@@ -401,8 +463,7 @@ window.Audit = (function () {
                         ++alertData.region[alert.region];
                         ++alertData.service[alert.service];
 
-                        alerts.push(alert);
-                        if (alert.isViolation) ++totalViolations;
+                        if (alert.isViolation && !isSuppressed) ++totalViolations;
                         if (disabledViolations[violationKey]) delete disabledViolations[violationKey];
                     });
                 });
@@ -426,12 +487,16 @@ window.Audit = (function () {
         $('.additional-info .disabled').html(Object.keys(disabledViolations).length + ' Disabled');
     }
 
-    function initResourcesList(data) {
+    function initResourcesList(ccthisData) {
+        var data = ccthisData.resourcesArray;
         var newData = {};
         var reports = [];
         var enabledDefinitions = [];
         errors = [];
+        hasOld = false;
+
         data.forEach(function (elem) {
+            if (elem.runId !== ccthisData.runId) hasOld = true;
             if (elem.dataType !== 'ADVISOR_RESOURCE') return;
             var newObj = {};
             newObj.resourceType = elem.resourceType;
@@ -470,7 +535,6 @@ window.Audit = (function () {
 
         fillViolationsList(newData, reports);
         fillPassedViolationsList(enabledDefinitions);
-        fillHtmlSummaryData();
     }
 
     function scrollToElement(element) {
@@ -518,20 +582,22 @@ window.Audit = (function () {
         $('.browse-composites').click(function () {
             openPopup('redirectToCommunityComposites');
         });
-        $('.link.passed').click(function () {
-            scrollToElement($('.Checks.that.Passed'));
-        });
-        $('.link.disabled').click(function () {
-            scrollToElement($('.Disabled'));
+        $('.link.passed-disabled-link').click(function () {
+            var passedLink = $('.Passed');
+            var disabledLink = $('.Disabled');
+
+            if (passedLink.length > 0) {
+                scrollToElement(passedLink);
+            } else if (disabledLink.length > 0) {
+                scrollToElement(disabledLink);
+            }
         });
     }
 
     function render(sortKey) {
+        pie = new ResourcesPie(containers.pieChartSelector);
         var listOfAlerts = renderResourcesList(sortKey);
-
-        if (sortKey === 'level' && !errors.length) {
-            renderSection(passedViolations, 'Passed', colorPalette.Passed, 'PASSED');
-        }
+        renderSection(passedViolations, 'Passed', colorPalette.Passed, 'PASSED');
         renderSection(disabledViolations, 'Disabled', null, 'DISABLED');
         refreshClickHandlers(listOfAlerts);
     }
@@ -550,6 +616,7 @@ window.Audit = (function () {
     }
 
     function initView() {
+        $(containers.warningBlock).addClass('hidden');
         $(containers.mainDataContainerSelector).html('');
         $(containers.noAuditResourcesMessageSelector).addClass('hidden');
         $(containers.noViolationsMessageSelector).addClass('hidden');
@@ -560,15 +627,19 @@ window.Audit = (function () {
     function init(data, sortKey) {
         initGlobalVariables();
         initView();
+        initResourcesList(data);
 
-        pie = new ResourcesPie(containers.pieChartSelector);
-        executionIsFinished = data.numberOfResources === data.resourcesArray.length;
-        if (data.engineState != 'COMPLETED' && data.resourcesArray.length !== data.numberOfResources) {
-            showResourcesIsBeingLoadedMessage();
+        executionIsFinished = data.engineState === 'COMPLETED' ||
+            data.engineState === 'INITIALIZED' ||
+            (data.engineState === 'PLANNED' && data.engineStatus !== 'OK');
+
+        if (!executionIsFinished && !hasOld && data.resourcesArray.length < data.numberOfResources) {
+            showResourcesAreBeingLoadedMessage();
             return;
         }
-        initResourcesList(data.resourcesArray);
+
         render(sortKey);
+        fillHtmlSummaryData();
     }
 
     function audit(data, sortKey, _callback, selectors) {
@@ -581,6 +652,7 @@ window.Audit = (function () {
     }
 
     audit.prototype.refreshData = function (data) {
+        if (data.engineState !== 'COMPLETED') return;
         init(data, $('.audit .chosen-sorting').val());
     };
 

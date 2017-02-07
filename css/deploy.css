@@ -36,6 +36,10 @@ body {
     color: #333333;
     font-size: 30px;
     font-weight: bold;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -ms-transition: 0.3s;
+    -o-transition: 0.3s;
     transition: 0.3s;
     cursor: pointer;
     font-family: sans-serif;
@@ -130,11 +134,6 @@ body {
     display: none;
 }
 
-.messages.ok {
-    background: lightgrey;
-    border-bottom: 1px solid grey;
-}
-
 .messages.alert {
     background: rgba(255, 129, 14, 0.15);
     border-bottom: 1px solid orange;
@@ -161,14 +160,9 @@ body {
     content: 'ERROR';
 }
 
-.messages.ok .messages-container .message-left-part .message-status,
 .messages.alert .messages-container .message-left-part .message-status,
 .messages.error .messages-container .message-left-part .message-status {
     font-weight: bold;
-}
-
-.messages.ok .messages-container .message-left-part .message-status {
-    color: #0dbf7f;
 }
 
 .messages.error .messages-container .message-left-part .message-status {
@@ -220,7 +214,6 @@ body {
     flex-direction: row;
     justify-content: flex-start;
     border: 1px solid #e6e6e6;
-    /*border-bottom: none;*/
     font-weight: bold;
     color: #6B6B6B;
     position: relative;
@@ -261,7 +254,7 @@ body {
 .data-container .resources-list .resource-row .view-row {
     display: flex;
     flex-direction: row;
-    padding: 16px 0 10px 0;
+    padding: 12px 0;
     cursor: pointer;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -269,6 +262,35 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+.data-container .resources-list .resource-row .view-row:before {
+    content: "";
+    background: url(../images/chevron.png) no-repeat;
+    background-size: contain;
+    padding: 0 3px;
+    position: relative;
+    left: 5px;
+    width: 5px;
+    top: 3px;
+    height: 11px;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -ms-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+}
+
+.data-container .resources-list .resource-row .view-row.opened:before {
+    -ms-transform: rotate(90deg); /* IE 9 */
+    -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+    transform: rotate(90deg);
+    top: 3px;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -ms-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
 }
 
 .data-container .resources-list .resource-row:last-child {
@@ -279,10 +301,6 @@ body {
     word-wrap: break-word;
     box-sizing: border-box;
     padding-left: 20px;
-}
-
-.data-container .resources-list .resource-row .view-row .name {
-    color: #2B7AE5;
 }
 
 .data-container .resources-list .resource-row .view-row .status {
@@ -335,8 +353,14 @@ body {
 
 .data-container .resources-list .resource-row .expandable-row {
     background: #f2f2f2;
-    margin: 5px;
     padding: 0 15px;
+    max-height: 350px;
+    overflow: hidden;
+    -webkit-transition: max-height 0.5s;
+    -moz-transition: max-height 0.5s;
+    -ms-transition: max-height 0.5s;
+    -o-transition: max-height 0.5s;
+    transition: max-height 0.5s;
 }
 
 .data-container .resources-list .resource-row .expandable-row .message {
@@ -425,7 +449,6 @@ body {
 
 .custom-radio-btns-group .custom-radio-button:before {
     content: '';
-    background: url(../images/radio-btrn.png) 0 0;
     padding: 0 8px;
     position: relative;
     left: -5px;
@@ -442,10 +465,6 @@ body {
 
 .v-hidden {
     visibility: hidden !important;
-}
-
-.hidden {
-    display: none !important;
 }
 
 .visible {
@@ -560,6 +579,11 @@ body {
 
 .deploy .custom-dropdown {
     display: none;
+}
+
+.truncated {
+    color: #2b7ae5;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 600px) {

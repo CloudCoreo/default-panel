@@ -27,6 +27,24 @@
     align-items: center;
 }
 
+.resource-type-toggle .resource-type:hover {
+    opacity: .8;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.hidden-row {
+    max-height: 0 !important;
+    -webkit-transition: max-height 0.5s;
+    -moz-transition: max-height 0.5s;
+    -ms-transition: max-height 0.5s;
+    -o-transition: max-height 0.5s;
+    transition: max-height 0.5s;
+    overflow: hidden;
+}
+
 .resource-type-toggle .resource-type span {
     display: inline-block;
     width: 19px;
@@ -56,6 +74,34 @@
     margin: 0 8px;
 }
 
+.error-container {
+    padding: 8px;
+    display: flex;
+    background: #F0E0DE;
+}
+
+.error-container .error-status {
+    font-family: 'Roboto', sans-serif;
+    color: #E53E2B;
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+.last-successful-run {
+    color: #6b6b6b;
+    margin-right: 5px;
+}
+.last-successful-run a {
+    text-decoration: underline;
+}
+.last-successful-run a:hover {
+    cursor: pointer;
+}
+.next-execution-time {
+    margin-left: auto;
+    color: #6b6b6b;
+}
+
 .engine-state {
     padding: 8px;
     color: white;
@@ -65,7 +111,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    position:relative;
+    position: relative;
     overflow: auto;
     background: #6b6b6b;
 }
@@ -77,6 +123,7 @@
     height: 100%;
     z-index: 1;
 }
+
 .engine-state .message {
     z-index: 2;
 }
@@ -84,6 +131,9 @@
 .sort-label {
     word-break: break-all;
     word-wrap: break-word;
+}
+.sort-label:hover {
+    opacity: .8;
 }
 
 .no-map-on-mobile-warning {
@@ -101,7 +151,6 @@
 .warning-block {
     font-family: Roboto, sans-serif;
     padding: 10px;
-    display: none;
     align-items: center;
 }
 
@@ -128,7 +177,6 @@
     display: inline-block;
     background: url('../images/error.png') no-repeat 0 0;
 }
-
 
 @media screen and (max-width: 600px) {
     .resource-type.map-res {

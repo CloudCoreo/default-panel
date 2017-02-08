@@ -225,7 +225,10 @@ $(document).ready(function () {
     }
 
     function setExecutionStatusMessage(data) {
-        var isError = data.engineStatus === 'COMPILE_ERROR' || data.engineStatus === 'INITIALIZATION_ERROR' || data.engineStatus === 'PROVIDER_ERROR';
+        var isError = data.engineStatus === 'COMPILE_ERROR' ||
+                    data.engineStatus === 'INITIALIZATION_ERROR' ||
+                    data.engineStatus === 'PROVIDER_ERROR' ||
+                    data.engineStatus === 'EXECUTION_ERROR';
 
         if (isError || data.isMissingVariables) {
             var status = data.isMissingVariables ? 'MISSING_VARIABLES' : data.engineStatus;
@@ -238,6 +241,8 @@ $(document).ready(function () {
             $('.last-successful-run span').html(lastExecutionTime);
 
             appendNextExecutionTime();
+
+            if (isError) goToView('deploy');
             return;
         }
 

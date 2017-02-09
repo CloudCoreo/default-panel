@@ -123,7 +123,7 @@ $(document).ready(function () {
         });
 
         $('.error-container-details').unbind().click(function (e) {
-            var status = $('.error-status').attr('status');
+            var status = $('.error-container-status').attr('status');
 
             openPopup('showErrorModal', {
                 status: status
@@ -232,8 +232,8 @@ $(document).ready(function () {
             var date = new Date(data.lastExecutionTime);
             var lastExecutionTime = utils.formatDate(date);
 
-            $('.error-status').text(status.replace('_', ' '));
-            $('.error-status').attr('status', status);
+            $('.error-container-status').text(status.replace('_', ' '));
+            $('.error-container-status').attr('status', status);
             $('.error-container').removeClass('hidden');
             $('.last-successful-run span').html(lastExecutionTime);
 

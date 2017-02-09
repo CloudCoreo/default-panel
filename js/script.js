@@ -3,6 +3,7 @@ $(document).ready(function () {
     var auditData;
     var deployData;
     var map;
+    var isError;
 
     var viewTypes = {
         deploy: 'deploy',
@@ -192,6 +193,10 @@ $(document).ready(function () {
         var violationCount = auditData.getViolationsCount();
 
         if (violationCount) $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').addClass('alert');
+        if (isError) {
+            goToView('deploy');
+            return;
+        }
         if (isFirstLoad) {
             currentView = !violationCount ? viewTypes.deploy : viewTypes.audit;
             $('.resource-type-toggle .resource-type.' + currentView + '-res').addClass('active');
@@ -225,7 +230,7 @@ $(document).ready(function () {
     }
 
     function setExecutionStatusMessage(data) {
-        var isError = data.engineStatus === 'COMPILE_ERROR' ||
+        isError = data.engineStatus === 'COMPILE_ERROR' ||
                     data.engineStatus === 'INITIALIZATION_ERROR' ||
                     data.engineStatus === 'PROVIDER_ERROR' ||
                     data.engineStatus === 'EXECUTION_ERROR';
@@ -242,7 +247,9 @@ $(document).ready(function () {
 
             appendNextExecutionTime();
 
-            if (isError) goToView('deploy');
+            if (data.isMissingVariables) return;
+
+            goToView('deploy');
             return;
         }
 

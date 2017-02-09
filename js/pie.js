@@ -57,7 +57,7 @@ function drawPie(pieData, color, cont) {
         })
         .attr("d", arc)
         .style("stroke", "#fff")
-        .style("stroke-width", "3px")
+        .style("stroke-width", "1px")
         .style("cursor", 'pointer')
         .on("click", onclick);
 

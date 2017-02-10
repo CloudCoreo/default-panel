@@ -468,6 +468,10 @@ html, body {
     font-weight: 600;
 }
 
+.suggestions-block {
+    background-color: #f2f2f2;
+}
+
 @media (max-width: 600px) {
     .left-column {
         width: 100%;

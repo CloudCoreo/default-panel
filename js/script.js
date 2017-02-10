@@ -182,7 +182,8 @@ $(document).ready(function () {
             $('.audit').addClass('old-data-mask');
             $('.map').addClass('old-data-mask');
         }
-        checkError();
+        checkResourceError();
+        checkRunError(data);
 
         if (!isFirstLoad && data.engineState !== 'COMPLETED') return;
 
@@ -225,12 +226,12 @@ $(document).ready(function () {
         });
         return count;
     }
-
-    function setExecutionStatusMessage(data) {
+    
+    function checkRunError(data) {
         isError = data.engineStatus === 'COMPILE_ERROR' ||
-                    data.engineStatus === 'INITIALIZATION_ERROR' ||
-                    data.engineStatus === 'PROVIDER_ERROR' ||
-                    data.engineStatus === 'EXECUTION_ERROR';
+            data.engineStatus === 'INITIALIZATION_ERROR' ||
+            data.engineStatus === 'PROVIDER_ERROR' ||
+            data.engineStatus === 'EXECUTION_ERROR';
 
         if (isError || data.isMissingVariables) {
             var status = data.isMissingVariables ? 'MISSING_VARIABLES' : data.engineStatus;
@@ -243,12 +244,10 @@ $(document).ready(function () {
             $('.last-successful-run span').html(lastExecutionTime);
 
             appendNextExecutionTime();
-
-            if (data.isMissingVariables) return;
-
-            goToView('deploy');
-            return;
         }
+    }
+
+    function setExecutionStatusMessage(data) {
 
         if (data.engineState === 'COMPLETED' || data.engineState === 'INITIALIZED') return;
 
@@ -270,7 +269,7 @@ $(document).ready(function () {
         $('.engine-state .status-spinner').css('width', loadedResourcesPercentage + '%');
     }
 
-    function checkError() {
+    function checkResourceError() {
         if (deployData.hasErrors()) {
             $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').addClass('error');
             resourceWithError = deployData.getResourcesWithError();

@@ -215,7 +215,7 @@ window.Deploy = (function () {
         var ccThisData = ccthis.resourcesArray;
         initialData = ccThisData;
         var resource = {};
-        ccThisData.forEach(function (data) {
+        ccThisData.forEach(function (data, index) {
             Object.keys(data).forEach(function (resourceData) {
                 var resourceProperty = data[resourceData];
                 if (resourceData == 'engineStatus') {
@@ -253,6 +253,11 @@ window.Deploy = (function () {
                 }
             });
             resource.isOld = resource.runId !== ccthis.runId;
+            if (resource.isOld && ccthis.engineState === 'COMPLETED' && ccthis.engineStatus === 'OK') {
+                ccThisData.slice(index, index);
+                return;
+            }
+
             if (resource.isOld) hasOldResources = true;
             resources.push(resource);
             resource = {};

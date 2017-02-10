@@ -193,12 +193,9 @@ $(document).ready(function () {
         var violationCount = auditData.getViolationsCount();
 
         if (violationCount) $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').addClass('alert');
-        if (isError) {
-            goToView('deploy');
-            return;
-        }
+
         if (isFirstLoad) {
-            currentView = !violationCount ? viewTypes.deploy : viewTypes.audit;
+            currentView = !violationCount || isError ? viewTypes.deploy : viewTypes.audit;
             $('.resource-type-toggle .resource-type.' + currentView + '-res').addClass('active');
             $('.' + currentView).removeClass('hidden');
         }

@@ -421,13 +421,14 @@ window.Audit = (function () {
                             rowData.include_violations_in_count = true;
                         }
 
-                        var isSuppressed = rowData['suppressed'] || checkIfResourceIsSuppressed(rowData['suppression_until']);
+                        var isSuppressed = rowData.suppressed || checkIfResourceIsSuppressed(rowData.suppression_until);
                         var resource = {
                             id: resId,
                             tags: report[region][resId].tags,
                             region: region,
                             isSuppressed: isSuppressed,
-                            expiresAt: rowData['suppression_until']
+                            expiresAt: rowData.suppression_until,
+                            reportId: reportData._id
                         };
                         var alert = {
                             title: rowData.display_name || violationKey,

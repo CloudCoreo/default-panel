@@ -14,6 +14,8 @@ window.Deploy = (function () {
     var currentPage = 0;
     var hasOldResources = false;
 
+    var resourcesFlag = {};
+
 
     function getYesterdayDate() {
         var yesterdayDate = new Date();
@@ -41,10 +43,20 @@ window.Deploy = (function () {
             appendLogs(resources[i].outputs, html.find('.logs .outputs .data-cont'));
         }
         initializeRowsActions();
+        resourcesFlag = utils.getResourceStatus();
+        for(var flag in resourcesFlag){
+            $("div[resource='"+flag+"']").addClass('opened');
+            $("div[resource='"+flag+"']").next('.expandable-row').removeClass('hidden-row');
+        }
+
     }
 
     function initializeRowsActions() {
         $('.resources-list .resource-row .view-row').click(function (e) {
+            var resId = $(this).attr('resource');
+            if(!$(this).hasClass('opened')) resourcesFlag[resId] = resId;
+            else delete resourcesFlag[resId];
+            utils.setResourceStatus(resourcesFlag);
             $(this).toggleClass('opened');
             $(this).next('.expandable-row').toggleClass('hidden-row');
         });
@@ -66,7 +78,6 @@ window.Deploy = (function () {
             if (data[key].value.truncated) {
                 var objectKey = data[key].value.truncated.object_key;
                 var objectSize = data[key].value.truncated.object_size;
-
                 var linkHtml = '<div class="input-record">' +
                     data[key].name + ': ' +
                     '<span class="truncated" objectKey="' + objectKey + '">' +

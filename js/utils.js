@@ -1,3 +1,5 @@
+var flagResources = {};
+
 function formatDate(date) {
     var d = new Date(date),
         month = '' + (d.getMonth() + 1),
@@ -43,5 +45,11 @@ window.utils = (function () {
     function utils () {}
     utils.prototype.formatDate = formatDate;
     utils.prototype.formatTime = formatTime;
+    utils.prototype.setResourceStatus = function(flags) {
+        flagResources = flags;
+    };
+    utils.prototype.getResourceStatus = function() {
+        return flagResources;
+    };
     return new utils();
 }());

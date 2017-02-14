@@ -45,8 +45,9 @@ window.Deploy = (function () {
         initializeRowsActions();
         resourcesFlag = utils.getResourceStatus();
         for(var flag in resourcesFlag){
-            $("div[resource='"+flag+"']").addClass('opened');
-            $("div[resource='"+flag+"']").next('.expandable-row').removeClass('hidden-row');
+            var elem = $("div[resource='"+flag+"']");
+            elem.addClass('opened');
+            elem.next('.expandable-row').removeClass('hidden-row');
         }
 
     }

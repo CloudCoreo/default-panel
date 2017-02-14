@@ -200,6 +200,7 @@ window.Audit = (function () {
                 listOfAlerts[key].alerts[alert.id].resources.push(alert.resource);
                 suppressedViolations[alert.id][key] = false;
             }
+            debugger
         });
 
         listOfAlerts = removeTotallySuppressedViolations(listOfAlerts, suppressedViolations);
@@ -526,7 +527,7 @@ window.Audit = (function () {
             }
             else if (newObj.outputs.report) {
                 reports.push(newObj);
-                enabledDefinitions = enabledDefinitions.concat(newObj.inputs.alerts);
+                enabledDefinitions = enabledDefinitions.concat(newObj.inputs.rules);
             }
             else {
                 newData[newObj.resourceName] = newObj;

@@ -200,7 +200,6 @@ window.Audit = (function () {
                 listOfAlerts[key].alerts[alert.id].resources.push(alert.resource);
                 suppressedViolations[alert.id][key] = false;
             }
-            debugger
         });
 
         listOfAlerts = removeTotallySuppressedViolations(listOfAlerts, suppressedViolations);

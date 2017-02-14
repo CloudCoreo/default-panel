@@ -526,7 +526,7 @@ window.Audit = (function () {
             }
             else if (newObj.outputs.report) {
                 reports.push(newObj);
-                enabledDefinitions = enabledDefinitions.concat(newObj.inputs.alerts);
+                enabledDefinitions = enabledDefinitions.concat(newObj.inputs.rules);
             }
             else {
                 newData[newObj.resourceName] = newObj;

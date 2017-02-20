@@ -72,21 +72,33 @@ window.Audit = (function () {
         _this.text(text);
     }
 
+    function getOrganizedViolationData(_this, listOfAlerts) {
+        var violationId = _this.attr('violation');
+        var sortKey = _this.attr('sortKey');
+
+        var params = {
+            violationId: _this.attr('violationId'),
+            resources: listOfAlerts[sortKey].alerts[violationId].resources,
+            suppressions: listOfAlerts[sortKey].alerts[violationId].suppressions,
+            color: listOfAlerts[sortKey].color
+        };
+
+        return params;
+    }
+
     function refreshClickHandlers(listOfAlerts) {
         $('.resources-link, .resources-title-link').click(function () {
             var _this = $(this);
-            var violationId = _this.attr('violation');
-            var sortKey = _this.attr('sortKey');
-
-            var params = {
-                violationId: _this.attr('violationId'),
-                resources: listOfAlerts[sortKey].alerts[violationId].resources,
-                suppressions: listOfAlerts[sortKey].alerts[violationId].suppressions,
-                color: listOfAlerts[sortKey].color
-            };
-
+            var params = getOrganizedViolationData(_this, listOfAlerts);
             openPopup('showViolationResources', params);
         });
+
+        $('.share-link').click(function () {
+            var _this = $(this);
+            var params = getOrganizedViolationData(_this, listOfAlerts);
+            openPopup('shareViolation', params);
+        });
+
         $('.resources-suppressed-link').click(function (event) {
             var _this = $(this);
             var violationId = _this.attr('violation');
@@ -110,9 +122,6 @@ window.Audit = (function () {
                 link: link
             };
             openPopup('showViolationMoreInfo', params);
-        });
-        $('.share-link').click(function () {
-            openPopup('shareViolation', $(this).attr('violation'));
         });
 
         $('.show-all').click(function () {

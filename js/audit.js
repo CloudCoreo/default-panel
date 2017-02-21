@@ -424,6 +424,7 @@ window.Audit = (function () {
                         if (violations[violationKey]) {
                             rowData.violationId = violations[violationKey]._id;
                             rowData.service = violations[violationKey].inputs.service;
+                            rowData.meta_cis_id = violations[violationKey].inputs.meta_cis_id;
                         }
 
                         if (typeof rowData.include_violations_in_count === 'undefined') {
@@ -452,7 +453,8 @@ window.Audit = (function () {
                             link: rowData.link,
                             violationId: rowData.violationId,
                             isViolation: rowData.include_violations_in_count,
-                            timestamp: timestamp
+                            timestamp: timestamp,
+                            meta_cis_id: rowData.meta_cis_id
                         };
                         alerts.push(alert);
 

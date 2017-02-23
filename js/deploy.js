@@ -1,3 +1,5 @@
+var flagResources = {};
+
 window.Deploy = (function () {
     var resources = [];
     var totalNumberOfResources = 0;
@@ -43,7 +45,7 @@ window.Deploy = (function () {
             appendLogs(resources[i].outputs, html.find('.logs .outputs .data-cont'));
         }
         initializeRowsActions();
-        resourcesFlag = utils.getResourceStatus();
+        resourcesFlag = getResourceStatus();
         for(var flag in resourcesFlag){
             var elem = $("div[resource='"+flag+"']");
             elem.addClass('opened');
@@ -57,7 +59,7 @@ window.Deploy = (function () {
             var resId = $(this).attr('resource');
             if(!$(this).hasClass('opened')) resourcesFlag[resId] = resId;
             else delete resourcesFlag[resId];
-            utils.setResourceStatus(resourcesFlag);
+            setResourceStatus(resourcesFlag);
             $(this).toggleClass('opened');
             $(this).next('.expandable-row').toggleClass('hidden-row');
         });
@@ -355,6 +357,14 @@ window.Deploy = (function () {
     function deploy(data) {
         init(data, 'timestamp', false);
         initClickHandlers();
+    }
+
+    function setResourceStatus(flags) {
+        flagResources = flags;
+    }
+
+    function getResourceStatus() {
+        return flagResources;
     }
 
     deploy.prototype.renderResourcesList = sort;

@@ -37,17 +37,13 @@ window.Deploy = (function () {
         }
 
         for (var i = currentPage * itemsOnPage; i < (currentPage + 1) * itemsOnPage && i < resources.length; ++i) {
+            resources[i].opened = resources[i]._id in resourcesFlag ? true : false;
             var html = $(rowTmpl.render(resources[i]));
             $('.resources-list').append(html);
             appendLogs(resources[i].inputs, html.find('.logs .inputs .data-cont'));
             appendLogs(resources[i].outputs, html.find('.logs .outputs .data-cont'));
         }
         initializeRowsActions();
-        for(var flag in resourcesFlag){
-            var elem = $("div[resource='"+flag+"']");
-            elem.addClass('opened');
-            elem.next('.expandable-row').removeClass('hidden-row');
-        }
 
     }
 

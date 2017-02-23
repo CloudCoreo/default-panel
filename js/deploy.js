@@ -351,14 +351,6 @@ window.Deploy = (function () {
         initClickHandlers();
     }
 
-    function setResourceStatus(flags) {
-        flagResources = flags;
-    }
-
-    function getResourceStatus() {
-        return flagResources;
-    }
-
     deploy.prototype.renderResourcesList = sort;
     deploy.prototype.accountAndGetHoursTillNextExecution = accountAndGetHoursTillNextExecution;
     deploy.prototype.hasErrors = function () {

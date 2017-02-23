@@ -1,3 +1,5 @@
+var flagResources = {};
+
 window.Deploy = (function () {
     var resources = [];
     var totalNumberOfResources = 0;
@@ -43,6 +45,7 @@ window.Deploy = (function () {
             appendLogs(resources[i].outputs, html.find('.logs .outputs .data-cont'));
         }
         initializeRowsActions();
+        resourcesFlag = getResourceStatus();
         for(var flag in resourcesFlag){
             var elem = $("div[resource='"+flag+"']");
             elem.addClass('opened');
@@ -56,6 +59,7 @@ window.Deploy = (function () {
             var resId = $(this).attr('resource');
             if(!$(this).hasClass('opened')) resourcesFlag[resId] = resId;
             else delete resourcesFlag[resId];
+            setResourceStatus(resourcesFlag);
             $(this).toggleClass('opened');
             $(this).next('.expandable-row').toggleClass('hidden-row');
         });

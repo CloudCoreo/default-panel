@@ -257,7 +257,7 @@
 
     <div id="resource-row-tmpl">
         <div class="resource-row {{if isOld}}old-data-mask{{/if}}">
-            <div class="view-row {{:engineStatusClass}}">
+            <div class="view-row {{:engineStatusClass}} {{if opened}}opened{{/if}}" resource="{{:_id}}">
                 <div class="chevron"></div>
                 <div class="type">{{:resourceType}}</div>
                 <div class="name">{{:resourceName}}</div>
@@ -266,7 +266,7 @@
                 <div class="executionTime">{{:executionTime}}</div>
                 <div class="status-timestamp">{{:formattedTimestamp}}</div>
             </div>
-            <div class="expandable-row hidden-row">
+            <div class="expandable-row {{if !opened}}hidden-row{{/if}}">
                 <div class="logs">
                     <div class="inputs logs-output">
                         <div class="data-cont" resource="{{:_id}}">

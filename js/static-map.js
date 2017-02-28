@@ -11,7 +11,9 @@ function initVariables() {
                 'us-east-1',
                 'us-east-2',
                 'us-west-1',
-                'us-west-2']
+                'us-west-2',
+                'ca-central-1'
+            ]
         },
         'South America': {
             region: 'South America',
@@ -36,7 +38,9 @@ function initVariables() {
             cssClass: 'europe',
             awsRegions: [
                 'eu-central-1',
-                'eu-west-1']
+                'eu-west-1',
+                'eu-west-2'
+            ]
         },
         'Global': {
             region: 'Global',
@@ -48,6 +52,9 @@ function initVariables() {
     };
 
     regionsList = {
+        'ca-central-1': {
+            region: 'North America'
+        },
         'ap-northeast-1': {
             region: 'Asia Pacific',
             city: 'Tokyo',
@@ -69,8 +76,22 @@ function initVariables() {
             longitude: 150.3715633,
             countryId: 'AUS'
         },
-        'eu-central-1': {region: 'Europe / Middle East / Africa', city: 'Frankfurt', latitude: 50.1213152, longitude: 8.3563887, countryId: 'DEU'},
-        'eu-west-1': {region: 'Europe / Middle East / Africa', city: 'Ireland', latitude: 53.4098083, longitude: -10.5742474, countryId: 'IRL'},
+        'eu-central-1': {
+            region: 'Europe / Middle East / Africa',
+            city: 'Frankfurt',
+            latitude: 50.1213152,
+            longitude: 8.3563887,
+            countryId: 'DEU'
+        },
+        'eu-west-1': {
+            region: 'Europe / Middle East / Africa',
+            city: 'Ireland', latitude: 53.4098083,
+            longitude: -10.5742474,
+            countryId: 'IRL'
+        },
+        'eu-west-2': {
+            region: 'Europe / Middle East / Africa',
+        },
         'sa-east-1': {
             region: 'South America',
             city: 'Sao Paolo',

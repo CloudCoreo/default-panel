@@ -23,7 +23,7 @@
                 <img src="images/audit-layout_loading-4.gif"/>
             </div>
             <div class="error-container hidden">
-                <div class="error-status"></div>
+                <div class="error-container-status"></div>
                 <div class="last-successful-run">prevented a run on <span></span></div>
                 <div class="last-successful-run"><a class="error-container-details">view details</a></div>
                 <div class="next-execution-time">Next execution: <span></span></div>
@@ -108,7 +108,7 @@
                     <div class="resources-are-loading hidden">
                         <img src="images/audit-layout_loading-4.gif"/>
                     </div>
-                    <div class="flex-row audit-list">
+                    <div class="audit-list-block audit-list">
                         <div class="left-column layout-padding-right">
                             <div class="pie-data-header"><span class="num">0</span> Violating Cloud Objects</div>
                             <div class="custom-dropdown noselect layout-margin-bottom-20">
@@ -257,7 +257,7 @@
 
     <div id="resource-row-tmpl">
         <div class="resource-row {{if isOld}}old-data-mask{{/if}}">
-            <div class="view-row {{:engineStatusClass}}">
+            <div class="view-row {{:engineStatusClass}} {{if opened}}opened{{/if}}" resource="{{:_id}}">
                 <div class="chevron"></div>
                 <div class="type">{{:resourceType}}</div>
                 <div class="name">{{:resourceName}}</div>
@@ -266,7 +266,7 @@
                 <div class="executionTime">{{:executionTime}}</div>
                 <div class="status-timestamp">{{:formattedTimestamp}}</div>
             </div>
-            <div class="expandable-row hidden-row">
+            <div class="expandable-row {{if !opened}}hidden-row{{/if}}">
                 <div class="logs">
                     <div class="inputs logs-output">
                         <div class="data-cont" resource="{{:_id}}">
@@ -379,11 +379,16 @@
     </div>
 
     <div id="row-tmpl">
-        <div class="violation-row flex-column layout-padding bg-white layout-margin-bottom-1 border-left">
+        <div class="violation-row flex-column layout-padding bg-white border-left">
             <div class="flex-row row-header flex-wrap">
                 <div class="flex-column flex-grow layout-padding-right">
                     <div class="title">{{:violation.title}}</div>
-                    <div class="violation-id">RuleId: {{:violation.id}}</div>
+                    <div class="violation-id flex-row">
+                        <div class="layout-padding-right">RuleId: {{:violation.id}}</div>
+                        {{if violation.meta_cis_id}}
+                        <span>CIS Id: {{:violation.meta_cis_id}}</span>
+                        {{/if}}
+                    </div>
                 </div>
                 <div class="medium-grey">{{:violation.level}}</div>
                 {{if violation.resources.length || violation.suppressions.length }}
@@ -422,7 +427,7 @@
                             {{:violation.description}}
                         </div>
                     </div>
-                    <div class="layout-padding bg-white">
+                    <div class="layout-padding suggestions-block">
                         <i>Suggested Fix</i><br/>
                         {{:violation.fix}}
                     </div>
@@ -444,7 +449,10 @@
                     </div>
                     {{/if}}
                     <div class="separator-top layout-margin-top-8 layout-margin-bottom-8"></div>
-                    <div class="link flex share-link hidden" violation="{{:violation.violationId}}">
+                    <div class="link flex share-link"
+                         violation="{{:violation.id}}"
+                         violationId="{{:violation.violationId}}"
+                         sortKey="{{:violation.sortKey}}">
                         <img src="./images/envelope.svg" class="fa left"/>
                         share
                     </div>

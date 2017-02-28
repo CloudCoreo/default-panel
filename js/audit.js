@@ -72,21 +72,33 @@ window.Audit = (function () {
         _this.text(text);
     }
 
+    function getOrganizedViolationData(_this, listOfAlerts) {
+        var violationId = _this.attr('violation');
+        var sortKey = _this.attr('sortKey');
+
+        var params = {
+            violationId: _this.attr('violationId'),
+            resources: listOfAlerts[sortKey].alerts[violationId].resources,
+            suppressions: listOfAlerts[sortKey].alerts[violationId].suppressions,
+            color: listOfAlerts[sortKey].color
+        };
+
+        return params;
+    }
+
     function refreshClickHandlers(listOfAlerts) {
         $('.resources-link, .resources-title-link').click(function () {
             var _this = $(this);
-            var violationId = _this.attr('violation');
-            var sortKey = _this.attr('sortKey');
-
-            var params = {
-                violationId: _this.attr('violationId'),
-                resources: listOfAlerts[sortKey].alerts[violationId].resources,
-                suppressions: listOfAlerts[sortKey].alerts[violationId].suppressions,
-                color: listOfAlerts[sortKey].color
-            };
-
+            var params = getOrganizedViolationData(_this, listOfAlerts);
             openPopup('showViolationResources', params);
         });
+
+        $('.share-link').click(function () {
+            var _this = $(this);
+            var params = getOrganizedViolationData(_this, listOfAlerts);
+            openPopup('shareViolation', params);
+        });
+
         $('.resources-suppressed-link').click(function (event) {
             var _this = $(this);
             var violationId = _this.attr('violation');
@@ -110,9 +122,6 @@ window.Audit = (function () {
                 link: link
             };
             openPopup('showViolationMoreInfo', params);
-        });
-        $('.share-link').click(function () {
-            openPopup('shareViolation', $(this).attr('violation'));
         });
 
         $('.show-all').click(function () {
@@ -415,19 +424,21 @@ window.Audit = (function () {
                         if (violations[violationKey]) {
                             rowData.violationId = violations[violationKey]._id;
                             rowData.service = violations[violationKey].inputs.service;
+                            rowData.meta_cis_id = violations[violationKey].inputs.meta_cis_id;
                         }
 
                         if (typeof rowData.include_violations_in_count === 'undefined') {
                             rowData.include_violations_in_count = true;
                         }
 
-                        var isSuppressed = rowData['suppressed'] || checkIfResourceIsSuppressed(rowData['suppression_until']);
+                        var isSuppressed = rowData.suppressed || checkIfResourceIsSuppressed(rowData.suppression_until);
                         var resource = {
                             id: resId,
-                            tags: report[region][resId].tags,
+                            tags: report[region][resId].tags || [],
                             region: region,
                             isSuppressed: isSuppressed,
-                            expiresAt: rowData['suppression_until']
+                            expiresAt: rowData.suppression_until,
+                            reportId: reportData._id
                         };
                         var alert = {
                             title: rowData.display_name || violationKey,
@@ -442,7 +453,8 @@ window.Audit = (function () {
                             link: rowData.link,
                             violationId: rowData.violationId,
                             isViolation: rowData.include_violations_in_count,
-                            timestamp: timestamp
+                            timestamp: timestamp,
+                            meta_cis_id: rowData.meta_cis_id
                         };
                         alerts.push(alert);
 
@@ -525,7 +537,7 @@ window.Audit = (function () {
             }
             else if (newObj.outputs.report) {
                 reports.push(newObj);
-                enabledDefinitions = enabledDefinitions.concat(newObj.inputs.alerts);
+                enabledDefinitions = enabledDefinitions.concat(newObj.inputs.rules);
             }
             else {
                 newData[newObj.resourceName] = newObj;

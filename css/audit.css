@@ -350,6 +350,13 @@ html, body {
     overflow: hidden;
 }
 
+.audit-list-block {
+    display: -webkit-flex; /* Safari */
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+}
+
 .map-cont {
     max-width: 1200px;
 }
@@ -468,6 +475,10 @@ html, body {
     font-weight: 600;
 }
 
+.suggestions-block {
+    background-color: #f2f2f2;
+}
+
 @media (max-width: 600px) {
     .left-column {
         width: 100%;
@@ -499,5 +510,16 @@ html, body {
 
     .data-container .audit {
         flex-direction: column;
+    }
+}
+
+@media (max-width: 800px) {
+
+    .audit-list-block {
+        flex-direction: column;
+    }
+
+    .left-column {
+        margin: 0 auto;
     }
 }

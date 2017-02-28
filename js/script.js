@@ -3,6 +3,7 @@ $(document).ready(function () {
     var auditData;
     var deployData;
     var map;
+    var isError;
 
     var viewTypes = {
         deploy: 'deploy',
@@ -123,7 +124,7 @@ $(document).ready(function () {
         });
 
         $('.error-container-details').unbind().click(function (e) {
-            var status = $('.error-status').attr('status');
+            var status = $('.error-container-status').attr('status');
 
             openPopup('showErrorModal', {
                 status: status
@@ -181,7 +182,8 @@ $(document).ready(function () {
             $('.audit').addClass('old-data-mask');
             $('.map').addClass('old-data-mask');
         }
-        checkError();
+        checkResourceError();
+        checkRunError(data);
 
         if (!isFirstLoad && data.engineState !== 'COMPLETED') return;
 
@@ -192,8 +194,9 @@ $(document).ready(function () {
         var violationCount = auditData.getViolationsCount();
 
         if (violationCount) $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').addClass('alert');
+
         if (isFirstLoad) {
-            currentView = !violationCount ? viewTypes.deploy : viewTypes.audit;
+            currentView = !violationCount || isError ? viewTypes.deploy : viewTypes.audit;
             $('.resource-type-toggle .resource-type.' + currentView + '-res').addClass('active');
             $('.' + currentView).removeClass('hidden');
         }
@@ -223,23 +226,28 @@ $(document).ready(function () {
         });
         return count;
     }
-
-    function setExecutionStatusMessage(data) {
-        var isError = data.engineStatus === 'COMPILE_ERROR' || data.engineStatus === 'INITIALIZATION_ERROR' || data.engineStatus === 'PROVIDER_ERROR';
+    
+    function checkRunError(data) {
+        isError = data.engineStatus === 'COMPILE_ERROR' ||
+            data.engineStatus === 'INITIALIZATION_ERROR' ||
+            data.engineStatus === 'PROVIDER_ERROR' ||
+            data.engineStatus === 'EXECUTION_ERROR';
 
         if (isError || data.isMissingVariables) {
             var status = data.isMissingVariables ? 'MISSING_VARIABLES' : data.engineStatus;
             var date = new Date(data.lastExecutionTime);
             var lastExecutionTime = utils.formatDate(date);
 
-            $('.error-status').text(status.replace('_', ' '));
-            $('.error-status').attr('status', status);
+            $('.error-container-status').text(status.replace('_', ' '));
+            $('.error-container-status').attr('status', status);
             $('.error-container').removeClass('hidden');
             $('.last-successful-run span').html(lastExecutionTime);
 
             appendNextExecutionTime();
-            return;
         }
+    }
+
+    function setExecutionStatusMessage(data) {
 
         if (data.engineState === 'COMPLETED' || data.engineState === 'INITIALIZED') return;
 
@@ -261,7 +269,7 @@ $(document).ready(function () {
         $('.engine-state .status-spinner').css('width', loadedResourcesPercentage + '%');
     }
 
-    function checkError() {
+    function checkResourceError() {
         if (deployData.hasErrors()) {
             $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').addClass('error');
             resourceWithError = deployData.getResourcesWithError();

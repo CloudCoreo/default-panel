@@ -14,6 +14,8 @@ window.Deploy = (function () {
     var currentPage = 0;
     var hasOldResources = false;
 
+    var resourcesFlag = {};
+
 
     function getYesterdayDate() {
         var yesterdayDate = new Date();
@@ -35,16 +37,21 @@ window.Deploy = (function () {
         }
 
         for (var i = currentPage * itemsOnPage; i < (currentPage + 1) * itemsOnPage && i < resources.length; ++i) {
+            resources[i].opened = resources[i]._id in resourcesFlag ? true : false;
             var html = $(rowTmpl.render(resources[i]));
             $('.resources-list').append(html);
             appendLogs(resources[i].inputs, html.find('.logs .inputs .data-cont'));
             appendLogs(resources[i].outputs, html.find('.logs .outputs .data-cont'));
         }
         initializeRowsActions();
+
     }
 
     function initializeRowsActions() {
         $('.resources-list .resource-row .view-row').click(function (e) {
+            var resId = $(this).attr('resource');
+            if(!$(this).hasClass('opened')) resourcesFlag[resId] = resId;
+            else delete resourcesFlag[resId];
             $(this).toggleClass('opened');
             $(this).next('.expandable-row').toggleClass('hidden-row');
         });
@@ -66,7 +73,6 @@ window.Deploy = (function () {
             if (data[key].value.truncated) {
                 var objectKey = data[key].value.truncated.object_key;
                 var objectSize = data[key].value.truncated.object_size;
-
                 var linkHtml = '<div class="input-record">' +
                     data[key].name + ': ' +
                     '<span class="truncated" objectKey="' + objectKey + '">' +
@@ -215,7 +221,7 @@ window.Deploy = (function () {
         var ccThisData = ccthis.resourcesArray;
         initialData = ccThisData;
         var resource = {};
-        ccThisData.forEach(function (data) {
+        ccThisData.forEach(function (data, index) {
             Object.keys(data).forEach(function (resourceData) {
                 var resourceProperty = data[resourceData];
                 if (resourceData == 'engineStatus') {
@@ -253,6 +259,11 @@ window.Deploy = (function () {
                 }
             });
             resource.isOld = resource.runId !== ccthis.runId;
+            if (resource.isOld && ccthis.engineState === 'COMPLETED' && ccthis.engineStatus === 'OK') {
+                ccThisData.slice(index, index);
+                return;
+            }
+
             if (resource.isOld) hasOldResources = true;
             resources.push(resource);
             resource = {};

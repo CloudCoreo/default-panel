@@ -67,6 +67,7 @@ window.Deploy = (function () {
 
     function appendLogs(data, appendTo) {
         var count = 0;
+        var showViewMore = false;
         Object.keys(data).some(function (key) {
             ++count;
             var inputOutputRecordHtml = '';
@@ -91,11 +92,16 @@ window.Deploy = (function () {
                 if (typeof data[key].value !== 'string') {
                     parsed = JSON.stringify(parsed);
                 }
+                if (parsed.length >= 500){
+                    parsed = parsed.substring(0, 500);
+                    data[key].value = parsed + '...';
+                    showViewMore = true;
+                }
                 inputOutputRecordHtml = $('<div class="input-record">' + data[key].name + ': <span class="value"></span></div>');
                 inputOutputRecordHtml.find('.value').text(parsed);
             }
             appendTo.append(inputOutputRecordHtml);
-            if (appendTo.html().length > 1500 || count >= 11) {
+            if (showViewMore || appendTo.text().length > 1500 || count >= 11) {
                 appendTo.parent().find('.view-more').removeClass('hidden');
                 return true;
             }

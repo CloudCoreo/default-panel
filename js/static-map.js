@@ -366,7 +366,7 @@ function renderRegion(regions, key) {
     $('.map-container').append(rendered);
 
     d3.xml(data.img).get(function(error, xml) {
-        if (error) { console.log(error); return; }
+        if (error) { return; }
         $('.' + data.cssClass).html('');
 
         var svgNode = xml.getElementsByTagName('svg')[0];

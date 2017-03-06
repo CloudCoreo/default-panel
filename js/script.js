@@ -173,11 +173,11 @@ $(document).ready(function () {
 
     function setupData(data, isFirstLoad) {
         if (isFirstLoad) {
-            deployData = new Deploy(data);
             auditData = new Audit(data, 'level');
+            deployData = new Deploy(data);
         } else {
-            deployData.refreshData(data);
             auditData.refreshData(data);
+            deployData.refreshData(data);
         }
 
         if (deployData.hasOldResources()) {

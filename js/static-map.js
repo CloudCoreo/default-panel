@@ -172,6 +172,25 @@ function appendTextIntoElement(element, text, options) {
 }
 
 function showTooltip(position, element, region) {
+    function addMessage(element, id, data) {
+        appendTextIntoElement(element, data.text, {
+            'id': id,
+            'x': data.rectX + 20,
+            'y': data.rectY + 20,
+            'dy': '.5em',
+            'font-size': '6pt'
+        });
+
+        appendCircleIntoElement(element, {
+            'id': id,
+            'r': 4,
+            'cx': data.rectX + 10,
+            'cy': data.rectY + 21,
+            'fill': data.fill,
+            'stroke': data.stroke,
+            'stroke-width': '1px'
+        });
+    }
 
     var circleRadius = element.select('circle').attr('r');
     var rectX = position.cx + parseFloat(circleRadius) + 5;
@@ -181,7 +200,7 @@ function showTooltip(position, element, region) {
         .attr('x', rectX)
         .attr('y', rectY)
         .attr('width', 150)
-        .attr('height', 45)
+        .attr('height', 45 + (region.objects ? 10 : 0))
         .attr('fill', '#eee');
 
     appendTextIntoElement(element, region.key, {
@@ -192,61 +211,38 @@ function showTooltip(position, element, region) {
         'font-size': '7pt',
         'font-weight': '600'
     });
+    var id = region.key + '-info';
 
-    if (!region.deployed && !region.violations) {
-        appendTextIntoElement(element, 'Null', {
-            'id': region.key + '-info',
-            'x': rectX + 20,
-            'y': rectY + 20,
-            'dy': '.5em',
-            'font-size': '6pt'
-        });
+    if (!region.deployed && !region.violations && !region.objects) {
+        addMessage(element, id, {
+            text: 'Null',
+            rectX: rectX,
+            rectY: rectY,
+            fill: '#eee',
+            stroke: '#bbb'});
+        return;
+    }
+    addMessage(element, id, {
+        text: region.deployed + ' Resources Deployed',
+        rectX: rectX,
+        rectY: rectY,
+        fill: '#2B7AE5',
+        stroke: '#2B7AE5'});
 
-        appendCircleIntoElement(element, {
-            'id': region.key + '-info',
-            'r': 4,
-            'cx': rectX + 10,
-            'cy': rectY + 21,
-            'fill': '#eee',
-            'stroke': '#bbb',
-            'stroke-width': '1px'
-        });
-    } else {
+    addMessage(element, id, {
+        text: region.violations + ' Violations Found in Audit',
+        rectX: rectX,
+        rectY: rectY + 10,
+        fill: '#fff',
+        stroke: '#ff0000'});
 
-        appendTextIntoElement(element, region.deployed + ' Resources Deployed', {
-            'id': region.key + '-info',
-            'x': rectX + 20,
-            'y': rectY + 20,
-            'dy': '.5em',
-            'font-size': '6pt'
-        });
-
-        appendCircleIntoElement(element, {
-            'id': region.key + '-info',
-            'r': 4,
-            'cx': rectX + 10,
-            'cy': rectY + 21,
-            'fill': '#2B7AE5',
-            'stroke-width': '1px'
-        });
-
-        appendTextIntoElement(element, region.violations + ' Violations Found in Audit', {
-            'id': region.key + '-info',
-            'x': rectX + 20,
-            'y': rectY + 30,
-            'dy': '.5em',
-            'font-size': '6pt'
-        });
-
-        appendCircleIntoElement(element, {
-            'id': region.key + '-info',
-            'r': 4,
-            'cx': rectX + 10,
-            'cy': rectY + 31,
-            'fill': '#fff',
-            'stroke': '#ff0000',
-            'stroke-width': '1px'
-        });
+    if (region.objects) {
+        addMessage(element, id, {
+            text: region.objects + ' Cloud Objects Found in Audit',
+            rectX: rectX,
+            rectY: rectY + 20,
+            fill: '#fff',
+            stroke: '#00aa00'});
     }
 }
 
@@ -342,13 +338,14 @@ function drawCircleOnMap(region) {
         moveToFront(d3.select(this));
     });
 
-    if (!region.violations && !region.deployed) {
+    if (!region.violations && !region.deployed && !region.objects) {
         drawNullCircle(g, region);
         return;
     }
 
     drawCircle(g, region.deployed, '#2B7AE5', '#2B7AE5', '#ffffff', region);
     drawCircle(g, region.violations, '#fff', '#ff0000', '#E53E2B', region, region.deployed);
+    if (region.objects) drawCircle(g, region.objects, '#fff', '#00aa00', '#00aa00', region, region.violations);
 }
 
 function renderRegion(regions, key) {

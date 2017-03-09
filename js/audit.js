@@ -145,7 +145,6 @@ window.Audit = (function () {
     }
 
     function checkIfResourceIsSuppressed(date) {
-        if (date === '') return false;
         if (date === undefined) return false;
 
         var now = new Date();
@@ -155,7 +154,7 @@ window.Audit = (function () {
             return suppressedDate.getTime() >= now.getTime();
         }
 
-        return true;
+        return false;
     }
 
     function removeTotallySuppressedViolations(listOfAlerts, suppressedViolations) {

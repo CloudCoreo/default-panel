@@ -144,14 +144,15 @@ window.Audit = (function () {
         return colorsRange;
     }
 
-    function checkIfResourceIsSuppressed (date) {
+    function checkIfResourceIsSuppressed(date) {
+        if (date === '') return false;
         if (date === undefined) return false;
 
         var now = new Date();
 
         if (date.length) {
-          var suppressedDate = new Date(date);
-          return suppressedDate.getTime() >= now.getTime();
+            var suppressedDate = new Date(date);
+            return suppressedDate.getTime() >= now.getTime();
         }
 
         return true;
@@ -275,7 +276,7 @@ window.Audit = (function () {
     }
 
     function renderSection(violations, key, color, resultsType) {
-        var sectionSummary = { label: key, value: 0, color: color };
+        var sectionSummary = {label: key, value: 0, color: color};
         if (!Object.keys(violations).length) {
             return sectionSummary;
         }
@@ -308,18 +309,18 @@ window.Audit = (function () {
             if (violations[vId].isViolation) violationsCount += violations[vId].resources.length;
         });
 
-        var headerData = { name: sectionSummary.label, resultsCount: violationsCount, resultsType: resultsType };
+        var headerData = {name: sectionSummary.label, resultsCount: violationsCount, resultsType: resultsType};
         var header = headerTpl.render(headerData);
 
         var html =
             '<div class="' + headerData.name + ' layout-padding ' + (!isPassedOrDisabled ? 'bg-white' : '') + '" style="margin-bottom: 20px;">' +
-                header +
-                '<div style="border-color: ' + sectionSummary.color + '">' +
-                    visibleList +
-                    '<div class="hidden" style="border-color: inherit;">' + restList + '</div>' +
-                    ((visibleCount > 5) ? showAllBtnTpl : '') +
-                '</div>' +
-                (isPassedOrDisabled ? '<div class="violation-divider"></div>' : '') +
+            header +
+            '<div style="border-color: ' + sectionSummary.color + '">' +
+            visibleList +
+            '<div class="hidden" style="border-color: inherit;">' + restList + '</div>' +
+            ((visibleCount > 5) ? showAllBtnTpl : '') +
+            '</div>' +
+            (isPassedOrDisabled ? '<div class="violation-divider"></div>' : '') +
             '</div>';
 
         $(containers.mainDataContainerSelector).append(html);
@@ -375,7 +376,7 @@ window.Audit = (function () {
                     unknownLevels.splice(unknownLevels.indexOf(key), 1);
                     return;
                 }
-                pieData.push({ label: key, value: 0, color: colorPalette.SeverityTones[key] });
+                pieData.push({label: key, value: 0, color: colorPalette.SeverityTones[key]});
             });
             unknownLevels.forEach(function (key) {
                 fillData(key);

@@ -13,7 +13,7 @@ function formatDate(date) {
     if (minute.length < 2) minute = '0' + minute;
     if (seconds.length < 2) seconds = '0' + seconds;
 
-    return [day, month, year].join('/') + ' ' + [hour, minute, seconds].join(':');
+    return [month, day, year].join('/') + ' ' + [hour, minute, seconds].join(':');
 }
 
 function formatTime(timeInSecondsToFormat) {

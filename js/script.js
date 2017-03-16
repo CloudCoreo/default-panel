@@ -84,7 +84,7 @@ $(document).ready(function () {
 
             if (region !== 'CloudCoreo') {
                 if (!mapData[region]) {
-                    mapData[region] = { violations: 0, deployed: 0 };
+                    mapData[region] = { violations: 0, deployed: 0, objects: 0 };
                 }
                 if (resource.dataType === 'ADVISOR_RESOURCE') ++mapData[region].violations;
                 else ++mapData[region].deployed;
@@ -102,10 +102,12 @@ $(document).ready(function () {
         var alerts = auditData.getViolationsList();
         if (alerts) {
             alerts.forEach(function (alert) {
-                if (!alert.isViolation || alert.resource.isSuppressed) return;
+                if (alert.resource.isSuppressed) return;
                 var region = alert.region;
-                if (!mapData[region]) mapData[region] = { violations: 0, deployed: 0 };
-                ++mapData[region].violations;
+                if (!mapData[region]) mapData[region] = { violations: 0, deployed: 0, objects: 0 };
+
+                if (!alert.isViolation) ++mapData[region].objects;
+                else ++mapData[region].violations;
             });
         }
 
@@ -171,11 +173,11 @@ $(document).ready(function () {
 
     function setupData(data, isFirstLoad) {
         if (isFirstLoad) {
-            deployData = new Deploy(data);
             auditData = new Audit(data, 'level');
+            deployData = new Deploy(data);
         } else {
-            deployData.refreshData(data);
             auditData.refreshData(data);
+            deployData.refreshData(data);
         }
 
         if (deployData.hasOldResources()) {

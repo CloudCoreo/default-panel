@@ -402,6 +402,92 @@ window.Audit = (function () {
         alerts = undefined;
     }
 
+    function getReport(reportData, callback) {
+        var timestamp = utils.formatDate(reportData.timestamp);
+        var report = reportData.outputs.report;
+        if (typeof reportOutput === 'String') {
+            report = JSON.parse(reportOutput);
+        }
+
+        if (report.truncated) {
+            sendRequest('getTruncatedObject',
+                { objectKey: report.truncated.object_key },
+                function(report) {
+                    callback(report, timestamp);
+                });
+            return;
+        }
+        callback(report, timestamp);
+    }
+
+    function reorganizeReportData(report, timestamp) {
+        Object.keys(report).forEach(function (region) {
+            Object.keys(report[region]).forEach(function (resId) {
+                Object.keys(report[region][resId].violations).forEach(function (violationKey) {
+                    var rowData = report[region][resId].violations[violationKey];
+                    if (rowData.level === 'Internal') return;
+
+                    if (violations[violationKey]) {
+                        rowData.violationId = violations[violationKey]._id;
+                        rowData.service = violations[violationKey].inputs.service;
+                        rowData.meta_cis_id = violations[violationKey].inputs.meta_cis_id;
+                    }
+
+                    if (typeof rowData.include_violations_in_count === 'undefined') {
+                        rowData.include_violations_in_count = true;
+                    }
+
+                    var isSuppressed = rowData.suppressed || checkIfResourceIsSuppressed(rowData.suppression_until);
+                    var resource = {
+                        id: resId,
+                        tags: report[region][resId].tags || [],
+                        region: region,
+                        isSuppressed: isSuppressed,
+                        expiresAt: rowData.suppression_until,
+                        reportId: reportData._id
+                    };
+                    var alert = {
+                        title: rowData.display_name || violationKey,
+                        id: violationKey,
+                        level: rowData.level,
+                        category: rowData.category,
+                        description: rowData.description,
+                        fix: rowData.suggested_action,
+                        resource: resource,
+                        service: rowData.service,
+                        region: rowData.region,
+                        link: rowData.link,
+                        violationId: rowData.violationId,
+                        isViolation: rowData.include_violations_in_count,
+                        timestamp: timestamp,
+                        meta_cis_id: rowData.meta_cis_id
+                    };
+                    alerts.push(alert);
+
+                    if (!alertData.level.hasOwnProperty(alert.level)) {
+                        alertData.level[alert.level] = 0;
+                    }
+                    if (!alertData.category.hasOwnProperty(alert.category)) {
+                        alertData.category[alert.category] = 0;
+                    }
+                    if (!alertData.region.hasOwnProperty(alert.region)) {
+                        alertData.region[alert.region] = 0;
+                    }
+                    if (!alertData.service.hasOwnProperty(alert.service)) {
+                        alertData.service[alert.service] = 0;
+                    }
+                    ++alertData.level[alert.level];
+                    ++alertData.category[alert.category];
+                    ++alertData.region[alert.region];
+                    ++alertData.service[alert.service];
+
+                    if (alert.isViolation && !isSuppressed) ++totalViolations;
+                    if (disabledViolations[violationKey]) delete disabledViolations[violationKey];
+                });
+            });
+        });
+    }
+
     function fillViolationsList(violations, reports) {
         if (!Object.keys(violations).length && !Object.keys(disabledViolations).length && !Object.keys(passedViolations).length) {
             showNoAuditResourcesMessage();
@@ -411,75 +497,8 @@ window.Audit = (function () {
         totalViolations = 0;
 
         reports.forEach(function (reportData) {
-            var report = JSON.parse(reportData.outputs.report);
             totalChecks += reportData.outputs.number_checks;
-            var timestamp = utils.formatDate(reportData.timestamp);
-
-            Object.keys(report).forEach(function (region) {
-                Object.keys(report[region]).forEach(function (resId) {
-                    Object.keys(report[region][resId].violations).forEach(function (violationKey) {
-                        var rowData = report[region][resId].violations[violationKey];
-                        if (rowData.level === 'Internal') return;
-
-                        if (violations[violationKey]) {
-                            rowData.violationId = violations[violationKey]._id;
-                            rowData.service = violations[violationKey].inputs.service;
-                            rowData.meta_cis_id = violations[violationKey].inputs.meta_cis_id;
-                        }
-
-                        if (typeof rowData.include_violations_in_count === 'undefined') {
-                            rowData.include_violations_in_count = true;
-                        }
-
-                        var isSuppressed = rowData.suppressed || checkIfResourceIsSuppressed(rowData.suppression_until);
-                        var resource = {
-                            id: resId,
-                            tags: report[region][resId].tags || [],
-                            region: region,
-                            isSuppressed: isSuppressed,
-                            expiresAt: rowData.suppression_until,
-                            reportId: reportData._id
-                        };
-                        var alert = {
-                            title: rowData.display_name || violationKey,
-                            id: violationKey,
-                            level: rowData.level,
-                            category: rowData.category,
-                            description: rowData.description,
-                            fix: rowData.suggested_action,
-                            resource: resource,
-                            service: rowData.service,
-                            region: rowData.region,
-                            link: rowData.link,
-                            violationId: rowData.violationId,
-                            isViolation: rowData.include_violations_in_count,
-                            timestamp: timestamp,
-                            meta_cis_id: rowData.meta_cis_id
-                        };
-                        alerts.push(alert);
-
-                        if (!alertData.level.hasOwnProperty(alert.level)) {
-                            alertData.level[alert.level] = 0;
-                        }
-                        if (!alertData.category.hasOwnProperty(alert.category)) {
-                            alertData.category[alert.category] = 0;
-                        }
-                        if (!alertData.region.hasOwnProperty(alert.region)) {
-                            alertData.region[alert.region] = 0;
-                        }
-                        if (!alertData.service.hasOwnProperty(alert.service)) {
-                            alertData.service[alert.service] = 0;
-                        }
-                        ++alertData.level[alert.level];
-                        ++alertData.category[alert.category];
-                        ++alertData.region[alert.region];
-                        ++alertData.service[alert.service];
-
-                        if (alert.isViolation && !isSuppressed) ++totalViolations;
-                        if (disabledViolations[violationKey]) delete disabledViolations[violationKey];
-                    });
-                });
-            });
+            getReport(reportData, reorganizeReportData);
         });
 
         $('.additional-info .checks').html(totalChecks + ' Checks');

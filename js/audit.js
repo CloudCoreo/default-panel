@@ -488,7 +488,7 @@ window.Audit = (function () {
         });
     }
 
-    function fillViolationsList(violations, reports) {
+    function fillViolationsList(violations, reports, callback) {
         if (!Object.keys(violations).length && !Object.keys(disabledViolations).length && !Object.keys(passedViolations).length) {
             showNoAuditResourcesMessage();
             return;
@@ -496,9 +496,18 @@ window.Audit = (function () {
         var totalChecks = 0;
         totalViolations = 0;
 
+        var handledReports = 0;
+        var checkFetchedReport = function(report, timestamp) {
+            ++handledReports;
+            reorganizeReportData(report, timestamp);
+            if (handledReports === reports.length()) {
+                callback();
+            }
+        };
+
         reports.forEach(function (reportData) {
             totalChecks += reportData.outputs.number_checks;
-            getReport(reportData, reorganizeReportData);
+            getReport(reportData, checkFetchedReport);
         });
 
         $('.additional-info .checks').html(totalChecks + ' Checks');
@@ -518,7 +527,7 @@ window.Audit = (function () {
         $('.additional-info .disabled').html(Object.keys(disabledViolations).length + ' Disabled');
     }
 
-    function initResourcesList(ccthisData) {
+    function initResourcesList(ccthisData, callback) {
         var data = ccthisData.resourcesArray;
         var newData = {};
         var reports = [];
@@ -564,8 +573,10 @@ window.Audit = (function () {
             }
         });
 
-        fillViolationsList(newData, reports);
-        fillPassedViolationsList(enabledDefinitions);
+        fillViolationsList(newData, reports, function() {
+            fillPassedViolationsList(enabledDefinitions);
+            callback();
+        });
     }
 
     function scrollToElement(element) {
@@ -658,8 +669,6 @@ window.Audit = (function () {
     function init(data, sortKey) {
         initGlobalVariables();
         initView();
-        initResourcesList(data);
-
         executionIsFinished = data.engineState === 'COMPLETED' ||
             data.engineState === 'INITIALIZED' ||
             (data.engineState === 'PLANNED' && data.engineStatus !== 'OK');
@@ -669,8 +678,10 @@ window.Audit = (function () {
             return;
         }
 
-        render(sortKey);
-        fillHtmlSummaryData();
+        initResourcesList(data, function () {
+            render(sortKey);
+            fillHtmlSummaryData();
+        });
     }
 
     function audit(data, sortKey, _callback, selectors) {

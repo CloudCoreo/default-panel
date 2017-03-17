@@ -413,14 +413,14 @@ window.Audit = (function () {
             sendRequest('getTruncatedObject',
                 { objectKey: report.truncated.object_key },
                 function(report) {
-                    callback(report, timestamp);
+                    callback(report, reportData._id, timestamp);
                 });
             return;
         }
-        callback(report, timestamp);
+        callback(report, reportData._id, timestamp);
     }
 
-    function reorganizeReportData(report, timestamp, violations) {
+    function reorganizeReportData(report, reportId, timestamp, violations) {
         Object.keys(report).forEach(function (region) {
             Object.keys(report[region]).forEach(function (resId) {
                 Object.keys(report[region][resId].violations).forEach(function (violationKey) {
@@ -444,7 +444,7 @@ window.Audit = (function () {
                         region: region,
                         isSuppressed: isSuppressed,
                         expiresAt: rowData.suppression_until,
-                        reportId: reportData._id
+                        reportId: reportId
                     };
                     var alert = {
                         title: rowData.display_name || violationKey,
@@ -497,9 +497,9 @@ window.Audit = (function () {
         totalViolations = 0;
 
         var handledReports = 0;
-        var checkFetchedReport = function(report, timestamp) {
+        var checkFetchedReport = function(report, reportId, timestamp) {
             ++handledReports;
-            reorganizeReportData(report, timestamp, violations);
+            reorganizeReportData(report, reportId, timestamp, violations);
             if (handledReports === reports.length()) {
                 callback();
             }

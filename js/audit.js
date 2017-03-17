@@ -420,7 +420,7 @@ window.Audit = (function () {
         callback(report, timestamp);
     }
 
-    function reorganizeReportData(report, timestamp) {
+    function reorganizeReportData(report, timestamp, violations) {
         Object.keys(report).forEach(function (region) {
             Object.keys(report[region]).forEach(function (resId) {
                 Object.keys(report[region][resId].violations).forEach(function (violationKey) {
@@ -499,7 +499,7 @@ window.Audit = (function () {
         var handledReports = 0;
         var checkFetchedReport = function(report, timestamp) {
             ++handledReports;
-            reorganizeReportData(report, timestamp);
+            reorganizeReportData(report, timestamp, violations);
             if (handledReports === reports.length()) {
                 callback();
             }

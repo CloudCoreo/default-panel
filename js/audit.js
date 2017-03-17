@@ -500,7 +500,7 @@ window.Audit = (function () {
         var checkFetchedReport = function(report, reportId, timestamp) {
             ++handledReports;
             reorganizeReportData(report, reportId, timestamp, violations);
-            if (handledReports === reports.length()) {
+            if (handledReports === reports.length) {
                 callback();
             }
         };

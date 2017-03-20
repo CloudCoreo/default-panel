@@ -461,22 +461,26 @@ window.Audit = (function () {
                     };
                     alerts.push(alert);
 
-                    if (!alertData.level.hasOwnProperty(alert.level)) {
-                        alertData.level[alert.level] = 0;
-                    }
-                    if (!alertData.category.hasOwnProperty(alert.category)) {
-                        alertData.category[alert.category] = 0;
-                    }
-                    if (!alertData.region.hasOwnProperty(alert.region)) {
-                        alertData.region[alert.region] = 0;
-                    }
-                    if (!alertData.service.hasOwnProperty(alert.service)) {
-                        alertData.service[alert.service] = 0;
-                    }
-                    ++alertData.level[alert.level];
-                    ++alertData.category[alert.category];
-                    ++alertData.region[alert.region];
-                    ++alertData.service[alert.service];
+                        if (!alertData.level.hasOwnProperty(alert.level)) {
+                            alertData.level[alert.level] = 0;
+                        }
+                        if (!alertData.category.hasOwnProperty(alert.category)) {
+                            alertData.category[alert.category] = 0;
+                        }
+                        if (!alertData.region.hasOwnProperty(alert.region)) {
+                            alertData.region[alert.region] = 0;
+                        }
+                        if (!alertData.service.hasOwnProperty(alert.service)) {
+                            alertData.service[alert.service] = 0;
+                        }
+                        if (!alertData.meta_cis_id.hasOwnProperty(alert.meta_cis_id)) {
+                            alertData.meta_cis_id[alert.meta_cis_id] = 0;
+                        }
+                        ++alertData.level[alert.level];
+                        ++alertData.category[alert.category];
+                        ++alertData.region[alert.region];
+                        ++alertData.service[alert.service];
+                        ++alertData.meta_cis_id[alert.meta_cis_id];
 
                     if (alert.isViolation && !isSuppressed) ++totalViolations;
                     if (disabledViolations[violationKey]) delete disabledViolations[violationKey];
@@ -562,7 +566,7 @@ window.Audit = (function () {
             }
             else if (newObj.outputs.report) {
                 reports.push(newObj);
-                if (newObj.inputs.rules) enabledDefinitions = enabledDefinitions.concat(newObj.inputs.rules);
+                if (newObj.inputs.rules) enabledDefinitions = enabledDefinitions.concat(JSON.parse(newObj.inputs.rules));
             }
             else {
                 newData[newObj.resourceName] = newObj;
@@ -650,7 +654,8 @@ window.Audit = (function () {
             level: {},
             category: {},
             region: {},
-            service: {}
+            service: {},
+            meta_cis_id: {}
         };
     }
 

@@ -404,20 +404,17 @@ window.Audit = (function () {
 
     function getReport(reportData, callback) {
         var timestamp = utils.formatDate(reportData.timestamp);
-        var report = reportData.outputs.report;
-        if (typeof reportOutput === 'String') {
-            report = JSON.parse(reportOutput);
-        }
+        var report = JSON.parse(reportData.outputs.report);
 
-        if (report.truncated) {
-            sendRequest('getTruncatedObject',
-                { objectKey: report.truncated.object_key },
-                function(report) {
-                    callback(report, reportData._id, timestamp);
-                });
+        if (!report.truncated) {
+            callback(report, reportData._id, timestamp);
             return;
         }
-        callback(report, reportData._id, timestamp);
+        sendRequest('getTruncatedObject',
+            { objectKey: report.truncated.object_key },
+            function(retrievedObject) {
+                callback(retrievedObject, reportData._id, timestamp);
+            });
     }
 
     function reorganizeReportData(report, reportId, timestamp, violations) {
@@ -565,7 +562,7 @@ window.Audit = (function () {
             }
             else if (newObj.outputs.report) {
                 reports.push(newObj);
-                enabledDefinitions = enabledDefinitions.concat(newObj.inputs.rules);
+                if (newObj.inputs.rules) enabledDefinitions = enabledDefinitions.concat(newObj.inputs.rules);
             }
             else {
                 newData[newObj.resourceName] = newObj;
@@ -666,36 +663,38 @@ window.Audit = (function () {
         $(containers.mainCont).removeClass('empty');
     }
 
-    function init(data, sortKey) {
+    function init(data, sortKey, callback) {
         initGlobalVariables();
         initView();
         executionIsFinished = data.engineState === 'COMPLETED' ||
             data.engineState === 'INITIALIZED' ||
             (data.engineState === 'PLANNED' && data.engineStatus !== 'OK');
 
-        if (!executionIsFinished && !hasOld && data.resourcesArray.length < data.numberOfResources) {
-            showResourcesAreBeingLoadedMessage();
-            return;
-        }
-
         initResourcesList(data, function () {
+            if (!executionIsFinished && !hasOld) {
+                showResourcesAreBeingLoadedMessage();
+                return;
+            }
             render(sortKey);
             fillHtmlSummaryData();
+            callback();
         });
     }
 
-    function audit(data, sortKey, _callback, selectors) {
+    function audit(data, sortKey, selectors, callback) {
         if (selectors) {
             containers = selectors;
         }
-        callback = _callback;
-        init(data, sortKey);
-        setupHandlers();
+        
+        init(data, sortKey, function() {
+            setupHandlers();
+            callback();
+        });
     }
 
-    audit.prototype.refreshData = function (data) {
+    audit.prototype.refreshData = function (data, callback) {
         if (data.engineState !== 'COMPLETED') return;
-        init(data, $('.audit .chosen-sorting').val());
+        init(data, $('.audit .chosen-sorting').val(), callback);
     };
 
     audit.prototype.renderResourcesList = render;

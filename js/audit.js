@@ -404,7 +404,8 @@ window.Audit = (function () {
 
     function getReport(reportData, callback) {
         var timestamp = utils.formatDate(reportData.timestamp);
-        var report = JSON.parse(reportData.outputs.report);
+        var report = reportData.outputs.report;
+        if (typeof report === 'string') report = JSON.parse(report);
 
         if (!report.truncated) {
             callback(report, reportData._id, timestamp);
@@ -686,14 +687,12 @@ window.Audit = (function () {
         });
     }
 
-    function audit(data, sortKey, selectors, callback) {
-        if (selectors) {
-            containers = selectors;
-        }
-        
-        init(data, sortKey, function() {
-            setupHandlers();
-            callback();
+    function audit(data, sortKey, callback) {
+        setTimeout(function() {
+            init(data, sortKey, function() {
+                setupHandlers();
+                callback();
+            });
         });
     }
 

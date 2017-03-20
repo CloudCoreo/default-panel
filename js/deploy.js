@@ -94,7 +94,6 @@ window.Deploy = (function () {
                 }
                 if (parsed.length >= 500){
                     parsed = parsed.substring(0, 500);
-                    data[key].value = parsed + '...';
                     showViewMore = true;
                 }
                 inputOutputRecordHtml = $('<div class="input-record">' + data[key].name + ': <span class="value"></span></div>');

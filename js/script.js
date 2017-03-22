@@ -295,7 +295,6 @@ $(document).ready(function () {
     function init(data, isFirstLoad) {
         setupHandlers(data);
         initView();
-        setCurrentView(isFirstLoad);
         setupData(data, isFirstLoad);
         setExecutionStatusMessage(data);
     }

@@ -412,7 +412,7 @@ window.Audit = (function () {
             return;
         }
         sendRequest('getTruncatedObject',
-            { objectKey: report.truncated.object_key },
+            { objectKey: report.truncated.object_key, blockUI: true },
             function(retrievedObject) {
                 callback(retrievedObject, reportData._id, timestamp);
             });

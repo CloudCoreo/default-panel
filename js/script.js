@@ -291,6 +291,7 @@ $(document).ready(function () {
         setupHandlers(data);
         initView();
         setupData(data, isFirstLoad);
+        setCurrentView(isFirstLoad);
         setExecutionStatusMessage(data);
     }
 

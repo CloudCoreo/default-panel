@@ -202,6 +202,7 @@ $(document).ready(function () {
         if (violationCount) $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').addClass('alert');
 
         if (isFirstLoad) {
+            if (currentView) $('.' + currentView).addClass('hidden');
             currentView = !violationCount || isError ? viewTypes.deploy : viewTypes.audit;
             $('.resource-type-toggle .resource-type.' + currentView + '-res').addClass('active');
             $('.' + currentView).removeClass('hidden');

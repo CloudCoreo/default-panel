@@ -198,11 +198,15 @@ $(document).ready(function () {
     }
 
     function setCurrentView(isFirstLoad) {
-        var violationCount = auditData.getViolationsCount();
+        var violationCount = 0;
+        if (auditData) violationCount = auditData.getViolationsCount();
         if (violationCount) $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').addClass('alert');
 
         if (isFirstLoad) {
-            if (currentView) $('.' + currentView).addClass('hidden');
+            if (currentView){
+                $('.' + currentView).addClass('hidden');
+                $('.resource-type-toggle .resource-type.' + currentView + '-res').removeClass('active');
+            }
             currentView = !violationCount || isError ? viewTypes.deploy : viewTypes.audit;
             $('.resource-type-toggle .resource-type.' + currentView + '-res').addClass('active');
             $('.' + currentView).removeClass('hidden');
@@ -291,8 +295,8 @@ $(document).ready(function () {
     function init(data, isFirstLoad) {
         setupHandlers(data);
         initView();
-        setupData(data, isFirstLoad);
         setCurrentView(isFirstLoad);
+        setupData(data, isFirstLoad);
         setExecutionStatusMessage(data);
     }
 

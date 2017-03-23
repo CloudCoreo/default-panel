@@ -479,6 +479,12 @@ html, body {
     background-color: #f2f2f2;
 }
 
+.audit-data-is-not-ready {
+    padding: 30px;
+    text-align: center;
+    font-size: 18px;
+}
+
 @media (max-width: 600px) {
     .left-column {
         width: 100%;

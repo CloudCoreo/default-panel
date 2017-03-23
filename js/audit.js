@@ -402,7 +402,7 @@ window.Audit = (function () {
         alerts = undefined;
     }
 
-    function getReport(reportData, callback) {
+    function getReport(reportData, callback, blockUI) {
         var timestamp = utils.formatDate(reportData.timestamp);
         var report = reportData.outputs.report;
         if (typeof report === 'string') report = JSON.parse(report);
@@ -412,9 +412,14 @@ window.Audit = (function () {
             return;
         }
         sendRequest('getTruncatedObject',
-            { objectKey: report.truncated.object_key, blockUI: true },
-            function(retrievedObject) {
+            { objectKey: report.truncated.object_key, blockUI: blockUI },
+            function (retrievedObject) {
+                $(".audit-data-is-not-ready").addClass("hidden");
                 callback(retrievedObject, reportData._id, timestamp);
+            },
+            function (error) {
+                $(".audit-data-is-not-ready").removeClass("hidden");
+                setTimeout(getReport(reportData, callback, false), 5000);
             });
     }
 

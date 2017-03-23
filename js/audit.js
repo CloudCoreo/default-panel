@@ -522,7 +522,7 @@ window.Audit = (function () {
 
         reports.forEach(function (reportData) {
             totalChecks += reportData.outputs.number_checks;
-            getReport(reportData, checkFetchedReport);
+            getReport(reportData, checkFetchedReport, true);
         });
 
         $('.additional-info .checks').html(totalChecks + ' Checks');

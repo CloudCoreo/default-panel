@@ -401,7 +401,7 @@ window.Audit = (function () {
         $(containers.mainCont).addClass('empty');
         alerts = undefined;
     }
-    
+
     function onError() {
         if (!errorCallback) return;
         errorCallback();
@@ -427,7 +427,7 @@ window.Audit = (function () {
                 onError();
                 setTimeout(function () {
                     getReport(reportData, callback, false);
-                }, 60000);
+                }, 10000);
             });
     }
 

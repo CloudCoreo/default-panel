@@ -1,5 +1,5 @@
 window.Audit = (function () {
-    var callback;
+    var errorCallback;
     var totalViolations = 0;
     var passedViolations = [];
     var disabledViolations = [];
@@ -401,6 +401,11 @@ window.Audit = (function () {
         $(containers.mainCont).addClass('empty');
         alerts = undefined;
     }
+    
+    function onError() {
+        if (!errorCallback) return;
+        errorCallback();
+    }
 
     function getReport(reportData, callback, blockUI) {
         var timestamp = utils.formatDate(reportData.timestamp);
@@ -419,7 +424,10 @@ window.Audit = (function () {
             },
             function (error) {
                 $(".audit-data-is-not-ready").removeClass("hidden");
-                setTimeout(getReport(reportData, callback, false), 5000);
+                onError();
+                setTimeout(function () {
+                    getReport(reportData, callback, false);
+                }, 60000);
             });
     }
 
@@ -692,7 +700,8 @@ window.Audit = (function () {
         });
     }
 
-    function audit(data, sortKey, callback) {
+    function audit(data, sortKey, callback, _errorCallback) {
+        errorCallback = _errorCallback
         setTimeout(function() {
             init(data, sortKey, function() {
                 setupHandlers();

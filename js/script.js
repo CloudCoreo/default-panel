@@ -172,11 +172,14 @@ $(document).ready(function () {
     }
 
     function setupData(data, isFirstLoad) {
+        var onAditDataError = function () {
+            setCurrentView(isFirstLoad);
+        };
         var onLoad = function() {
             onDataProcessed(data, isFirstLoad);
         };
         if (isFirstLoad) {
-            auditData = new Audit(data, 'level', onLoad);
+            auditData = new Audit(data, 'level', onLoad, onAditDataError);
             deployData = new Deploy(data);
             return;
         }
@@ -202,11 +205,7 @@ $(document).ready(function () {
         if (auditData) violationCount = auditData.getViolationsCount();
         if (violationCount) $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').addClass('alert');
 
-        if (isFirstLoad) {
-            if (currentView){
-                $('.' + currentView).addClass('hidden');
-                $('.resource-type-toggle .resource-type.' + currentView + '-res').removeClass('active');
-            }
+        if (isFirstLoad && !currentView) {
             currentView = !violationCount || isError ? viewTypes.deploy : viewTypes.audit;
             $('.resource-type-toggle .resource-type.' + currentView + '-res').addClass('active');
             $('.' + currentView).removeClass('hidden');

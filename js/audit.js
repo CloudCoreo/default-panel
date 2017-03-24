@@ -245,6 +245,17 @@ window.Audit = (function () {
             }
         });
     }
+    
+    function getRuleMetasCis(ruleInputs) {
+        var metas = [];
+        Object.keys(ruleInputs).forEach(function (key) {
+            if (key !== 'meta_cis_id' && -1 !== key.indexOf('meta_cis')) {
+                var metaTitle = key.replace('meta_', '').replace('_', ' ');
+                metas.push({ key: metaTitle, value: ruleInputs[key] });
+            }
+        });
+        return metas;
+    }
 
     function organizeDataForAdditionalSections(violation) {
         var data = violation.inputs;
@@ -253,12 +264,7 @@ window.Audit = (function () {
         data.resources = [];
         data.suppressions = [];
         data.violationId = violation._id;
-        data.metas = [];
-        Object.keys(violation.inputs).forEach(function (key) {
-            if (-1 !== key.indexOf('meta_cis')) {
-                data.metas.push({key: key, value: violation.inputs[key]});
-            }
-        });
+        data.metas = getRuleMetasCis(violation.inputs);
 
         return data;
     }
@@ -448,6 +454,7 @@ window.Audit = (function () {
                         alert.id = violationKey;
                         alert.resource = resource;
                         alert.timestamp = timestamp;
+                        alert.metas = getRuleMetasCis(rowData);
                         alerts.push(alert);
 
                         if (!alertData.level.hasOwnProperty(alert.level)) {

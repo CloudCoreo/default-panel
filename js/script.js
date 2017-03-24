@@ -1,20 +1,25 @@
 $(document).ready(function () {
+    var resourceWithError;
     var auditData;
     var deployData;
     var map;
+    var isError;
 
     var viewTypes = {
+        deploy: 'deploy',
         audit: 'audit',
         map: 'map'
     };
 
     var currentSortBy = {
+        deploy: 'Most Recent',
         audit: 'Severity Level',
         map: ''
     };
 
     var currentView;
     var counter = 0;
+
 
     var externalActions = {
         redirectToCommunityComposites: 'redirectToCommunityComposites',
@@ -31,7 +36,7 @@ $(document).ready(function () {
             });
             if (found) return found.value;
             return undefined;
-        }
+        };
 
         if (resource.engineStatus.indexOf('ERROR') !== -1) return 'CloudCoreo';
 
@@ -120,12 +125,26 @@ $(document).ready(function () {
             goToView(view);
         });
 
+        $('.error-container-details').unbind().click(function (e) {
+            var status = $('.error-container-status').attr('status');
+
+            openPopup('showErrorModal', {
+                status: status
+            });
+        });
+
         $('.close').click(function () {
             $(this).closest('#popup').addClass('hidden');
         });
 
         $('.backdrop').click(function () {
             $(this).closest('#popup').addClass('hidden');
+        });
+
+        $('.warning-link').click(function () {
+            var rowWithError = $('.resource-row .view-row .name:contains(' + resourceWithError.resourceName + ')').parent();
+            rowWithError.next('.expandable-row').removeClass('hidden-row');
+            goToView('deploy');
         });
     }
 
@@ -137,17 +156,19 @@ $(document).ready(function () {
                 init(data, false);
                 emulateCcThisUpdate();
             });
-        }, 3000);
+        }, 2000);
     }
 
     function initView() {
+        $('.error-container').addClass('hidden');
+        $('.engine-state').addClass('hidden');
         $('.data-is-loading').addClass('hidden');
         $('.resource-type-toggle').removeClass('hidden');
         $('.scrollable-area').removeClass('hidden');
-        $('.resource-type-toggle .resource-type.audit-res').removeClass('alert');
+        $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').removeClass('error');
+        $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').removeClass('alert');
         $('.audit').removeClass('old-data-mask');
         $('.map').removeClass('old-data-mask');
-        currentView = 'audit';
     }
 
     function setupData(data, isFirstLoad) {
@@ -163,17 +184,40 @@ $(document).ready(function () {
             $('.audit').addClass('old-data-mask');
             $('.map').addClass('old-data-mask');
         }
+        checkResourceError();
+        checkRunError(data);
 
         if (!isFirstLoad && data.engineState !== 'COMPLETED') return;
+
         renderMapData(data);
     }
 
     function setupViewData(isFirstLoad) {
-        const violationCount = auditData.getViolationsCount();
-        const $audit = $('.resource-type-toggle .resource-type.audit-res');
-        if (violationCount) $audit.addClass('alert');
-        $audit.addClass('active')
-            .removeClass('hidden');
+        var violationCount = auditData.getViolationsCount();
+
+        if (violationCount) $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').addClass('alert');
+
+        if (isFirstLoad) {
+            currentView = !violationCount || isError ? viewTypes.deploy : viewTypes.audit;
+            $('.resource-type-toggle .resource-type.' + currentView + '-res').addClass('active');
+            $('.' + currentView).removeClass('hidden');
+        }
+    }
+
+    function getEngineStateMessage(engineState) {
+        if (!engineState) return 'queued';
+        return (engineState === "EXECUTING" || engineState === "COMPLETED") ? engineState : "COMPILING";
+    }
+
+    function appendNextExecutionTime() {
+        var hoursTillNextExecution = deployData.accountAndGetHoursTillNextExecution();
+        var nextExecutionTime = '';
+        if (hoursTillNextExecution > 1) {
+            nextExecutionTime = 'in ' + hoursTillNextExecution + ' hours';
+        } else {
+            nextExecutionTime = 'will start less than an hour';
+        }
+        $('.error-container .next-execution-time span').html(nextExecutionTime)
     }
 
     function countCurrentRunResourcesNumber(data) {
@@ -185,15 +229,59 @@ $(document).ready(function () {
         return count;
     }
 
+    function checkRunError(data) {
+        isError = data.engineStatus === 'COMPILE_ERROR' ||
+            data.engineStatus === 'INITIALIZATION_ERROR' ||
+            data.engineStatus === 'PROVIDER_ERROR' ||
+            data.engineStatus === 'EXECUTION_ERROR';
+
+        if (isError || data.isMissingVariables) {
+            var status = data.isMissingVariables ? 'MISSING_VARIABLES' : data.engineStatus;
+            var date = new Date(data.lastExecutionTime);
+            var lastExecutionTime = utils.formatDate(date);
+
+            $('.error-container-status').text(status.replace('_', ' '));
+            $('.error-container-status').attr('status', status);
+            $('.error-container').removeClass('hidden');
+            $('.last-successful-run span').html(lastExecutionTime);
+
+            appendNextExecutionTime();
+        }
+    }
+
     function setExecutionStatusMessage(data) {
-        if (data.engineState === 'EXECUTING') {
+
+        if (data.engineState === 'COMPLETED' || data.engineState === 'INITIALIZED') return;
+
+        $('.engine-state').removeClass('hidden');
+        $('.engine-state .message').html(getEngineStateMessage(data.engineState));
+
+        if (!data.resourcesArray && data.engineState !== 'EXECUTING') {
             $('.data-is-loading').removeClass('hidden');
             $('.resource-type-toggle').addClass('hidden');
             $('.scrollable-area').addClass('hidden');
-            $('.options-container').css({border: 'none'});
-        } else {
-            $('.options-container').css({'border-bottom': '1px solid #e4e4e4'});
+            $('.engine-state .status-spinner').css('width', '0%');
+            return;
         }
+
+        var loadedResourcesPercentage = 0;
+        if (data.numberOfResources && data.engineState === 'EXECUTING') {
+            loadedResourcesPercentage = countCurrentRunResourcesNumber(data) * 100 / data.numberOfResources;
+        }
+        $('.engine-state .status-spinner').css('width', loadedResourcesPercentage + '%');
+    }
+
+    function checkResourceError() {
+        if (deployData.hasErrors()) {
+            $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').addClass('error');
+            resourceWithError = deployData.getResourcesWithError();
+            $('.warning-block').removeClass('hidden');
+            $('.Disabled').addClass('hidden');
+            $('.Enabled').addClass('hidden');
+        }
+
+        var alerts = auditData.getViolationsList();
+        if (alerts && !alerts.length) $('.warning-note-2').addClass('hidden');
     }
 
     function init(data, isFirstLoad) {

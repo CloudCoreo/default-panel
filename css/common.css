@@ -15,7 +15,7 @@
     padding: 6px 12px;
     border-radius: 4px;
     margin: 4px;
-    min-width: 30px;
+    min-width: 50px;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -146,10 +146,6 @@
 .data-is-loading {
     padding-top: 50px;
     text-align: center;
-}
-
-.data-is-loading h2 {
-    color: #717171;
 }
 
 .warning-block {

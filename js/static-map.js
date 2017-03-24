@@ -432,8 +432,6 @@ function renderRegions(mapData) {
     var regions = mapRegions;
 
     Object.keys(mapData).forEach(function(subRegionName) {
-        if(!regionsList[subRegionName]) return;
-
         var regionName = regionsList[subRegionName].region;
 
         if (regionName in regions) {

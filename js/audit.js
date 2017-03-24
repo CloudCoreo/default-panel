@@ -201,6 +201,7 @@ window.Audit = (function () {
             }
             if (!suppressedViolations[alert.id]) suppressedViolations[alert.id] = {};
 
+            if (!alert.resource) return;
             if (alert.resource.isSuppressed) {
                 listOfAlerts[key].alerts[alert.id].suppressions.push(alert.resource);
                 if (typeof suppressedViolations[alert.id][key] === 'undefined') suppressedViolations[alert.id][key] = true;
@@ -246,19 +247,20 @@ window.Audit = (function () {
     }
 
     function organizeDataForAdditionalSections(violation) {
-        return {
-            title: violation.inputs.display_name || violation.resourceName,
-            id: violation.resourceName,
-            level: violation.inputs.level,
-            category: violation.inputs.category,
-            description: violation.inputs.description,
-            fix: violation.inputs.suggested_action,
-            service: violation.inputs.service,
-            link: violation.inputs.link,
-            resources: [],
-            suppressions: [],
-            violationId: violation._id
-        };
+        var data = violation.inputs;
+        data.title = violation.inputs.display_name || violation.resourceName;
+        data.id = violation.resourceName;
+        data.resources = [];
+        data.suppressions = [];
+        data.violationId = violation._id;
+        data.metas = [];
+        Object.keys(violation.inputs).forEach(function (key) {
+            if (-1 !== key.indexOf('meta_cis')) {
+                data.metas.push({key: key, value: violation.inputs[key]});
+            }
+        });
+
+        return data;
     }
 
     function getColor(alert, sortKey, keys, colors) {
@@ -440,22 +442,12 @@ window.Audit = (function () {
                             expiresAt: rowData.suppression_until,
                             reportId: reportData._id
                         };
-                        var alert = {
-                            title: rowData.display_name || violationKey,
-                            id: violationKey,
-                            level: rowData.level,
-                            category: rowData.category,
-                            description: rowData.description,
-                            fix: rowData.suggested_action,
-                            resource: resource,
-                            service: rowData.service,
-                            region: rowData.region,
-                            link: rowData.link,
-                            violationId: rowData.violationId,
-                            isViolation: rowData.include_violations_in_count,
-                            timestamp: timestamp,
-                            meta_cis_id: rowData.meta_cis_id
-                        };
+
+                        var alert = rowData;
+                        alert.title = rowData.display_name || violationKey;
+                        alert.id = violationKey;
+                        alert.resource = resource;
+                        alert.timestamp = timestamp;
                         alerts.push(alert);
 
                         if (!alertData.level.hasOwnProperty(alert.level)) {
@@ -492,7 +484,11 @@ window.Audit = (function () {
     function fillPassedViolationsList(enabledDefinitions) {
         enabledDefinitions.forEach(function (key) {
             if (!disabledViolations[key]) return;
-            passedViolations[key] = disabledViolations[key];
+            if (disabledViolations[key].meta_always_show_card) {
+                alerts.push(disabledViolations[key]);
+            } else {
+                passedViolations[key] = disabledViolations[key];
+            }
             delete disabledViolations[key];
         });
     }
@@ -505,7 +501,7 @@ window.Audit = (function () {
 
     function initResourcesList(ccthisData) {
         var data = ccthisData.resourcesArray;
-        var newData = {};
+        var rules = {};
         var reports = [];
         var enabledDefinitions = [];
         errors = [];
@@ -544,12 +540,12 @@ window.Audit = (function () {
                 enabledDefinitions = enabledDefinitions.concat(JSON.parse(newObj.inputs.rules));
             }
             else {
-                newData[newObj.resourceName] = newObj;
+                rules[newObj.resourceName] = newObj;
                 disabledViolations[newObj.resourceName] = organizeDataForAdditionalSections(newObj);
             }
         });
 
-        fillViolationsList(newData, reports);
+        fillViolationsList(rules, reports);
         fillPassedViolationsList(enabledDefinitions);
     }
 

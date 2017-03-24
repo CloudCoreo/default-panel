@@ -1,16 +1,16 @@
 {
-  "_id": "5880200b9c5c70f0745a4fde",
-  "runId": "beddad29-e3d8-463d-96c9-381846fb3cba",
+  "_id": "58d4aa095e639f19bc6f8293",
+  "runId": "af90570f-0e6f-4c87-8687-2184b217236f",
   "resourcesArray": [
     {
-      "timestamp": "2017-02-01T11:18:48.000Z",
-      "stackName": null,
-      "runId": "80c2228c-19af-4259-b109-6cbcf7a31872",
+      "timestamp": "2017-03-24T05:19:12.170Z",
+      "stackName": "AUDIT-AWS-RDS-QWEQWE",
+      "runId": "af90570f-0e6f-4c87-8687-2184b217236f",
       "resourceType": "coreo_uni_util_notify",
-      "resourceName": "advise-s3-json",
-      "resourceId": "ROOT::AUDIT-AWS-S3-TEST-DEFAULT_advise-s3-json",
+      "resourceName": "advise-rds-rollup",
+      "resourceId": "8171ed7dc8e95f5fc516a015ed0fb7903eb0c8a0a072360839d39ca93ee72969",
       "outputs": [],
-      "namespace": "ROOT::AUDIT-AWS-S3-TEST-DEFAULT",
+      "namespace": "ROOT::AUDIT-AWS-RDS-QWEQWE",
       "inputs": [
         {
           "type": "choice",
@@ -18,1619 +18,409 @@
           "name": "action"
         },
         {
-          "type": "PLA-1366",
+          "type": "String",
           "value": "email",
           "name": "type"
         },
         {
-          "type": "PLA-1366",
-          "value": "json",
+          "type": "String",
+          "value": "text",
           "name": "payload_type"
         },
         {
-          "type": "PLA-1366",
-          "value": "{\"composite name\":\"PLAN::stack_name\",\n  \"plan name\":\"PLAN::name\",\n  \"number_of_checks\":\"COMPOSITE::coreo_aws_advisor_s3.advise-s3.number_checks\",\n  \"number_of_violations\":\"COMPOSITE::coreo_aws_advisor_s3.advise-s3.number_violations\",\n  \"number_violations_ignored\":\"COMPOSITE::coreo_aws_advisor_s3.advise-s3.number_ignored_violations\",\n  \"violations\": COMPOSITE::coreo_aws_advisor_s3.advise-s3.report }",
+          "type": "String",
+          "value": "\ncomposite name: audit-aws-rds\nplan name: qweqwe\nNumber of Violating Cloud Objects: 0\nRollup\n  ",
           "name": "payload"
         },
         {
-          "type": "PLA-1366",
-          "value": {
-            "subject": "CloudCoreo s3 advisor alerts on PLAN::stack_name :: PLAN::name",
-            "to": "12345678"
-          },
+          "type": "Hash",
+          "value": "{:to=>\"\", :subject=>\"CloudCoreo rds rule results on audit-aws-rds :: qweqwe\"}",
           "name": "endpoint"
         },
         {
-          "type": "PLA-1366",
-          "value": false,
+          "type": "FalseClass",
+          "value": "false",
           "name": "allow_empty"
         },
         {
-          "type": "PLA-1366",
+          "type": "String",
           "value": "change",
           "name": "send_on"
         }
       ],
-      "executionTime": 0,
-      "executionNumber": -1,
-      "engineStatus": "OK",
-      "engineState": "EXECUTING",
-      "dataType": "DEPLOY_RESOURCE",
-      "_id": "588ffe3d384bdc9911415d96"
-    },
-    {
-      "timestamp": "2017-01-31T11:14:57.000Z",
-      "stackName": "AUDIT-AWS-S3-TEST-DEFAULT",
-      "runId": "80c2228c-19af-4259-b109-6cbcf7a31872",
-      "resourceType": "coreo_aws_advisor_alert",
-      "resourceName": "s3-allusers-write",
-      "resourceId": "54f240ecfc26b984c55e838e9481636097321a8aede50fd431172e3233f69c23",
-      "outputs": [
-        {
-          "value": "cc_5880200b9c5_s3-allusers-write",
-          "name": "ec2_name"
-        }
-      ],
-      "namespace": "ROOT::AUDIT-AWS-S3-TEST-DEFAULT",
-      "inputs": [
-        {
-          "type": "choice",
-          "value": "define",
-          "name": "action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "All users can write to the affected bucket",
-          "name": "display_name"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "modifiers.bucket_name",
-          "name": "id_map"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "s3",
-          "name": "service"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "(?i-mx:AllUsers)",
-            "write"
-          ],
-          "name": "alert_when"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "bucket_acl",
-            "bucket_acl"
-          ],
-          "name": "objectives"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "http://kb.cloudcoreo.com/mydoc_s3-allusers-write.html",
-          "name": "link"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Critical",
-          "name": "level"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "=~",
-            "=="
-          ],
-          "name": "operators"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Bucket has permissions (ACL) which let all users write to the bucket.",
-          "name": "description"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Dataloss",
-          "name": "category"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Remove the entry from the bucket permissions that allows everyone to write.",
-          "name": "suggested_action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [],
-          "name": "call_modifiers"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "grants.grantee.uri",
-            "grants.permission"
-          ],
-          "name": "audit_objects"
-        },
-        {
-          "type": "PLA-1366",
-          "value": true,
-          "name": "include_violations_in_count"
-        }
-      ],
-      "executionTime": 9.331632966,
-      "executionNumber": 1,
-      "engineStatus": "OK",
-      "engineState": "EXECUTING",
-      "dataType": "ADVISOR_RESOURCE",
-      "_id": "588ffd59384bdc9911415d86"
-    },
-    {
-      "timestamp": "2017-01-31T11:15:01.000Z",
-      "stackName": "AUDIT-AWS-S3-TEST-DEFAULT",
-      "runId": "80c2228c-19af-4259-b109-6cbcf7a31872",
-      "resourceType": "coreo_aws_advisor_alert",
-      "resourceName": "s3-allusers-write-acp",
-      "resourceId": "ec1da7293b8e3d8e58f298e1d617f5a6d6f5e4151e6552981a9a3d85fbdb11eb",
-      "outputs": [
-        {
-          "value": "cc_5880200b9c5_s3-allusers-write-acp",
-          "name": "ec2_name"
-        }
-      ],
-      "namespace": "ROOT::AUDIT-AWS-S3-TEST-DEFAULT",
-      "inputs": [
-        {
-          "type": "choice",
-          "value": "define",
-          "name": "action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "All users can write the bucket ACP / ACL",
-          "name": "display_name"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "modifiers.bucket_name",
-          "name": "id_map"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "s3",
-          "name": "service"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "(?i-mx:AllUsers)",
-            "write_acp"
-          ],
-          "name": "alert_when"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "bucket_acl",
-            "bucket_acl"
-          ],
-          "name": "objectives"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "http://kb.cloudcoreo.com/mydoc_s3-allusers-write-acp.html",
-          "name": "link"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Emergency",
-          "name": "level"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "=~",
-            "=="
-          ],
-          "name": "operators"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Bucket has permissions (ACP / ACL) which let all users modify the permissions.",
-          "name": "description"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Dataloss",
-          "name": "category"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Remove the entry from the bucket permissions that allows everyone to edit permissions.",
-          "name": "suggested_action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [],
-          "name": "call_modifiers"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "grants.grantee.uri",
-            "grants.permission"
-          ],
-          "name": "audit_objects"
-        },
-        {
-          "type": "PLA-1366",
-          "value": true,
-          "name": "include_violations_in_count"
-        }
-      ],
-      "executionTime": 1.376449712,
-      "executionNumber": 2,
-      "engineStatus": "OK",
-      "engineState": "EXECUTING",
-      "dataType": "ADVISOR_RESOURCE",
-      "_id": "588ffd5c384bdc9911415d87"
-    },
-    {
-      "timestamp": "2017-01-31T11:15:03.000Z",
-      "stackName": "AUDIT-AWS-S3-TEST-DEFAULT",
-      "runId": "80c2228c-19af-4259-b109-6cbcf7a31872",
-      "resourceType": "coreo_aws_advisor_alert",
-      "resourceName": "s3-allusers-read",
-      "resourceId": "60a4b6e1344ce2920e246a744eb0cf0e1acd13d8be31b6df8db7a52e6284285f",
-      "outputs": [
-        {
-          "value": "cc_5880200b9c5_s3-allusers-read",
-          "name": "ec2_name"
-        }
-      ],
-      "namespace": "ROOT::AUDIT-AWS-S3-TEST-DEFAULT",
-      "inputs": [
-        {
-          "type": "choice",
-          "value": "define",
-          "name": "action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "All users can list the affected bucket",
-          "name": "display_name"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "modifiers.bucket_name",
-          "name": "id_map"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "s3",
-          "name": "service"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "(?i-mx:AllUsers)",
-            "read"
-          ],
-          "name": "alert_when"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "bucket_acl",
-            "bucket_acl"
-          ],
-          "name": "objectives"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "http://kb.cloudcoreo.com/mydoc_s3-allusers-read.html",
-          "name": "link"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Critical",
-          "name": "level"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "=~",
-            "=="
-          ],
-          "name": "operators"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Bucket has permissions (ACL) which let anyone list the bucket contents.",
-          "name": "description"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Security",
-          "name": "category"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Remove the entry from the bucket permissions that allows everyone to list the bucket.",
-          "name": "suggested_action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [],
-          "name": "call_modifiers"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "grants.grantee.uri",
-            "grants.permission"
-          ],
-          "name": "audit_objects"
-        },
-        {
-          "type": "PLA-1366",
-          "value": true,
-          "name": "include_violations_in_count"
-        }
-      ],
-      "executionTime": 1.289135318,
-      "executionNumber": 3,
-      "engineStatus": "OK",
-      "engineState": "EXECUTING",
-      "dataType": "ADVISOR_RESOURCE",
-      "_id": "588ffd5e384bdc9911415d88"
-    },
-    {
-      "timestamp": "2017-01-31T11:15:05.000Z",
-      "stackName": "AUDIT-AWS-S3-TEST-DEFAULT",
-      "runId": "80c2228c-19af-4259-b109-6cbcf7a31872",
-      "resourceType": "coreo_aws_advisor_alert",
-      "resourceName": "s3-authenticatedusers-write",
-      "resourceId": "8caed333ee5430280808d7d63970b76e54b3b2ff280b26e0a49b5898738b0d94",
-      "outputs": [
-        {
-          "value": "cc_5880200b9c5_s3-authenticatedusers-write",
-          "name": "ec2_name"
-        }
-      ],
-      "namespace": "ROOT::AUDIT-AWS-S3-TEST-DEFAULT",
-      "inputs": [
-        {
-          "type": "choice",
-          "value": "define",
-          "name": "action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "All authenticated AWS users can write to the affected bucket",
-          "name": "display_name"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "modifiers.bucket_name",
-          "name": "id_map"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "s3",
-          "name": "service"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "(?i-mx:AuthenticatedUsers)",
-            "write"
-          ],
-          "name": "alert_when"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "bucket_acl",
-            "bucket_acl"
-          ],
-          "name": "objectives"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "http://kb.cloudcoreo.com/mydoc_s3-authenticatedusers-write.html",
-          "name": "link"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Critical",
-          "name": "level"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "=~",
-            "=="
-          ],
-          "name": "operators"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Bucket has permissions (ACL) which let any AWS users write to the bucket.",
-          "name": "description"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Dataloss",
-          "name": "category"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Remove the entry from the bucket permissions that allows 'Any Authenticated AWS User' to write.",
-          "name": "suggested_action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [],
-          "name": "call_modifiers"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "grants.grantee.uri",
-            "grants.permission"
-          ],
-          "name": "audit_objects"
-        },
-        {
-          "type": "PLA-1366",
-          "value": true,
-          "name": "include_violations_in_count"
-        }
-      ],
-      "executionTime": 1.646642705,
-      "executionNumber": 4,
-      "engineStatus": "OK",
-      "engineState": "EXECUTING",
-      "dataType": "ADVISOR_RESOURCE",
-      "_id": "588ffd60384bdc9911415d89"
-    },
-    {
-      "timestamp": "2017-01-31T11:15:07.000Z",
-      "stackName": "AUDIT-AWS-S3-TEST-DEFAULT",
-      "runId": "80c2228c-19af-4259-b109-6cbcf7a31872",
-      "resourceType": "coreo_aws_advisor_alert",
-      "resourceName": "s3-authenticatedusers-write-acp",
-      "resourceId": "d7474beacb4b095b69c013135c49536670de4a67d4be353906f5f89973728200",
-      "outputs": [
-        {
-          "value": "cc_5880200b9c5_s3-authenticatedusers-write-acp",
-          "name": "ec2_name"
-        }
-      ],
-      "namespace": "ROOT::AUDIT-AWS-S3-TEST-DEFAULT",
-      "inputs": [
-        {
-          "type": "choice",
-          "value": "define",
-          "name": "action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "All authenticated AWS users can change bucket permissions",
-          "name": "display_name"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "modifiers.bucket_name",
-          "name": "id_map"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "s3",
-          "name": "service"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "(?i-mx:AuthenticatedUsers)",
-            "write_acp"
-          ],
-          "name": "alert_when"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "bucket_acl",
-            "bucket_acl"
-          ],
-          "name": "objectives"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "http://kb.cloudcoreo.com/mydoc_s3-authenticatedusers-write-acp.html",
-          "name": "link"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Emergency",
-          "name": "level"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "=~",
-            "=="
-          ],
-          "name": "operators"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Bucket has permissions ( ACP / ACL) which let any AWS user modify the permissions.",
-          "name": "description"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Dataloss",
-          "name": "category"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Remove the bucket permissions (ACP / ACL) that allows 'Any Authenticated AWS User' to edit permissions.",
-          "name": "suggested_action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [],
-          "name": "call_modifiers"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "grants.grantee.uri",
-            "grants.permission"
-          ],
-          "name": "audit_objects"
-        },
-        {
-          "type": "PLA-1366",
-          "value": true,
-          "name": "include_violations_in_count"
-        }
-      ],
-      "executionTime": 1.278438263,
-      "executionNumber": 5,
-      "engineStatus": "OK",
-      "engineState": "EXECUTING",
-      "dataType": "ADVISOR_RESOURCE",
-      "_id": "588ffd63384bdc9911415d8a"
-    },
-    {
-      "timestamp": "2017-01-31T11:15:09.000Z",
-      "stackName": "AUDIT-AWS-S3-TEST-DEFAULT",
-      "runId": "80c2228c-19af-4259-b109-6cbcf7a31872",
-      "resourceType": "coreo_aws_advisor_alert",
-      "resourceName": "s3-authenticatedusers-read",
-      "resourceId": "068524c5897401c45a1ddbce67985a81f788bfbfbc51fb0f5cf473471ef5fd4e",
-      "outputs": [
-        {
-          "value": "cc_5880200b9c5_s3-authenticatedusers-read",
-          "name": "ec2_name"
-        }
-      ],
-      "namespace": "ROOT::AUDIT-AWS-S3-TEST-DEFAULT",
-      "inputs": [
-        {
-          "type": "choice",
-          "value": "define",
-          "name": "action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "All authenticated AWS users can read the affected bucket",
-          "name": "display_name"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "modifiers.bucket_name",
-          "name": "id_map"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "s3",
-          "name": "service"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "(?i-mx:AuthenticatedUsers)",
-            "read"
-          ],
-          "name": "alert_when"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "bucket_acl",
-            "bucket_acl"
-          ],
-          "name": "objectives"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "http://kb.cloudcoreo.com/mydoc_s3-authenticatedusers-read.html",
-          "name": "link"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Critical",
-          "name": "level"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "=~",
-            "=="
-          ],
-          "name": "operators"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Bucket has permissions (ACL) which let any AWS user list the bucket contents.",
-          "name": "description"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Security",
-          "name": "category"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Remove the entry from the bucket permissions that allows 'Any Authenticated AWS User' to list the bucket.",
-          "name": "suggested_action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [],
-          "name": "call_modifiers"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "grants.grantee.uri",
-            "grants.permission"
-          ],
-          "name": "audit_objects"
-        },
-        {
-          "type": "PLA-1366",
-          "value": true,
-          "name": "include_violations_in_count"
-        }
-      ],
-      "executionTime": 1.278393993,
-      "executionNumber": 6,
-      "engineStatus": "OK",
-      "engineState": "EXECUTING",
-      "dataType": "ADVISOR_RESOURCE",
-      "_id": "588ffd65384bdc9911415d8b"
-    },
-    {
-      "timestamp": "2017-01-31T11:15:12.000Z",
-      "stackName": "AUDIT-AWS-S3-TEST-DEFAULT",
-      "runId": "80c2228c-19af-4259-b109-6cbcf7a31872",
-      "resourceType": "coreo_aws_advisor_alert",
-      "resourceName": "s3-logging-disabled",
-      "resourceId": "e5c0536dec8a1e329d49ee151bb38cdbf2d1ff1fa5260d6cf10fc90fa7ca309e",
-      "outputs": [
-        {
-          "value": "cc_5880200b9c5_s3-logging-disabled",
-          "name": "ec2_name"
-        }
-      ],
-      "namespace": "ROOT::AUDIT-AWS-S3-TEST-DEFAULT",
-      "inputs": [
-        {
-          "type": "choice",
-          "value": "define",
-          "name": "action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "S3 bucket logging not enabled",
-          "name": "display_name"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "modifiers.bucket_name",
-          "name": "id_map"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "s3",
-          "name": "service"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            null
-          ],
-          "name": "alert_when"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "bucket_logging"
-          ],
-          "name": "objectives"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html",
-          "name": "link"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Warning",
-          "name": "level"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "=="
-          ],
-          "name": "operators"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "S3 bucket logging has not been enabled for the affected resource.",
-          "name": "description"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Audit",
-          "name": "category"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Enable logging on your S3 buckets.",
-          "name": "suggested_action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [],
-          "name": "call_modifiers"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            ""
-          ],
-          "name": "audit_objects"
-        },
-        {
-          "type": "PLA-1366",
-          "value": true,
-          "name": "include_violations_in_count"
-        }
-      ],
-      "executionTime": 1.277627327,
-      "executionNumber": 7,
-      "engineStatus": "OK",
-      "engineState": "EXECUTING",
-      "dataType": "ADVISOR_RESOURCE",
-      "_id": "588ffd67384bdc9911415d8c"
-    },
-    {
-      "timestamp": "2017-01-31T11:15:14.000Z",
-      "stackName": "AUDIT-AWS-S3-TEST-DEFAULT",
-      "runId": "80c2228c-19af-4259-b109-6cbcf7a31872",
-      "resourceType": "coreo_aws_advisor_alert",
-      "resourceName": "s3-world-open-policy-delete",
-      "resourceId": "443fb1207990c2c407cf5806ea1e14a0731e6573d6825339cce9d9e638a4e371",
-      "outputs": [
-        {
-          "value": "cc_5880200b9c5_s3-world-open-policy-delete",
-          "name": "ec2_name"
-        }
-      ],
-      "namespace": "ROOT::AUDIT-AWS-S3-TEST-DEFAULT",
-      "inputs": [
-        {
-          "type": "choice",
-          "value": "define",
-          "name": "action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Bucket policy gives world delete permission",
-          "name": "display_name"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "modifiers.bucket_name",
-          "name": "id_map"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "s3",
-          "name": "service"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "(?-mix:s3:Delete*)"
-          ],
-          "name": "alert_when"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "bucket_policy"
-          ],
-          "name": "objectives"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-delete.html",
-          "name": "link"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Emergency",
-          "name": "level"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "=~"
-          ],
-          "name": "operators"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Bucket policy allows the world to delete the affected bucket and/or its contents",
-          "name": "description"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Dataloss",
-          "name": "category"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Remove or modify the bucket policy that enables the world to delete the contents of this bucket or even the bucket itself.",
-          "name": "suggested_action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [],
-          "name": "call_modifiers"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"
-          ],
-          "name": "formulas"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "policy"
-          ],
-          "name": "audit_objects"
-        },
-        {
-          "type": "PLA-1366",
-          "value": true,
-          "name": "include_violations_in_count"
-        }
-      ],
-      "executionTime": 1.279946378,
-      "executionNumber": 8,
-      "engineStatus": "OK",
-      "engineState": "EXECUTING",
-      "dataType": "ADVISOR_RESOURCE",
-      "_id": "588ffd69384bdc9911415d8d"
-    },
-    {
-      "timestamp": "2017-01-31T11:15:16.000Z",
-      "stackName": "AUDIT-AWS-S3-TEST-DEFAULT",
-      "runId": "80c2228c-19af-4259-b109-6cbcf7a31872",
-      "resourceType": "coreo_aws_advisor_alert",
-      "resourceName": "s3-world-open-policy-get",
-      "resourceId": "b6909ad442dd0a4fbd9d3493abcb373ff68c7a37aa14f6aa47708b7a226d01bf",
-      "outputs": [
-        {
-          "value": "cc_5880200b9c5_s3-world-open-policy-get",
-          "name": "ec2_name"
-        }
-      ],
-      "namespace": "ROOT::AUDIT-AWS-S3-TEST-DEFAULT",
-      "inputs": [
-        {
-          "type": "choice",
-          "value": "define",
-          "name": "action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Bucket policy gives world Get permission",
-          "name": "display_name"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "modifiers.bucket_name",
-          "name": "id_map"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "s3",
-          "name": "service"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "(?-mix:s3:Get*)"
-          ],
-          "name": "alert_when"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "bucket_policy"
-          ],
-          "name": "objectives"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-get.html",
-          "name": "link"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Critical",
-          "name": "level"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "=~"
-          ],
-          "name": "operators"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Bucket policy allows the world to get the contents of the affected bucket.",
-          "name": "description"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Security",
-          "name": "category"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Remove or modify the bucket policy that enables the world to get the contents of this bucket.",
-          "name": "suggested_action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [],
-          "name": "call_modifiers"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"
-          ],
-          "name": "formulas"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "policy"
-          ],
-          "name": "audit_objects"
-        },
-        {
-          "type": "PLA-1366",
-          "value": true,
-          "name": "include_violations_in_count"
-        }
-      ],
-      "executionTime": 1.388705638,
-      "executionNumber": 9,
-      "engineStatus": "OK",
-      "engineState": "EXECUTING",
-      "dataType": "ADVISOR_RESOURCE",
-      "_id": "588ffd6b384bdc9911415d8e"
-    },
-    {
-      "timestamp": "2017-01-31T11:15:18.000Z",
-      "stackName": "AUDIT-AWS-S3-TEST-DEFAULT",
-      "runId": "80c2228c-19af-4259-b109-6cbcf7a31872",
-      "resourceType": "coreo_aws_advisor_alert",
-      "resourceName": "s3-world-open-policy-list",
-      "resourceId": "6a3f87b44f9ee302ae3c5be21f69db28fb974cb1353633bb90d035d4ab652114",
-      "outputs": [
-        {
-          "value": "cc_5880200b9c5_s3-world-open-policy-list",
-          "name": "ec2_name"
-        }
-      ],
-      "namespace": "ROOT::AUDIT-AWS-S3-TEST-DEFAULT",
-      "inputs": [
-        {
-          "type": "choice",
-          "value": "define",
-          "name": "action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Bucket policy gives world List permission",
-          "name": "display_name"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "modifiers.bucket_name",
-          "name": "id_map"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "s3",
-          "name": "service"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "(?-mix:s3:List*)"
-          ],
-          "name": "alert_when"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "bucket_policy"
-          ],
-          "name": "objectives"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-list.html",
-          "name": "link"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Critical",
-          "name": "level"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "=~"
-          ],
-          "name": "operators"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Bucket policy allows the world to list the contents of the affected bucket",
-          "name": "description"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Security",
-          "name": "category"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Remove or modify the bucket policy that enables the world to list the contents of this bucket.",
-          "name": "suggested_action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [],
-          "name": "call_modifiers"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"
-          ],
-          "name": "formulas"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "policy"
-          ],
-          "name": "audit_objects"
-        },
-        {
-          "type": "PLA-1366",
-          "value": true,
-          "name": "include_violations_in_count"
-        }
-      ],
-      "executionTime": 1.278270647,
-      "executionNumber": 10,
-      "engineStatus": "OK",
-      "engineState": "EXECUTING",
-      "dataType": "ADVISOR_RESOURCE",
-      "_id": "588ffd6d384bdc9911415d8f"
-    },
-    {
-      "timestamp": "2017-01-31T11:15:20.000Z",
-      "stackName": "AUDIT-AWS-S3-TEST-DEFAULT",
-      "runId": "80c2228c-19af-4259-b109-6cbcf7a31872",
-      "resourceType": "coreo_aws_advisor_alert",
-      "resourceName": "s3-world-open-policy-put",
-      "resourceId": "7c8d9ef52fa345b6ca251fd2f4c390dc6fcafd902e300160bd1656c65994dbbc",
-      "outputs": [
-        {
-          "value": "cc_5880200b9c5_s3-world-open-policy-put",
-          "name": "ec2_name"
-        }
-      ],
-      "namespace": "ROOT::AUDIT-AWS-S3-TEST-DEFAULT",
-      "inputs": [
-        {
-          "type": "choice",
-          "value": "define",
-          "name": "action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Bucket policy gives world Put permission",
-          "name": "display_name"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "modifiers.bucket_name",
-          "name": "id_map"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "s3",
-          "name": "service"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "(?-mix:s3:Put*)"
-          ],
-          "name": "alert_when"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "bucket_policy"
-          ],
-          "name": "objectives"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-put.html",
-          "name": "link"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Critical",
-          "name": "level"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "=~"
-          ],
-          "name": "operators"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Bucket policy allows the world to put data into the affected bucket.",
-          "name": "description"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Dataloss",
-          "name": "category"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Remove the bucket permission that enables the world to put (and overwrite) data in this bucket.",
-          "name": "suggested_action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [],
-          "name": "call_modifiers"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"
-          ],
-          "name": "formulas"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "policy"
-          ],
-          "name": "audit_objects"
-        },
-        {
-          "type": "PLA-1366",
-          "value": true,
-          "name": "include_violations_in_count"
-        }
-      ],
-      "executionTime": 1.382822393,
-      "executionNumber": 11,
-      "engineStatus": "OK",
-      "engineState": "EXECUTING",
-      "dataType": "ADVISOR_RESOURCE",
-      "_id": "588ffd6f384bdc9911415d90"
-    },
-    {
-      "timestamp": "2017-01-31T11:15:22.000Z",
-      "stackName": "AUDIT-AWS-S3-TEST-DEFAULT",
-      "runId": "80c2228c-19af-4259-b109-6cbcf7a31872",
-      "resourceType": "coreo_aws_advisor_alert",
-      "resourceName": "s3-world-open-policy-all",
-      "resourceId": "7e0a7773cf104be0e56de3da17c2e9d120ed3acd33599fb680ed20cd6eb4a736",
-      "outputs": [
-        {
-          "value": "cc_5880200b9c5_s3-world-open-policy-all",
-          "name": "ec2_name"
-        }
-      ],
-      "namespace": "ROOT::AUDIT-AWS-S3-TEST-DEFAULT",
-      "inputs": [
-        {
-          "type": "choice",
-          "value": "define",
-          "name": "action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Bucket policy gives the world permission to do anything in the bucket",
-          "name": "display_name"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "modifiers.bucket_name",
-          "name": "id_map"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "s3",
-          "name": "service"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "(?-mix:[^\\[\\]\\{\\}])"
-          ],
-          "name": "alert_when"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "bucket_policy"
-          ],
-          "name": "objectives"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-all.html",
-          "name": "link"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Emergency",
-          "name": "level"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "=~"
-          ],
-          "name": "operators"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Bucket policy gives the world permission to do anything in the bucket",
-          "name": "description"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Dataloss",
-          "name": "category"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Modify the principle to remove the * notation which signifies any person or remove the * from allowed actions which signifies allowing any possible action on the bucket or its contents.",
-          "name": "suggested_action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [],
-          "name": "call_modifiers"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "jmespath.Statement[?Effect == 'Allow' && Action == 's3:*' && Principal == '*' && !Condition]"
-          ],
-          "name": "formulas"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "policy"
-          ],
-          "name": "audit_objects"
-        },
-        {
-          "type": "PLA-1366",
-          "value": true,
-          "name": "include_violations_in_count"
-        }
-      ],
-      "executionTime": 1.280047142,
+      "executionTime": 4.461179016,
       "executionNumber": 12,
       "engineStatus": "OK",
       "engineState": "EXECUTING",
-      "dataType": "ADVISOR_RESOURCE",
-      "_id": "588ffd72384bdc9911415d91"
+      "dataType": "DEPLOY_RESOURCE",
+      "_id": "58d4ac514ff94f6bf977a213"
     },
     {
-      "timestamp": "2017-01-31T11:15:25.000Z",
-      "stackName": "AUDIT-AWS-S3-TEST-DEFAULT",
-      "runId": "80c2228c-19af-4259-b109-6cbcf7a31872",
-      "resourceType": "coreo_aws_advisor_alert",
-      "resourceName": "s3-only-ip-based-policy",
-      "resourceId": "b31c670dba93427e7851fda2af3ea533c8792618a01052bdc4920dc952534780",
-      "outputs": [
-        {
-          "value": "cc_5880200b9c5_s3-only-ip-based-policy",
-          "name": "ec2_name"
-        }
-      ],
-      "namespace": "ROOT::AUDIT-AWS-S3-TEST-DEFAULT",
+      "timestamp": "2017-03-24T05:19:05.469Z",
+      "stackName": "AUDIT-AWS-RDS-QWEQWE",
+      "runId": "af90570f-0e6f-4c87-8687-2184b217236f",
+      "resourceType": "coreo_uni_util_notify",
+      "resourceName": "advise-rds-to-tag-values",
+      "resourceId": "1ba2de26b48e9a7a7611e95122d1dd298633a900cde85e43d1bca04d3652c59f",
+      "outputs": [],
+      "namespace": "ROOT::AUDIT-AWS-RDS-QWEQWE",
       "inputs": [
         {
           "type": "choice",
-          "value": "define",
+          "value": "nothing",
           "name": "action"
         },
         {
-          "type": "PLA-1366",
-          "value": "Bucket policy uses IP addresses to grant permission",
-          "name": "display_name"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "modifiers.bucket_name",
-          "name": "id_map"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "s3",
-          "name": "service"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "(?-mix:\"(Allow|Deny)\",[^{]*({\"IpAddress\")[^}]*}}\\])"
-          ],
-          "name": "alert_when"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "bucket_policy"
-          ],
-          "name": "objectives"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "http://kb.cloudcoreo.com/mydoc_s3-only-ip-based-policy.html",
-          "name": "link"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Critical",
-          "name": "level"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "=~"
-          ],
-          "name": "operators"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Bucket policy grants permissions to any user at an IP address or range to perform operations on objects in the specified bucket.",
-          "name": "description"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Security",
-          "name": "category"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "Consider using other methods to grant permission to perform operations on your S3 buckets.",
-          "name": "suggested_action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [],
-          "name": "call_modifiers"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "jmespath.Statement[*].[Effect, Condition]"
-          ],
-          "name": "formulas"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "policy"
-          ],
-          "name": "audit_objects"
-        },
-        {
-          "type": "PLA-1366",
-          "value": true,
-          "name": "include_violations_in_count"
+          "type": "String",
+          "value": {
+            "truncated": {
+              "object_size": 8864,
+              "object_key": "58d4aa095e639f19bc6f8293/af90570f-0e6f-4c87-8687-2184b217236f/1ba2de26b48e9a7a7611e95122d1dd298633a900cde85e43d1bca04d3652c59f/c6991088a4aa768129ddb3fd88f3aeba3d2d3167"
+            }
+          },
+          "name": "notifiers"
         }
       ],
-      "executionTime": 1.283730966,
-      "executionNumber": 13,
+      "executionTime": 2.042323944,
+      "executionNumber": 11,
       "engineStatus": "OK",
       "engineState": "EXECUTING",
-      "dataType": "ADVISOR_RESOURCE",
-      "_id": "588ffd74384bdc9911415d92"
+      "dataType": "DEPLOY_RESOURCE",
+      "_id": "58d4ac4a4ff94f6bf977a212"
     },
     {
-      "timestamp": "2017-01-31T11:18:09.000Z",
-      "stackName": "AUDIT-AWS-S3-TEST-DEFAULT",
-      "runId": "80c2228c-19af-4259-b109-6cbcf7a31872",
-      "resourceType": "coreo_aws_advisor_s3",
-      "resourceName": "advise-s3",
-      "resourceId": "4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35",
+      "timestamp": "2017-03-24T05:18:59.551Z",
+      "stackName": "AUDIT-AWS-RDS-QWEQWE",
+      "runId": "af90570f-0e6f-4c87-8687-2184b217236f",
+      "resourceType": "coreo_uni_util_jsrunner",
+      "resourceName": "tags-rollup-rds",
+      "resourceId": "17f8719a1cf82e0b051436bd3853911fe3242fb9a0f86e7233bcc8cb678c082e",
       "outputs": [
         {
-          "value": "cc_5880200b9c5_advise-s3",
-          "name": "ec2_name"
+          "value": "Number of Violating Cloud Objects: 0\nRollup",
+          "name": "return"
         },
+        {
+          "value": {
+            "truncated": {
+              "object_size": 10298,
+              "object_key": "58d4aa095e639f19bc6f8293/af90570f-0e6f-4c87-8687-2184b217236f/17f8719a1cf82e0b051436bd3853911fe3242fb9a0f86e7233bcc8cb678c082e/93987a78915e0fce3a1e05ca992ae38ba0de945c"
+            }
+          },
+          "name": "jsrunner_file"
+        },
+        {
+          "value": "{\"name\":\"jsrunner\",\"description\":\"jsrunner\",\"engine\":\"node 6.6.0\",\"dependencies\": {\n}}\n",
+          "name": "packages_file"
+        },
+        {
+          "value": "",
+          "name": "stdout"
+        }
+      ],
+      "namespace": "ROOT::AUDIT-AWS-RDS-QWEQWE",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "run",
+          "name": "action"
+        },
+        {
+          "type": "String",
+          "value": "text",
+          "name": "data_type"
+        },
+        {
+          "type": "String",
+          "value": {
+            "truncated": {
+              "object_size": 8864,
+              "object_key": "58d4aa095e639f19bc6f8293/af90570f-0e6f-4c87-8687-2184b217236f/17f8719a1cf82e0b051436bd3853911fe3242fb9a0f86e7233bcc8cb678c082e/c6991088a4aa768129ddb3fd88f3aeba3d2d3167"
+            }
+          },
+          "name": "json_input"
+        },
+        {
+          "type": "String",
+          "value": "const notifiers = json_input;\n\nfunction setTextRollup() {\n    let emailText = '';\n    let numberOfViolations = 0;\n    notifiers.forEach(notifier => {\n        const hasEmail = notifier['endpoint']['to'].length;\n        if(hasEmail) {\n            numberOfViolations += parseInt(notifier['num_violations']);\n            emailText += \"recipient: \" + notifier['endpoint']['to'] + \" - \" + \"Violations: \" + notifier['num_violations'] + \"\\n\";\n        }\n    });\n\n    textRollup += 'Number of Violating Cloud Objects: ' + numberOfViolations + \"\\n\";\n    textRollup += 'Rollup' + \"\\n\";\n    textRollup += emailText;\n}\n\n\nlet textRollup = '';\nsetTextRollup();\n\ncallback(textRollup);\n",
+          "name": "function"
+        },
+        {
+          "type": "FalseClass",
+          "value": "false",
+          "name": "provide_composite_access"
+        }
+      ],
+      "executionTime": 6.667778867,
+      "executionNumber": 10,
+      "engineStatus": "OK",
+      "engineState": "EXECUTING",
+      "dataType": "DEPLOY_RESOURCE",
+      "_id": "58d4ac454ff94f6bf977a211"
+    },
+    {
+      "timestamp": "2017-03-24T05:18:46.061Z",
+      "stackName": "AUDIT-AWS-RDS-QWEQWE",
+      "runId": "af90570f-0e6f-4c87-8687-2184b217236f",
+      "resourceType": "coreo_uni_util_variables",
+      "resourceName": "rds-update-planwide-3",
+      "resourceId": "9a6d4078ab2f05c8a3b8160c2122826fc27192f16126d376f176721cb6610c49",
+      "outputs": [
+        {
+          "value": "{\"us-east-1\":{\"cc-57980ce2d13-kubedev\":{\"violator_info\":{\"db_security_groups\":[],\"vpc_security_groups\":[{\"vpc_security_group_id\":\"sg-c90c96b4\",\"status\":\"active\"}],\"db_parameter_groups\":[{\"db_parameter_group_name\":\"cc-57980ce2d13-kubedev\",\"parameter_apply_status\":\"in-sync\"}],\"read_replica_db_instance_identifiers\":[],\"option_group_memberships\":[{\"option_group_name\":\"default:mysql-5-6\",\"status\":\"in-sync\"}],\"status_infos\":[],\"allocated_storage\":25,\"availability_zone\":\"us-east-1d\",\"preferred_backup_window\":\"03:42-04:12\",\"db_instance_identifier\":\"cc-57980ce2d13-kubedev\",\"endpoint\":{\"port\":3306,\"address\":\"cc-57980ce2d13-kubedev.cgfflexed4cn.us-east-1.rds.amazonaws.com\"},\"engine\":\"mysql\",\"publicly_accessible\":false,\"engine_version\":\"5.6.29\",\"master_username\":\"admin\",\"db_name\":\"kubedev\",\"multi_az\":false,\"instance_create_time\":\"2016-11-28T09:19:38Z\",\"db_instance_class\":\"db.t2.micro\",\"db_subnet_group\":{\"subnets\":[{\"subnet_status\":\"Active\",\"subnet_identifier\":\"subnet-e41194c9\",\"subnet_availability_zone\":{\"name\":\"us-east-1c\",\"provisioned_iops_capable\":false}},{\"subnet_status\":\"Active\",\"subnet_identifier\":\"subnet-3d1da366\",\"subnet_availability_zone\":{\"name\":\"us-east-1a\",\"provisioned_iops_capable\":false}},{\"subnet_status\":\"Active\",\"subnet_identifier\":\"subnet-ec9eeaa5\",\"subnet_availability_zone\":{\"name\":\"us-east-1d\",\"provisioned_iops_capable\":false}}],\"subnet_group_status\":\"Complete\",\"vpc_id\":\"vpc-ff1ae199\",\"db_subnet_group_description\":\"Subnet Group Created by CloudCoreo for Db [kubedev]\",\"db_subnet_group_name\":\"cc-57980ce2d13-kubedev\"},\"license_model\":\"general-public-license\",\"pending_modified_values\":null,\"preferred_maintenance_window\":\"fri:03:01-fri:03:31\",\"db_instance_status\":\"available\",\"backup_retention_period\":2,\"auto_minor_version_upgrade\":true,\"latest_restorable_time\":\"2017-03-24T05:10:00Z\"},\"violations\":{\"rds-short-backup-retention-period\":{\"service\":\"rds\",\"display_name\":\"RDS short backup retention period\",\"result_info\":[{\"place\":\"db_instances:db_instances[0].backup_retention_period\",\"object\":{\"truncated\":{\"object_key\":\"58d4aa095e639f19bc6f8293/af90570f-0e6f-4c87-8687-2184b217236f/9a6d4078ab2f05c8a3b8160c2122826fc27192f16126d376f176721cb6610c49/8e4b88e19ed7a9933e3c93c652101e1040873403\",\"object_size\":1760}}}],\"description\":\"The affected RDS database has a short backup retention period (less than 30 days).\",\"category\":\"Dataloss\",\"suggested_action\":\"Modify the backup retension period to increase it to greater than 30 days.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_rds-short-backup-retention-period.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\",\"objectId\":\"cc-57980ce2d13-kubedev\",\"ruleKey\":\"rds-short-backup-retention-period\",\"suppression_until\":\"2017-01-10T00:00Z\",\"tags\":\"coreo_owner, Name\",\"email\":\"\",\"violationScheme\":{},\"suppressExpired\":true}},\"tags\":[{\"value\":\"george+1@cloudcoreo.com\",\"key\":\"coreo_owner\"},{\"value\":\"kubedev\",\"key\":\"Name\"}]}}}",
+          "name": "report"
+        },
+        {
+          "value": {
+            "truncated": {
+              "object_size": 6995,
+              "object_key": "58d4aa095e639f19bc6f8293/af90570f-0e6f-4c87-8687-2184b217236f/9a6d4078ab2f05c8a3b8160c2122826fc27192f16126d376f176721cb6610c49/7c6dc9cb671eba457ea690bcdf2e2de5ee23d9a1"
+            }
+          },
+          "name": "results"
+        },
+        {
+          "value": {
+            "truncated": {
+              "object_size": 1461,
+              "object_key": "58d4aa095e639f19bc6f8293/af90570f-0e6f-4c87-8687-2184b217236f/9a6d4078ab2f05c8a3b8160c2122826fc27192f16126d376f176721cb6610c49/f55be0bc7ab57ab06a8492ac9df1709344787885"
+            }
+          },
+          "name": "table"
+        },
+        {
+          "value": {
+            "truncated": {
+              "object_size": 15779,
+              "object_key": "58d4aa095e639f19bc6f8293/af90570f-0e6f-4c87-8687-2184b217236f/9a6d4078ab2f05c8a3b8160c2122826fc27192f16126d376f176721cb6610c49/ffd10ab2289846b050c3a41ffee46089fdf49a35"
+            }
+          },
+          "name": "variables"
+        }
+      ],
+      "namespace": "ROOT::AUDIT-AWS-RDS-QWEQWE",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "set",
+          "name": "action"
+        },
+        {
+          "type": "Array",
+          "value": {
+            "truncated": {
+              "object_size": 15779,
+              "object_key": "58d4aa095e639f19bc6f8293/af90570f-0e6f-4c87-8687-2184b217236f/9a6d4078ab2f05c8a3b8160c2122826fc27192f16126d376f176721cb6610c49/ffd10ab2289846b050c3a41ffee46089fdf49a35"
+            }
+          },
+          "name": "variables"
+        }
+      ],
+      "executionTime": 9.87274978,
+      "executionNumber": 9,
+      "engineStatus": "OK",
+      "engineState": "EXECUTING",
+      "dataType": "DEPLOY_RESOURCE",
+      "_id": "58d4ac374ff94f6bf977a210"
+    },
+    {
+      "timestamp": "2017-03-24T05:18:30.988Z",
+      "stackName": "AUDIT-AWS-RDS-QWEQWE",
+      "runId": "af90570f-0e6f-4c87-8687-2184b217236f",
+      "resourceType": "coreo_uni_util_jsrunner",
+      "resourceName": "tags-to-notifiers-array-rds",
+      "resourceId": "c32164e9e0619efee5e4fe2a3338181f6fcdcab377842c6fb1d32c417939da8d",
+      "outputs": [
+        {
+          "value": {
+            "truncated": {
+              "object_size": 8864,
+              "object_key": "58d4aa095e639f19bc6f8293/af90570f-0e6f-4c87-8687-2184b217236f/c32164e9e0619efee5e4fe2a3338181f6fcdcab377842c6fb1d32c417939da8d/c6991088a4aa768129ddb3fd88f3aeba3d2d3167"
+            }
+          },
+          "name": "return"
+        },
+        {
+          "value": {
+            "truncated": {
+              "object_size": 7267,
+              "object_key": "58d4aa095e639f19bc6f8293/af90570f-0e6f-4c87-8687-2184b217236f/c32164e9e0619efee5e4fe2a3338181f6fcdcab377842c6fb1d32c417939da8d/70ea079ac4653154f2c9c3d9bed623d2e15b2171"
+            }
+          },
+          "name": "jsrunner_file"
+        },
+        {
+          "value": "{\"name\":\"jsrunner\",\"description\":\"jsrunner\",\"engine\":\"node 6.6.0\",\"dependencies\": {\n\"cloudcoreo-jsrunner-commons\": \"1.10.7-9\",\n\"js-yaml\": \"3.7.0\"}}\n",
+          "name": "packages_file"
+        },
+        {
+          "value": {
+            "truncated": {
+              "object_size": 13910,
+              "object_key": "58d4aa095e639f19bc6f8293/af90570f-0e6f-4c87-8687-2184b217236f/c32164e9e0619efee5e4fe2a3338181f6fcdcab377842c6fb1d32c417939da8d/28171034e3b693da31c04e50313ae95ada51af22"
+            }
+          },
+          "name": "stdout"
+        },
+        {
+          "value": {
+            "truncated": {
+              "object_size": 1461,
+              "object_key": "58d4aa095e639f19bc6f8293/af90570f-0e6f-4c87-8687-2184b217236f/c32164e9e0619efee5e4fe2a3338181f6fcdcab377842c6fb1d32c417939da8d/f55be0bc7ab57ab06a8492ac9df1709344787885"
+            }
+          },
+          "name": "table"
+        },
+        {
+          "value": "{\"rds-short-backup-retention-period\":[{\"cc-57980ce2d13-kubedev\":\"2017-01-10T00:00Z\"}],\"rds-no-auto-minor-version-upgrade\":[{\"put-your-object-id-here-1\":\"\"},{\"put-your-object-id-here-2\":\"\"}],\"rds-db-publicly-accessible\":[{\"put-your-object-id-here\":\"\"}],\"rds-inventory\":[{\"cc-57980ce2d13-kubedev\":\"2017-01-30T14:44Z\"}]}",
+          "name": "suppression"
+        },
+        {
+          "value": {
+            "truncated": {
+              "object_size": 6995,
+              "object_key": "58d4aa095e639f19bc6f8293/af90570f-0e6f-4c87-8687-2184b217236f/c32164e9e0619efee5e4fe2a3338181f6fcdcab377842c6fb1d32c417939da8d/7c6dc9cb671eba457ea690bcdf2e2de5ee23d9a1"
+            }
+          },
+          "name": "JSONReport"
+        },
+        {
+          "value": "{\"us-east-1\":{\"cc-57980ce2d13-kubedev\":{\"violator_info\":{\"db_security_groups\":[],\"vpc_security_groups\":[{\"vpc_security_group_id\":\"sg-c90c96b4\",\"status\":\"active\"}],\"db_parameter_groups\":[{\"db_parameter_group_name\":\"cc-57980ce2d13-kubedev\",\"parameter_apply_status\":\"in-sync\"}],\"read_replica_db_instance_identifiers\":[],\"option_group_memberships\":[{\"option_group_name\":\"default:mysql-5-6\",\"status\":\"in-sync\"}],\"status_infos\":[],\"allocated_storage\":25,\"availability_zone\":\"us-east-1d\",\"preferred_backup_window\":\"03:42-04:12\",\"db_instance_identifier\":\"cc-57980ce2d13-kubedev\",\"endpoint\":{\"port\":3306,\"address\":\"cc-57980ce2d13-kubedev.cgfflexed4cn.us-east-1.rds.amazonaws.com\"},\"engine\":\"mysql\",\"publicly_accessible\":false,\"engine_version\":\"5.6.29\",\"master_username\":\"admin\",\"db_name\":\"kubedev\",\"multi_az\":false,\"instance_create_time\":\"2016-11-28T09:19:38Z\",\"db_instance_class\":\"db.t2.micro\",\"db_subnet_group\":{\"subnets\":[{\"subnet_status\":\"Active\",\"subnet_identifier\":\"subnet-e41194c9\",\"subnet_availability_zone\":{\"name\":\"us-east-1c\",\"provisioned_iops_capable\":false}},{\"subnet_status\":\"Active\",\"subnet_identifier\":\"subnet-3d1da366\",\"subnet_availability_zone\":{\"name\":\"us-east-1a\",\"provisioned_iops_capable\":false}},{\"subnet_status\":\"Active\",\"subnet_identifier\":\"subnet-ec9eeaa5\",\"subnet_availability_zone\":{\"name\":\"us-east-1d\",\"provisioned_iops_capable\":false}}],\"subnet_group_status\":\"Complete\",\"vpc_id\":\"vpc-ff1ae199\",\"db_subnet_group_description\":\"Subnet Group Created by CloudCoreo for Db [kubedev]\",\"db_subnet_group_name\":\"cc-57980ce2d13-kubedev\"},\"license_model\":\"general-public-license\",\"pending_modified_values\":null,\"preferred_maintenance_window\":\"fri:03:01-fri:03:31\",\"db_instance_status\":\"available\",\"backup_retention_period\":2,\"auto_minor_version_upgrade\":true,\"latest_restorable_time\":\"2017-03-24T05:10:00Z\"},\"violations\":{\"rds-short-backup-retention-period\":{\"service\":\"rds\",\"display_name\":\"RDS short backup retention period\",\"result_info\":[{\"place\":\"db_instances:db_instances[0].backup_retention_period\",\"object\":{\"truncated\":{\"object_key\":\"58d4aa095e639f19bc6f8293/af90570f-0e6f-4c87-8687-2184b217236f/c32164e9e0619efee5e4fe2a3338181f6fcdcab377842c6fb1d32c417939da8d/8e4b88e19ed7a9933e3c93c652101e1040873403\",\"object_size\":1760}}}],\"description\":\"The affected RDS database has a short backup retention period (less than 30 days).\",\"category\":\"Dataloss\",\"suggested_action\":\"Modify the backup retension period to increase it to greater than 30 days.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_rds-short-backup-retention-period.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\",\"objectId\":\"cc-57980ce2d13-kubedev\",\"ruleKey\":\"rds-short-backup-retention-period\",\"suppression_until\":\"2017-01-10T00:00Z\",\"tags\":\"coreo_owner, Name\",\"email\":\"\",\"violationScheme\":{},\"suppressExpired\":true}},\"tags\":[{\"value\":\"george+1@cloudcoreo.com\",\"key\":\"coreo_owner\"},{\"value\":\"kubedev\",\"key\":\"Name\"}]}}}",
+          "name": "report"
+        }
+      ],
+      "namespace": "ROOT::AUDIT-AWS-RDS-QWEQWE",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "run",
+          "name": "action"
+        },
+        {
+          "type": "String",
+          "value": "json",
+          "name": "data_type"
+        },
+        {
+          "type": "String",
+          "value": {
+            "truncated": {
+              "object_size": 4852,
+              "object_key": "58d4aa095e639f19bc6f8293/af90570f-0e6f-4c87-8687-2184b217236f/c32164e9e0619efee5e4fe2a3338181f6fcdcab377842c6fb1d32c417939da8d/620d6ee9910c33c00397b65e7a4c529100750004"
+            }
+          },
+          "name": "json_input"
+        },
+        {
+          "type": "String",
+          "value": {
+            "truncated": {
+              "object_size": 1724,
+              "object_key": "58d4aa095e639f19bc6f8293/af90570f-0e6f-4c87-8687-2184b217236f/c32164e9e0619efee5e4fe2a3338181f6fcdcab377842c6fb1d32c417939da8d/535a3e61e1c68796db3927eb8b850fc7a6ea659e"
+            }
+          },
+          "name": "function"
+        },
+        {
+          "type": "TrueClass",
+          "value": "true",
+          "name": "provide_composite_access"
+        },
+        {
+          "type": "Array",
+          "value": "[{:name=>\"cloudcoreo-jsrunner-commons\", :version=>\"1.10.7-9\"}, {:name=>\"js-yaml\", :version=>\"3.7.0\"}]",
+          "name": "packages"
+        }
+      ],
+      "executionTime": 19.322501856,
+      "executionNumber": 8,
+      "engineStatus": "OK",
+      "engineState": "EXECUTING",
+      "dataType": "DEPLOY_RESOURCE",
+      "_id": "58d4ac284ff94f6bf977a20f"
+    },
+    {
+      "timestamp": "2017-03-24T05:18:00.968Z",
+      "stackName": "AUDIT-AWS-RDS-QWEQWE",
+      "runId": "af90570f-0e6f-4c87-8687-2184b217236f",
+      "resourceType": "coreo_uni_util_variables",
+      "resourceName": "rds-update-planwide-1",
+      "resourceId": "b1e6a3544a86a432ce5066e02957baa7218f3b3fd17a4560cc5b1bd625e6fc79",
+      "outputs": [
+        {
+          "value": {
+            "truncated": {
+              "object_size": 4682,
+              "object_key": "58d4aa095e639f19bc6f8293/af90570f-0e6f-4c87-8687-2184b217236f/b1e6a3544a86a432ce5066e02957baa7218f3b3fd17a4560cc5b1bd625e6fc79/932903ab6f9fb671c7cb140b567ae216d717011d"
+            }
+          },
+          "name": "results"
+        },
+        {
+          "value": "1",
+          "name": "number_violations"
+        },
+        {
+          "value": {
+            "truncated": {
+              "object_size": 5687,
+              "object_key": "58d4aa095e639f19bc6f8293/af90570f-0e6f-4c87-8687-2184b217236f/b1e6a3544a86a432ce5066e02957baa7218f3b3fd17a4560cc5b1bd625e6fc79/5f211908ce752c4673d516fdfc904f86a61d5a46"
+            }
+          },
+          "name": "variables"
+        }
+      ],
+      "namespace": "ROOT::AUDIT-AWS-RDS-QWEQWE",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "set",
+          "name": "action"
+        },
+        {
+          "type": "Array",
+          "value": {
+            "truncated": {
+              "object_size": 5687,
+              "object_key": "58d4aa095e639f19bc6f8293/af90570f-0e6f-4c87-8687-2184b217236f/b1e6a3544a86a432ce5066e02957baa7218f3b3fd17a4560cc5b1bd625e6fc79/5f211908ce752c4673d516fdfc904f86a61d5a46"
+            }
+          },
+          "name": "variables"
+        }
+      ],
+      "executionTime": 8.208820276,
+      "executionNumber": 7,
+      "engineStatus": "OK",
+      "engineState": "EXECUTING",
+      "dataType": "DEPLOY_RESOURCE",
+      "_id": "58d4ac094ff94f6bf977a20e"
+    },
+    {
+      "timestamp": "2017-03-24T05:17:45.373Z",
+      "stackName": "AUDIT-AWS-RDS-QWEQWE",
+      "runId": "af90570f-0e6f-4c87-8687-2184b217236f",
+      "resourceType": "coreo_aws_rule_runner_rds",
+      "resourceName": "advise-rds",
+      "resourceId": "85b207d9516ccf9fef25e10abdb16935364edf4ad4355a0e73152daef35b8f14",
+      "outputs": [
         {
           "value": 0,
           "name": "number_ignored_violations"
         },
         {
-          "value": 62,
+          "value": 1,
           "name": "number_violations"
         },
         {
-          "value": 588,
+          "value": 6,
           "name": "number_checks"
         },
         {
-          "value": "{\"us-east-1\":{\"api.docs.hack.cloudcoreo.com\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/97afd5135a2d9250b85e51f4ebd9cb93fcfb5fa8\",\"object_size\":82}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[]},\"atestlogbucket\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/889c8ebd00fe36a70e5dc1c01b0f712e5e771e7a\",\"object_size\":68}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"george@cloudcoreo.com\"}]},\"cc-dev-unittests\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/d72ae9809e1636ae75b52cf079a2d0fee63f95bb\",\"object_size\":70}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"george+1@cloudcoreo.com\"}]},\"cc-fail-bucket\":{\"violations\":{\"s3-allusers-read\":{\"service\":\"s3\",\"display_name\":\"All users can list the affected bucket\",\"result_info\":[{\"place\":\"bucket_acl:grants[4]\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/51901eb1509a47d2f8495cc42e03ee807736c835\",\"object_size\":104}}},{\"place\":\"bucket_acl:grants\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/51901eb1509a47d2f8495cc42e03ee807736c835\",\"object_size\":104}}},{\"place\":\"bucket_acl:grants\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/51901eb1509a47d2f8495cc42e03ee807736c835\",\"object_size\":104}}},{\"place\":\"bucket_acl:grants\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/51901eb1509a47d2f8495cc42e03ee807736c835\",\"object_size\":104}}}],\"description\":\"Bucket has permissions (ACL) which let anyone list the bucket contents.\",\"category\":\"Security\",\"suggested_action\":\"Remove the entry from the bucket permissions that allows everyone to list the bucket.\",\"level\":\"Critical\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-allusers-read.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"},\"s3-allusers-write\":{\"service\":\"s3\",\"display_name\":\"All users can write to the affected bucket\",\"result_info\":[{\"place\":\"bucket_acl:grants\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/35c62f9d5490ba2939f7dc741d4221dc29bb3395\",\"object_size\":105}}},{\"place\":\"bucket_acl:grants[5]\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/35c62f9d5490ba2939f7dc741d4221dc29bb3395\",\"object_size\":105}}},{\"place\":\"bucket_acl:grants\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/35c62f9d5490ba2939f7dc741d4221dc29bb3395\",\"object_size\":105}}},{\"place\":\"bucket_acl:grants\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/35c62f9d5490ba2939f7dc741d4221dc29bb3395\",\"object_size\":105}}}],\"description\":\"Bucket has permissions (ACL) which let all users write to the bucket.\",\"category\":\"Dataloss\",\"suggested_action\":\"Remove the entry from the bucket permissions that allows everyone to write.\",\"level\":\"Critical\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-allusers-write.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"},\"s3-allusers-write-acp\":{\"service\":\"s3\",\"display_name\":\"All users can write the bucket ACP / ACL\",\"result_info\":[{\"place\":\"bucket_acl:grants\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/fe83b2c7409ca9517d75a111c6a9cbf83c1c6adc\",\"object_size\":109}}},{\"place\":\"bucket_acl:grants\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/fe83b2c7409ca9517d75a111c6a9cbf83c1c6adc\",\"object_size\":109}}},{\"place\":\"bucket_acl:grants\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/fe83b2c7409ca9517d75a111c6a9cbf83c1c6adc\",\"object_size\":109}}},{\"place\":\"bucket_acl:grants[7]\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/fe83b2c7409ca9517d75a111c6a9cbf83c1c6adc\",\"object_size\":109}}}],\"description\":\"Bucket has permissions (ACP / ACL) which let all users modify the permissions.\",\"category\":\"Dataloss\",\"suggested_action\":\"Remove the entry from the bucket permissions that allows everyone to edit permissions.\",\"level\":\"Emergency\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-allusers-write-acp.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"},\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/1240365a950a637844e8500a6f0b5d959f426b0b\",\"object_size\":68}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"george+2@cloudcoreo.com\"}]},\"cc-sqs-message\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/225f4bb62d8eb6da5b1dc765e33c1759607443fd\",\"object_size\":68}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"cc-test-elb-logs\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/77a4c80f7b8b5c3653c965be32ae0264b27fb25a\",\"object_size\":70}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"cf-templates-vuxp8eu6slr7-us-east-1\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/863cd17bb666d51d0bd71e96d729e2127b0ab05a\",\"object_size\":89}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"cf-templates-vuxp8eu6slr7-us-east-2\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/8b7e964368785bc6eebcf57451eda2b811d1fa3c\",\"object_size\":89}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[]},\"cf-templates-vuxp8eu6slr7-us-west-2\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/9855024bd79b100c1d57495c0d84419c86b21035\",\"object_size\":89}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"cloudcore-dev-files\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/2ce75ea7126f0c3b9ab8a2c1c3f34cd4669d4249\",\"object_size\":73}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"cloudcoreo-backups-a\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/be7a2b7f60274bbd20f5782a5bf6fb212609b7e4\",\"object_size\":74}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"cloudcoreo-custom-dashboards-dev\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/efa74bc4da49d612332dc8af2828e4ab35315a25\",\"object_size\":86}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"cloudcoreo-customer-files\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/e69f6c72ea9f2b1457219872a3b81b53f1be98fa\",\"object_size\":79}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"cloudcoreo-dev-backups\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/f5defdc76c2d740188f56a27e4a442ba4fbed6f8\",\"object_size\":76}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"Name\",\"value\":\"cloudcoreo-dev-backups\"}]},\"cloudcoreo-dev-containers\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/4a9cf8bc38da82c58f690c7cc2becc7c6980e05a\",\"object_size\":79}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"cloudcoreo-dev-nursultan\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/4dcf20a55aa8aeff1133cb376a609e160c0018ce\",\"object_size\":78}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"cloudcoreo-devfiles2\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/b5bcce13a49a19c3a1eb12e724860d1b1a5c7227\",\"object_size\":74}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"cloudcoreo-dm-backups\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/49e791cba548a666c13e99cb7f3b50f96d066699\",\"object_size\":75}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"Name\",\"value\":\"cloudcoreo-dm-backups\"}]},\"cloudcoreo-dm-vpn-keys\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/dd9152a336b145dd471f4bb63f0afcfd58ff881b\",\"object_size\":76}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"Name\",\"value\":\"cloudcoreo-dm-vpn-keys\"}]},\"cloudcoreo-hack-cloudtrail\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/ccb41606060b5495a9da550969e6c07a1599d6d8\",\"object_size\":80}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"cloudcoreo-opcito\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/81de0cefec196bcd04889f4cb4f6b60494181aa1\",\"object_size\":71}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"cloudcoreo-opcito-bucket\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/982f09a6f5d93a2655d33ac2953e5bf122fcfb79\",\"object_size\":78}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"cloudcoreo-opcito-mongo\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/7239478009cf402429af799186935967fca8e88d\",\"object_size\":77}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"cloudcoreo-slava-testing\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/1088e17319d0df9f59a927c4755910d350791746\",\"object_size\":78}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"cloudcoreo-sqs-messages-dev\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/52be3f001ee20ce24458d5354723c72deaa34439\",\"object_size\":81}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"cloudcoreo-truncated-objects-dev\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/77b162a5aeaebed9dd17d299e73d7d9c9cd4c0b5\",\"object_size\":86}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[]},\"cloudcoreo-uswest2-bucket\":{\"violations\":{\"s3-allusers-write-acp\":{\"service\":\"s3\",\"display_name\":\"All users can write the bucket ACP / ACL\",\"result_info\":[{\"place\":\"bucket_acl:grants[5]\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/fe83b2c7409ca9517d75a111c6a9cbf83c1c6adc\",\"object_size\":109}}}],\"description\":\"Bucket has permissions (ACP / ACL) which let all users modify the permissions.\",\"category\":\"Dataloss\",\"suggested_action\":\"Remove the entry from the bucket permissions that allows everyone to edit permissions.\",\"level\":\"Emergency\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-allusers-write-acp.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"},\"s3-authenticatedusers-write-acp\":{\"service\":\"s3\",\"display_name\":\"All authenticated AWS users can change bucket permissions\",\"result_info\":[{\"place\":\"bucket_acl:grants[4]\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/e479d9d4c17b8ee5f722b05fde698f7023339231\",\"object_size\":119}}}],\"description\":\"Bucket has permissions ( ACP / ACL) which let any AWS user modify the permissions.\",\"category\":\"Dataloss\",\"suggested_action\":\"Remove the bucket permissions (ACP / ACL) that allows 'Any Authenticated AWS User' to edit permissions.\",\"level\":\"Emergency\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-authenticatedusers-write-acp.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"},\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/a19e09519de01410963a4a28f43f6037c001a8a1\",\"object_size\":79}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[]},\"cloudcoreo-yum-dev\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/b3d72db909ed44b3057e173d1e42797a356c929c\",\"object_size\":72}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"},\"s3-only-ip-based-policy\":{\"service\":\"s3\",\"display_name\":\"Bucket policy uses IP addresses to grant permission\",\"result_info\":[{\"place\":\"bucket_policy:policy.#jmespath.Statement[*].[Effect, Condition]\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/3b43058bdfdb434da2c11ae9d45cc8d8d4df18d2\",\"object_size\":563}}}],\"description\":\"Bucket policy grants permissions to any user at an IP address or range to perform operations on objects in the specified bucket.\",\"category\":\"Security\",\"suggested_action\":\"Consider using other methods to grant permission to perform operations on your S3 buckets.\",\"level\":\"Critical\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-only-ip-based-policy.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"dmitriicloudtrailtest\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/002cd889eb41b4d2329f7191eb8b6a307f76e9fc\",\"object_size\":75}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"fugue-530342348278-us-east-1\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/38dd72fa095a436bd299e4b3ca5cfa299c55d433\",\"object_size\":82}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"ian-cc-bucket\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/682a15b779cd32ddaa5c4f8c1e8a3149a42ba8da\",\"object_size\":67}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[]},\"ian-test-bucket-delete\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/a0b368c74953005dc066a76517eff1984e71fa6c\",\"object_size\":76}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[]},\"lamp-backup-kgbranch\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/5483c08b378f72ddb673bd23a80996efdca46b20\",\"object_size\":74}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"opcito-mongo-backups-a\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/9fa0756820f149465844249e1a6533c407e99f0c\",\"object_size\":76}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"pla-366-test-bucket-1\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/c53a300c67a68e62e9a81b661eff56bdd2520c67\",\"object_size\":75}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"test-alert-when-allauthenticatedawsuser-has-read\":{\"violations\":{\"s3-authenticatedusers-read\":{\"service\":\"s3\",\"display_name\":\"All authenticated AWS users can read the affected bucket\",\"result_info\":[{\"place\":\"bucket_acl:grants[4]\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/96b8525e4295fb6eab9c9edb9e303cf84f09588a\",\"object_size\":114}}}],\"description\":\"Bucket has permissions (ACL) which let any AWS user list the bucket contents.\",\"category\":\"Security\",\"suggested_action\":\"Remove the entry from the bucket permissions that allows 'Any Authenticated AWS User' to list the bucket.\",\"level\":\"Critical\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-authenticatedusers-read.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"test-alert-when-allauthenticatedawsuser-has-write\":{\"violations\":{\"s3-authenticatedusers-write\":{\"service\":\"s3\",\"display_name\":\"All authenticated AWS users can write to the affected bucket\",\"result_info\":[{\"place\":\"bucket_acl:grants[4]\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/bd0cec62a8ade979cf94dc99da4a62166c93c098\",\"object_size\":115}}}],\"description\":\"Bucket has permissions (ACL) which let any AWS users write to the bucket.\",\"category\":\"Dataloss\",\"suggested_action\":\"Remove the entry from the bucket permissions that allows 'Any Authenticated AWS User' to write.\",\"level\":\"Critical\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-authenticatedusers-write.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"test-alert-when-allauthenticatedawsuser-has-writeacp\":{\"violations\":{\"s3-authenticatedusers-write-acp\":{\"service\":\"s3\",\"display_name\":\"All authenticated AWS users can change bucket permissions\",\"result_info\":[{\"place\":\"bucket_acl:grants[4]\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/e479d9d4c17b8ee5f722b05fde698f7023339231\",\"object_size\":119}}}],\"description\":\"Bucket has permissions ( ACP / ACL) which let any AWS user modify the permissions.\",\"category\":\"Dataloss\",\"suggested_action\":\"Remove the bucket permissions (ACP / ACL) that allows 'Any Authenticated AWS User' to edit permissions.\",\"level\":\"Emergency\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-authenticatedusers-write-acp.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"test-alert-when-everyone-has-read\":{\"violations\":{\"s3-allusers-read\":{\"service\":\"s3\",\"display_name\":\"All users can list the affected bucket\",\"result_info\":[{\"place\":\"bucket_acl:grants[4]\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/51901eb1509a47d2f8495cc42e03ee807736c835\",\"object_size\":104}}}],\"description\":\"Bucket has permissions (ACL) which let anyone list the bucket contents.\",\"category\":\"Security\",\"suggested_action\":\"Remove the entry from the bucket permissions that allows everyone to list the bucket.\",\"level\":\"Critical\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-allusers-read.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"test-alert-when-everyone-has-write\":{\"violations\":{\"s3-allusers-write\":{\"service\":\"s3\",\"display_name\":\"All users can write to the affected bucket\",\"result_info\":[{\"place\":\"bucket_acl:grants[4]\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/35c62f9d5490ba2939f7dc741d4221dc29bb3395\",\"object_size\":105}}}],\"description\":\"Bucket has permissions (ACL) which let all users write to the bucket.\",\"category\":\"Dataloss\",\"suggested_action\":\"Remove the entry from the bucket permissions that allows everyone to write.\",\"level\":\"Critical\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-allusers-write.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"test-alert-when-everyone-has-writeacp\":{\"violations\":{\"s3-allusers-write-acp\":{\"service\":\"s3\",\"display_name\":\"All users can write the bucket ACP / ACL\",\"result_info\":[{\"place\":\"bucket_acl:grants[4]\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/fe83b2c7409ca9517d75a111c6a9cbf83c1c6adc\",\"object_size\":109}}}],\"description\":\"Bucket has permissions (ACP / ACL) which let all users modify the permissions.\",\"category\":\"Dataloss\",\"suggested_action\":\"Remove the entry from the bucket permissions that allows everyone to edit permissions.\",\"level\":\"Emergency\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-allusers-write-acp.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"test-alert-when-only-ip-based-policy\":{\"violations\":{\"s3-only-ip-based-policy\":{\"service\":\"s3\",\"display_name\":\"Bucket policy uses IP addresses to grant permission\",\"result_info\":[{\"place\":\"bucket_policy:policy.#jmespath.Statement[*].[Effect, Condition]\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/fd499d10577b28a35fc95bb0402d64e00e4f9c56\",\"object_size\":287}}}],\"description\":\"Bucket policy grants permissions to any user at an IP address or range to perform operations on objects in the specified bucket.\",\"category\":\"Security\",\"suggested_action\":\"Consider using other methods to grant permission to perform operations on your S3 buckets.\",\"level\":\"Critical\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-only-ip-based-policy.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"test-alert-when-s3-logging-disabled\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/b5b6d099109a9915d97daa5f1596148cafb0633f\",\"object_size\":89}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"test-alert-when-world-open-policy-all\":{\"violations\":{\"s3-world-open-policy-all\":{\"service\":\"s3\",\"display_name\":\"Bucket policy gives the world permission to do anything in the bucket\",\"result_info\":[{\"place\":\"bucket_policy:policy.#jmespath.Statement[?Effect == 'Allow' \\u0026\\u0026 Action == 's3:*' \\u0026\\u0026 Principal == '*' \\u0026\\u0026 !Condition]\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/431fbdecf0bb43f11c8e69b58eb749c9b2156e9a\",\"object_size\":238}}}],\"description\":\"Bucket policy gives the world permission to do anything in the bucket\",\"category\":\"Dataloss\",\"suggested_action\":\"Modify the principle to remove the * notation which signifies any person or remove the * from allowed actions which signifies allowing any possible action on the bucket or its contents.\",\"level\":\"Emergency\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-all.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"test-alert-when-world-open-policy-delete\":{\"violations\":{\"s3-world-open-policy-delete\":{\"service\":\"s3\",\"display_name\":\"Bucket policy gives world delete permission\",\"result_info\":[{\"place\":\"bucket_policy:policy.#jmespath.Statement[?Effect == 'Allow' \\u0026\\u0026 Principal == '*' \\u0026\\u0026 !Condition]\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/ec59b81c6d3c433ba0e4df4a7ee6246261b849ed\",\"object_size\":252}}}],\"description\":\"Bucket policy allows the world to delete the affected bucket and/or its contents\",\"category\":\"Dataloss\",\"suggested_action\":\"Remove or modify the bucket policy that enables the world to delete the contents of this bucket or even the bucket itself.\",\"level\":\"Emergency\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-delete.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"test-alert-when-world-open-policy-get\":{\"violations\":{\"s3-world-open-policy-get\":{\"service\":\"s3\",\"display_name\":\"Bucket policy gives world Get permission\",\"result_info\":[{\"place\":\"bucket_policy:policy.#jmespath.Statement[?Effect == 'Allow' \\u0026\\u0026 Principal == '*' \\u0026\\u0026 !Condition]\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/1a2b4a4baf46d1470d4bf5b41591df063913dfd3\",\"object_size\":207}}}],\"description\":\"Bucket policy allows the world to get the contents of the affected bucket.\",\"category\":\"Security\",\"suggested_action\":\"Remove or modify the bucket policy that enables the world to get the contents of this bucket.\",\"level\":\"Critical\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-get.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"test-alert-when-world-open-policy-list\":{\"violations\":{\"s3-world-open-policy-list\":{\"service\":\"s3\",\"display_name\":\"Bucket policy gives world List permission\",\"result_info\":[{\"place\":\"bucket_policy:policy.#jmespath.Statement[?Effect == 'Allow' \\u0026\\u0026 Principal == '*' \\u0026\\u0026 !Condition]\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/be0343e90a5b58c580d20515cc22cf848b4022f6\",\"object_size\":248}}}],\"description\":\"Bucket policy allows the world to list the contents of the affected bucket\",\"category\":\"Security\",\"suggested_action\":\"Remove or modify the bucket policy that enables the world to list the contents of this bucket.\",\"level\":\"Critical\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-list.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"test-alert-when-world-open-policy-put\":{\"violations\":{\"s3-allusers-read\":{\"service\":\"s3\",\"display_name\":\"All users can list the affected bucket\",\"result_info\":[{\"place\":\"bucket_acl:grants[4]\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/51901eb1509a47d2f8495cc42e03ee807736c835\",\"object_size\":104}}},{\"place\":\"bucket_acl:grants\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/51901eb1509a47d2f8495cc42e03ee807736c835\",\"object_size\":104}}},{\"place\":\"bucket_acl:grants\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/51901eb1509a47d2f8495cc42e03ee807736c835\",\"object_size\":104}}},{\"place\":\"bucket_acl:grants\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/51901eb1509a47d2f8495cc42e03ee807736c835\",\"object_size\":104}}}],\"description\":\"Bucket has permissions (ACL) which let anyone list the bucket contents.\",\"category\":\"Security\",\"suggested_action\":\"Remove the entry from the bucket permissions that allows everyone to list the bucket.\",\"level\":\"Critical\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-allusers-read.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"},\"s3-allusers-write\":{\"service\":\"s3\",\"display_name\":\"All users can write to the affected bucket\",\"result_info\":[{\"place\":\"bucket_acl:grants\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/35c62f9d5490ba2939f7dc741d4221dc29bb3395\",\"object_size\":105}}},{\"place\":\"bucket_acl:grants[5]\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/35c62f9d5490ba2939f7dc741d4221dc29bb3395\",\"object_size\":105}}},{\"place\":\"bucket_acl:grants\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/35c62f9d5490ba2939f7dc741d4221dc29bb3395\",\"object_size\":105}}},{\"place\":\"bucket_acl:grants\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/35c62f9d5490ba2939f7dc741d4221dc29bb3395\",\"object_size\":105}}}],\"description\":\"Bucket has permissions (ACL) which let all users write to the bucket.\",\"category\":\"Dataloss\",\"suggested_action\":\"Remove the entry from the bucket permissions that allows everyone to write.\",\"level\":\"Critical\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-allusers-write.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"},\"s3-allusers-write-acp\":{\"service\":\"s3\",\"display_name\":\"All users can write the bucket ACP / ACL\",\"result_info\":[{\"place\":\"bucket_acl:grants\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/fe83b2c7409ca9517d75a111c6a9cbf83c1c6adc\",\"object_size\":109}}},{\"place\":\"bucket_acl:grants\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/fe83b2c7409ca9517d75a111c6a9cbf83c1c6adc\",\"object_size\":109}}},{\"place\":\"bucket_acl:grants\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/fe83b2c7409ca9517d75a111c6a9cbf83c1c6adc\",\"object_size\":109}}},{\"place\":\"bucket_acl:grants[7]\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/fe83b2c7409ca9517d75a111c6a9cbf83c1c6adc\",\"object_size\":109}}}],\"description\":\"Bucket has permissions (ACP / ACL) which let all users modify the permissions.\",\"category\":\"Dataloss\",\"suggested_action\":\"Remove the entry from the bucket permissions that allows everyone to edit permissions.\",\"level\":\"Emergency\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-allusers-write-acp.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"},\"s3-world-open-policy-put\":{\"service\":\"s3\",\"display_name\":\"Bucket policy gives world Put permission\",\"result_info\":[{\"place\":\"bucket_policy:policy.#jmespath.Statement[?Effect == 'Allow' \\u0026\\u0026 Principal == '*' \\u0026\\u0026 !Condition]\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/ecec26c304131cb5c4b510e3174d190483628ee5\",\"object_size\":207}}}],\"description\":\"Bucket policy allows the world to put data into the affected bucket.\",\"category\":\"Dataloss\",\"suggested_action\":\"Remove the bucket permission that enables the world to put (and overwrite) data in this bucket.\",\"level\":\"Critical\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-put.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"test-gjm\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/9e5419003ab17fccae3a4d663ac91b7f01c634c1\",\"object_size\":62}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"testthemapviewofs3alertviolationsforregion\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/9010ad58681f61a006559ef6e170897f00d8d7c6\",\"object_size\":96}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[]},\"thisisjoescloudtrailtestbucket\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/2f42df2b836eb4073bcb27c620d545e793c14bea\",\"object_size\":84}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"v1-aa\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/631d399bfe3c1357d05611e9c9412e7c4a8c8ba7\",\"object_size\":59}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[{\"key\":\"coreo_owner\",\"value\":\"mihail@cloudcoreo.com\"}]},\"yaad-userfiles-mobilehub-70168176\":{\"violations\":{\"s3-logging-disabled\":{\"service\":\"s3\",\"display_name\":\"S3 bucket logging not enabled\",\"result_info\":[{\"place\":\"bucket_logging:\",\"object\":{\"truncated\":{\"object_key\":\"5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4aac3910c70ad0fcb4f0ad05dd3b195b9c9b97931c71cf32e819da0ed4170a35/320aee36e3eb9169e3c3cde5777bfb4a9b1188d5\",\"object_size\":87}}}],\"description\":\"S3 bucket logging has not been enabled for the affected resource.\",\"category\":\"Audit\",\"suggested_action\":\"Enable logging on your S3 buckets.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\"}},\"tags\":[]}}}",
+          "value": "{\"us-east-1\":{\"cc-57980ce2d13-kubedev\":{\"violator_info\":{\"db_security_groups\":[],\"vpc_security_groups\":[{\"vpc_security_group_id\":\"sg-c90c96b4\",\"status\":\"active\"}],\"db_parameter_groups\":[{\"db_parameter_group_name\":\"cc-57980ce2d13-kubedev\",\"parameter_apply_status\":\"in-sync\"}],\"read_replica_db_instance_identifiers\":[],\"option_group_memberships\":[{\"option_group_name\":\"default:mysql-5-6\",\"status\":\"in-sync\"}],\"status_infos\":[],\"allocated_storage\":25,\"availability_zone\":\"us-east-1d\",\"preferred_backup_window\":\"03:42-04:12\",\"db_instance_identifier\":\"cc-57980ce2d13-kubedev\",\"endpoint\":{\"port\":3306,\"address\":\"cc-57980ce2d13-kubedev.cgfflexed4cn.us-east-1.rds.amazonaws.com\"},\"engine\":\"mysql\",\"publicly_accessible\":false,\"engine_version\":\"5.6.29\",\"master_username\":\"admin\",\"db_name\":\"kubedev\",\"multi_az\":false,\"instance_create_time\":\"2016-11-28T09:19:38Z\",\"db_instance_class\":\"db.t2.micro\",\"db_subnet_group\":{\"subnets\":[{\"subnet_status\":\"Active\",\"subnet_identifier\":\"subnet-e41194c9\",\"subnet_availability_zone\":{\"name\":\"us-east-1c\",\"provisioned_iops_capable\":false}},{\"subnet_status\":\"Active\",\"subnet_identifier\":\"subnet-3d1da366\",\"subnet_availability_zone\":{\"name\":\"us-east-1a\",\"provisioned_iops_capable\":false}},{\"subnet_status\":\"Active\",\"subnet_identifier\":\"subnet-ec9eeaa5\",\"subnet_availability_zone\":{\"name\":\"us-east-1d\",\"provisioned_iops_capable\":false}}],\"subnet_group_status\":\"Complete\",\"vpc_id\":\"vpc-ff1ae199\",\"db_subnet_group_description\":\"Subnet Group Created by CloudCoreo for Db [kubedev]\",\"db_subnet_group_name\":\"cc-57980ce2d13-kubedev\"},\"license_model\":\"general-public-license\",\"pending_modified_values\":null,\"preferred_maintenance_window\":\"fri:03:01-fri:03:31\",\"db_instance_status\":\"available\",\"backup_retention_period\":2,\"auto_minor_version_upgrade\":true,\"latest_restorable_time\":\"2017-03-24T05:10:00Z\"},\"violations\":{\"rds-short-backup-retention-period\":{\"service\":\"rds\",\"display_name\":\"RDS short backup retention period\",\"result_info\":[{\"place\":\"db_instances:db_instances[0].backup_retention_period\",\"object\":{\"truncated\":{\"object_key\":\"58d4aa095e639f19bc6f8293/af90570f-0e6f-4c87-8687-2184b217236f/85b207d9516ccf9fef25e10abdb16935364edf4ad4355a0e73152daef35b8f14/8e4b88e19ed7a9933e3c93c652101e1040873403\",\"object_size\":1760}}}],\"description\":\"The affected RDS database has a short backup retention period (less than 30 days).\",\"category\":\"Dataloss\",\"suggested_action\":\"Modify the backup retension period to increase it to greater than 30 days.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_rds-short-backup-retention-period.html\",\"include_violations_in_count\":true,\"region\":\"us-east-1\",\"objectId\":\"cc-57980ce2d13-kubedev\",\"ruleKey\":\"rds-short-backup-retention-period\",\"suppression_until\":\"2017-01-10T00:00Z\",\"tags\":\"coreo_owner, Name\",\"email\":\"\",\"violationScheme\":{},\"suppressExpired\":true}},\"tags\":[{\"value\":\"george+1@cloudcoreo.com\",\"key\":\"coreo_owner\"},{\"value\":\"kubedev\",\"key\":\"Name\"}]}}}",
           "name": "report"
         }
       ],
-      "namespace": "ROOT::AUDIT-AWS-S3-TEST-DEFAULT",
-      "inputs": [
-        {
-          "type": "choice",
-          "value": "advise",
-          "name": "action"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "(?-mix:.*)",
-          "name": "bucket_name"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            "s3-allusers-write",
-            "s3-allusers-write-acp",
-            "s3-allusers-read",
-            "s3-authenticatedusers-write",
-            "s3-authenticatedusers-write-acp",
-            "s3-authenticatedusers-read",
-            "s3-logging-disabled",
-            "s3-world-open-policy-delete",
-            "s3-world-open-policy-get",
-            "s3-world-open-policy-list",
-            "s3-world-open-policy-put",
-            "s3-world-open-policy-all",
-            "s3-only-ip-based-policy"
-          ],
-          "name": "alerts"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "buckets",
-          "name": "global_objective"
-        },
-        {
-          "type": "PLA-1366",
-          "value": {
-            "bucket_name": "buckets.name"
-          },
-          "name": "global_modifier"
-        }
-      ],
-      "executionTime": 160.875905222,
-      "executionNumber": 14,
-      "engineStatus": "OK",
-      "engineState": "EXECUTING",
-      "dataType": "ADVISOR_RESOURCE",
-      "_id": "588ffe15384bdc9911415d93"
-    },
-    {
-      "timestamp": "2017-01-31T11:18:26.000Z",
-      "stackName": "AUDIT-AWS-S3-TEST-DEFAULT",
-      "runId": "80c2228c-19af-4259-b109-6cbcf7a31872",
-      "resourceType": "coreo_uni_util_jsrunner",
-      "resourceName": "jsrunner-process-suppression-s3",
-      "resourceId": "b7801b25fd122c527aaa1182222402c7643de975cb099c5c9c83483b1ea315a8",
-      "outputs": [
-        {
-          "value": "cc_5880200b9c5_jsrunner-process-suppression-s3",
-          "name": "ec2_name"
-        },
-        {
-          "value": "{\"us-east-1\":{\"violations\":{}}}",
-          "name": "return"
-        },
-        {
-          "value": {
-            "truncated": {
-              "object_size": 53508,
-              "object_key": "5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/b7801b25fd122c527aaa1182222402c7643de975cb099c5c9c83483b1ea315a8/dfd910ef6410a4379403c7e34607f8dd09014af6"
-            }
-          },
-          "name": "jsrunner_file"
-        },
-        {
-          "value": "{\"name\":\"jsrunner\",\"description\":\"jsrunner\",\"engine\":\"node 6.6.0\",\"dependencies\": {\n\"js-yaml\": \"3.7.0\"}}\n",
-          "name": "packages_file"
-        },
-        {
-          "value": {
-            "truncated": {
-              "object_size": 1593,
-              "object_key": "5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/b7801b25fd122c527aaa1182222402c7643de975cb099c5c9c83483b1ea315a8/92f602959e45db40a7ebfb7f3f4601470b6fb5f7"
-            }
-          },
-          "name": "stdout"
-        },
-        {
-          "value": {
-            "truncated": {
-              "object_size": 1583,
-              "object_key": "5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/b7801b25fd122c527aaa1182222402c7643de975cb099c5c9c83483b1ea315a8/c19dac0782a9b61097b67a75532e60038b0b339d"
-            }
-          },
-          "name": "suppression"
-        }
-      ],
-      "namespace": "ROOT::AUDIT-AWS-S3-TEST-DEFAULT",
+      "namespace": "ROOT::AUDIT-AWS-RDS-QWEQWE",
       "inputs": [
         {
           "type": "choice",
@@ -1638,233 +428,473 @@
           "name": "action"
         },
         {
-          "type": "PLA-1366",
-          "value": "json",
-          "name": "data_type"
+          "type": "Array",
+          "value": "[\"us-east-1\", \"us-east-2\", \"us-west-1\", \"us-west-2\", \"ca-central-1\", \"ap-south-1\", \"ap-northeast-2\", \"ap-southeast-1\", \"ap-southeast-2\", \"ap-northeast-1\", \"eu-central-1\", \"eu-west-1\", \"eu-west-2\", \"sa-east-1\"]",
+          "name": "regions"
         },
         {
-          "type": "PLA-1366",
-          "value": {
-            "truncated": {
-              "object_size": 49468,
-              "object_key": "5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/b7801b25fd122c527aaa1182222402c7643de975cb099c5c9c83483b1ea315a8/2ea4cb4174c5b6922db4dfd2491f24cede5f6c7c"
-            }
-          },
-          "name": "json_input"
-        },
-        {
-          "type": "PLA-1366",
-          "value": {
-            "truncated": {
-              "object_size": 3289,
-              "object_key": "5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/b7801b25fd122c527aaa1182222402c7643de975cb099c5c9c83483b1ea315a8/8b4bd8b0bac317a7797c1718430876d473cd1488"
-            }
-          },
-          "name": "function"
-        },
-        {
-          "type": "PLA-1366",
-          "value": true,
-          "name": "provide_composite_access"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            {
-              "version": "3.7.0",
-              "name": "js-yaml"
-            }
-          ],
-          "name": "packages"
+          "type": "Array",
+          "value": "[\"rds-short-backup-retention-period\", \"rds-no-auto-minor-version-upgrade\", \"rds-db-publicly-accessible\"]",
+          "name": "rules"
         }
       ],
-      "executionTime": 6.326826748,
-      "executionNumber": 15,
+      "executionTime": 41.778104688,
+      "executionNumber": 6,
       "engineStatus": "OK",
       "engineState": "EXECUTING",
-      "dataType": "DEPLOY_RESOURCE",
-      "_id": "588ffe24384bdc9911415d94"
+      "dataType": "ADVISOR_RESOURCE",
+      "_id": "58d4abfc4ff94f6bf977a20d"
     },
     {
-      "timestamp": "2017-01-31T11:18:37.000Z",
-      "stackName": "AUDIT-AWS-S3-TEST-DEFAULT",
-      "runId": "80c2228c-19af-4259-b109-6cbcf7a31872",
-      "resourceType": "coreo_uni_util_jsrunner",
-      "resourceName": "jsrunner-process-table-s3",
-      "resourceId": "4ca500b239af2447f88aa7fc6749fd84f5990bb1c71c165b410a124a92afd321",
+      "timestamp": "2017-03-24T05:16:55.957Z",
+      "stackName": "AUDIT-AWS-RDS-QWEQWE",
+      "runId": "af90570f-0e6f-4c87-8687-2184b217236f",
+      "resourceType": "coreo_uni_util_variables",
+      "resourceName": "rds-planwide",
+      "resourceId": "3701ab31c95a329bec7456351f5a1122e6541457ddbd76516bd8c5fa9c9651ce",
       "outputs": [
         {
-          "value": "cc_5880200b9c5_jsrunner-process-table-s3",
-          "name": "ec2_name"
+          "value": "audit-aws-rds",
+          "name": "composite_name"
+        },
+        {
+          "value": "qweqwe",
+          "name": "plan_name"
         },
         {
           "value": {
             "truncated": {
-              "object_size": 3557,
-              "object_key": "5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4ca500b239af2447f88aa7fc6749fd84f5990bb1c71c165b410a124a92afd321/5aa1f516fe678e939c9fbee3abb702befdc80886"
+              "object_size": 6995,
+              "object_key": "58d4aa095e639f19bc6f8293/af90570f-0e6f-4c87-8687-2184b217236f/3701ab31c95a329bec7456351f5a1122e6541457ddbd76516bd8c5fa9c9651ce/7c6dc9cb671eba457ea690bcdf2e2de5ee23d9a1"
             }
           },
-          "name": "return"
+          "name": "results"
+        },
+        {
+          "value": "1",
+          "name": "number_violations"
+        },
+        {
+          "value": "[{\"COMPOSITE::coreo_uni_util_variables.rds-rds-planwide.composite_name\"=>\"audit-aws-rds\"}, {\"COMPOSITE::coreo_uni_util_variables.rds-planwide.plan_name\"=>\"qweqwe\"}, {\"COMPOSITE::coreo_uni_util_variables.rds-planwide.results\"=>\"unset\"}, {\"COMPOSITE::coreo_uni_util_variables.rds-planwide.number_violations\"=>\"unset\"}]",
+          "name": "variables"
         },
         {
           "value": {
             "truncated": {
-              "object_size": 50472,
-              "object_key": "5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4ca500b239af2447f88aa7fc6749fd84f5990bb1c71c165b410a124a92afd321/eea1684a0b230df1b8c909359043f4c964730ccc"
-            }
-          },
-          "name": "jsrunner_file"
-        },
-        {
-          "value": "{\"name\":\"jsrunner\",\"description\":\"jsrunner\",\"engine\":\"node 6.6.0\",\"dependencies\": {\n\"js-yaml\": \"3.7.0\"}}\n",
-          "name": "packages_file"
-        },
-        {
-          "value": {
-            "truncated": {
-              "object_size": 3563,
-              "object_key": "5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4ca500b239af2447f88aa7fc6749fd84f5990bb1c71c165b410a124a92afd321/b086d840fb2fee4753738b5339ec72ce4eb2ede1"
-            }
-          },
-          "name": "stdout"
-        },
-        {
-          "value": {
-            "truncated": {
-              "object_size": 3559,
-              "object_key": "5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4ca500b239af2447f88aa7fc6749fd84f5990bb1c71c165b410a124a92afd321/b8c41d6250c00b22be45caf3199c2b3878699736"
+              "object_size": 1461,
+              "object_key": "58d4aa095e639f19bc6f8293/af90570f-0e6f-4c87-8687-2184b217236f/3701ab31c95a329bec7456351f5a1122e6541457ddbd76516bd8c5fa9c9651ce/f55be0bc7ab57ab06a8492ac9df1709344787885"
             }
           },
           "name": "table"
         }
       ],
-      "namespace": "ROOT::AUDIT-AWS-S3-TEST-DEFAULT",
+      "namespace": "ROOT::AUDIT-AWS-RDS-QWEQWE",
       "inputs": [
         {
           "type": "choice",
-          "value": "run",
+          "value": "set",
           "name": "action"
         },
         {
-          "type": "PLA-1366",
-          "value": "json",
-          "name": "data_type"
-        },
-        {
-          "type": "PLA-1366",
-          "value": {
-            "truncated": {
-              "object_size": 49468,
-              "object_key": "5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/4ca500b239af2447f88aa7fc6749fd84f5990bb1c71c165b410a124a92afd321/2ea4cb4174c5b6922db4dfd2491f24cede5f6c7c"
-            }
-          },
-          "name": "json_input"
-        },
-        {
-          "type": "PLA-1366",
-          "value": "    var fs = require('fs');\n    var yaml = require('js-yaml');\n    try {\n        var table = yaml.safeLoad(fs.readFileSync('./table.yaml', 'utf8'));\n    } catch (e) {\n    }\n    coreoExport('table', JSON.stringify(table));\n    callback(table);\n",
-          "name": "function"
-        },
-        {
-          "type": "PLA-1366",
-          "value": true,
-          "name": "provide_composite_access"
-        },
-        {
-          "type": "PLA-1366",
-          "value": [
-            {
-              "version": "3.7.0",
-              "name": "js-yaml"
-            }
-          ],
-          "name": "packages"
+          "type": "Array",
+          "value": "[{\"COMPOSITE::coreo_uni_util_variables.rds-rds-planwide.composite_name\"=>\"audit-aws-rds\"}, {\"COMPOSITE::coreo_uni_util_variables.rds-planwide.plan_name\"=>\"qweqwe\"}, {\"COMPOSITE::coreo_uni_util_variables.rds-planwide.results\"=>\"unset\"}, {\"COMPOSITE::coreo_uni_util_variables.rds-planwide.number_violations\"=>\"unset\"}]",
+          "name": "variables"
         }
       ],
-      "executionTime": 6.012799228,
-      "executionNumber": 16,
+      "executionTime": 3.927381576,
+      "executionNumber": 5,
       "engineStatus": "OK",
       "engineState": "EXECUTING",
       "dataType": "DEPLOY_RESOURCE",
-      "_id": "588ffe32384bdc9911415d95"
+      "_id": "58d4abc94ff94f6bf977a20c"
     },
     {
-      "timestamp": "2017-01-31T11:18:49.000Z",
-      "stackName": "audit-aws-s3-test-default",
-      "runId": "80c2228c-19af-4259-b109-6cbcf7a31872",
-      "resourceType": "coreo_uni_util_jsrunner",
-      "resourceName": "tags-to-notifiers-array-s3",
-      "resourceId": "88a25a0276365aa34fa78079ed2c0d2c35ccfdff8b9b95b229d8e4601efd839c",
-      "outputs": [
-        {
-          "value": {
-            "error_message": "Error running coreo_uni_util_jsrunner script:",
-            "error_type": "RuntimeError",
-            "resource_error": "action :run on coreo_uni_util_jsrunner[tags-to-notifiers-array-s3]"
-          },
-          "name": "error"
-        }
-      ],
-      "namespace": "ROOT::AUDIT-AWS-S3-TEST-DEFAULT",
+      "timestamp": "2017-03-24T05:16:48.601Z",
+      "stackName": "AUDIT-AWS-RDS-QWEQWE",
+      "runId": "af90570f-0e6f-4c87-8687-2184b217236f",
+      "resourceType": "coreo_aws_rule",
+      "resourceName": "rds-db-publicly-accessible",
+      "resourceId": "35c0278590e197b862d595ea839a6baf3e315964f55a5e963af3ea8441ac3896",
+      "outputs": [],
+      "namespace": "ROOT::AUDIT-AWS-RDS-QWEQWE",
       "inputs": [
         {
           "type": "choice",
-          "value": "run",
+          "value": "define",
           "name": "action"
         },
         {
-          "type": "PLA-1366",
-          "value": "json",
-          "name": "data_type"
+          "type": "String",
+          "value": "RDS is publicly accessible to the world",
+          "name": "display_name"
         },
         {
-          "type": "PLA-1366",
-          "value": {
-            "truncated": {
-              "object_size": 3744,
-              "object_key": "5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/88a25a0276365aa34fa78079ed2c0d2c35ccfdff8b9b95b229d8e4601efd839c/1bb58e09fa2589134c815924f37e07e1fa0d7945"
-            }
-          },
-          "name": "json_input"
+          "type": "String",
+          "value": "object.db_instances.db_instance_identifier",
+          "name": "id_map"
         },
         {
-          "type": "PLA-1366",
-          "value": {
-            "truncated": {
-              "object_size": 1062,
-              "object_key": "5880200b9c5c70f0745a4fde/80c2228c-19af-4259-b109-6cbcf7a31872/88a25a0276365aa34fa78079ed2c0d2c35ccfdff8b9b95b229d8e4601efd839c/48147ffef164f2984142eed6096b6f182375a1e8"
-            }
-          },
-          "name": "function"
+          "type": "Symbol",
+          "value": "rds",
+          "name": "service"
         },
         {
-          "type": "PLA-1366",
-          "value": false,
-          "name": "provide_composite_access"
+          "type": "Array",
+          "value": "[true]",
+          "name": "raise_when"
         },
         {
-          "type": "PLA-1366",
-          "value": [
-            {
-              "version": "1.6.0",
-              "name": "cloudcoreo-jsrunner-commons"
-            }
-          ],
-          "name": "packages"
+          "type": "Array",
+          "value": "[\"db_instances\"]",
+          "name": "objectives"
+        },
+        {
+          "type": "String",
+          "value": "http://kb.cloudcoreo.com/mydoc_rds-db-publicly-accessible.html",
+          "name": "link"
+        },
+        {
+          "type": "String",
+          "value": "Critical",
+          "name": "level"
+        },
+        {
+          "type": "Array",
+          "value": "[\"==\"]",
+          "name": "operators"
+        },
+        {
+          "type": "String",
+          "value": "The affected RDS database is publicly accessible to the world.",
+          "name": "description"
+        },
+        {
+          "type": "String",
+          "value": "Security",
+          "name": "category"
+        },
+        {
+          "type": "String",
+          "value": "Consider whether the affected RDS database should be publicly accessible to the world. If not, modify the option which enables your RDS database to become publicly accessible.",
+          "name": "suggested_action"
+        },
+        {
+          "type": "Array",
+          "value": "[]",
+          "name": "call_modifiers"
+        },
+        {
+          "type": "Array",
+          "value": "[\"db_instances.publicly_accessible\"]",
+          "name": "audit_objects"
+        },
+        {
+          "type": "TrueClass",
+          "value": "true",
+          "name": "include_violations_in_count"
         }
       ],
-      "executionTime": 8.158579632,
-      "executionNumber": 18,
-      "engineStatus": "EXECUTION_ERROR",
-      "engineState": "COMPLETED",
-      "dataType": "DEPLOY_RESOURCE",
-      "_id": "588ffe3e384bdc9911415d97"
+      "executionTime": 1.298163107,
+      "executionNumber": 4,
+      "engineStatus": "OK",
+      "engineState": "EXECUTING",
+      "dataType": "ADVISOR_RESOURCE",
+      "_id": "58d4abc14ff94f6bf977a20b"
+    },
+    {
+      "timestamp": "2017-03-24T05:16:44.434Z",
+      "stackName": "AUDIT-AWS-RDS-QWEQWE",
+      "runId": "af90570f-0e6f-4c87-8687-2184b217236f",
+      "resourceType": "coreo_aws_rule",
+      "resourceName": "rds-no-auto-minor-version-upgrade",
+      "resourceId": "ce5ea929d17fabb4e17fad8551b44f8d776a2add64fe74837843c13e0fe6246c",
+      "outputs": [],
+      "namespace": "ROOT::AUDIT-AWS-RDS-QWEQWE",
+      "inputs": [
+        {
+          "type": "meta_cis_id",
+          "value": "erer",
+          "name": "meta_cis_id"
+        },
+        {
+          "type": "meta_cis_test",
+          "value": "asdasdasd",
+          "name": "meta_cis_tesgz"
+        },
+        {
+          "type": "meta_always_show_card",
+          "value": "true",
+          "name": "meta_always_show_card"
+        },
+        {
+          "type": "choice",
+          "value": "define",
+          "name": "action"
+        },
+        {
+          "type": "String",
+          "value": "RDS not set to automatically upgrade",
+          "name": "display_name"
+        },
+        {
+          "type": "String",
+          "value": "object.db_instances.db_instance_identifier",
+          "name": "id_map"
+        },
+        {
+          "type": "Symbol",
+          "value": "rds",
+          "name": "service"
+        },
+        {
+          "type": "Array",
+          "value": "[false]",
+          "name": "raise_when"
+        },
+        {
+          "type": "Array",
+          "value": "[\"db_instances\"]",
+          "name": "objectives"
+        },
+        {
+          "type": "String",
+          "value": "http://kb.cloudcoreo.com/mydoc_rds-no-auto-minor-version-upgrade.html",
+          "name": "link"
+        },
+        {
+          "type": "String",
+          "value": "Critical",
+          "name": "level"
+        },
+        {
+          "type": "Array",
+          "value": "[\"==\"]",
+          "name": "operators"
+        },
+        {
+          "type": "String",
+          "value": "RDS is not set to automatically upgrade minor versions on your database instance.",
+          "name": "description"
+        },
+        {
+          "type": "String",
+          "value": "Reliability",
+          "name": "category"
+        },
+        {
+          "type": "String",
+          "value": "Consider whether you would like AWS to automatically upgrade minor versions on your database instance. Modify your settings to allow minor version upgrades if possible.",
+          "name": "suggested_action"
+        },
+        {
+          "type": "Array",
+          "value": "[]",
+          "name": "call_modifiers"
+        },
+        {
+          "type": "Array",
+          "value": "[\"db_instances.auto_minor_version_upgrade\"]",
+          "name": "audit_objects"
+        },
+        {
+          "type": "TrueClass",
+          "value": "true",
+          "name": "include_violations_in_count"
+        }
+      ],
+      "executionTime": 1.540209589,
+      "executionNumber": 3,
+      "engineStatus": "OK",
+      "engineState": "EXECUTING",
+      "dataType": "ADVISOR_RESOURCE",
+      "_id": "58d4abbd4ff94f6bf977a20a"
+    },
+    {
+      "timestamp": "2017-03-24T05:16:39.003Z",
+      "stackName": "AUDIT-AWS-RDS-QWEQWE",
+      "runId": "af90570f-0e6f-4c87-8687-2184b217236f",
+      "resourceType": "coreo_aws_rule",
+      "resourceName": "rds-short-backup-retention-period",
+      "resourceId": "9e7f004b81a84d916195336714f28427261bfb1603cf30b4509d20d1373313cf",
+      "outputs": [],
+      "namespace": "ROOT::AUDIT-AWS-RDS-QWEQWE",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "define",
+          "name": "action"
+        },
+        {
+          "type": "String",
+          "value": "RDS short backup retention period",
+          "name": "display_name"
+        },
+        {
+          "type": "String",
+          "value": "object.db_instances.db_instance_identifier",
+          "name": "id_map"
+        },
+        {
+          "type": "Symbol",
+          "value": "rds",
+          "name": "service"
+        },
+        {
+          "type": "Array",
+          "value": "[30]",
+          "name": "raise_when"
+        },
+        {
+          "type": "Array",
+          "value": "[\"db_instances\"]",
+          "name": "objectives"
+        },
+        {
+          "type": "String",
+          "value": "http://kb.cloudcoreo.com/mydoc_rds-short-backup-retention-period.html",
+          "name": "link"
+        },
+        {
+          "type": "String",
+          "value": "Warning",
+          "name": "level"
+        },
+        {
+          "type": "Array",
+          "value": "[\"<\"]",
+          "name": "operators"
+        },
+        {
+          "type": "String",
+          "value": "The affected RDS database has a short backup retention period (less than 30 days).",
+          "name": "description"
+        },
+        {
+          "type": "String",
+          "value": "Dataloss",
+          "name": "category"
+        },
+        {
+          "type": "String",
+          "value": "Modify the backup retension period to increase it to greater than 30 days.",
+          "name": "suggested_action"
+        },
+        {
+          "type": "Array",
+          "value": "[]",
+          "name": "call_modifiers"
+        },
+        {
+          "type": "Array",
+          "value": "[\"db_instances.backup_retention_period\"]",
+          "name": "audit_objects"
+        },
+        {
+          "type": "TrueClass",
+          "value": "true",
+          "name": "include_violations_in_count"
+        }
+      ],
+      "executionTime": 1.304670228,
+      "executionNumber": 2,
+      "engineStatus": "OK",
+      "engineState": "EXECUTING",
+      "dataType": "ADVISOR_RESOURCE",
+      "_id": "58d4abb84ff94f6bf977a209"
+    },
+    {
+      "timestamp": "2017-03-24T05:16:32.869Z",
+      "stackName": "AUDIT-AWS-RDS-QWEQWE",
+      "runId": "af90570f-0e6f-4c87-8687-2184b217236f",
+      "resourceType": "coreo_aws_rule",
+      "resourceName": "rds-inventory",
+      "resourceId": "7ce0fbe78e8d61cca2eb382a111e58131a1b4f1a77a1b7fd2928e7b088f33a7e",
+      "outputs": [],
+      "namespace": "ROOT::AUDIT-AWS-RDS-QWEQWE",
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "define",
+          "name": "action"
+        },
+        {
+          "type": "String",
+          "value": "RDS Instance Inventory",
+          "name": "display_name"
+        },
+        {
+          "type": "String",
+          "value": "object.db_instances.db_instance_identifier",
+          "name": "id_map"
+        },
+        {
+          "type": "Symbol",
+          "value": "rds",
+          "name": "service"
+        },
+        {
+          "type": "Array",
+          "value": "[//]",
+          "name": "raise_when"
+        },
+        {
+          "type": "Array",
+          "value": "[\"db_instances\"]",
+          "name": "objectives"
+        },
+        {
+          "type": "String",
+          "value": "Informational",
+          "name": "level"
+        },
+        {
+          "type": "Array",
+          "value": "[\"=~\"]",
+          "name": "operators"
+        },
+        {
+          "type": "String",
+          "value": "This rule performs an inventory on all RDS DB instances in the target AWS account.",
+          "name": "description"
+        },
+        {
+          "type": "String",
+          "value": "Inventory",
+          "name": "category"
+        },
+        {
+          "type": "String",
+          "value": "None.",
+          "name": "suggested_action"
+        },
+        {
+          "type": "Array",
+          "value": "[]",
+          "name": "call_modifiers"
+        },
+        {
+          "type": "Array",
+          "value": "[\"object.db_instances.db_instance_identifier\"]",
+          "name": "audit_objects"
+        },
+        {
+          "type": "FalseClass",
+          "value": "false",
+          "name": "include_violations_in_count"
+        }
+      ],
+      "executionTime": 21.607371284,
+      "executionNumber": 1,
+      "engineStatus": "OK",
+      "engineState": "EXECUTING",
+      "dataType": "ADVISOR_RESOURCE",
+      "_id": "58d4abb24ff94f6bf977a208"
     }
   ],
-  "numberOfResources": 21,
-  "planRefreshIntervalInHours": 4,
-  "lastExecutionTime": "2017-02-01T07:58:43.000Z",
-  "engineState": "PLANNED",
+  "numberOfResources": 12,
+  "planRefreshIntervalInHours": 24,
+  "lastExecutionTime": "2017-03-24T05:15:50.930Z",
+  "engineState": "COMPLETED",
   "engineStatus": "OK",
   "isEnabled": false
 }

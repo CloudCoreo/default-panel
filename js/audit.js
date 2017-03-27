@@ -537,7 +537,16 @@ window.Audit = (function () {
             }
             else if (newObj.outputs.report) {
                 reports.push(newObj);
-                enabledDefinitions = enabledDefinitions.concat(JSON.parse(newObj.inputs.rules));
+                if(newObj.inputs.rules){
+                    enabledDefinitions = enabledDefinitions.concat(JSON.parse(newObj.inputs.rules));
+                } else if (newObj.inputs.alerts){
+                    if(newObj.inputs.alerts instanceof Object){
+                        enabledDefinitions = enabledDefinitions.concat(newObj.inputs.alerts);
+                    } else {
+                        enabledDefinitions = enabledDefinitions.concat(JSON.parse(newObj.inputs.alerts));
+                    }
+
+                }
             }
             else {
                 newData[newObj.resourceName] = newObj;

@@ -418,16 +418,17 @@ window.Audit = (function () {
         }
         sendRequest('getTruncatedObject',
             { objectKey: report.truncated.object_key, blockUI: blockUI },
-            function (retrievedObject) {
+            function (error, retrievedObject) {
+                if (error) {
+                    $(".audit-data-is-not-ready").removeClass("hidden");
+                    onError();
+                    setTimeout(function () {
+                        getReport(reportData, callback, false);
+                    }, 10000);
+                    return;
+                }
                 $(".audit-data-is-not-ready").addClass("hidden");
                 callback(retrievedObject, reportData._id, timestamp);
-            },
-            function (error) {
-                $(".audit-data-is-not-ready").removeClass("hidden");
-                onError();
-                setTimeout(function () {
-                    getReport(reportData, callback, false);
-                }, 10000);
             });
     }
 

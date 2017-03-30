@@ -228,7 +228,7 @@ $(document).ready(function () {
         });
         return count;
     }
-    
+
     function checkRunError(data) {
         isError = data.engineStatus === 'COMPILE_ERROR' ||
             data.engineStatus === 'INITIALIZATION_ERROR' ||

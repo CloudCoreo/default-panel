@@ -430,9 +430,14 @@
                             {{:violation.description}}
                         </div>
                     </div>
+                    {{for violation.metas}}
+                    <div class="meta-info">
+                        <i>{{:key}}</i><br/> {{:value}}
+                    </div>
+                    {{/for}}
                     <div class="layout-padding suggestions-block">
                         <i>Suggested Fix</i><br/>
-                        {{:violation.fix}}
+                        {{:violation.suggested_action}}
                     </div>
                 </div>
                 <div class="flex-column row-right-column layout-padding">

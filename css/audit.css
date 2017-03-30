@@ -478,6 +478,13 @@ html, body {
     background-color: #f2f2f2;
 }
 
+.meta-info {
+    padding: 4px 16px;
+}
+.meta-info i {
+    text-transform: capitalize;
+}
+
 @media (max-width: 600px) {
     .left-column {
         width: 100%;

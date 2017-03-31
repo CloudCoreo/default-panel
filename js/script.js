@@ -52,7 +52,6 @@ $(document).ready(function () {
     }
 
     function goToView(view) {
-        debugger;
         if (currentView === view) return;
         $('.resource-type-toggle .resource-type').removeClass('active');
         $('.' + currentView).addClass('hidden');

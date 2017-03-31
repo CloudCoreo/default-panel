@@ -52,6 +52,7 @@ $(document).ready(function () {
     }
 
     function goToView(view) {
+        debugger;
         if (currentView === view) return;
         $('.resource-type-toggle .resource-type').removeClass('active');
         $('.' + currentView).addClass('hidden');
@@ -169,11 +170,12 @@ $(document).ready(function () {
     }
 
     function setupViewData(isFirstLoad) {
-        const violationCount = auditData.getViolationsCount();
-        const $audit = $('.resource-type-toggle .resource-type.audit-res');
+        var violationCount = auditData.getViolationsCount();
+        var $audit = $('.resource-type-toggle .resource-type.audit-res');
         if (violationCount) $audit.addClass('alert');
         $audit.addClass('active')
             .removeClass('hidden');
+        if (isFirstLoad) $('.audit').addClass('active');
     }
 
     function countCurrentRunResourcesNumber(data) {

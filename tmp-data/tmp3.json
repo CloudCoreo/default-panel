@@ -1,0 +1,916 @@
+{
+  "_id": "58d37e395ebda270117def26",
+  "runId": "ccde6330-577f-451d-aaef-9f915baeed47",
+  "resourcesArray": [
+    {
+      "outputs": [
+        {
+          "value": {
+            "error_message": [
+              "no implicit conversion from nil to integer"
+            ],
+            "error_type": "TypeError",
+            "resource_error": "action :run on coreo_uni_util_jsrunner[cloudtrail-aggregate]"
+          },
+          "name": "error"
+        },
+        {
+          "value": "cc_58d37e395eb_cloudtrail-aggregate",
+          "name": "ec2_name"
+        },
+        {
+          "value": "DEPLOY_RESOURCE",
+          "name": "resource_type"
+        },
+        {
+          "value": "2017-03-23 07:58:17 UTC",
+          "name": "start_time"
+        }
+      ],
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "run",
+          "name": "action"
+        },
+        {
+          "type": "String",
+          "value": "json",
+          "name": "data_type"
+        },
+        {
+          "type": "String",
+          "value": {
+            "truncated": {
+              "object_size": 12847,
+              "object_key": "58d37e395ebda270117def26/ccde6330-577f-451d-aaef-9f915baeed47/82a8e1380f579a003faf8695b04af2d7a99bdbbef0c0dce714d25e93922d542a/9afd972a005fa0f8a960dda0fb755635dcd99151"
+            }
+          },
+          "name": "json_input"
+        },
+        {
+          "type": "String",
+          "value": {
+            "truncated": {
+              "object_size": 4531,
+              "object_key": "58d37e395ebda270117def26/ccde6330-577f-451d-aaef-9f915baeed47/82a8e1380f579a003faf8695b04af2d7a99bdbbef0c0dce714d25e93922d542a/0e84fbd797aebfd513881a279de5cb9030bbb030"
+            }
+          },
+          "name": "function"
+        },
+        {
+          "type": "FalseClass",
+          "value": false,
+          "name": "provide_composite_access"
+        }
+      ],
+      "dataType": "DEPLOY_RESOURCE",
+      "resourceName": "cloudtrail-aggregate",
+      "resourceType": "coreo_uni_util_jsrunner",
+      "executionTime": 6.63492879,
+      "timestamp": "2017-03-23T07:58:23.784Z",
+      "executionNumber": 11,
+      "namespace": "ROOT::AUDIT-AWS-CLOUDTRAIL-AASDASD",
+      "engineStatus": "EXECUTION_ERROR",
+      "engineState": "COMPLETED",
+      "runId": "ccde6330-577f-451d-aaef-9f915baeed47",
+      "stackName": "audit-aws-cloudtrail-aasdasd",
+      "resourceId": "82a8e1380f579a003faf8695b04af2d7a99bdbbef0c0dce714d25e93922d542a",
+      "_id": "58d38021a71d1a79718ebfcd"
+    },
+    {
+      "outputs": [
+        {
+          "value": {
+            "truncated": {
+              "object_size": 12644,
+              "object_key": "58d37e395ebda270117def26/ccde6330-577f-451d-aaef-9f915baeed47/6634ccd15c1b57e96ea868f0f10dc17c378a5227683f19e6e4d126ce32ed734a/14016d5e58c0c67f78d1770446c5ac84795c4f10"
+            }
+          },
+          "name": "results"
+        },
+        {
+          "value": "12",
+          "name": "number_violations"
+        },
+        {
+          "value": {
+            "truncated": {
+              "object_size": 15032,
+              "object_key": "58d37e395ebda270117def26/ccde6330-577f-451d-aaef-9f915baeed47/6634ccd15c1b57e96ea868f0f10dc17c378a5227683f19e6e4d126ce32ed734a/23d8973ae53acc1bcaa97384c89ad18b727c48f3"
+            }
+          },
+          "name": "variables"
+        }
+      ],
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "set",
+          "name": "action"
+        },
+        {
+          "type": "Array",
+          "value": {
+            "truncated": {
+              "object_size": 15032,
+              "object_key": "58d37e395ebda270117def26/ccde6330-577f-451d-aaef-9f915baeed47/6634ccd15c1b57e96ea868f0f10dc17c378a5227683f19e6e4d126ce32ed734a/23d8973ae53acc1bcaa97384c89ad18b727c48f3"
+            }
+          },
+          "name": "variables"
+        }
+      ],
+      "dataType": "DEPLOY_RESOURCE",
+      "resourceName": "cloudtrail-update-planwide-1",
+      "resourceType": "coreo_uni_util_variables",
+      "executionTime": 4.079615462,
+      "timestamp": "2017-03-23T07:58:15.858Z",
+      "executionNumber": 10,
+      "namespace": "ROOT::AUDIT-AWS-CLOUDTRAIL-AASDASD",
+      "engineStatus": "OK",
+      "engineState": "EXECUTING",
+      "runId": "ccde6330-577f-451d-aaef-9f915baeed47",
+      "stackName": "AUDIT-AWS-CLOUDTRAIL-AASDASD",
+      "resourceId": "6634ccd15c1b57e96ea868f0f10dc17c378a5227683f19e6e4d126ce32ed734a",
+      "_id": "58d3801aa71d1a79718ebfcc"
+    },
+    {
+      "outputs": [
+        {
+          "value": 0,
+          "name": "number_ignored_violations"
+        },
+        {
+          "value": 1,
+          "name": "number_violations"
+        },
+        {
+          "value": 2,
+          "name": "number_checks"
+        },
+        {
+          "value": "{\"us-east-1\":{\"va-trail\":{\"violator_info\":{\"name\":\"va-trail\",\"s3_bucket_name\":\"cloudcoreo-hack-cloudtrail\",\"include_global_service_events\":false,\"is_multi_region_trail\":false,\"home_region\":\"us-east-1\",\"trail_arn\":\"arn:aws:cloudtrail:us-east-1:530342348278:trail/va-trail\",\"log_file_validation_enabled\":false,\"cloud_watch_logs_log_group_arn\":\"arn:aws:logs:us-east-1:530342348278:log-group:va-trail/DefaultLogGroup:*\",\"cloud_watch_logs_role_arn\":\"arn:aws:iam::530342348278:role/CloudTrail_CloudWatchLogs_Role\",\"has_custom_event_selectors\":false},\"violations\":{\"cloudtrail-log-file-validating\":{\"service\":\"cloudtrail\",\"display_name\":\"Cloudtrail Log File Validation Disabled\",\"result_info\":[{\"place\":\"trails:trail_list[0].log_file_validation_enabled\",\"object\":{\"truncated\":{\"object_key\":\"58d37e395ebda270117def26/ccde6330-577f-451d-aaef-9f915baeed47/9f65dec63f9889ec55701f60b8a6883e848f22abe394948e486b926c16ad75ea/c2f4b7bfd61548a51653454f91a33165ef5a2fc1\",\"object_size\":501}}}],\"description\":\"CloudTrail log file validation is disabled for this trail. It should be enabled\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail log file validation for this trail.\",\"level\":\"Warning\",\"link\":\"\",\"include_violations_in_count\":true,\"region\":\"us-east-1\",\"meta_cis_id\":\"2.2\",\"meta_cis_scored\":\"true\",\"meta_cis_level\":\"2\"}},\"tags\":[]}}}",
+          "name": "report"
+        }
+      ],
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "run",
+          "name": "action"
+        },
+        {
+          "type": "Symbol",
+          "value": "cloudtrail",
+          "name": "service"
+        },
+        {
+          "type": "Array",
+          "value": "[\"cloudtrail-log-file-validating\"]",
+          "name": "rules"
+        }
+      ],
+      "dataType": "ADVISOR_RESOURCE",
+      "resourceName": "advise-cloudtrail-u",
+      "resourceType": "coreo_aws_rule_runner",
+      "executionTime": 14.641292089,
+      "timestamp": "2017-03-23T07:58:08.879Z",
+      "executionNumber": 9,
+      "namespace": "ROOT::AUDIT-AWS-CLOUDTRAIL-AASDASD",
+      "engineStatus": "OK",
+      "engineState": "EXECUTING",
+      "runId": "ccde6330-577f-451d-aaef-9f915baeed47",
+      "stackName": "AUDIT-AWS-CLOUDTRAIL-AASDASD",
+      "resourceId": "9f65dec63f9889ec55701f60b8a6883e848f22abe394948e486b926c16ad75ea",
+      "_id": "58d38012a71d1a79718ebfcb"
+    },
+    {
+      "outputs": [
+        {
+          "value": 0,
+          "name": "number_ignored_violations"
+        },
+        {
+          "value": 12,
+          "name": "number_violations"
+        },
+        {
+          "value": 20,
+          "name": "number_checks"
+        },
+        {
+          "value": "{\"us-east-1\":{\"va-trail\":{\"violator_info\":{\"name\":\"va-trail\",\"s3_bucket_name\":\"cloudcoreo-hack-cloudtrail\",\"include_global_service_events\":false,\"is_multi_region_trail\":false,\"home_region\":\"us-east-1\",\"trail_arn\":\"arn:aws:cloudtrail:us-east-1:530342348278:trail/va-trail\",\"log_file_validation_enabled\":false,\"cloud_watch_logs_log_group_arn\":\"arn:aws:logs:us-east-1:530342348278:log-group:va-trail/DefaultLogGroup:*\",\"cloud_watch_logs_role_arn\":\"arn:aws:iam::530342348278:role/CloudTrail_CloudWatchLogs_Role\",\"has_custom_event_selectors\":false},\"violations\":{\"cloudtrail-inventory\":{\"service\":\"cloudtrail\",\"display_name\":\"Cloudtrail Inventory\",\"result_info\":[{\"place\":\"trails:trail_list[0].name\",\"object\":{\"truncated\":{\"object_key\":\"58d37e395ebda270117def26/ccde6330-577f-451d-aaef-9f915baeed47/163ccfd78880e66836b2efd73e2ddcbcddbf4af3f61cbc40c079290085852e3f/c2f4b7bfd61548a51653454f91a33165ef5a2fc1\",\"object_size\":501}}}],\"description\":\"This rule performs an inventory on all trails in the target AWS account.\",\"category\":\"Inventory\",\"suggested_action\":\"None.\",\"level\":\"Informational\",\"link\":\"http://kb.cloudcoreo.com/mydoc-inventory.html\",\"include_violations_in_count\":false,\"region\":\"us-east-1\",\"meta_cis_id\":\"99.999\"}},\"tags\":[]}},\"us-east-2\":{\"us-east-2\":{\"violations\":{\"cloudtrail-service-disabled\":{\"service\":\"cloudtrail\",\"display_name\":\"Cloudtrail Service is Disabled\",\"result_info\":[{\"place\":\"trails:trail_list.#count\",\"object\":0}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs for each region.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_cloudtrail-service-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-east-2\",\"meta_cis_id\":\"2.1\",\"meta_cis_scored\":\"true\",\"meta_cis_level\":\"1\"}},\"tags\":[]}},\"us-west-1\":{\"us-west-1\":{\"violations\":{\"cloudtrail-service-disabled\":{\"service\":\"cloudtrail\",\"display_name\":\"Cloudtrail Service is Disabled\",\"result_info\":[{\"place\":\"trails:trail_list.#count\",\"object\":0}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs for each region.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_cloudtrail-service-disabled.html\",\"include_violations_in_count\":true,\"region\":\"us-west-1\",\"meta_cis_id\":\"2.1\",\"meta_cis_scored\":\"true\",\"meta_cis_level\":\"1\"}},\"tags\":[]}},\"us-west-2\":{\"mattes-cis3_2-trail1\":{\"violator_info\":{\"name\":\"mattes-cis3_2-trail1\",\"s3_bucket_name\":\"cloudcoreo-hack-cloudtrail-mattes-cis3\",\"s3_key_prefix\":\"mattes-cis3_2-trail1\",\"include_global_service_events\":true,\"is_multi_region_trail\":false,\"home_region\":\"us-west-2\",\"trail_arn\":\"arn:aws:cloudtrail:us-west-2:530342348278:trail/mattes-cis3_2-trail1\",\"log_file_validation_enabled\":true,\"cloud_watch_logs_log_group_arn\":\"arn:aws:logs:us-west-2:530342348278:log-group:Mattes_CIS3_LogGroup1:*\",\"cloud_watch_logs_role_arn\":\"arn:aws:iam::530342348278:role/CloudTrail_CloudWatchLogs_Role\",\"has_custom_event_selectors\":false},\"violations\":{\"cloudtrail-inventory\":{\"service\":\"cloudtrail\",\"display_name\":\"Cloudtrail Inventory\",\"result_info\":[{\"place\":\"trails:trail_list[0].name\",\"object\":{\"truncated\":{\"object_key\":\"58d37e395ebda270117def26/ccde6330-577f-451d-aaef-9f915baeed47/163ccfd78880e66836b2efd73e2ddcbcddbf4af3f61cbc40c079290085852e3f/2310d047f15e630eaec0276b0a373eb2280b7ebb\",\"object_size\":571}}}],\"description\":\"This rule performs an inventory on all trails in the target AWS account.\",\"category\":\"Inventory\",\"suggested_action\":\"None.\",\"level\":\"Informational\",\"link\":\"http://kb.cloudcoreo.com/mydoc-inventory.html\",\"include_violations_in_count\":false,\"region\":\"us-west-2\",\"meta_cis_id\":\"99.999\"}},\"tags\":[]},\"us-west-2\":{\"violations\":{\"cloudtrail-trail-with-global\":{\"service\":\"cloudtrail\",\"display_name\":\"CloudCoreo Use Only\",\"result_info\":[{\"place\":\"trails:trail_list[0].include_global_service_events\",\"object\":{\"truncated\":{\"object_key\":\"58d37e395ebda270117def26/ccde6330-577f-451d-aaef-9f915baeed47/163ccfd78880e66836b2efd73e2ddcbcddbf4af3f61cbc40c079290085852e3f/2310d047f15e630eaec0276b0a373eb2280b7ebb\",\"object_size\":571}}}],\"description\":\"This is an internally defined alert.\",\"category\":\"Internal\",\"suggested_action\":\"Ignore\",\"level\":\"Internal\",\"link\":\"http://kb.cloudcoreo.com/mydoc_unused-alert-definition.html\",\"include_violations_in_count\":false,\"region\":\"us-west-2\"}},\"tags\":[]}},\"ca-central-1\":{\"ca-central-1\":{\"violations\":{\"cloudtrail-service-disabled\":{\"service\":\"cloudtrail\",\"display_name\":\"Cloudtrail Service is Disabled\",\"result_info\":[{\"place\":\"trails:trail_list.#count\",\"object\":0}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs for each region.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_cloudtrail-service-disabled.html\",\"include_violations_in_count\":true,\"region\":\"ca-central-1\",\"meta_cis_id\":\"2.1\",\"meta_cis_scored\":\"true\",\"meta_cis_level\":\"1\"}},\"tags\":[]}},\"ap-south-1\":{\"ap-south-1\":{\"violations\":{\"cloudtrail-service-disabled\":{\"service\":\"cloudtrail\",\"display_name\":\"Cloudtrail Service is Disabled\",\"result_info\":[{\"place\":\"trails:trail_list.#count\",\"object\":0}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs for each region.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_cloudtrail-service-disabled.html\",\"include_violations_in_count\":true,\"region\":\"ap-south-1\",\"meta_cis_id\":\"2.1\",\"meta_cis_scored\":\"true\",\"meta_cis_level\":\"1\"}},\"tags\":[]}},\"ap-northeast-2\":{\"ap-northeast-2\":{\"violations\":{\"cloudtrail-service-disabled\":{\"service\":\"cloudtrail\",\"display_name\":\"Cloudtrail Service is Disabled\",\"result_info\":[{\"place\":\"trails:trail_list.#count\",\"object\":0}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs for each region.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_cloudtrail-service-disabled.html\",\"include_violations_in_count\":true,\"region\":\"ap-northeast-2\",\"meta_cis_id\":\"2.1\",\"meta_cis_scored\":\"true\",\"meta_cis_level\":\"1\"}},\"tags\":[]}},\"ap-southeast-1\":{\"ap-southeast-1\":{\"violations\":{\"cloudtrail-service-disabled\":{\"service\":\"cloudtrail\",\"display_name\":\"Cloudtrail Service is Disabled\",\"result_info\":[{\"place\":\"trails:trail_list.#count\",\"object\":0}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs for each region.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_cloudtrail-service-disabled.html\",\"include_violations_in_count\":true,\"region\":\"ap-southeast-1\",\"meta_cis_id\":\"2.1\",\"meta_cis_scored\":\"true\",\"meta_cis_level\":\"1\"}},\"tags\":[]}},\"ap-southeast-2\":{\"ap-southeast-2\":{\"violations\":{\"cloudtrail-service-disabled\":{\"service\":\"cloudtrail\",\"display_name\":\"Cloudtrail Service is Disabled\",\"result_info\":[{\"place\":\"trails:trail_list.#count\",\"object\":0}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs for each region.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_cloudtrail-service-disabled.html\",\"include_violations_in_count\":true,\"region\":\"ap-southeast-2\",\"meta_cis_id\":\"2.1\",\"meta_cis_scored\":\"true\",\"meta_cis_level\":\"1\"}},\"tags\":[]}},\"ap-northeast-1\":{\"ap-northeast-1\":{\"violations\":{\"cloudtrail-service-disabled\":{\"service\":\"cloudtrail\",\"display_name\":\"Cloudtrail Service is Disabled\",\"result_info\":[{\"place\":\"trails:trail_list.#count\",\"object\":0}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs for each region.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_cloudtrail-service-disabled.html\",\"include_violations_in_count\":true,\"region\":\"ap-northeast-1\",\"meta_cis_id\":\"2.1\",\"meta_cis_scored\":\"true\",\"meta_cis_level\":\"1\"}},\"tags\":[]}},\"eu-central-1\":{\"eu-central-1\":{\"violations\":{\"cloudtrail-service-disabled\":{\"service\":\"cloudtrail\",\"display_name\":\"Cloudtrail Service is Disabled\",\"result_info\":[{\"place\":\"trails:trail_list.#count\",\"object\":0}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs for each region.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_cloudtrail-service-disabled.html\",\"include_violations_in_count\":true,\"region\":\"eu-central-1\",\"meta_cis_id\":\"2.1\",\"meta_cis_scored\":\"true\",\"meta_cis_level\":\"1\"}},\"tags\":[]}},\"eu-west-1\":{\"eu-west-1\":{\"violations\":{\"cloudtrail-service-disabled\":{\"service\":\"cloudtrail\",\"display_name\":\"Cloudtrail Service is Disabled\",\"result_info\":[{\"place\":\"trails:trail_list.#count\",\"object\":0}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs for each region.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_cloudtrail-service-disabled.html\",\"include_violations_in_count\":true,\"region\":\"eu-west-1\",\"meta_cis_id\":\"2.1\",\"meta_cis_scored\":\"true\",\"meta_cis_level\":\"1\"}},\"tags\":[]}},\"eu-west-2\":{\"eu-west-2\":{\"violations\":{\"cloudtrail-service-disabled\":{\"service\":\"cloudtrail\",\"display_name\":\"Cloudtrail Service is Disabled\",\"result_info\":[{\"place\":\"trails:trail_list.#count\",\"object\":0}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs for each region.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_cloudtrail-service-disabled.html\",\"include_violations_in_count\":true,\"region\":\"eu-west-2\",\"meta_cis_id\":\"2.1\",\"meta_cis_scored\":\"true\",\"meta_cis_level\":\"1\"}},\"tags\":[]}},\"sa-east-1\":{\"sa-east-1\":{\"violations\":{\"cloudtrail-service-disabled\":{\"service\":\"cloudtrail\",\"display_name\":\"Cloudtrail Service is Disabled\",\"result_info\":[{\"place\":\"trails:trail_list.#count\",\"object\":0}],\"description\":\"CloudTrail logging is not enabled for this region. It should be enabled.\",\"category\":\"Audit\",\"suggested_action\":\"Enable CloudTrail logs for each region.\",\"level\":\"Warning\",\"link\":\"http://kb.cloudcoreo.com/mydoc_cloudtrail-service-disabled.html\",\"include_violations_in_count\":true,\"region\":\"sa-east-1\",\"meta_cis_id\":\"2.1\",\"meta_cis_scored\":\"true\",\"meta_cis_level\":\"1\"}},\"tags\":[]}}}",
+          "name": "report"
+        }
+      ],
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "run",
+          "name": "action"
+        },
+        {
+          "type": "Array",
+          "value": "[\"us-east-1\", \"us-east-2\", \"us-west-1\", \"us-west-2\", \"ca-central-1\", \"ap-south-1\", \"ap-northeast-2\", \"ap-southeast-1\", \"ap-southeast-2\", \"ap-northeast-1\", \"eu-central-1\", \"eu-west-1\", \"eu-west-2\", \"sa-east-1\"]",
+          "name": "regions"
+        },
+        {
+          "type": "Array",
+          "value": "[\"cloudtrail-inventory\", \"cloudtrail-service-disabled\", \"cloudtrail-logs-cloudwatch\", \"cloudtrail-no-global-trails\", \"cloudtrail-trail-with-global\"]",
+          "name": "rules"
+        }
+      ],
+      "dataType": "ADVISOR_RESOURCE",
+      "resourceName": "advise-cloudtrail",
+      "resourceType": "coreo_aws_rule_runner_cloudtrail",
+      "executionTime": 42.112857163,
+      "timestamp": "2017-03-23T07:57:47.104Z",
+      "executionNumber": 8,
+      "namespace": "ROOT::AUDIT-AWS-CLOUDTRAIL-AASDASD",
+      "engineStatus": "OK",
+      "engineState": "EXECUTING",
+      "runId": "ccde6330-577f-451d-aaef-9f915baeed47",
+      "stackName": "AUDIT-AWS-CLOUDTRAIL-AASDASD",
+      "resourceId": "163ccfd78880e66836b2efd73e2ddcbcddbf4af3f61cbc40c079290085852e3f",
+      "_id": "58d37ffea71d1a79718ebfca"
+    },
+    {
+      "outputs": [
+        {
+          "value": "audit-aws-cloudtrail",
+          "name": "composite_name"
+        },
+        {
+          "value": "aasdasd",
+          "name": "plan_name"
+        },
+        {
+          "value": {
+            "truncated": {
+              "object_size": 12644,
+              "object_key": "58d37e395ebda270117def26/ccde6330-577f-451d-aaef-9f915baeed47/972021307730539dd88248f115be01f42c594050a15e2724bf5096fc198093d5/14016d5e58c0c67f78d1770446c5ac84795c4f10"
+            }
+          },
+          "name": "results"
+        },
+        {
+          "value": "12",
+          "name": "number_violations"
+        },
+        {
+          "value": "[{\"COMPOSITE::coreo_uni_util_variables.cloudtrail-planwide.composite_name\"=>\"audit-aws-cloudtrail\"}, {\"COMPOSITE::coreo_uni_util_variables.cloudtrail-planwide.plan_name\"=>\"aasdasd\"}, {\"COMPOSITE::coreo_uni_util_variables.cloudtrail-planwide.results\"=>\"unset\"}, {\"COMPOSITE::coreo_uni_util_variables.cloudtrail-planwide.number_violations\"=>\"unset\"}]",
+          "name": "variables"
+        }
+      ],
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "set",
+          "name": "action"
+        },
+        {
+          "type": "Array",
+          "value": "[{\"COMPOSITE::coreo_uni_util_variables.cloudtrail-planwide.composite_name\"=>\"audit-aws-cloudtrail\"}, {\"COMPOSITE::coreo_uni_util_variables.cloudtrail-planwide.plan_name\"=>\"aasdasd\"}, {\"COMPOSITE::coreo_uni_util_variables.cloudtrail-planwide.results\"=>\"unset\"}, {\"COMPOSITE::coreo_uni_util_variables.cloudtrail-planwide.number_violations\"=>\"unset\"}]",
+          "name": "variables"
+        }
+      ],
+      "dataType": "DEPLOY_RESOURCE",
+      "resourceName": "cloudtrail-planwide",
+      "resourceType": "coreo_uni_util_variables",
+      "executionTime": 3.964450026,
+      "timestamp": "2017-03-23T07:56:59.165Z",
+      "executionNumber": 7,
+      "namespace": "ROOT::AUDIT-AWS-CLOUDTRAIL-AASDASD",
+      "engineStatus": "OK",
+      "engineState": "EXECUTING",
+      "runId": "ccde6330-577f-451d-aaef-9f915baeed47",
+      "stackName": "AUDIT-AWS-CLOUDTRAIL-AASDASD",
+      "resourceId": "972021307730539dd88248f115be01f42c594050a15e2724bf5096fc198093d5",
+      "_id": "58d37fcca71d1a79718ebfc9"
+    },
+    {
+      "outputs": [],
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "define",
+          "name": "action"
+        },
+        {
+          "type": "String",
+          "value": "CloudCoreo Use Only",
+          "name": "display_name"
+        },
+        {
+          "type": "String",
+          "value": "stack.current_region",
+          "name": "id_map"
+        },
+        {
+          "type": "Symbol",
+          "value": "cloudtrail",
+          "name": "service"
+        },
+        {
+          "type": "Array",
+          "value": "[true]",
+          "name": "raise_when"
+        },
+        {
+          "type": "Array",
+          "value": "[\"trails\"]",
+          "name": "objectives"
+        },
+        {
+          "type": "String",
+          "value": "http://kb.cloudcoreo.com/mydoc_unused-alert-definition.html",
+          "name": "link"
+        },
+        {
+          "type": "String",
+          "value": "Internal",
+          "name": "level"
+        },
+        {
+          "type": "Array",
+          "value": "[\"==\"]",
+          "name": "operators"
+        },
+        {
+          "type": "String",
+          "value": "This is an internally defined alert.",
+          "name": "description"
+        },
+        {
+          "type": "String",
+          "value": "Internal",
+          "name": "category"
+        },
+        {
+          "type": "String",
+          "value": "Ignore",
+          "name": "suggested_action"
+        },
+        {
+          "type": "Array",
+          "value": "[]",
+          "name": "call_modifiers"
+        },
+        {
+          "type": "Array",
+          "value": "[\"trail_list.include_global_service_events\"]",
+          "name": "audit_objects"
+        },
+        {
+          "type": "FalseClass",
+          "value": "false",
+          "name": "include_violations_in_count"
+        }
+      ],
+      "dataType": "ADVISOR_RESOURCE",
+      "resourceName": "cloudtrail-trail-with-global",
+      "resourceType": "coreo_aws_rule",
+      "executionTime": 1.457009445,
+      "timestamp": "2017-03-23T07:56:53.190Z",
+      "executionNumber": 6,
+      "namespace": "ROOT::AUDIT-AWS-CLOUDTRAIL-AASDASD",
+      "engineStatus": "OK",
+      "engineState": "EXECUTING",
+      "runId": "ccde6330-577f-451d-aaef-9f915baeed47",
+      "stackName": "AUDIT-AWS-CLOUDTRAIL-AASDASD",
+      "resourceId": "85a29b6c0744d4c070d66d3233d4592d3614b715584fa579be77b94b868d3eb5",
+      "_id": "58d37fc5a71d1a79718ebfc8"
+    },
+    {
+      "outputs": [],
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "define",
+          "name": "action"
+        },
+        {
+          "type": "String",
+          "value": "Cloudtrail Global Logging is Disabled",
+          "name": "display_name"
+        },
+        {
+          "type": "String",
+          "value": "",
+          "name": "id_map"
+        },
+        {
+          "type": "Symbol",
+          "value": "user",
+          "name": "service"
+        },
+        {
+          "type": "Array",
+          "value": "[true]",
+          "name": "raise_when"
+        },
+        {
+          "type": "Array",
+          "value": "[\"\"]",
+          "name": "objectives"
+        },
+        {
+          "type": "String",
+          "value": "http://kb.cloudcoreo.com/mydoc_cloudtrail-trail-with-global.html",
+          "name": "link"
+        },
+        {
+          "type": "String",
+          "value": "Warning",
+          "name": "level"
+        },
+        {
+          "type": "Array",
+          "value": "[\"\"]",
+          "name": "operators"
+        },
+        {
+          "type": "String",
+          "value": "CloudTrail global service logging is not enabled for the selected regions.",
+          "name": "description"
+        },
+        {
+          "type": "String",
+          "value": "Audit",
+          "name": "category"
+        },
+        {
+          "type": "String",
+          "value": "Enable CloudTrail global service logging in at least one region",
+          "name": "suggested_action"
+        },
+        {
+          "type": "Array",
+          "value": "[]",
+          "name": "call_modifiers"
+        },
+        {
+          "type": "Array",
+          "value": "[\"\"]",
+          "name": "audit_objects"
+        },
+        {
+          "type": "TrueClass",
+          "value": "true",
+          "name": "include_violations_in_count"
+        },
+        {
+          "type": "String",
+          "value": "99.997",
+          "name": "meta_cis_id"
+        }
+      ],
+      "dataType": "ADVISOR_RESOURCE",
+      "resourceName": "cloudtrail-no-global-trails",
+      "resourceType": "coreo_aws_rule",
+      "executionTime": 1.379227484,
+      "timestamp": "2017-03-23T07:56:50.453Z",
+      "executionNumber": 5,
+      "namespace": "ROOT::AUDIT-AWS-CLOUDTRAIL-AASDASD",
+      "engineStatus": "OK",
+      "engineState": "EXECUTING",
+      "runId": "ccde6330-577f-451d-aaef-9f915baeed47",
+      "stackName": "AUDIT-AWS-CLOUDTRAIL-AASDASD",
+      "resourceId": "6c4ff24ebd5398ad0c0465ef0d3dcead066601dd1225bd020ae47a9c82e228ce",
+      "_id": "58d37fc3a71d1a79718ebfc7"
+    },
+    {
+      "outputs": [],
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "define",
+          "name": "action"
+        },
+        {
+          "type": "String",
+          "value": "Cloudtrail Logs Integrated with CloudWatch",
+          "name": "display_name"
+        },
+        {
+          "type": "String",
+          "value": "modifiers.name",
+          "name": "id_map"
+        },
+        {
+          "type": "Symbol",
+          "value": "cloudtrail",
+          "name": "service"
+        },
+        {
+          "type": "Array",
+          "value": "[\"\", \"1.day.ago\"]",
+          "name": "raise_when"
+        },
+        {
+          "type": "Array",
+          "value": "[\"trails\", \"trail_status\"]",
+          "name": "objectives"
+        },
+        {
+          "type": "String",
+          "value": "",
+          "name": "link"
+        },
+        {
+          "type": "String",
+          "value": "Warning",
+          "name": "level"
+        },
+        {
+          "type": "Array",
+          "value": "[\"\", \"<\"]",
+          "name": "operators"
+        },
+        {
+          "type": "String",
+          "value": "CloudTrail logs have not attempted delivery to CloudWatch in the last 24 hours. Ensure CloudWatch is integrated",
+          "name": "description"
+        },
+        {
+          "type": "String",
+          "value": "Audit",
+          "name": "category"
+        },
+        {
+          "type": "String",
+          "value": "Integrate CloudWatch with Cloudtrail",
+          "name": "suggested_action"
+        },
+        {
+          "type": "Array",
+          "value": "[{}, {:name=>\"object.trail_list.name\"}]",
+          "name": "call_modifiers"
+        },
+        {
+          "type": "Array",
+          "value": "[\"\", \"object.latest_cloud_watch_logs_delivery_time\"]",
+          "name": "audit_objects"
+        },
+        {
+          "type": "TrueClass",
+          "value": "true",
+          "name": "include_violations_in_count"
+        },
+        {
+          "type": "String",
+          "value": "2.4",
+          "name": "meta_cis_id"
+        },
+        {
+          "type": "String",
+          "value": "true",
+          "name": "meta_cis_scored"
+        },
+        {
+          "type": "String",
+          "value": "1",
+          "name": "meta_cis_level"
+        }
+      ],
+      "dataType": "ADVISOR_RESOURCE",
+      "resourceName": "cloudtrail-logs-cloudwatch",
+      "resourceType": "coreo_aws_rule",
+      "executionTime": 1.356504689,
+      "timestamp": "2017-03-23T07:56:47.370Z",
+      "executionNumber": 4,
+      "namespace": "ROOT::AUDIT-AWS-CLOUDTRAIL-AASDASD",
+      "engineStatus": "OK",
+      "engineState": "EXECUTING",
+      "runId": "ccde6330-577f-451d-aaef-9f915baeed47",
+      "stackName": "AUDIT-AWS-CLOUDTRAIL-AASDASD",
+      "resourceId": "b356894d1df96d963f1094d743f7da77498c5de68f4e746ee3104ab6a89c4754",
+      "_id": "58d37fc0a71d1a79718ebfc6"
+    },
+    {
+      "outputs": [],
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "define",
+          "name": "action"
+        },
+        {
+          "type": "String",
+          "value": "Cloudtrail Log File Validation Disabled",
+          "name": "display_name"
+        },
+        {
+          "type": "String",
+          "value": "object.trail_list.name",
+          "name": "id_map"
+        },
+        {
+          "type": "Symbol",
+          "value": "cloudtrail",
+          "name": "service"
+        },
+        {
+          "type": "Array",
+          "value": "[false]",
+          "name": "raise_when"
+        },
+        {
+          "type": "Array",
+          "value": "[\"trails\"]",
+          "name": "objectives"
+        },
+        {
+          "type": "String",
+          "value": "",
+          "name": "link"
+        },
+        {
+          "type": "String",
+          "value": "Warning",
+          "name": "level"
+        },
+        {
+          "type": "Array",
+          "value": "[\"==\"]",
+          "name": "operators"
+        },
+        {
+          "type": "String",
+          "value": "CloudTrail log file validation is disabled for this trail. It should be enabled",
+          "name": "description"
+        },
+        {
+          "type": "String",
+          "value": "Audit",
+          "name": "category"
+        },
+        {
+          "type": "String",
+          "value": "Enable CloudTrail log file validation for this trail.",
+          "name": "suggested_action"
+        },
+        {
+          "type": "Array",
+          "value": "[]",
+          "name": "call_modifiers"
+        },
+        {
+          "type": "Array",
+          "value": "[\"object.trail_list.log_file_validation_enabled\"]",
+          "name": "audit_objects"
+        },
+        {
+          "type": "TrueClass",
+          "value": "true",
+          "name": "include_violations_in_count"
+        },
+        {
+          "type": "String",
+          "value": "2.2",
+          "name": "meta_cis_id"
+        },
+        {
+          "type": "String",
+          "value": "true",
+          "name": "meta_cis_scored"
+        },
+        {
+          "type": "String",
+          "value": "2",
+          "name": "meta_cis_level"
+        }
+      ],
+      "dataType": "ADVISOR_RESOURCE",
+      "resourceName": "cloudtrail-log-file-validating",
+      "resourceType": "coreo_aws_rule",
+      "executionTime": 1.338654215,
+      "timestamp": "2017-03-23T07:56:44.628Z",
+      "executionNumber": 3,
+      "namespace": "ROOT::AUDIT-AWS-CLOUDTRAIL-AASDASD",
+      "engineStatus": "OK",
+      "engineState": "EXECUTING",
+      "runId": "ccde6330-577f-451d-aaef-9f915baeed47",
+      "stackName": "AUDIT-AWS-CLOUDTRAIL-AASDASD",
+      "resourceId": "7482fdb61126ec8a4c5e240902577a5695b36cbc22483a88571037e779febff3",
+      "_id": "58d37fbda71d1a79718ebfc5"
+    },
+    {
+      "outputs": [],
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "define",
+          "name": "action"
+        },
+        {
+          "type": "String",
+          "value": "Cloudtrail Service is Disabled",
+          "name": "display_name"
+        },
+        {
+          "type": "String",
+          "value": "stack.current_region",
+          "name": "id_map"
+        },
+        {
+          "type": "Symbol",
+          "value": "cloudtrail",
+          "name": "service"
+        },
+        {
+          "type": "Array",
+          "value": "[0]",
+          "name": "raise_when"
+        },
+        {
+          "type": "Array",
+          "value": "[\"trails\"]",
+          "name": "objectives"
+        },
+        {
+          "type": "String",
+          "value": "http://kb.cloudcoreo.com/mydoc_cloudtrail-service-disabled.html",
+          "name": "link"
+        },
+        {
+          "type": "String",
+          "value": "Warning",
+          "name": "level"
+        },
+        {
+          "type": "Array",
+          "value": "[\"==\"]",
+          "name": "operators"
+        },
+        {
+          "type": "String",
+          "value": "CloudTrail logging is not enabled for this region. It should be enabled.",
+          "name": "description"
+        },
+        {
+          "type": "String",
+          "value": "Audit",
+          "name": "category"
+        },
+        {
+          "type": "String",
+          "value": "Enable CloudTrail logs for each region.",
+          "name": "suggested_action"
+        },
+        {
+          "type": "Array",
+          "value": "[]",
+          "name": "call_modifiers"
+        },
+        {
+          "type": "Array",
+          "value": "[\"count\"]",
+          "name": "formulas"
+        },
+        {
+          "type": "Array",
+          "value": "[\"trail_list\"]",
+          "name": "audit_objects"
+        },
+        {
+          "type": "TrueClass",
+          "value": "true",
+          "name": "include_violations_in_count"
+        },
+        {
+          "type": "String",
+          "value": "2.1",
+          "name": "meta_cis_id"
+        },
+        {
+          "type": "String",
+          "value": "true",
+          "name": "meta_cis_scored"
+        },
+        {
+          "type": "String",
+          "value": "1",
+          "name": "meta_cis_level"
+        }
+      ],
+      "dataType": "ADVISOR_RESOURCE",
+      "resourceName": "cloudtrail-service-disabled",
+      "resourceType": "coreo_aws_rule",
+      "executionTime": 1.342884777,
+      "timestamp": "2017-03-23T07:56:42.016Z",
+      "executionNumber": 2,
+      "namespace": "ROOT::AUDIT-AWS-CLOUDTRAIL-AASDASD",
+      "engineStatus": "OK",
+      "engineState": "EXECUTING",
+      "runId": "ccde6330-577f-451d-aaef-9f915baeed47",
+      "stackName": "AUDIT-AWS-CLOUDTRAIL-AASDASD",
+      "resourceId": "f8b53057d49b10b77677353f19fefe5da53b667d384fe12d8a55804480d48875",
+      "_id": "58d37fbaa71d1a79718ebfc4"
+    },
+    {
+      "outputs": [],
+      "inputs": [
+        {
+          "type": "choice",
+          "value": "define",
+          "name": "action"
+        },
+        {
+          "type": "String",
+          "value": "Cloudtrail Inventory",
+          "name": "display_name"
+        },
+        {
+          "type": "String",
+          "value": "object.trail_list.name",
+          "name": "id_map"
+        },
+        {
+          "type": "Symbol",
+          "value": "cloudtrail",
+          "name": "service"
+        },
+        {
+          "type": "Array",
+          "value": "[//]",
+          "name": "raise_when"
+        },
+        {
+          "type": "Array",
+          "value": "[\"trails\"]",
+          "name": "objectives"
+        },
+        {
+          "type": "String",
+          "value": "http://kb.cloudcoreo.com/mydoc-inventory.html",
+          "name": "link"
+        },
+        {
+          "type": "String",
+          "value": "Informational",
+          "name": "level"
+        },
+        {
+          "type": "Array",
+          "value": "[\"=~\"]",
+          "name": "operators"
+        },
+        {
+          "type": "String",
+          "value": "This rule performs an inventory on all trails in the target AWS account.",
+          "name": "description"
+        },
+        {
+          "type": "String",
+          "value": "Inventory",
+          "name": "category"
+        },
+        {
+          "type": "String",
+          "value": "None.",
+          "name": "suggested_action"
+        },
+        {
+          "type": "Array",
+          "value": "[]",
+          "name": "call_modifiers"
+        },
+        {
+          "type": "Array",
+          "value": "[\"object.trail_list.name\"]",
+          "name": "audit_objects"
+        },
+        {
+          "type": "FalseClass",
+          "value": "false",
+          "name": "include_violations_in_count"
+        },
+        {
+          "type": "String",
+          "value": "99.999",
+          "name": "meta_cis_id"
+        }
+      ],
+      "dataType": "ADVISOR_RESOURCE",
+      "resourceName": "cloudtrail-inventory",
+      "resourceType": "coreo_aws_rule",
+      "executionTime": 20.512935448,
+      "timestamp": "2017-03-23T07:56:37.334Z",
+      "executionNumber": 1,
+      "namespace": "ROOT::AUDIT-AWS-CLOUDTRAIL-AASDASD",
+      "engineStatus": "OK",
+      "engineState": "EXECUTING",
+      "runId": "ccde6330-577f-451d-aaef-9f915baeed47",
+      "stackName": "AUDIT-AWS-CLOUDTRAIL-AASDASD",
+      "resourceId": "e4d3c12ef5fcab741b1609fc558602e4a70f136a9365a93d583b18a4bdb65f13",
+      "_id": "58d37fb7a71d1a79718ebfc3"
+    }
+  ],
+  "numberOfResources": 18,
+  "planRefreshIntervalInHours": 24,
+  "lastExecutionTime": "2017-03-23T07:56:06.866Z",
+  "engineState": "COMPLETED",
+  "engineStatus": "EXECUTION_ERROR",
+  "isEnabled": false
+}

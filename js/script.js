@@ -98,7 +98,7 @@ $(document).ready(function () {
         var alerts = auditData.getViolationsList();
         if (alerts) {
             alerts.forEach(function (alert) {
-                if (alert.resource.isSuppressed) return;
+                if (!alert.resource || alert.resource.isSuppressed) return;
                 var region = alert.region;
                 if (!mapData[region]) mapData[region] = { violations: 0, deployed: 0, objects: 0 };
 

@@ -115,6 +115,11 @@ window.Deploy = (function () {
         return resources;
     };
 
+    deploy.prototype.refreshData = function (data) {
+        var currentSort = $('.resource-list-header .sort-label.active');
+        hasOldResources = false;
+        init(data);
+    };
 
     deploy.prototype.hasOldResources = function() {
         return hasOldResources;

@@ -172,32 +172,40 @@ $(document).ready(function () {
     }
 
     function setupData(data, isFirstLoad) {
+        var onAditDataError = function () {
+            setCurrentView(isFirstLoad);
+        };
+        var onLoad = function() {
+            onDataProcessed(data, isFirstLoad);
+        };
         if (isFirstLoad) {
-            auditData = new Audit(data, 'level');
+            auditData = new Audit(data, 'level', onLoad, onAditDataError);
             deployData = new Deploy(data);
-        } else {
-            auditData.refreshData(data);
-            deployData.refreshData(data);
+            return;
         }
+        auditData.refreshData(data, onLoad);
+        deployData.refreshData(data);
+    }
 
+    function onDataProcessed(data, isFirstLoad) {
         if (deployData.hasOldResources()) {
             $('.audit').addClass('old-data-mask');
             $('.map').addClass('old-data-mask');
         }
         checkResourceError();
         checkRunError(data);
-
+        setCurrentView(isFirstLoad);
         if (!isFirstLoad && data.engineState !== 'COMPLETED') return;
 
         renderMapData(data);
     }
 
-    function setupViewData(isFirstLoad) {
-        var violationCount = auditData.getViolationsCount();
-
+    function setCurrentView(isFirstLoad) {
+        var violationCount = 0;
+        if (auditData) violationCount = auditData.getViolationsCount();
         if (violationCount) $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').addClass('alert');
 
-        if (isFirstLoad) {
+        if (isFirstLoad && !currentView) {
             currentView = !violationCount || isError ? viewTypes.deploy : viewTypes.audit;
             $('.resource-type-toggle .resource-type.' + currentView + '-res').addClass('active');
             $('.' + currentView).removeClass('hidden');
@@ -250,7 +258,6 @@ $(document).ready(function () {
     }
 
     function setExecutionStatusMessage(data) {
-
         if (data.engineState === 'COMPLETED' || data.engineState === 'INITIALIZED') return;
 
         $('.engine-state').removeClass('hidden');
@@ -289,7 +296,6 @@ $(document).ready(function () {
         initView();
         setupData(data, isFirstLoad);
         setExecutionStatusMessage(data);
-        setupViewData(isFirstLoad);
     }
 
     if (typeof ccThisCont === 'undefined') {

@@ -106,7 +106,7 @@ $(document).ready(function () {
                 var region = alert.region;
                 if (!mapData[region]) mapData[region] = { violations: 0, deployed: 0, objects: 0 };
 
-                if (!alert.isViolation) ++mapData[region].objects;
+                if (!alert.include_violations_in_count) ++mapData[region].objects;
                 else ++mapData[region].violations;
             });
         }

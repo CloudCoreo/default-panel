@@ -362,7 +362,7 @@
              link="{{:violation.link}}">
             <div class="flex-row row-header flex-wrap border-grey layout-padding bg-white">
                 <div class="flex-column flex-50 layout-padding-right">
-                    <div class="passed-disabled-title">{{:violation.title}}</div>
+                    <div class="passed-disabled-title">{{:violation.title}} {{if violation.meta_cis_id}}CIS ID: {{:violation.meta_cis_id}}{{/if}}</div>
                 </div>
                 <div class="flex-row flex-50 layout-padding-right">
                     {{if resultsType === 'PASSED'}}
@@ -389,7 +389,7 @@
                     <div class="violation-id flex-row">
                         <div class="layout-padding-right">RuleId: {{:violation.id}}</div>
                         {{if violation.meta_cis_id}}
-                        <span>CIS Id: {{:violation.meta_cis_id}}</span>
+                        <span>CIS ID: {{:violation.meta_cis_id}}</span>
                         {{/if}}
                     </div>
                 </div>

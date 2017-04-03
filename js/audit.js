@@ -313,7 +313,7 @@ window.Audit = (function () {
             visibleCount++;
 
             sectionSummary.value += violations[vId].resources.length;
-            if (violations[vId].isViolation) violationsCount += violations[vId].resources.length;
+            if (violations[vId].include_violations_in_count) violationsCount += violations[vId].resources.length;
         });
 
         var headerData = {name: sectionSummary.label, resultsCount: violationsCount, resultsType: resultsType};
@@ -478,7 +478,7 @@ window.Audit = (function () {
                         ++alertData.service[alert.service];
                         ++alertData.meta_cis_id[alert.meta_cis_id];
 
-                        if (alert.isViolation && !isSuppressed) ++totalViolations;
+                        if (alert.include_violations_in_count && !isSuppressed) ++totalViolations;
                         if (disabledViolations[violationKey]) delete disabledViolations[violationKey];
                     });
                 });

@@ -506,6 +506,7 @@ window.Audit = (function () {
     function fillViolationsList(violations, reports, callback) {
         if (!Object.keys(violations).length && !Object.keys(disabledViolations).length && !Object.keys(passedViolations).length) {
             showNoAuditResourcesMessage();
+            callback();
             return;
         }
         var totalChecks = 0;

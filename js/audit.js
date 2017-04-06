@@ -701,7 +701,7 @@ window.Audit = (function () {
                 showResourcesAreBeingLoadedMessage();
                 return;
             }
-            const isDisabledSectionVisible = !data.globalData || !data.globalData.variables.disable_disabled_card_processing;
+            var isDisabledSectionVisible = !data.globalData || !data.globalData.variables.disable_disabled_card_processing;
             render(sortKey, isDisabledSectionVisible);
             fillHtmlSummaryData();
             callback();

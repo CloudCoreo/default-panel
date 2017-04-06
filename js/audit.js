@@ -656,11 +656,13 @@ window.Audit = (function () {
         });
     }
 
-    function render(sortKey) {
+    function render(sortKey, isDisabledSectionVisible) {
         pie = new ResourcesPie(containers.pieChartSelector);
         var listOfAlerts = renderResourcesList(sortKey);
         renderSection(passedViolations, 'Passed', colorPalette.Passed, 'PASSED');
-        renderSection(disabledViolations, 'Disabled', null, 'DISABLED');
+        if (isDisabledSectionVisible){
+            renderSection(disabledViolations, 'Disabled', null, 'DISABLED');
+        }
         refreshClickHandlers(listOfAlerts);
     }
 
@@ -699,7 +701,8 @@ window.Audit = (function () {
                 showResourcesAreBeingLoadedMessage();
                 return;
             }
-            render(sortKey);
+            const isDisabledSectionVisible = !data.globalData || !data.globalData.variables.disable_disabled_card_processing;
+            render(sortKey, isDisabledSectionVisible);
             fillHtmlSummaryData();
             callback();
         });

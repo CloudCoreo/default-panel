@@ -127,6 +127,10 @@ $(document).ready(function () {
         $('.backdrop').click(function () {
             $(this).closest('#popup').addClass('hidden');
         });
+
+        $('.warning-link').click(function () {
+            openPopup('redirectToResources');
+        });
     }
 
     function emulateCcThisUpdate() {

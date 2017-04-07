@@ -99,16 +99,8 @@ window.Deploy = (function () {
         $('.resources-list-header').removeClass('empty');
     }
 
-    function init(data, sortKey, desc) {
-        data = getInitializedCcThisData(data);
-        isEnabled = data.isEnabled;
-        initGlobalVariables(data);
-        initView();
-        initResourcesList(data);
-    }
-
     function deploy(data) {
-        init(data, 'timestamp', false);
+        initResourcesList(data);
     }
 
     deploy.prototype.getResourcesList = function () {
@@ -118,7 +110,7 @@ window.Deploy = (function () {
     deploy.prototype.refreshData = function (data) {
         var currentSort = $('.resource-list-header .sort-label.active');
         hasOldResources = false;
-        init(data);
+        initResourcesList(data);
     };
 
     deploy.prototype.hasOldResources = function() {

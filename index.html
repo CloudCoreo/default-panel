@@ -37,7 +37,7 @@
                         <img src="images/audit-layout_loading-4.gif"/>
                     </div>
                     <div class="hidden audit-data-is-not-ready">Audit data is processing. Full audit report is not available now.</div>
-                    <div class="audit-list-block audit-list">
+                    <div class="audit-list-block hidden audit-list">
                         <div class="left-column layout-padding-right">
                             <div class="pie-data-header"><span class="num">0</span> Violating Cloud Objects</div>
                             <div class="custom-dropdown noselect layout-margin-bottom-20">
@@ -71,6 +71,12 @@
                                     </div>
                                     <div><img src="./images/moose-cropped_no-violations.png"/></div>
                                 </div>
+                            </div>
+
+                            <div class="warning-block warning-note-1">
+                                <span class="error-icon"></span>
+                                <span class="message">Violation checks may be incomplete. <a href="#" id="warning-link"
+                                                                                             class="warning-link">Please review</a> the error and run again to ensure completeness.</span>
                             </div>
 
                             <div class="list"></div>

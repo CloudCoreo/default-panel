@@ -15,92 +15,20 @@
 <div class="main-container">
     <div class="container">
         <div class="options-container">
-            <div class="engine-state hidden">
-                <div class="status-spinner"></div>
-                <div class="message">EXECUTING</div>
-            </div>
             <div class="data-is-loading hidden">
+                <h2>Waiting for results...</h2>
                 <img src="images/audit-layout_loading-4.gif"/>
             </div>
-            <div class="error-container hidden">
-                <div class="error-container-status"></div>
-                <div class="last-successful-run">prevented a run on <span></span></div>
-                <div class="last-successful-run"><a class="error-container-details">view details</a></div>
-                <div class="next-execution-time">Next execution: <span></span></div>
-            </div>
             <div class="resource-type-toggle">
-                <div class="resource-type audit-res"
-                     value="audit">audit <span></span></div>
-                <div class="resource-type deploy-res"
-                     value="deploy">resources <span></span></div>
+                <div class="resource-type active audit-res"
+                     value="audit">list</div>
                 <div class="resource-type map-res"
-                     value="map">map <span></span></div>
+                     value="map">map</div>
             </div>
         </div>
         <div class="scrollable-area">
             <div class="data-container">
-                <div class="deploy hidden">
-                    <div class="custom-dropdown noselect layout-margin-bottom-20">
-                        <div class="dropdown-button">
-                            <div>SORT BY</div>
-                            <div class="chosen-item-text">Timestamp</div>
-                            <input type="hidden" class="chosen-item-value chosen-sorting" value="timestamp">
-                            <input type="hidden" class="chosen-item-is-reverse" value="true">
-                        </div>
-                        <ul class="hidden resource-list-header deploy-list-header">
-                            <li class="sort-label mobile" key="resourceType" data-value="resourceType">Resource type</li>
-                            <li class="sort-label mobile" key="resourceName" data-value="resourceName">Resource name</li>
-                            <li class="sort-label mobile" key="engineState" data-value="engineStatus">Status</li>
-                            <li class="sort-label mobile" key="action" data-value="action">Action</li>
-                            <li class="sort-label mobile" key="executionTime" data-value="executionTime">Execution time</li>
-                            <li class="sort-label mobile" key="timestamp" data-value="timestamp">Timestamp</li>
-                        </ul>
-                    </div>
-                    <div class="sticky-header">
-                        <div class="resource-list-header">
-                            <div class="sort-label type" key="resourceType">resource type</div>
-                            <div class="sort-label name" key="resourceName">resource name</div>
-                            <div class="sort-label status" key="engineStatus">status</div>
-                            <div class="sort-label action" key="action">action</div>
-                            <div class="sort-label executionTime" key="executionTime">execution time</div>
-                            <div class="sort-label status-timestamp active" key="timestamp">timestamp</div>
-                        </div>
-                        <div class="messages error hidden">
-                            <div class="messages-container">
-                                <div class="message-left-part">
-                                    <span class="message-status">ERROR</span>
-                                    <span class="amount"></span>
-                                    <span class="message"></span>
-                                </div>
-                                <div class="message-right-part">
-                                    Next execution: <span class="next-execution">23h 24m 12s</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="messages alert hidden">
-                            <div class="messages-container">
-                                <div class="message-left-part">
-                                    <span class="message-status">ALERTS</span>
-                                    <span class="amount"></span>
-                                    <span class="message"></span>
-                                </div>
-                                <div class="message-right-part">
-                                    Next execution: <span class="next-execution">23h 24m 12s</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="scrollable-list">
-                        <div class="resources-list bg-white "></div>
-                    </div>
-                    <div id="no-deploy-resources" class="hidden">This execution has no additional resources.</div>
-                    <div class="pagination">
-                        <div class="resources-amount"></div>
-                        <div class="pages"></div>
-                    </div>
-                </div>
-
-                <div class="audit hidden">
+                <div class="audit">
                     <div id="no-violation-resources" class="hidden">
                         This composite has no audit resources.<br/>
                         <span class="browse-composites">Browse featured Composites</span> to see available audits.
@@ -109,7 +37,7 @@
                         <img src="images/audit-layout_loading-4.gif"/>
                     </div>
                     <div class="hidden audit-data-is-not-ready">Audit data is processing. Full audit report is not available now.</div>
-                    <div class="audit-list-block audit-list">
+                    <div class="audit-list-block hidden audit-list">
                         <div class="left-column layout-padding-right">
                             <div class="pie-data-header"><span class="num">0</span> Violating Cloud Objects</div>
                             <div class="custom-dropdown noselect layout-margin-bottom-20">

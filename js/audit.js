@@ -681,6 +681,7 @@ window.Audit = (function () {
     }
 
     function initView() {
+        $(containers.mainCont).removeClass('hidden');
         $(containers.warningBlock).addClass('hidden');
         $(containers.mainDataContainerSelector).html('');
         $(containers.noAuditResourcesMessageSelector).addClass('hidden');

@@ -101,7 +101,7 @@ $(document).ready(function () {
                 var region = alert.region;
                 if (!mapData[region]) mapData[region] = { violations: 0, deployed: 0, objects: 0 };
 
-                if (!alert.isViolation) ++mapData[region].objects;
+                if (!alert.include_violations_in_count) ++mapData[region].objects;
                 else ++mapData[region].violations;
             });
         }
@@ -151,22 +151,32 @@ $(document).ready(function () {
     }
 
     function setupData(data, isFirstLoad) {
+        var onAditDataError = function () {
+            setCurrentView(isFirstLoad);
+        };
+        var onLoad = function() {
+            onDataProcessed(data, isFirstLoad);
+        };
         if (isFirstLoad) {
-            auditData = new Audit(data, 'level');
+            auditData = new Audit(data, 'level', onLoad, onAditDataError);
             deployData = new Deploy(data);
-        } else {
-            auditData.refreshData(data);
-            deployData.refreshData(data);
+            return;
         }
+        auditData.refreshData(data, onLoad);
+        deployData.refreshData(data);
+    }
 
+    function onDataProcessed(data, isFirstLoad) {
         if (deployData.hasOldResources()) {
             $('.audit').addClass('old-data-mask');
             $('.map').addClass('old-data-mask');
         }
+        setCurrentView(isFirstLoad);
 
         if (!isFirstLoad && data.engineState !== 'COMPLETED') return;
         renderMapData(data);
     }
+
 
     function setupViewData(isFirstLoad) {
         var violationCount = auditData.getViolationsCount();
@@ -175,6 +185,34 @@ $(document).ready(function () {
         $audit.addClass('active')
             .removeClass('hidden');
         if (isFirstLoad) $('.audit').addClass('active');
+    }
+
+    function setCurrentView(isFirstLoad) {
+        var violationCount = 0;
+        if (auditData) violationCount = auditData.getViolationsCount();
+        if (violationCount) $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').addClass('alert');
+
+        if (isFirstLoad && !currentView) {
+            currentView = !violationCount || isError ? viewTypes.deploy : viewTypes.audit;
+            $('.resource-type-toggle .resource-type.' + currentView + '-res').addClass('active');
+            $('.' + currentView).removeClass('hidden');
+        }
+    }
+
+    function getEngineStateMessage(engineState) {
+        if (!engineState) return 'queued';
+        return (engineState === "EXECUTING" || engineState === "COMPLETED") ? engineState : "COMPILING";
+    }
+
+    function appendNextExecutionTime() {
+        var hoursTillNextExecution = deployData.accountAndGetHoursTillNextExecution();
+        var nextExecutionTime = '';
+        if (hoursTillNextExecution > 1) {
+            nextExecutionTime = 'in ' + hoursTillNextExecution + ' hours';
+        } else {
+            nextExecutionTime = 'will start less than an hour';
+        }
+        $('.error-container .next-execution-time span').html(nextExecutionTime)
     }
 
     function countCurrentRunResourcesNumber(data) {
@@ -187,7 +225,12 @@ $(document).ready(function () {
     }
 
     function setExecutionStatusMessage(data) {
-        if (data.engineState === 'EXECUTING') {
+        if (data.engineState === 'COMPLETED' || data.engineState === 'INITIALIZED') return;
+
+        $('.engine-state').removeClass('hidden');
+        $('.engine-state .message').html(getEngineStateMessage(data.engineState));
+
+        if (!data.resourcesArray && data.engineState !== 'EXECUTING') {
             $('.data-is-loading').removeClass('hidden');
             $('.resource-type-toggle').addClass('hidden');
             $('.scrollable-area').addClass('hidden');
@@ -202,7 +245,6 @@ $(document).ready(function () {
         initView();
         setupData(data, isFirstLoad);
         setExecutionStatusMessage(data);
-        setupViewData(isFirstLoad);
     }
 
     if (typeof ccThisCont === 'undefined') {

@@ -1,5 +1,5 @@
 window.Audit = (function () {
-    var callback;
+    var errorCallback;
     var totalViolations = 0;
     var passedViolations = [];
     var disabledViolations = [];
@@ -313,7 +313,7 @@ window.Audit = (function () {
             visibleCount++;
 
             sectionSummary.value += violations[vId].resources.length;
-            if (violations[vId].isViolation) violationsCount += violations[vId].resources.length;
+            if (violations[vId].include_violations_in_count) violationsCount += violations[vId].resources.length;
         });
 
         var headerData = {name: sectionSummary.label, resultsCount: violationsCount, resultsType: resultsType};
@@ -410,79 +410,120 @@ window.Audit = (function () {
         alerts = undefined;
     }
 
-    function fillViolationsList(violations, reports) {
+    function onError() {
+        if (!errorCallback) return;
+        errorCallback();
+    }
+
+    function getReport(reportData, callback, blockUI) {
+        var timestamp = utils.formatDate(reportData.timestamp);
+        var report = reportData.outputs.report;
+        if (typeof report === 'string') report = JSON.parse(report);
+
+        if (!report.truncated) {
+            callback(report, reportData._id, timestamp);
+            return;
+        }
+        sendRequest('getTruncatedObject',
+            { objectKey: report.truncated.object_key, blockUI: blockUI },
+            function (error, retrievedObject) {
+                if (error) {
+                    $(".audit-data-is-not-ready").removeClass("hidden");
+                    onError();
+                    setTimeout(function () {
+                        getReport(reportData, callback, false);
+                    }, 10000);
+                    return;
+                }
+                $(".audit-data-is-not-ready").addClass("hidden");
+                callback(retrievedObject, reportData._id, timestamp);
+            });
+    }
+
+    function reorganizeReportData(report, reportId, timestamp, violations) {
+        Object.keys(report).forEach(function (region) {
+            Object.keys(report[region]).forEach(function (resId) {
+                Object.keys(report[region][resId].violations).forEach(function (violationKey) {
+                    var rowData = report[region][resId].violations[violationKey];
+                    if (rowData.level === 'Internal') return;
+
+                    if (violations[violationKey]) {
+                        rowData.violationId = violations[violationKey]._id;
+                        rowData.service = violations[violationKey].inputs.service;
+                        rowData.meta_cis_id = violations[violationKey].inputs.meta_cis_id;
+                    }
+
+                    if (typeof rowData.include_violations_in_count === 'undefined') {
+                        rowData.include_violations_in_count = true;
+                    }
+
+                    var isSuppressed = rowData.suppressed || checkIfResourceIsSuppressed(rowData.suppression_until);
+                    var resource = {
+                        id: resId,
+                        tags: report[region][resId].tags || [],
+                        region: region,
+                        isSuppressed: isSuppressed,
+                        expiresAt: rowData.suppression_until,
+                        reportId: reportId
+                    };
+
+                    var alert = rowData;
+                    alert.title = rowData.display_name || violationKey;
+                    alert.id = violationKey;
+                    alert.resource = resource;
+                    alert.timestamp = timestamp;
+                    alert.metas = getRuleMetasCis(rowData);
+                    alerts.push(alert);
+
+                    if (!alertData.level.hasOwnProperty(alert.level)) {
+                        alertData.level[alert.level] = 0;
+                    }
+                    if (!alertData.category.hasOwnProperty(alert.category)) {
+                        alertData.category[alert.category] = 0;
+                    }
+                    if (!alertData.region.hasOwnProperty(alert.region)) {
+                        alertData.region[alert.region] = 0;
+                    }
+                    if (!alertData.service.hasOwnProperty(alert.service)) {
+                        alertData.service[alert.service] = 0;
+                    }
+                    if (!alertData.meta_cis_id.hasOwnProperty(alert.meta_cis_id)) {
+                        alertData.meta_cis_id[alert.meta_cis_id] = 0;
+                    }
+                    ++alertData.level[alert.level];
+                    ++alertData.category[alert.category];
+                    ++alertData.region[alert.region];
+                    ++alertData.service[alert.service];
+                    ++alertData.meta_cis_id[alert.meta_cis_id];
+
+                    if (alert.include_violations_in_count && !isSuppressed) ++totalViolations;
+                    if (disabledViolations[violationKey]) delete disabledViolations[violationKey];
+                });
+            });
+        });
+    }
+
+    function fillViolationsList(violations, reports, callback) {
         if (!Object.keys(violations).length && !Object.keys(disabledViolations).length && !Object.keys(passedViolations).length) {
             showNoAuditResourcesMessage();
+            callback();
             return;
         }
         var totalChecks = 0;
         totalViolations = 0;
 
+        var handledReports = 0;
+        var checkFetchedReport = function(report, reportId, timestamp) {
+            ++handledReports;
+            reorganizeReportData(report, reportId, timestamp, violations);
+            if (handledReports === reports.length) {
+                callback();
+            }
+        };
+
         reports.forEach(function (reportData) {
-            var report = JSON.parse(reportData.outputs.report);
             totalChecks += reportData.outputs.number_checks;
-            var timestamp = utils.formatDate(reportData.timestamp);
-
-            Object.keys(report).forEach(function (region) {
-                Object.keys(report[region]).forEach(function (resId) {
-                    Object.keys(report[region][resId].violations).forEach(function (violationKey) {
-                        var rowData = report[region][resId].violations[violationKey];
-                        if (rowData.level === 'Internal') return;
-
-                        if (violations[violationKey]) {
-                            rowData.violationId = violations[violationKey]._id;
-                            rowData.service = violations[violationKey].inputs.service;
-                            rowData.meta_cis_id = violations[violationKey].inputs.meta_cis_id;
-                        }
-
-                        if (typeof rowData.include_violations_in_count === 'undefined') {
-                            rowData.include_violations_in_count = true;
-                        }
-
-                        var isSuppressed = rowData.suppressed || checkIfResourceIsSuppressed(rowData.suppression_until);
-                        var resource = {
-                            id: resId,
-                            tags: report[region][resId].tags || [],
-                            region: region,
-                            isSuppressed: isSuppressed,
-                            expiresAt: rowData.suppression_until,
-                            reportId: reportData._id
-                        };
-
-                        var alert = rowData;
-                        alert.title = rowData.display_name || violationKey;
-                        alert.id = violationKey;
-                        alert.resource = resource;
-                        alert.timestamp = timestamp;
-                        alert.metas = getRuleMetasCis(rowData);
-                        alerts.push(alert);
-
-                        if (!alertData.level.hasOwnProperty(alert.level)) {
-                            alertData.level[alert.level] = 0;
-                        }
-                        if (!alertData.category.hasOwnProperty(alert.category)) {
-                            alertData.category[alert.category] = 0;
-                        }
-                        if (!alertData.region.hasOwnProperty(alert.region)) {
-                            alertData.region[alert.region] = 0;
-                        }
-                        if (!alertData.service.hasOwnProperty(alert.service)) {
-                            alertData.service[alert.service] = 0;
-                        }
-                        if (!alertData.meta_cis_id.hasOwnProperty(alert.meta_cis_id)) {
-                            alertData.meta_cis_id[alert.meta_cis_id] = 0;
-                        }
-                        ++alertData.level[alert.level];
-                        ++alertData.category[alert.category];
-                        ++alertData.region[alert.region];
-                        ++alertData.service[alert.service];
-                        ++alertData.meta_cis_id[alert.meta_cis_id];
-
-                        if (alert.isViolation && !isSuppressed) ++totalViolations;
-                        if (disabledViolations[violationKey]) delete disabledViolations[violationKey];
-                    });
-                });
-            });
+            getReport(reportData, checkFetchedReport, true);
         });
 
         $('.additional-info .checks').html(totalChecks + ' Checks');
@@ -506,7 +547,7 @@ window.Audit = (function () {
         $('.additional-info .disabled').html(Object.keys(disabledViolations).length + ' Disabled');
     }
 
-    function initResourcesList(ccthisData) {
+    function initResourcesList(ccthisData, callback) {
         var data = ccthisData.resourcesArray;
         var rules = {};
         var reports = [];
@@ -544,7 +585,7 @@ window.Audit = (function () {
             }
             else if (newObj.outputs.report) {
                 reports.push(newObj);
-                enabledDefinitions = enabledDefinitions.concat(JSON.parse(newObj.inputs.rules));
+                if (newObj.inputs.rules) enabledDefinitions = enabledDefinitions.concat(JSON.parse(newObj.inputs.rules));
             }
             else {
                 rules[newObj.resourceName] = newObj;
@@ -552,8 +593,10 @@ window.Audit = (function () {
             }
         });
 
-        fillViolationsList(rules, reports);
-        fillPassedViolationsList(enabledDefinitions);
+        fillViolationsList(rules, reports, function() {
+            fillPassedViolationsList(enabledDefinitions);
+            callback();
+        });
     }
 
     function scrollToElement(element) {
@@ -613,11 +656,13 @@ window.Audit = (function () {
         });
     }
 
-    function render(sortKey) {
+    function render(sortKey, isDisabledSectionVisible) {
         pie = new ResourcesPie(containers.pieChartSelector);
         var listOfAlerts = renderResourcesList(sortKey);
         renderSection(passedViolations, 'Passed', colorPalette.Passed, 'PASSED');
-        renderSection(disabledViolations, 'Disabled', null, 'DISABLED');
+        if (isDisabledSectionVisible){
+            renderSection(disabledViolations, 'Disabled', null, 'DISABLED');
+        }
         refreshClickHandlers(listOfAlerts);
     }
 
@@ -644,36 +689,38 @@ window.Audit = (function () {
         $(containers.mainCont).removeClass('empty');
     }
 
-    function init(data, sortKey) {
+    function init(data, sortKey, callback) {
         initGlobalVariables();
         initView();
-        initResourcesList(data);
-
         executionIsFinished = data.engineState === 'COMPLETED' ||
             data.engineState === 'INITIALIZED' ||
             (data.engineState === 'PLANNED' && data.engineStatus !== 'OK');
 
-        if (!executionIsFinished && !hasOld && data.resourcesArray.length < data.numberOfResources) {
-            showResourcesAreBeingLoadedMessage();
-            return;
-        }
-
-        render(sortKey);
-        fillHtmlSummaryData();
+        initResourcesList(data, function () {
+            if (!executionIsFinished && !hasOld) {
+                showResourcesAreBeingLoadedMessage();
+                return;
+            }
+            var isDisabledSectionVisible = !data.globalData || !data.globalData.variables.disable_disabled_card_processing;
+            render(sortKey, isDisabledSectionVisible);
+            fillHtmlSummaryData();
+            callback();
+        });
     }
 
-    function audit(data, sortKey, _callback, selectors) {
-        if (selectors) {
-            containers = selectors;
-        }
-        callback = _callback;
-        init(data, sortKey);
-        setupHandlers();
+    function audit(data, sortKey, callback, _errorCallback) {
+        errorCallback = _errorCallback
+        setTimeout(function() {
+            init(data, sortKey, function() {
+                setupHandlers();
+                callback();
+            });
+        });
     }
 
-    audit.prototype.refreshData = function (data) {
+    audit.prototype.refreshData = function (data, callback) {
         if (data.engineState !== 'COMPLETED') return;
-        init(data, $('.audit .chosen-sorting').val());
+        init(data, $('.audit .chosen-sorting').val(), callback);
     };
 
     audit.prototype.renderResourcesList = render;

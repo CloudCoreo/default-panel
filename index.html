@@ -36,6 +36,7 @@
                     <div class="resources-are-loading hidden">
                         <img src="images/audit-layout_loading-4.gif"/>
                     </div>
+                    <div class="hidden audit-data-is-not-ready">Audit data is processing. Full audit report is not available now.</div>
                     <div class="audit-list-block audit-list">
                         <div class="left-column layout-padding-right">
                             <div class="pie-data-header"><span class="num">0</span> Violating Cloud Objects</div>
@@ -94,6 +95,7 @@
                     </div>
                 </div>
                 <div class="map hidden">
+                    <div class="hidden audit-data-is-not-ready">Map becomes available once audit data is processed.</div>
                     <div class="map-container no-mobile layout-padding bg-white md-shadow"></div>
                     <div class="resources-are-loading"><img src="images/map-layout_loading.gif"/></div>
                     <div class="no-map-on-mobile-warning">
@@ -282,7 +284,7 @@
              link="{{:violation.link}}">
             <div class="flex-row row-header flex-wrap border-grey layout-padding bg-white">
                 <div class="flex-column flex-50 layout-padding-right">
-                    <div class="passed-disabled-title">{{:violation.title}}</div>
+                    <div class="passed-disabled-title">{{:violation.title}} {{if violation.meta_cis_id}}CIS ID: {{:violation.meta_cis_id}}{{/if}}</div>
                 </div>
                 <div class="flex-row flex-50 layout-padding-right">
                     {{if resultsType === 'PASSED'}}
@@ -309,7 +311,7 @@
                     <div class="violation-id flex-row">
                         <div class="layout-padding-right">RuleId: {{:violation.id}}</div>
                         {{if violation.meta_cis_id}}
-                        <span>CIS Id: {{:violation.meta_cis_id}}</span>
+                        <span>CIS ID: {{:violation.meta_cis_id}}</span>
                         {{/if}}
                     </div>
                 </div>

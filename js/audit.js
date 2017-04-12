@@ -270,9 +270,13 @@ window.Audit = (function () {
     }
 
     function getColor(alert) {
-        var color;
         var key = alert['level'];
-        return colorPalette.SeverityTones[key];
+        var color = colorPalette.SeverityTones[key];
+        if (!color) {
+            var index = keys.indexOf(key);
+            color = colorPalette.Default[index]
+        }
+        return color;
     }
 
     function renderSection(violations, key, color, resultsType) {

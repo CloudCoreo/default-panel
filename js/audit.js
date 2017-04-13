@@ -190,7 +190,7 @@ window.Audit = (function () {
             if (!listOfAlerts[key]) {
                 listOfAlerts[key] = {};
                 listOfAlerts[key].alerts = {};
-                listOfAlerts[key].color = getColor(alert);
+                listOfAlerts[key].color = getColor(alert, sortKey, keys, colors);
             }
 
             if (!listOfAlerts[key].alerts[alert.id]) {
@@ -269,13 +269,16 @@ window.Audit = (function () {
         return data;
     }
 
-    function getColor(alert) {
-        var key = alert['level'];
-        var color = colorPalette.SeverityTones[key];
+    function getColor(alert, sortKey, keys, colors) {
+        var color;
+        var key = alert[sortKey];
+
+        if (sortKey === 'level') color = colorPalette.SeverityTones[key];
         if (!color) {
             var index = keys.indexOf(key);
-            color = colorPalette.Default[index]
+            color = colors(index);
         }
+
         return color;
     }
 

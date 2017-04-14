@@ -337,7 +337,9 @@ html, body {
 }
 
 .list {
-    width: 100%;
+    width: 99%;
+    background: #ffffff;
+    padding: 20px;
 }
 
 .list .row-body {

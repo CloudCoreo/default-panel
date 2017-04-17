@@ -1,25 +1,20 @@
 $(document).ready(function () {
-    var resourceWithError;
     var auditData;
     var deployData;
     var map;
-    var isError;
 
     var viewTypes = {
-        deploy: 'deploy',
         audit: 'audit',
         map: 'map'
     };
 
     var currentSortBy = {
-        deploy: 'Most Recent',
         audit: 'Severity Level',
         map: ''
     };
 
     var currentView;
     var counter = 0;
-
 
     var externalActions = {
         redirectToCommunityComposites: 'redirectToCommunityComposites',
@@ -36,7 +31,7 @@ $(document).ready(function () {
             });
             if (found) return found.value;
             return undefined;
-        };
+        }
 
         if (resource.engineStatus.indexOf('ERROR') !== -1) return 'CloudCoreo';
 
@@ -102,11 +97,11 @@ $(document).ready(function () {
         var alerts = auditData.getViolationsList();
         if (alerts) {
             alerts.forEach(function (alert) {
-                if (alert.resource.isSuppressed) return;
+                if (!alert.resource || alert.resource.isSuppressed) return;
                 var region = alert.region;
                 if (!mapData[region]) mapData[region] = { violations: 0, deployed: 0, objects: 0 };
 
-                if (!alert.isViolation) ++mapData[region].objects;
+                if (!alert.include_violations_in_count) ++mapData[region].objects;
                 else ++mapData[region].violations;
             });
         }
@@ -125,14 +120,6 @@ $(document).ready(function () {
             goToView(view);
         });
 
-        $('.error-container-details').unbind().click(function (e) {
-            var status = $('.error-container-status').attr('status');
-
-            openPopup('showErrorModal', {
-                status: status
-            });
-        });
-
         $('.close').click(function () {
             $(this).closest('#popup').addClass('hidden');
         });
@@ -142,9 +129,7 @@ $(document).ready(function () {
         });
 
         $('.warning-link').click(function () {
-            var rowWithError = $('.resource-row .view-row .name:contains(' + resourceWithError.resourceName + ')').parent();
-            rowWithError.next('.expandable-row').removeClass('hidden-row');
-            goToView('deploy');
+            openPopup('redirectToResources');
         });
     }
 
@@ -156,49 +141,63 @@ $(document).ready(function () {
                 init(data, false);
                 emulateCcThisUpdate();
             });
-        }, 2000);
+        }, 3000);
     }
 
     function initView() {
-        $('.error-container').addClass('hidden');
-        $('.engine-state').addClass('hidden');
         $('.data-is-loading').addClass('hidden');
         $('.resource-type-toggle').removeClass('hidden');
         $('.scrollable-area').removeClass('hidden');
-        $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').removeClass('error');
-        $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').removeClass('alert');
+        $('.resource-type-toggle .resource-type.audit-res').removeClass('alert');
         $('.audit').removeClass('old-data-mask');
         $('.map').removeClass('old-data-mask');
+        currentView = 'audit';
     }
 
     function setupData(data, isFirstLoad) {
+        var onAditDataError = function () {
+            setCurrentView(isFirstLoad);
+        };
+        var onLoad = function() {
+            onDataProcessed(data, isFirstLoad);
+        };
         if (isFirstLoad) {
-            auditData = new Audit(data, 'level');
+            auditData = new Audit(data, 'level', onLoad, onAditDataError);
             deployData = new Deploy(data);
-        } else {
-            auditData.refreshData(data);
-            deployData.refreshData(data);
+            return;
         }
+        auditData.refreshData(data, onLoad);
+        deployData.refreshData(data);
+    }
 
+    function onDataProcessed(data, isFirstLoad) {
         if (deployData.hasOldResources()) {
             $('.audit').addClass('old-data-mask');
             $('.map').addClass('old-data-mask');
         }
-        checkResourceError();
-        checkRunError(data);
+        setCurrentView(isFirstLoad);
 
         if (!isFirstLoad && data.engineState !== 'COMPLETED') return;
-
         renderMapData(data);
     }
 
+
     function setupViewData(isFirstLoad) {
         var violationCount = auditData.getViolationsCount();
+        var $audit = $('.resource-type-toggle .resource-type.audit-res');
+        if (violationCount) $audit.addClass('alert');
+        $audit.addClass('active')
+            .removeClass('hidden');
+        if (isFirstLoad) $('.audit').addClass('active');
+    }
 
+    function setCurrentView(isFirstLoad) {
+        var violationCount = 0;
+        if (auditData) violationCount = auditData.getViolationsCount();
         if (violationCount) $('.resource-type-toggle .resource-type.' + viewTypes.audit + '-res').addClass('alert');
 
-        if (isFirstLoad) {
-            currentView = !violationCount || isError ? viewTypes.deploy : viewTypes.audit;
+        if (isFirstLoad && !currentView) {
+            currentView = viewTypes.audit;
             $('.resource-type-toggle .resource-type.' + currentView + '-res').addClass('active');
             $('.' + currentView).removeClass('hidden');
         }
@@ -228,29 +227,8 @@ $(document).ready(function () {
         });
         return count;
     }
-    
-    function checkRunError(data) {
-        isError = data.engineStatus === 'COMPILE_ERROR' ||
-            data.engineStatus === 'INITIALIZATION_ERROR' ||
-            data.engineStatus === 'PROVIDER_ERROR' ||
-            data.engineStatus === 'EXECUTION_ERROR';
-
-        if (isError || data.isMissingVariables) {
-            var status = data.isMissingVariables ? 'MISSING_VARIABLES' : data.engineStatus;
-            var date = new Date(data.lastExecutionTime);
-            var lastExecutionTime = utils.formatDate(date);
-
-            $('.error-container-status').text(status.replace('_', ' '));
-            $('.error-container-status').attr('status', status);
-            $('.error-container').removeClass('hidden');
-            $('.last-successful-run span').html(lastExecutionTime);
-
-            appendNextExecutionTime();
-        }
-    }
 
     function setExecutionStatusMessage(data) {
-
         if (data.engineState === 'COMPLETED' || data.engineState === 'INITIALIZED') return;
 
         $('.engine-state').removeClass('hidden');
@@ -260,28 +238,10 @@ $(document).ready(function () {
             $('.data-is-loading').removeClass('hidden');
             $('.resource-type-toggle').addClass('hidden');
             $('.scrollable-area').addClass('hidden');
-            $('.engine-state .status-spinner').css('width', '0%');
-            return;
+            $('.options-container').css({border: 'none'});
+        } else {
+            $('.options-container').css({'border-bottom': '1px solid #e4e4e4'});
         }
-
-        var loadedResourcesPercentage = 0;
-        if (data.numberOfResources && data.engineState === 'EXECUTING') {
-            loadedResourcesPercentage = countCurrentRunResourcesNumber(data) * 100 / data.numberOfResources;
-        }
-        $('.engine-state .status-spinner').css('width', loadedResourcesPercentage + '%');
-    }
-
-    function checkResourceError() {
-        if (deployData.hasErrors()) {
-            $('.resource-type-toggle .resource-type.' + viewTypes.deploy + '-res').addClass('error');
-            resourceWithError = deployData.getResourcesWithError();
-            $('.warning-block').removeClass('hidden');
-            $('.Disabled').addClass('hidden');
-            $('.Enabled').addClass('hidden');
-        }
-
-        var alerts = auditData.getViolationsList();
-        if (alerts && !alerts.length) $('.warning-note-2').addClass('hidden');
     }
 
     function init(data, isFirstLoad) {
@@ -289,11 +249,10 @@ $(document).ready(function () {
         initView();
         setupData(data, isFirstLoad);
         setExecutionStatusMessage(data);
-        setupViewData(isFirstLoad);
     }
 
     if (typeof ccThisCont === 'undefined') {
-        d3.json("./tmp-data/tmp1.json", function (data) {
+        d3.json("./tmp-data/tmp4.json", function (data) {
             init(data, true);
             // emulateCcThisUpdate(data);
         });

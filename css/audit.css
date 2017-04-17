@@ -341,7 +341,6 @@ html, body {
 }
 
 .list .row-body {
-    max-height: 200px;
     -webkit-transition: max-height 0.5s;
     -moz-transition: max-height 0.5s;
     -ms-transition: max-height 0.5s;
@@ -477,6 +476,19 @@ html, body {
 
 .suggestions-block {
     background-color: #f2f2f2;
+}
+
+.audit-data-is-not-ready {
+    padding: 30px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.meta-info {
+    padding: 4px 16px;
+}
+.meta-info i {
+    text-transform: capitalize;
 }
 
 @media (max-width: 600px) {

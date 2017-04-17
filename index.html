@@ -15,92 +15,20 @@
 <div class="main-container">
     <div class="container">
         <div class="options-container">
-            <div class="engine-state hidden">
-                <div class="status-spinner"></div>
-                <div class="message">EXECUTING</div>
-            </div>
             <div class="data-is-loading hidden">
+                <h2>Waiting for results...</h2>
                 <img src="images/audit-layout_loading-4.gif"/>
             </div>
-            <div class="error-container hidden">
-                <div class="error-container-status"></div>
-                <div class="last-successful-run">prevented a run on <span></span></div>
-                <div class="last-successful-run"><a class="error-container-details">view details</a></div>
-                <div class="next-execution-time">Next execution: <span></span></div>
-            </div>
             <div class="resource-type-toggle">
-                <div class="resource-type audit-res"
-                     value="audit">audit <span></span></div>
-                <div class="resource-type deploy-res"
-                     value="deploy">resources <span></span></div>
+                <div class="resource-type active audit-res"
+                     value="audit">list</div>
                 <div class="resource-type map-res"
-                     value="map">map <span></span></div>
+                     value="map">map</div>
             </div>
         </div>
         <div class="scrollable-area">
             <div class="data-container">
-                <div class="deploy hidden">
-                    <div class="custom-dropdown noselect layout-margin-bottom-20">
-                        <div class="dropdown-button">
-                            <div>SORT BY</div>
-                            <div class="chosen-item-text">Timestamp</div>
-                            <input type="hidden" class="chosen-item-value chosen-sorting" value="timestamp">
-                            <input type="hidden" class="chosen-item-is-reverse" value="true">
-                        </div>
-                        <ul class="hidden resource-list-header deploy-list-header">
-                            <li class="sort-label mobile" key="resourceType" data-value="resourceType">Resource type</li>
-                            <li class="sort-label mobile" key="resourceName" data-value="resourceName">Resource name</li>
-                            <li class="sort-label mobile" key="engineState" data-value="engineStatus">Status</li>
-                            <li class="sort-label mobile" key="action" data-value="action">Action</li>
-                            <li class="sort-label mobile" key="executionTime" data-value="executionTime">Execution time</li>
-                            <li class="sort-label mobile" key="timestamp" data-value="timestamp">Timestamp</li>
-                        </ul>
-                    </div>
-                    <div class="sticky-header">
-                        <div class="resource-list-header">
-                            <div class="sort-label type" key="resourceType">resource type</div>
-                            <div class="sort-label name" key="resourceName">resource name</div>
-                            <div class="sort-label status" key="engineStatus">status</div>
-                            <div class="sort-label action" key="action">action</div>
-                            <div class="sort-label executionTime" key="executionTime">execution time</div>
-                            <div class="sort-label status-timestamp active" key="timestamp">timestamp</div>
-                        </div>
-                        <div class="messages error hidden">
-                            <div class="messages-container">
-                                <div class="message-left-part">
-                                    <span class="message-status">ERROR</span>
-                                    <span class="amount"></span>
-                                    <span class="message"></span>
-                                </div>
-                                <div class="message-right-part">
-                                    Next execution: <span class="next-execution">23h 24m 12s</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="messages alert hidden">
-                            <div class="messages-container">
-                                <div class="message-left-part">
-                                    <span class="message-status">ALERTS</span>
-                                    <span class="amount"></span>
-                                    <span class="message"></span>
-                                </div>
-                                <div class="message-right-part">
-                                    Next execution: <span class="next-execution">23h 24m 12s</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="scrollable-list">
-                        <div class="resources-list bg-white "></div>
-                    </div>
-                    <div id="no-deploy-resources" class="hidden">This execution has no additional resources.</div>
-                    <div class="pagination">
-                        <div class="resources-amount"></div>
-                        <div class="pages"></div>
-                    </div>
-                </div>
-
-                <div class="audit hidden">
+                <div class="audit">
                     <div id="no-violation-resources" class="hidden">
                         This composite has no audit resources.<br/>
                         <span class="browse-composites">Browse featured Composites</span> to see available audits.
@@ -108,7 +36,8 @@
                     <div class="resources-are-loading hidden">
                         <img src="images/audit-layout_loading-4.gif"/>
                     </div>
-                    <div class="audit-list-block audit-list">
+                    <div class="hidden audit-data-is-not-ready">Audit data is processing. Full audit report is not available now.</div>
+                    <div class="audit-list-block hidden audit-list">
                         <div class="left-column layout-padding-right">
                             <div class="pie-data-header"><span class="num">0</span> Violating Cloud Objects</div>
                             <div class="custom-dropdown noselect layout-margin-bottom-20">
@@ -123,6 +52,7 @@
                                     <li data-value="category">Category</li>
                                     <li data-value="service">Service</li>
                                     <li data-value="region">Region</li>
+                                    <li data-value="meta_cis_id">CIS ID</li>
                                 </ul>
                             </div>
                             <div class="pie"></div>
@@ -171,6 +101,7 @@
                     </div>
                 </div>
                 <div class="map hidden">
+                    <div class="hidden audit-data-is-not-ready">Map becomes available once audit data is processed.</div>
                     <div class="map-container no-mobile layout-padding bg-white md-shadow"></div>
                     <div class="resources-are-loading"><img src="images/map-layout_loading.gif"/></div>
                     <div class="no-map-on-mobile-warning">
@@ -359,7 +290,7 @@
              link="{{:violation.link}}">
             <div class="flex-row row-header flex-wrap border-grey layout-padding bg-white">
                 <div class="flex-column flex-50 layout-padding-right">
-                    <div class="passed-disabled-title">{{:violation.title}}</div>
+                    <div class="passed-disabled-title">{{:violation.title}} {{if violation.meta_cis_id}}CIS ID: {{:violation.meta_cis_id}}{{/if}}</div>
                 </div>
                 <div class="flex-row flex-50 layout-padding-right">
                     {{if resultsType === 'PASSED'}}
@@ -386,7 +317,7 @@
                     <div class="violation-id flex-row">
                         <div class="layout-padding-right">RuleId: {{:violation.id}}</div>
                         {{if violation.meta_cis_id}}
-                        <span>CIS Id: {{:violation.meta_cis_id}}</span>
+                        <span>CIS ID: {{:violation.meta_cis_id}}</span>
                         {{/if}}
                     </div>
                 </div>
@@ -427,23 +358,21 @@
                             {{:violation.description}}
                         </div>
                     </div>
+                    {{for violation.metas}}
+                    <div class="meta-info">
+                        <i>{{:key}}</i><br/> {{:value}}
+                    </div>
+                    {{/for}}
                     <div class="layout-padding suggestions-block">
                         <i>Suggested Fix</i><br/>
-                        {{:violation.fix}}
+                        {{:violation.suggested_action}}
                     </div>
                 </div>
                 <div class="flex-column row-right-column layout-padding">
-                    {{if violation.resources.length !== 0}}
-                    <div class="link flex resources-link" violation="{{:violation.id}}"
-                         violationId="{{:violation.violationId}}"
-                         sortKey="{{:violation.sortKey}}">
-                        {{:violation.resources.length}} Cloud Object{{if violation.resources.length !== 1}}s{{/if}}
-                        <img src="./images/right-chevron.svg" class="fa right"/>
-                    </div>
-                    {{/if}}
                     {{if violation.link}}
                     <div class="link flex more-info-link" violation="{{:violation.violationId}}"
                          link="{{:violation.link}}">
+                        <img src="./images/info.png" class="fa left"/>
                         <span>more info</span>
                         <img src="./images/right-chevron.svg" class="fa right"/>
                     </div>

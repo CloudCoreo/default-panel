@@ -107,6 +107,10 @@ html, body {
     border-color: inherit;
 }
 
+.border-no-violation {
+    border-left: 1px solid #dedede;
+}
+
 .border-grey {
     border: 1px solid #eee;
 }
@@ -338,7 +342,7 @@ html, body {
 
 .list {
     width: 99%;
-    background: #ffffff;
+    /*background: #ffffff;*/
     padding: 20px;
 }
 

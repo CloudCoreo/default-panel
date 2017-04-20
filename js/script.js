@@ -114,7 +114,8 @@ $(document).ready(function () {
         staticMaps(mapData);
     }
 
-    function setupHandlers() {
+    function setupHandlers(data) {
+        console.log(data);
         $('.resource-type-toggle .resource-type').click(function (e) {
             var view = $(this).attr('value');
             goToView(view);

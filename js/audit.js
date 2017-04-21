@@ -393,8 +393,16 @@ window.Audit = (function () {
         pie.drawPie(pieData);
     }
 
+    function renderViolationDivider (sortKey) {
+        $(containers.noViolation).html('');
+        if (sortKey !== 'meta_cis_id') {
+            var endOfViolationsMsg = '<div class="violation-divider"><div class="text">end of violations</div></div>';
+            $(containers.noViolation).prepend(endOfViolationsMsg);
+        }
+    }
+
     function renderResourcesList(sortKey) {
-        $(containers.mainDataContainerSelector).html('');
+        $(containers.mainDataContainerSelector).html('').css('background', '');
         if (!alerts || !alerts.length) {
             return;
         }
@@ -412,12 +420,20 @@ window.Audit = (function () {
             violationsCount += renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color, 'VIOLATIONS', sortKey);
         });
 
+        if (sortKey === 'meta_cis_id') {
+            var headerData = {
+                name: 'Sort by CIS ID',
+                resultsCount: violationsCount,
+                resultsType: violationsCount > 1 ? "VIOLATIONS" : "VIOLATION"
+            };
+            var header = headerTpl.render(headerData);
+            $(containers.mainDataContainerSelector).prepend(header).css('background', '#ffffff');
+        }
+
         $('.pie-data-header .num').html(violationsCount);
 
         if (totalViolations) {
-            $(containers.noViolation).html('');
-            var endOfViolationsMsg = '<div class="violation-divider"><div class="text">end of violations</div></div>';
-            $(containers.noViolation).prepend(endOfViolationsMsg);
+            renderViolationDivider(sortKey);
         }
 
         return listOfAlerts;
@@ -677,9 +693,9 @@ window.Audit = (function () {
     function render(sortKey, isDisabledSectionVisible) {
         pie = new ResourcesPie(containers.pieChartSelector);
         var listOfAlerts = renderResourcesList(sortKey);
-        renderSection(passedViolations, 'Passed', colorPalette.Passed, 'PASSED');
+        renderSection(passedViolations, 'No violation', colorPalette.Passed, 'PASSED', sortKey);
         if (isDisabledSectionVisible) {
-            renderSection(disabledViolations, 'Disabled', null, 'DISABLED');
+            renderSection(disabledViolations, 'No violation', null, 'DISABLED', sortKey);
         }
         refreshClickHandlers(listOfAlerts);
     }

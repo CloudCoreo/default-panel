@@ -341,8 +341,7 @@ html, body {
 }
 
 .list {
-    width: 99%;
-    /*background: #ffffff;*/
+    width: 98%;
     padding: 20px;
 }
 
@@ -380,6 +379,10 @@ html, body {
     color: #333333;
     text-align: center;
     padding: 25px;
+}
+
+#list-header-tmpl {
+    background: #ffffff;
 }
 
 .advisor-error {

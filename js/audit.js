@@ -15,50 +15,27 @@ window.Audit = (function () {
     var pie;
 
     var hasOld = false;
-    var colorPalette = {
-        SeverityTones: {
-            High: '#E53E2B',
-            Medium: '#E49530',
-            Low: '#EAC907',
-            Informational: '#6b6b6b',
-            Debug: '#c4c4c4'
-        },
-        Passed: '#2dbf74',
-        Disabled: '#cccccc',
-        PurpleTones: ['#582a7f', '#bf4a95', '#c4c4c4', '#6b6b6b', '#272e39'],
-        CoolTones: ['#2dbf74', '#39c4cc', '#2b7ae5', '#c4c4c4', '#6b6b6b', '#272e39'],
-        RainbowTones: ['#582a7f', '#bf4a95', '#2dbf74', '#39c4cc', '#2b7ae5', '#c4c4c4', '#6b6b6b', '#272e39'],
-        Default: d3.schemeCategory20
-    };
 
-    var containers = {
-        mainDataContainerSelector: '.list',
-        noViolation: '.no-violation',
-        noAuditResourcesMessageSelector: '#no-violation-resources',
-        noViolationsMessageSelector: '#no-violations-view',
-        pieChartSelector: '.pie',
-        errorsContSelector: '#advisor-errors',
-        mainCont: '.audit-list',
-        planIsExecuting: '.resources-are-loading',
-        endOfViolationLabel: '.violation-divider',
-        warningBlock: '.warning-block'
-    };
+    var colorPalette = constans.COLORS;
+    var containers = constans.CONTAINERS;
+    var templates = constans.TEMPLATES;
+    var uiTexts = constans.UITEXTS;
 
-    var headerTpl = $.templates("#list-header-tmpl"),
-        violationTpl = $.templates("#row-tmpl"),
-        passedAndDisabledViolations = $.templates("#passed-and-disabled-row"),
-        showAllBtnTpl = $("#show-all-btn-tmpl").html(),
-        errorTpl = $.templates("#violation-error-tpl");
+    var headerTpl = $.templates(templates.LIST_HEADER),
+        violationTpl = $.templates(templates.VIOLATION_ROW),
+        passedAndDisabledViolations = $.templates(templates.PASSED_DISABLED_ROW),
+        errorTpl = $.templates(templates.VIOLATION_ERROR),
+        showAllBtnTpl = $("#show-all-btn-tmpl").html();
 
     function onShowAllBtnClick(elem) {
         var _this = $(elem);
         var list = _this.prev();
         if (list.hasClass('hidden')) {
             list.removeClass('hidden');
-            _this.html("show less");
+            _this.html(uiTexts.BUTTONS.SHOW_LESS);
         } else {
             list.addClass('hidden');
-            _this.html("view all");
+            _this.html(uiTexts.BUTTONS.VIEW_ALL);
         }
     }
 
@@ -66,7 +43,7 @@ window.Audit = (function () {
         var _this = $(elem);
         var body = _this.parent().next();
         body.toggleClass('hidden-row');
-        var text = _this.text() === "- hide details" ? "+ view details" : "- hide details";
+        var text = _this.text() === uiTexts.BUTTONS.HIDE_DETAILS ? uiTexts.BUTTONS.VIEW_ALL : uiTexts.BUTTONS.HIDE_DETAILS;
         _this.text(text);
     }
 
@@ -88,13 +65,13 @@ window.Audit = (function () {
         $('.resources-link, .resources-title-link').click(function () {
             var _this = $(this);
             var params = getOrganizedViolationData(_this, listOfAlerts);
-            openPopup('showViolationResources', params);
+            openPopup(constans.POPUPS.VIOLATION_RESOURCES, params);
         });
 
         $('.share-link').click(function () {
             var _this = $(this);
             var params = getOrganizedViolationData(_this, listOfAlerts);
-            openPopup('shareViolation', params);
+            openPopup(constans.POPUPS.SHARE_VIOLATION, params);
         });
 
         $('.resources-suppressed-link').click(function (event) {
@@ -109,7 +86,7 @@ window.Audit = (function () {
 
             event.preventDefault();
             event.stopPropagation();
-            openPopup('showViolationResources', params);
+            openPopup(constans.POPUPS.VIOLATION_RESOURCES, params);
         });
 
         $('.more-info-link').click(function () {
@@ -119,7 +96,7 @@ window.Audit = (function () {
                 id: id,
                 link: link
             };
-            openPopup('showViolationMoreInfo', params);
+            openPopup(constans.POPUPS.VIOLATION_MORE_INFO, params);
         });
 
         $('.show-all').click(function () {
@@ -460,7 +437,7 @@ window.Audit = (function () {
             callback(report, reportData._id, timestamp);
             return;
         }
-        sendRequest('getTruncatedObject',
+        sendRequest(constans.REQUEST.GET_TRUNCATED_OBJ,
             { objectKey: report.truncated.object_key, blockUI: blockUI },
             function (error, retrievedObject) {
                 if (error) {
@@ -620,7 +597,16 @@ window.Audit = (function () {
             }
             else if (newObj.outputs.report) {
                 reports.push(newObj);
-                if (newObj.inputs.rules) enabledDefinitions = enabledDefinitions.concat(JSON.parse(newObj.inputs.rules));
+                if(newObj.inputs.rules){
+                    enabledDefinitions = enabledDefinitions.concat(JSON.parse(newObj.inputs.rules));
+                } else if (newObj.inputs.alerts){
+                    if(newObj.inputs.alerts instanceof Object){
+                        enabledDefinitions = enabledDefinitions.concat(newObj.inputs.alerts);
+                    } else {
+                        enabledDefinitions = enabledDefinitions.concat(JSON.parse(newObj.inputs.alerts));
+                    }
+
+                }
             }
             else {
                 rules[newObj.resourceName] = newObj;
@@ -677,7 +663,7 @@ window.Audit = (function () {
         });
 
         $('.browse-composites').click(function () {
-            openPopup('redirectToCommunityComposites');
+            openPopup(constans.POPUPS.REDIRECT_TO_COMPOSITES);
         });
         $('.link.passed-disabled-link').click(function () {
             var passedLink = $('.Passed');
@@ -733,9 +719,9 @@ window.Audit = (function () {
             $(containers.warningBlock).removeClass('hidden');
         }
 
-        executionIsFinished = data.engineState === 'COMPLETED' ||
-            data.engineState === 'INITIALIZED' ||
-            (data.engineState === 'PLANNED' && data.engineStatus !== 'OK');
+        executionIsFinished = data.engineState === constans.ENGINE_STATES.COMPLETED ||
+            data.engineState === constans.ENGINE_STATES.INITIALIZED ||
+            (data.engineState === constans.ENGINE_STATES.PLANNED && data.engineStatus !== constans.ENGINE_STATUSES.OK);
 
         initResourcesList(data, function () {
             if (!executionIsFinished && !hasOld) {
@@ -760,7 +746,7 @@ window.Audit = (function () {
     }
 
     audit.prototype.refreshData = function (data, callback) {
-        if (data.engineState !== 'COMPLETED') return;
+        if (data.engineState !== constans.ENGINE_STATES.COMPLETED) return;
         init(data, $('.audit .chosen-sorting').val(), callback);
     };
 

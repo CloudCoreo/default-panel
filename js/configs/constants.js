@@ -2,6 +2,7 @@ var constans = {
 
     CONTAINERS: {
         mainDataContainerSelector: '.list',
+        noViolation: '.no-violation',
         noAuditResourcesMessageSelector: '#no-violation-resources',
         noViolationsMessageSelector: '#no-violations-view',
         pieChartSelector: '.pie',
@@ -21,12 +22,9 @@ var constans = {
 
     COLORS: {
         SeverityTones: {
-            Emergency: '#770a0a',
-            Alert: '#ad0707',
-            Critical: '#e53e2b',
-            Error: '#fc847c',
-            Warning: '#e49530',
-            Notice: '#eac907',
+            High: '#E53E2B',
+            Medium: '#E49530',
+            Low: '#EAC907',
             Informational: '#6b6b6b',
             Debug: '#c4c4c4'
         },

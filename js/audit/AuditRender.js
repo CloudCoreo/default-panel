@@ -1,6 +1,19 @@
-Window.Render = (function () {
+window.AuditRender = (function () {
+
+    var self;
+
+    var containers = constans.CONTAINERS;
+    var colorPalette = constans.COLORS;
+    var templates = constans.TEMPLATES;
 
     var pie = new ResourcesPie(containers.pieChartSelector);
+
+    var headerTpl = $.templates(templates.LIST_HEADER),
+        violationTpl = $.templates(templates.VIOLATION_ROW),
+        passedAndDisabledViolations = $.templates(templates.PASSED_DISABLED_ROW),
+        errorTpl = $.templates(templates.VIOLATION_ERROR),
+        showAllBtnTpl = $("#show-all-btn-tmpl").html();
+
 
     function renderSection(violations, key, color, resultsType, sortKey) {
         var sectionSummary = { label: key, value: 0, color: color };
@@ -67,9 +80,9 @@ Window.Render = (function () {
     }
 
 
-    function renderPie(sortKey) {
+    function renderPie(listOfAlerts) {
         var pieData = [];
-        var listOfAlerts = organizeDataForCurrentRender(sortKey);
+
         var fillData = function (key) {
             var summary = { label: key, value: 0, color: listOfAlerts[key].color };
             Object.keys(listOfAlerts[key].alerts).forEach(function (vId) {
@@ -95,15 +108,59 @@ Window.Render = (function () {
     }
 
 
-
-    function Render(sortKey) {
-
+    function renderViolationDivider (sortKey) {
+        $(containers.noViolation).html('');
+        if (sortKey !== 'meta_cis_id') {
+            var endOfViolationsMsg = '<div class="violation-divider"><div class="text">end of violations</div></div>';
+            $(containers.noViolation).prepend(endOfViolationsMsg);
+        }
     }
 
 
-    Render.prototype.renderSection = renderSection;
-    Render.prototype.renderPie = renderPie;
-    Render.prototype.drawPie = drawPie;
+    function renderResourcesList(listOfAlerts) {
+        $(containers.mainDataContainerSelector).html('').css('background', '');
 
-    return Render;
-})();
+        renderPie(listOfAlerts);
+
+        var violationsCount = 0;
+
+        Object.keys(listOfAlerts).forEach(function (key) {
+            violationsCount += renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color, 'VIOLATIONS', self.sortKey);
+        });
+
+        if (self.sortKey === 'meta_cis_id') {
+            var headerData = {
+                name: 'Sort by CIS ID',
+                resultsCount: violationsCount,
+                resultsType: violationsCount > 1 ? "VIOLATIONS" : "VIOLATION"
+            };
+            var header = headerTpl.render(headerData);
+            $(containers.mainDataContainerSelector).prepend(header).css('background', '#ffffff');
+        }
+
+        $('.pie-data-header .num').html(violationsCount);
+
+        return listOfAlerts;
+    }
+
+
+    function render(listOfAlerts, sortKey) {
+        self.sortKey = sortKey;
+        renderResourcesList(listOfAlerts);
+    }
+
+
+    function AuditRender(sortKey) {
+        self = this;
+        self.sortKey = sortKey;
+    }
+
+
+    AuditRender.prototype.renderSection = renderSection;
+    AuditRender.prototype.renderPie = renderPie;
+    AuditRender.prototype.drawPie = drawPie;
+    AuditRender.prototype.renderViolationDivider = renderViolationDivider;
+    AuditRender.prototype.render = render;
+
+    return AuditRender;
+}());

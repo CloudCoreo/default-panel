@@ -52,7 +52,8 @@ window.AuditRender = (function () {
         });
 
         var headerData = {
-            name: key,
+            name: utils.replaceSymbolToSpace(key, '-'),
+            key: key,
             resultsCount: violationsCount || noViolationCount,
             resultsType: isPassedOrDisabled ? 'RULES' : 'VIOLATIONS'
         };
@@ -67,14 +68,10 @@ window.AuditRender = (function () {
             '</div>';
 
         if (sortKey !== 'meta_cis_id') {
-            html = '<div class="' + headerData.name + ' layout-padding ' + (!isPassedOrDisabled ? 'bg-white' : '') + '" style="margin-bottom: 20px;">' + header + html;
+            html = '<div class="' + headerData.key + ' layout-padding ' + (!isPassedOrDisabled ? 'bg-white' : '') + '" style="margin-bottom: 20px;">' + header + html;
         }
 
-        if (isPassedOrDisabled) {
-            $(containers.noViolation).append(html);
-        } else {
-            $(containers.mainDataContainerSelector).append(html);
-        }
+        $(containers.mainDataContainerSelector).append(html);
 
         return violationsCount;
     }

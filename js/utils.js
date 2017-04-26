@@ -39,9 +39,36 @@ function formatTime(timeInSecondsToFormat) {
     return result;
 }
 
+function replaceSymbolToSpace(string, symbol) {
+    var exp = new RegExp(symbol, 'g');
+    return string.replace(exp, ' ');
+}
+
+function sortHashOfObjectByField(object, field) {
+    var sortedObject = {};
+    var tmpArray = [];
+
+    Object.keys(object).forEach((function (key) {
+        object[key].hashName = key;
+        tmpArray.push(object[key]);
+    }));
+
+    tmpArray.sort(function (a, b) {
+        return a[field] > b[field];
+    });
+
+    tmpArray.forEach(function (hash) {
+        sortedObject[hash.hashName] = hash;
+        delete sortedObject[hash.hashName].hashName;
+    });
+
+    return sortedObject;
+}
+
 window.utils = (function () {
     function utils () {}
     utils.prototype.formatDate = formatDate;
     utils.prototype.formatTime = formatTime;
+    utils.prototype.replaceSymbolToSpace = replaceSymbolToSpace;
     return new utils();
 }());

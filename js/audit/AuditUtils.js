@@ -17,7 +17,8 @@ var AuditUtils = {
 
 
     organizeDataForAdditionalSections: function (violation) {
-        var data = violation.inputs;
+        var data = new Violation(violation.inputs);
+
         data.title = violation.inputs.display_name || violation.resourceName;
         data.id = violation.resourceName;
         data.resources = [];

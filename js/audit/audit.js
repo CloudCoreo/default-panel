@@ -14,7 +14,6 @@ window.Audit = (function (Resource, AuditRender) {
     var containers = constans.CONTAINERS;
 
 
-
     function removeTotallySuppressedViolations(listOfAlerts, suppressedViolations) {
         Object.keys(suppressedViolations).forEach(function (alertId) {
             delete passedViolations[alertId];
@@ -34,8 +33,31 @@ window.Audit = (function (Resource, AuditRender) {
         return listOfAlerts;
     }
 
-    function organizeDataForCurrentRender(sortKey) {
+
+    function organizeForSorting(sortKey) {
+        var keys = [sortKey];
+        var listOfAlerts = organizeDataForCurrentRender(sortKey, keys, 'sort');
+
+        Object.keys(passedViolations).forEach(function (violationKey) {
+            listOfAlerts[sortKey].alerts[violationKey] = passedViolations[violationKey];
+        });
+        Object.keys(disabledViolations).forEach(function (violationKey) {
+            listOfAlerts[sortKey].alerts[violationKey] = disabledViolations[violationKey];
+        });
+
+        listOfAlerts[sortKey].alerts = sortHashOfObjectByField(listOfAlerts[sortKey].alerts, sortKey);
+
+        return listOfAlerts;
+    }
+
+
+    function organizeForGrouping(sortKey) {
         var keys = Object.keys(alertData[sortKey]);
+        return organizeDataForCurrentRender(sortKey, keys, 'group');
+    }
+
+
+    function organizeDataForCurrentRender(sortKey, keys, organizeType) {
         var listOfAlerts = {};
 
         var colorsRange = AuditUtils.getColorRangeByKeys(keys, colorPalette);
@@ -44,7 +66,7 @@ window.Audit = (function (Resource, AuditRender) {
         var suppressedViolations = {};
 
         alerts.forEach(function (alert) {
-            var key = alert[sortKey];
+            var key = organizeType === 'group' ? alert[sortKey] : sortKey;
             if (!listOfAlerts[key]) {
                 listOfAlerts[key] = {};
                 listOfAlerts[key].alerts = {};
@@ -74,6 +96,7 @@ window.Audit = (function (Resource, AuditRender) {
         return listOfAlerts;
     }
 
+
     function showEmptyViolationsMessage() {
         if (executionIsFinished) {
             AuditUI.showNoViolationsMessage();
@@ -82,10 +105,12 @@ window.Audit = (function (Resource, AuditRender) {
         AuditUI.showResourcesAreBeingLoadedMessage();
     }
 
+
     function onError() {
         if (!errorCallback) return;
         errorCallback();
     }
+
 
     function getReport(reportData, callback, blockUI) {
         var timestamp = utils.formatDate(reportData.timestamp);
@@ -111,6 +136,7 @@ window.Audit = (function (Resource, AuditRender) {
                 callback(retrievedObject, reportData._id, timestamp);
             });
     }
+
 
     function reorganizeReportData(report, reportId, timestamp, violations) {
         Object.keys(report).forEach(function (region) {
@@ -139,7 +165,8 @@ window.Audit = (function (Resource, AuditRender) {
                         reportId: reportId
                     };
 
-                    var alert = rowData;
+                    var alert = new Violation(rowData);
+
                     alert.title = rowData.display_name || violationKey;
                     alert.id = violationKey;
                     alert.resource = resource;
@@ -175,6 +202,7 @@ window.Audit = (function (Resource, AuditRender) {
         });
     }
 
+
     function fillViolationsList(violations, reports, callback) {
         if (!Object.keys(violations).length && !Object.keys(disabledViolations).length && !Object.keys(passedViolations).length) {
             AuditUI.showNoAuditResourcesMessage();
@@ -202,6 +230,7 @@ window.Audit = (function (Resource, AuditRender) {
         $('.additional-info .checks').html(totalChecks + ' Checks');
     }
 
+
     function fillPassedViolationsList(enabledDefinitions) {
         enabledDefinitions.forEach(function (key) {
             if (!disabledViolations[key]) return;
@@ -214,8 +243,9 @@ window.Audit = (function (Resource, AuditRender) {
         });
     }
 
-    function initResourcesList(ccthisData, callback) {
-        var data = ccthisData.resourcesArray;
+
+    function initResourcesList(ccThisData, callback) {
+        var data = ccThisData.resourcesArray;
         var rules = {};
         var reports = [];
         var enabledDefinitions = [];
@@ -223,7 +253,7 @@ window.Audit = (function (Resource, AuditRender) {
         hasOld = false;
 
         data.forEach(function (elem) {
-            if (elem.runId !== ccthisData.runId) hasOld = true;
+            if (elem.runId !== ccThisData.runId) hasOld = true;
             if (elem.dataType !== 'ADVISOR_RESOURCE') return;
 
             var resource = new Resource(elem);
@@ -243,10 +273,10 @@ window.Audit = (function (Resource, AuditRender) {
             }
             else if (resource.outputs.report) {
                 reports.push(resource);
-                if(resource.inputs.rules){
+                if (resource.inputs.rules) {
                     enabledDefinitions = enabledDefinitions.concat(JSON.parse(resource.inputs.rules));
-                } else if (resource.inputs.alerts){
-                    if(resource.inputs.alerts instanceof Object){
+                } else if (resource.inputs.alerts) {
+                    if (resource.inputs.alerts instanceof Object) {
                         enabledDefinitions = enabledDefinitions.concat(resource.inputs.alerts);
                     } else {
                         enabledDefinitions = enabledDefinitions.concat(JSON.parse(resource.inputs.alerts));
@@ -265,6 +295,7 @@ window.Audit = (function (Resource, AuditRender) {
             callback();
         });
     }
+
 
     function setupHandlers() {
         $('.audit .chosen-sorting').change(function () {
@@ -316,8 +347,14 @@ window.Audit = (function (Resource, AuditRender) {
         });
     }
 
+
     function reRender(sortKey, isDisabledSectionVisible) {
-        var listOfAlerts = organizeDataForCurrentRender(sortKey);
+        var listOfAlerts = {};
+
+        var isSorting = sortKey.indexOf('meta_') !== -1;
+
+        if (isSorting) listOfAlerts = organizeForSorting(sortKey);
+        else listOfAlerts = organizeForGrouping(sortKey);
 
         if (!alerts || !alerts.length) return;
         if (!alerts.length && !disabledViolations.length && !errors.length) {
@@ -331,36 +368,29 @@ window.Audit = (function (Resource, AuditRender) {
             auditRender.renderViolationDivider(sortKey);
         }
 
-        auditRender.renderSection(passedViolations, 'No violation', colorPalette.Passed, 'PASSED', sortKey);
-        if (isDisabledSectionVisible) {
-            auditRender.renderSection(disabledViolations, 'No violation', null, 'DISABLED', sortKey);
+        if (!isSorting) {
+            auditRender.renderSection(passedViolations, 'No-violation', colorPalette.Passed, 'PASSED', sortKey);
+            if (isDisabledSectionVisible) {
+                auditRender.renderSection(disabledViolations, 'No-violation', null, 'DISABLED', sortKey);
+            }
         }
 
         AuditUI.refreshClickHandlers(listOfAlerts, passedViolations);
     }
+
 
     function initGlobalVariables() {
         passedViolations = [];
         disabledViolations = [];
         errors = [];
         alerts = [];
-        alertData = new AlertData;
+        alertData = new AlertData();
     }
 
-
-    function initView() {
-        $(containers.mainCont).removeClass('hidden');
-        $(containers.warningBlock).addClass('hidden');
-        $(containers.mainDataContainerSelector).html('');
-        $(containers.noAuditResourcesMessageSelector).addClass('hidden');
-        $(containers.noViolationsMessageSelector).addClass('hidden');
-        $(containers.planIsExecuting).addClass('hidden');
-        $(containers.mainCont).removeClass('empty');
-    }
 
     function init(data, sortKey, callback) {
         initGlobalVariables();
-        initView();
+        AuditUI.initView();
 
         auditRender = new AuditRender(sortKey);
 
@@ -368,9 +398,12 @@ window.Audit = (function (Resource, AuditRender) {
             $(containers.warningBlock).removeClass('hidden');
         }
 
-        executionIsFinished = data.engineState === constans.ENGINE_STATES.COMPLETED ||
-            data.engineState === constans.ENGINE_STATES.INITIALIZED ||
-            (data.engineState === constans.ENGINE_STATES.PLANNED && data.engineStatus !== constans.ENGINE_STATUSES.OK);
+        var isCompleted = data.engineState === constans.ENGINE_STATES.COMPLETED;
+        var isInitialized = data.engineState === constans.ENGINE_STATES.INITIALIZED;
+        var isPlanned = data.engineState === constans.ENGINE_STATES.PLANNED;
+        var isStatusOK = data.engineState === constans.ENGINE_STATUSES.OK;
+
+        executionIsFinished = isCompleted || isInitialized || (isPlanned && !isStatusOK);
 
         initResourcesList(data, function () {
             if (!executionIsFinished && !hasOld) {
@@ -388,6 +421,7 @@ window.Audit = (function (Resource, AuditRender) {
         });
     }
 
+
     function audit(data, sortKey, callback, _errorCallback) {
         errorCallback = _errorCallback
         setTimeout(function () {
@@ -397,6 +431,7 @@ window.Audit = (function (Resource, AuditRender) {
             });
         });
     }
+
 
     audit.prototype.refreshData = function (data, callback) {
         if (data.engineState !== constans.ENGINE_STATES.COMPLETED) return;

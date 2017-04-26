@@ -5,6 +5,16 @@ var uiTexts = constans.UITEXTS;
 
 var AuditUI = {
 
+    initView: function () {
+        $(containers.mainCont).removeClass('hidden');
+        $(containers.warningBlock).addClass('hidden');
+        $(containers.mainDataContainerSelector).html('');
+        $(containers.noAuditResourcesMessageSelector).addClass('hidden');
+        $(containers.noViolationsMessageSelector).addClass('hidden');
+        $(containers.planIsExecuting).addClass('hidden');
+        $(containers.mainCont).removeClass('empty');
+    },
+
     showResourcesAreBeingLoadedMessage: function () {
         $(containers.planIsExecuting).removeClass('hidden');
         $(containers.mainCont).addClass('empty');
@@ -36,7 +46,7 @@ var AuditUI = {
             _this.html(uiTexts.BUTTONS.SHOW_LESS);
         } else {
             list.addClass('hidden');
-            _this.html(uiTexts.BUTTONS.VIEW_ALL);
+            _this.html(uiTexts.BUTTONS.VIEW_DETAILS);
         }
     },
 
@@ -45,7 +55,7 @@ var AuditUI = {
         var _this = $(elem);
         var body = _this.parent().next();
         body.toggleClass('hidden-row');
-        var text = _this.text() === uiTexts.BUTTONS.HIDE_DETAILS ? uiTexts.BUTTONS.VIEW_ALL : uiTexts.BUTTONS.HIDE_DETAILS;
+        var text = _this.text() === uiTexts.BUTTONS.HIDE_DETAILS ? uiTexts.BUTTONS.VIEW_DETAILS : uiTexts.BUTTONS.HIDE_DETAILS;
         _this.text(text);
     },
 

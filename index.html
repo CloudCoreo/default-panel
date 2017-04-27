@@ -381,6 +381,8 @@
                     </div>
                     {{/if}}
                     <div class="separator-top layout-margin-top-8 layout-margin-bottom-8"></div>
+
+                    {{if !isPassed}}
                     <div class="link flex share-link"
                          violation="{{:violation.id}}"
                          violationId="{{:violation.violationId}}"
@@ -388,6 +390,7 @@
                         <img src="./images/envelope.svg" class="fa left"/>
                         share
                     </div>
+                    {{/if}}
                 </div>
             </div>
         </div>

@@ -75,6 +75,11 @@ window.constants = {
         AWS_VPN: 'aws_vpn_'
     },
 
+    VIOLATIONS: {
+        PASSED: 'PASSED',
+        DISABLED: 'DISABLED'
+    },
+
     UITEXTS: {
         BUTTONS: {
             SHOW_LESS: 'show less',

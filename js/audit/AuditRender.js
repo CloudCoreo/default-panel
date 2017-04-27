@@ -20,7 +20,8 @@ window.AuditRender = (function () {
             return sectionSummary;
         }
 
-        var isPassedOrDisabled = (resultsType === 'PASSED' || resultsType === 'DISABLED');
+        var isPassedOrDisabled = (resultsType === constants.VIOLATIONS.PASSED || resultsType === constants.VIOLATIONS.DISABLED);
+        var isPassed = resultsType === constants.VIOLATIONS.PASSED;
         var visibleList = '';
         var visibleCount = 0;
         var violationsCount = 0;
@@ -32,7 +33,8 @@ window.AuditRender = (function () {
             var options = {
                 resultsType: resultsType,
                 violation: violations[vId],
-                isViolation: !isPassedOrDisabled && violations[vId].resources.length > 0
+                isViolation: !isPassedOrDisabled && violations[vId].resources.length > 0,
+                isPassed: isPassed
             };
 
             rendered = violationTpl.render(options);

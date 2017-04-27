@@ -11,8 +11,7 @@ window.AuditRender = (function () {
     var headerTpl = $.templates(templates.LIST_HEADER),
         violationTpl = $.templates(templates.VIOLATION_ROW),
         passedAndDisabledViolations = $.templates(templates.PASSED_DISABLED_ROW),
-        errorTpl = $.templates(templates.VIOLATION_ERROR),
-        showAllBtnTpl = $("#show-all-btn-tmpl").html();
+        errorTpl = $.templates(templates.VIOLATION_ERROR);
 
 
     function renderSection(violations, key, color, resultsType, sortKey) {
@@ -23,7 +22,6 @@ window.AuditRender = (function () {
 
         var isPassedOrDisabled = (resultsType === 'PASSED' || resultsType === 'DISABLED');
         var visibleList = '';
-        var restList = '';
         var visibleCount = 0;
         var violationsCount = 0;
         var rendered;
@@ -38,14 +36,8 @@ window.AuditRender = (function () {
             };
 
             rendered = violationTpl.render(options);
-
-            if (visibleCount < 5) {
-                visibleList += rendered;
-            } else {
-                restList += rendered;
-            }
+            visibleList += rendered;
             visibleCount++;
-
             sectionSummary.value += violations[vId].resources.length;
 
             if (violations[vId].resources.length) violationsCount += 1;
@@ -62,16 +54,18 @@ window.AuditRender = (function () {
 
         var html =
             '<div class="' + (isPassedOrDisabled ? 'bg-light-grey' : 'bg-white') + '" style="border-color: ' + (isPassedOrDisabled ? 'grey' : sectionSummary.color) + '">' +
-            visibleList +
-            '<div class="hidden" style="border-color: inherit;">' + restList + '</div>' +
-            ((visibleCount > 5) ? showAllBtnTpl : '') +
-            '</div>';
+            visibleList + '</div>';
 
-        if (sortKey !== 'meta_cis_id') {
+        if (!AuditUtils.isMetaAttribute(sortKey)) {
+            headerData.resultsCount -= noViolationCount;
             html = '<div class="' + headerData.key + ' layout-padding ' + (!isPassedOrDisabled ? 'bg-white' : '') + '" style="margin-bottom: 20px;">' + header + html;
         }
 
-        $(containers.mainDataContainerSelector).append(html);
+        if (isPassedOrDisabled) {
+            $(containers.noViolation).append(html);
+        } else {
+            $(containers.mainDataContainerSelector).append(html);
+        }
 
         return violationsCount;
     }
@@ -107,7 +101,7 @@ window.AuditRender = (function () {
 
     function renderViolationDivider (sortKey) {
         $(containers.noViolation).html('');
-        if (sortKey !== 'meta_cis_id') {
+        if (!AuditUtils.isMetaAttribute(sortKey)) {
             var endOfViolationsMsg = '<div class="violation-divider"><div class="text">end of violations</div></div>';
             $(containers.noViolation).prepend(endOfViolationsMsg);
         }
@@ -125,9 +119,9 @@ window.AuditRender = (function () {
             violationsCount += renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color, 'VIOLATIONS', self.sortKey);
         });
 
-        if (self.sortKey === 'meta_cis_id') {
+        if (AuditUtils.isMetaAttribute(self.sortKey)) {
             var headerData = {
-                name: 'Sort by CIS ID',
+                name: 'Sort by ' + AuditUtils.removeMetaPrefix(self.sortKey),
                 resultsCount: violationsCount,
                 resultsType: violationsCount > 1 ? "VIOLATIONS" : "VIOLATION"
             };

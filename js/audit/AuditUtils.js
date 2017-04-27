@@ -33,12 +33,22 @@ window.AuditUtils = {
     getRuleMetasCis: function (ruleInputs) {
         var metas = [];
         Object.keys(ruleInputs).forEach(function (key) {
-            if (key !== 'meta_cis_id' && -1 !== key.indexOf('meta_cis')) {
+            if (key !== 'meta_cis_id' && key.indexOf('meta_cis') !== -1) {
                 var metaTitle = key.replace('meta_', '').replace('_', ' ');
                 metas.push({ key: metaTitle, value: ruleInputs[key] });
             }
         });
         return metas;
+    },
+
+
+    isMetaAttribute: function (sortKey) {
+        return sortKey.indexOf('meta_') !== -1;
+    },
+
+
+    removeMetaPrefix: function (string) {
+        return string.replace('meta_', '').replace(/_/g, ' ');
     },
 
 

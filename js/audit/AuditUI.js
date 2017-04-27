@@ -38,19 +38,6 @@ window.AuditUI = {
     },
 
 
-    onShowAllBtnClick: function (elem) {
-        var _this = $(elem);
-        var list = _this.prev();
-        if (list.hasClass('hidden')) {
-            list.removeClass('hidden');
-            _this.html(uiTexts.BUTTONS.SHOW_LESS);
-        } else {
-            list.addClass('hidden');
-            _this.html(uiTexts.BUTTONS.VIEW_DETAILS);
-        }
-    },
-
-
     onDetailsBtnClick: function (elem) {
         var _this = $(elem);
         var body = _this.parent().next();
@@ -102,10 +89,6 @@ window.AuditUI = {
                 link: link
             };
             openPopup(constants.POPUPS.VIOLATION_MORE_INFO, params);
-        });
-
-        $('.show-all').click(function () {
-            AuditUI.onShowAllBtnClick(this);
         });
 
         $('.details-btn').click(function () {

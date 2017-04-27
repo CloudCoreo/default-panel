@@ -3,7 +3,7 @@ var containers = constants.CONTAINERS;
 var uiTexts = constants.UITEXTS;
 
 
-var AuditUI = {
+window.AuditUI = {
 
     initView: function () {
         $(containers.mainCont).removeClass('hidden');

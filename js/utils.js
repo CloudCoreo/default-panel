@@ -70,5 +70,6 @@ window.utils = (function () {
     utils.prototype.formatDate = formatDate;
     utils.prototype.formatTime = formatTime;
     utils.prototype.replaceSymbolToSpace = replaceSymbolToSpace;
+    utils.prototype.sortHashOfObjectByField = sortHashOfObjectByField;
     return new utils();
 }());

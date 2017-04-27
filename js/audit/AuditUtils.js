@@ -1,7 +1,7 @@
 var colorPalette = constants.COLORS;
 
 
-var AuditUtils = {
+window.AuditUtils = {
 
     getOrganizedViolationData: function (_this, listOfAlerts) {
         var violationId = _this.attr('violation');

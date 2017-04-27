@@ -10,8 +10,8 @@ window.Audit = (function (Resource, AuditRender) {
     var hasOld = false;
     var auditRender;
 
-    var colorPalette = constans.COLORS;
-    var containers = constans.CONTAINERS;
+    var colorPalette = constants.COLORS;
+    var containers = constants.CONTAINERS;
 
 
     function removeTotallySuppressedViolations(listOfAlerts, suppressedViolations) {
@@ -121,7 +121,7 @@ window.Audit = (function (Resource, AuditRender) {
             callback(report, reportData._id, timestamp);
             return;
         }
-        sendRequest(constans.REQUEST.GET_TRUNCATED_OBJ,
+        sendRequest(constants.REQUEST.GET_TRUNCATED_OBJ,
             { objectKey: report.truncated.object_key, blockUI: blockUI },
             function (error, retrievedObject) {
                 if (error) {
@@ -333,7 +333,7 @@ window.Audit = (function (Resource, AuditRender) {
         });
 
         $('.browse-composites').click(function () {
-            openPopup(constans.POPUPS.REDIRECT_TO_COMPOSITES);
+            openPopup(constants.POPUPS.REDIRECT_TO_COMPOSITES);
         });
         $('.link.passed-disabled-link').click(function () {
             var passedLink = $('.Passed');
@@ -398,10 +398,10 @@ window.Audit = (function (Resource, AuditRender) {
             $(containers.warningBlock).removeClass('hidden');
         }
 
-        var isCompleted = data.engineState === constans.ENGINE_STATES.COMPLETED;
-        var isInitialized = data.engineState === constans.ENGINE_STATES.INITIALIZED;
-        var isPlanned = data.engineState === constans.ENGINE_STATES.PLANNED;
-        var isStatusOK = data.engineState === constans.ENGINE_STATUSES.OK;
+        var isCompleted = data.engineState === constants.ENGINE_STATES.COMPLETED;
+        var isInitialized = data.engineState === constants.ENGINE_STATES.INITIALIZED;
+        var isPlanned = data.engineState === constants.ENGINE_STATES.PLANNED;
+        var isStatusOK = data.engineState === constants.ENGINE_STATUSES.OK;
 
         executionIsFinished = isCompleted || isInitialized || (isPlanned && !isStatusOK);
 
@@ -434,7 +434,7 @@ window.Audit = (function (Resource, AuditRender) {
 
 
     audit.prototype.refreshData = function (data, callback) {
-        if (data.engineState !== constans.ENGINE_STATES.COMPLETED) return;
+        if (data.engineState !== constants.ENGINE_STATES.COMPLETED) return;
         init(data, $('.audit .chosen-sorting').val(), callback);
     };
 

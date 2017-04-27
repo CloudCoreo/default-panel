@@ -25,16 +25,16 @@ window.Deploy = (function () {
                 var resourceProperty = data[resourceData];
                 if (resourceData == 'engineStatus') {
                     if (resourceProperty == 'OK') {
-                        resource.engineStatus = constans.ENGINE_STATUSES.SUCCESS;
+                        resource.engineStatus = constants.ENGINE_STATUSES.SUCCESS;
                         resource.engineStatusClass = 'stable-status';
                     } else {
                         resource.engineStatusClass = 'error-status';
-                        resource.engineStatus = constans.ENGINE_STATUSES.ERROR;
+                        resource.engineStatus = constants.ENGINE_STATUSES.ERROR;
 
                         var isCurrentError = data.runId === ccthis.runId;
-                        var showPreviousData = ccthis.engineState === constans.ENGINE_STATES.INITIALIZED ||
-                                (ccthis.engineState === constans.ENGINE_STATES.PLANNED &&
-                                ccthis.engineStatus !== constans.ENGINE_STATUSES.OK);
+                        var showPreviousData = ccthis.engineState === constants.ENGINE_STATES.INITIALIZED ||
+                                (ccthis.engineState === constants.ENGINE_STATES.PLANNED &&
+                                ccthis.engineStatus !== constants.ENGINE_STATUSES.OK);
 
                         if (isCurrentError || (showPreviousData && !isCurrentError)) {
                             numberOfFailedResource = data.executionNumber;
@@ -60,8 +60,8 @@ window.Deploy = (function () {
                 }
             });
             resource.isOld = resource.runId !== ccthis.runId;
-            if (resource.isOld && ccthis.engineState === constans.ENGINE_STATES.COMPLETED &&
-                ccthis.engineStatus === constans.ENGINE_STATUSES.OK) {
+            if (resource.isOld && ccthis.engineState === constants.ENGINE_STATES.COMPLETED &&
+                ccthis.engineStatus === constants.ENGINE_STATUSES.OK) {
                 ccThisData.slice(index, index);
                 return;
             }

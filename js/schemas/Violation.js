@@ -1,22 +1,31 @@
-window.Violation = function (data) {
+window.Violation = (function () {
 
-    var violationSchema = {
-        action: data.action || '',
-        service: data.service || '',
-        link: data.link || '',
-        include_violations_in_count: data.include_violations_in_count || '',
-        display_name: data.display_name || '',
-        description: data.description || '',
-        category: data.category || '',
-        suggested_action: data.suggested_action || '',
-        level: data.level || '',
-        title: data.title || '',
-        violationId: data.violationId || ''
-    };
+    function Violation(data) {
+        this.action = data.action || '';
+        this.service = data.service || '';
+        this.link = data.link || '';
+        this.include_violations_in_count = data.include_violations_in_count || '';
+        this.display_name = data.display_name || '';
+        this.description = data.description || '';
+        this.category = data.category || '';
+        this.suggested_action = data.suggested_action || '';
+        this.level = data.level || '';
+        this.title = data.title || '';
+        this.violationId = data.violationId || '';
 
-    Object.keys(data).forEach(function (key) {
-        violationSchema[key] = data[key];
-    });
+        this.mergeOtherData(data);
+    }
 
-    return violationSchema;
-};
+    function mergeOtherData(data) {
+        Object.keys(data).forEach(_setValue.bind(this, data));
+    }
+
+    function _setValue(data, key) {
+        this[key] = data[key];
+    }
+
+
+    Violation.prototype.mergeOtherData = mergeOtherData;
+
+    return Violation;
+}());

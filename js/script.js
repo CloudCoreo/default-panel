@@ -33,7 +33,7 @@ $(document).ready(function () {
             return undefined;
         }
 
-        if (resource.engineStatus.indexOf(constans.ENGINE_STATUSES.ERROR) !== -1) return 'CloudCoreo';
+        if (resource.engineStatus.indexOf(constants.ENGINE_STATUSES.ERROR) !== -1) return 'CloudCoreo';
 
         if (resource.resourceType.indexOf('coreo_aws_rule') !== -1 ||
             resource.resourceType.indexOf('coreo_uni_util') !== -1) return 'CloudCoreo';
@@ -61,10 +61,10 @@ $(document).ready(function () {
     }
 
     function renderMapData(data) {
-        var executionIsFinished =   data.engineState === constans.ENGINE_STATES.COMPLETED ||
-                                    data.engineState === constans.ENGINE_STATES.INITIALIZED ||
-                                    (data.engineState === constans.ENGINE_STATES.PLANNED &&
-                                    data.engineStatus !== constans.ENGINE_STATUSES.OK);
+        var executionIsFinished =   data.engineState === constants.ENGINE_STATES.COMPLETED ||
+                                    data.engineState === constants.ENGINE_STATES.INITIALIZED ||
+                                    (data.engineState === constants.ENGINE_STATES.PLANNED &&
+                                    data.engineStatus !== constants.ENGINE_STATUSES.OK);
 
         if (!executionIsFinished && !deployData.hasOldResources() && data.resourcesArray.length < data.numberOfResources) {
             staticMaps();
@@ -91,7 +91,7 @@ $(document).ready(function () {
                 mapData[region] = { violations: 0, deployed: 0, successMessage: 'Resource', errorMessage: 'Error' };
             }
 
-            if (resource.engineStatus.indexOf(constans.ENGINE_STATUSES.ERROR) !== -1) ++mapData[region].violations;
+            if (resource.engineStatus.indexOf(constants.ENGINE_STATUSES.ERROR) !== -1) ++mapData[region].violations;
             else ++mapData[region].deployed;
         });
 
@@ -130,7 +130,7 @@ $(document).ready(function () {
         });
 
         $('.warning-link').click(function () {
-            openPopup(constans.POPUPS.REDIRECT_TO_RESOURCES);
+            openPopup(constants.POPUPS.REDIRECT_TO_RESOURCES);
         });
     }
 
@@ -178,7 +178,7 @@ $(document).ready(function () {
         }
         setCurrentView(isFirstLoad);
 
-        if (!isFirstLoad && data.engineState !== constans.ENGINE_STATES.COMPLETED) return;
+        if (!isFirstLoad && data.engineState !== constants.ENGINE_STATES.COMPLETED) return;
         renderMapData(data);
     }
 
@@ -206,8 +206,8 @@ $(document).ready(function () {
 
     function getEngineStateMessage(engineState) {
         if (!engineState) return 'queued';
-        return (engineState === constans.ENGINE_STATES.EXECUTING ||
-                engineState === constans.ENGINE_STATES.COMPLETED) ? engineState : constans.ENGINE_STATES.COMPILING;
+        return (engineState === constants.ENGINE_STATES.EXECUTING ||
+                engineState === constants.ENGINE_STATES.COMPLETED) ? engineState : constants.ENGINE_STATES.COMPILING;
     }
 
     function appendNextExecutionTime() {
@@ -231,12 +231,12 @@ $(document).ready(function () {
     }
 
     function setExecutionStatusMessage(data) {
-        if (data.engineState === constans.ENGINE_STATES.COMPLETED || data.engineState === constans.ENGINE_STATES.INITIALIZED) return;
+        if (data.engineState === constants.ENGINE_STATES.COMPLETED || data.engineState === constants.ENGINE_STATES.INITIALIZED) return;
 
         $('.engine-state').removeClass('hidden');
         $('.engine-state .message').html(getEngineStateMessage(data.engineState));
 
-        if (!data.resourcesArray && data.engineState !== constans.ENGINE_STATES.EXECUTING) {
+        if (!data.resourcesArray && data.engineState !== constants.ENGINE_STATES.EXECUTING) {
             $('.data-is-loading').removeClass('hidden');
             $('.resource-type-toggle').addClass('hidden');
             $('.scrollable-area').addClass('hidden');

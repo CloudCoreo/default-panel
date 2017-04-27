@@ -1,6 +1,6 @@
-var colorPalette = constans.COLORS;
-var containers = constans.CONTAINERS;
-var uiTexts = constans.UITEXTS;
+var colorPalette = constants.COLORS;
+var containers = constants.CONTAINERS;
+var uiTexts = constants.UITEXTS;
 
 
 var AuditUI = {
@@ -70,13 +70,13 @@ var AuditUI = {
         $('.resources-link, .resources-title-link').click(function () {
             var _this = $(this);
             var params = AuditUtils.getOrganizedViolationData(_this, listOfAlerts);
-            openPopup(constans.POPUPS.VIOLATION_RESOURCES, params);
+            openPopup(constants.POPUPS.VIOLATION_RESOURCES, params);
         });
 
         $('.share-link').click(function () {
             var _this = $(this);
             var params = AuditUtils.getOrganizedViolationData(_this, listOfAlerts);
-            openPopup(constans.POPUPS.SHARE_VIOLATION, params);
+            openPopup(constants.POPUPS.SHARE_VIOLATION, params);
         });
 
         $('.resources-suppressed-link').click(function (event) {
@@ -91,7 +91,7 @@ var AuditUI = {
 
             event.preventDefault();
             event.stopPropagation();
-            openPopup(constans.POPUPS.VIOLATION_RESOURCES, params);
+            openPopup(constants.POPUPS.VIOLATION_RESOURCES, params);
         });
 
         $('.more-info-link').click(function () {
@@ -101,7 +101,7 @@ var AuditUI = {
                 id: id,
                 link: link
             };
-            openPopup(constans.POPUPS.VIOLATION_MORE_INFO, params);
+            openPopup(constants.POPUPS.VIOLATION_MORE_INFO, params);
         });
 
         $('.show-all').click(function () {

@@ -1,4 +1,4 @@
-var constans = {
+window.constants = {
 
     CONTAINERS: {
         mainDataContainerSelector: '.list',

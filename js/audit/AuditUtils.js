@@ -1,4 +1,4 @@
-var colorPalette = constans.COLORS;
+var colorPalette = constants.COLORS;
 
 
 var AuditUtils = {

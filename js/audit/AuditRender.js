@@ -2,9 +2,9 @@ window.AuditRender = (function () {
 
     var self;
 
-    var containers = constans.CONTAINERS;
-    var colorPalette = constans.COLORS;
-    var templates = constans.TEMPLATES;
+    var containers = constants.CONTAINERS;
+    var colorPalette = constants.COLORS;
+    var templates = constants.TEMPLATES;
 
     var pie = new ResourcesPie(containers.pieChartSelector);
 

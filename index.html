@@ -39,7 +39,7 @@
                     <div class="hidden audit-data-is-not-ready">Audit data is processing. Full audit report is not available now.</div>
                     <div class="audit-list-block hidden audit-list">
                         <div class="left-column layout-padding-right">
-                            <div class="pie-data-header"><span class="num">0</span> CIS Rules with Violations</div>
+                            <div class="pie-data-header"><span class="num">0</span> Violating Cloud Objects</div>
                             <div class="custom-dropdown noselect layout-margin-bottom-20">
                                 <div class="dropdown-button">
                                     <div>SORT BY</div>
@@ -80,7 +80,6 @@
                             </div>
 
                             <div class="list"></div>
-                            <div class="no-violation"></div>
 
                             <div class="warning-block warning-note-2">
                                 <span class="error-icon"></span>
@@ -103,7 +102,7 @@
                 </div>
                 <div class="map hidden">
                     <div class="hidden audit-data-is-not-ready">Map becomes available once audit data is processed.</div>
-                    <div class="map-container no-mobile bg-white md-shadow"></div>
+                    <div class="map-container no-mobile layout-padding bg-white md-shadow"></div>
                     <div class="resources-are-loading"><img src="images/map-layout_loading.gif"/></div>
                     <div class="no-map-on-mobile-warning">
                         Sorry, but map is not available for mobile screens.
@@ -286,10 +285,10 @@
     </div>
 
     <div id="passed-and-disabled-row">
-        <div class="flex-column bg-light-grey {{if violation.link}}more-info-link opacity-hover-80{{/if}}"
+        <div class="flex-column bg-white border-left {{if violation.link}}more-info-link opacity-hover-80{{/if}}"
              violation="{{:violation.violationId}}"
              link="{{:violation.link}}">
-            <div class="flex-row row-header flex-wrap border-grey layout-padding">
+            <div class="flex-row row-header flex-wrap border-grey layout-padding bg-white">
                 <div class="flex-column flex-50 layout-padding-right">
                     <div class="passed-disabled-title">{{:violation.title}} {{if violation.meta_cis_id}}CIS ID: {{:violation.meta_cis_id}}{{/if}}</div>
                 </div>
@@ -311,7 +310,7 @@
     </div>
 
     <div id="row-tmpl">
-        <div class="violation-row flex-column layout-padding {{if isViolation}} bg-white border-left {{else}} border-no-violation bg-light-grey {{/if}}">
+        <div class="violation-row flex-column layout-padding bg-white border-left">
             <div class="flex-row row-header flex-wrap">
                 <div class="flex-column flex-grow layout-padding-right">
                     <div class="title">{{:violation.title}}</div>
@@ -322,27 +321,19 @@
                         {{/if}}
                     </div>
                 </div>
-
-                <div class="medium-grey layout-padding-left">{{:violation.level}}</div>
-                <div class="medium-grey layout-padding-left">
-                    {{if !isViolation}}
-                    No violation
-                    {{/if}}
-                </div>
+                <div class="medium-grey">{{:violation.level}}</div>
                 {{if violation.resources.length || violation.suppressions.length }}
-                <div class="medium-grey layout-padding-left {{if isViolation}}resources-title-link{{/if}} flex-column"
+                <div class="medium-grey layout-padding-left resources-title-link flex-column"
                      violation="{{:violation.id}}"
                      violationId="{{:violation.violationId}}"
                      sortKey="{{:violation.sortKey}}">
-
-                        {{if violation.resources.length}}
-                            {{:violation.resources.length}} Cloud Object{{if violation.resources.length !== 1}}s{{/if}}
-                        {{/if}}
-
-                        {{if violation.suppressions.length}}
-                        <span class="suppressed"><span
-                                class="value">{{:violation.suppressions.length}} </span>SUPPRESSED</span>
-                        {{/if}}
+                    {{if violation.resources.length}}
+                    {{:violation.resources.length}} Cloud Object{{if violation.resources.length !== 1}}s{{/if}}
+                    {{/if}}
+                    {{if violation.suppressions.length}}
+                    <span class="suppressed"><span
+                            class="value">{{:violation.suppressions.length}} </span>SUPPRESSED</span>
+                    {{/if}}
                 </div>
                 {{/if}}
 
@@ -354,7 +345,7 @@
             </div>
             <div class="details-btn link">+ view details</div>
         </div>
-        <div class="row-body hidden-row bg-white  {{if isViolation}}border-left{{/if}}">
+        <div class="row-body hidden-row bg-white border-left">
             <div class="flex-row separator flex-wrap">
                 <div class="flex-column separator-right flex-grow">
                     <div class="layout-padding">

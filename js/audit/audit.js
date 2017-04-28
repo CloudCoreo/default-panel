@@ -1,14 +1,14 @@
 window.Audit = (function (Resource, AuditRender) {
     var errorCallback;
     var totalViolations = 0;
-    var passedViolations = [];
-    var disabledViolations = [];
+    var noViolations = [];
     var alerts = [];
     var alertData = new AlertData();
     var executionIsFinished;
     var errors = [];
     var hasOld = false;
     var auditRender;
+    var isDisabledViolationsVisible;
 
     var colorPalette = constants.COLORS;
     var containers = constants.CONTAINERS;
@@ -16,14 +16,14 @@ window.Audit = (function (Resource, AuditRender) {
 
     function removeTotallySuppressedViolations(listOfAlerts, suppressedViolations) {
         Object.keys(suppressedViolations).forEach(function (alertId) {
-            delete passedViolations[alertId];
+            delete noViolations[alertId];
             Object.keys(suppressedViolations[alertId]).forEach(function (key) {
                 if (suppressedViolations[alertId][key]) {
-                    if (!passedViolations[alertId]) {
-                        passedViolations[alertId] = listOfAlerts[key].alerts[alertId];
+                    if (!noViolations[alertId]) {
+                        noViolations[alertId] = listOfAlerts[key].alerts[alertId];
                     }
                     else {
-                        passedViolations[alertId].suppressions = passedViolations[alertId].suppressions.concat(listOfAlerts[key].alerts[alertId].suppressions);
+                        noViolations[alertId].suppressions = noViolations[alertId].suppressions.concat(listOfAlerts[key].alerts[alertId].suppressions);
                     }
 
                     delete listOfAlerts[key].alerts[alertId];
@@ -37,12 +37,9 @@ window.Audit = (function (Resource, AuditRender) {
     function organizeForSorting(sortKey) {
         var keys = [sortKey];
         var listOfAlerts = organizeDataForCurrentRender(sortKey, keys, 'sort');
-
-        Object.keys(passedViolations).forEach(function (violationKey) {
-            listOfAlerts[sortKey].alerts[violationKey] = passedViolations[violationKey];
-        });
-        Object.keys(disabledViolations).forEach(function (violationKey) {
-            listOfAlerts[sortKey].alerts[violationKey] = disabledViolations[violationKey];
+        
+        Object.keys(noViolations).forEach(function (violationKey) {
+            listOfAlerts[sortKey].alerts[violationKey] = noViolations[violationKey];
         });
 
         listOfAlerts[sortKey].alerts = utils.sortHashOfObjectByField(listOfAlerts[sortKey].alerts, sortKey);
@@ -196,7 +193,7 @@ window.Audit = (function (Resource, AuditRender) {
                     ++alertData.meta_cis_id[alert.meta_cis_id];
 
                     if (alert.include_violations_in_count && !isSuppressed) ++totalViolations;
-                    if (disabledViolations[violationKey]) delete disabledViolations[violationKey];
+                    if (noViolations[violationKey]) delete noViolations[violationKey];
                 });
             });
         });
@@ -204,7 +201,7 @@ window.Audit = (function (Resource, AuditRender) {
 
 
     function fillViolationsList(violations, reports, callback) {
-        if (!Object.keys(violations).length && !Object.keys(disabledViolations).length && !Object.keys(passedViolations).length) {
+        if (!Object.keys(violations).length && !Object.keys(noViolations).length) {
             AuditUI.showNoAuditResourcesMessage();
             alerts = undefined;
             callback();
@@ -231,15 +228,14 @@ window.Audit = (function (Resource, AuditRender) {
     }
 
 
-    function fillPassedViolationsList(enabledDefinitions) {
+    function setPassedStatus(enabledDefinitions) {
         enabledDefinitions.forEach(function (key) {
-            if (!disabledViolations[key]) return;
-            if (disabledViolations[key].meta_always_show_card) {
-                alerts.push(disabledViolations[key]);
+            if (!noViolations[key]) return;
+            if (noViolations[key].meta_always_show_card) {
+                alerts.push(noViolations[key]);
             } else {
-                passedViolations[key] = disabledViolations[key];
+                noViolations[key].isPassed = true;
             }
-            delete disabledViolations[key];
         });
     }
 
@@ -286,12 +282,12 @@ window.Audit = (function (Resource, AuditRender) {
             }
             else {
                 rules[resource.resourceName] = resource;
-                disabledViolations[resource.resourceName] = AuditUtils.organizeDataForAdditionalSections(resource);
+                noViolations[resource.resourceName] = AuditUtils.organizeDataForAdditionalSections(resource);
             }
         });
 
         fillViolationsList(rules, reports, function () {
-            fillPassedViolationsList(enabledDefinitions);
+            setPassedStatus(enabledDefinitions);
             callback();
         });
     }
@@ -348,7 +344,7 @@ window.Audit = (function (Resource, AuditRender) {
     }
 
 
-    function reRender(sortKey, isDisabledSectionVisible) {
+    function reRender(sortKey) {
         var listOfAlerts = {};
 
         var isSorting = sortKey.indexOf('meta_') !== -1;
@@ -357,7 +353,7 @@ window.Audit = (function (Resource, AuditRender) {
         else listOfAlerts = organizeForGrouping(sortKey);
 
         if (!alerts || !alerts.length) return;
-        if (!alerts.length && !disabledViolations.length && !errors.length) {
+        if (!alerts.length && !noViolations.length && !errors.length) {
             showEmptyViolationsMessage();
             return;
         }
@@ -369,19 +365,22 @@ window.Audit = (function (Resource, AuditRender) {
         }
 
         if (!isSorting) {
-            auditRender.renderSection(passedViolations, 'No-violations', colorPalette.Passed, 'PASSED', sortKey);
-            if (isDisabledSectionVisible) {
-                auditRender.renderSection(disabledViolations, 'Disabled', null, 'DISABLED', sortKey);
-            }
+            auditRender.renderSection({
+                violations: noViolations,
+                key: 'No-violations',
+                color: colorPalette.Passed,
+                resultsType: 'RULES',
+                sortKey: sortKey,
+                isDisabledVisible: isDisabledViolationsVisible
+            });
         }
 
-        AuditUI.refreshClickHandlers(listOfAlerts, passedViolations);
+        AuditUI.refreshClickHandlers(listOfAlerts, noViolations);
     }
 
 
     function initGlobalVariables() {
-        passedViolations = [];
-        disabledViolations = [];
+        noViolations = [];
         errors = [];
         alerts = [];
         alertData = new AlertData();
@@ -392,7 +391,9 @@ window.Audit = (function (Resource, AuditRender) {
         initGlobalVariables();
         AuditUI.initView();
 
-        auditRender = new AuditRender(sortKey);
+        isDisabledViolationsVisible = !data.globalData || !data.globalData.variables.disable_disabled_card_processing;
+
+        auditRender = new AuditRender(sortKey, isDisabledViolationsVisible);
 
         if (data.engineStatus == "EXECUTION_ERROR") {
             $(containers.warningBlock).removeClass('hidden');
@@ -410,13 +411,8 @@ window.Audit = (function (Resource, AuditRender) {
                 AuditUI.showResourcesAreBeingLoadedMessage();
                 return;
             }
-            var isDisabledSectionVisible = !data.globalData || !data.globalData.variables.disable_disabled_card_processing;
-            var isError = errors.length === 0;
-            var passedNum = Object.keys(passedViolations).length;
-            var disabledNum = Object.keys(disabledViolations).length;
-
-            AuditUI.fillHtmlSummaryData(isError, passedNum, disabledNum);
-            reRender(sortKey, isDisabledSectionVisible);
+            
+            reRender(sortKey);
             callback();
         });
     }

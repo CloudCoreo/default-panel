@@ -9,61 +9,59 @@ window.AuditRender = (function () {
     var pie = new ResourcesPie(containers.pieChartSelector);
 
     var headerTpl = $.templates(templates.LIST_HEADER),
-        violationTpl = $.templates(templates.VIOLATION_ROW),
-        passedAndDisabledViolations = $.templates(templates.PASSED_DISABLED_ROW),
-        errorTpl = $.templates(templates.VIOLATION_ERROR);
+        violationTpl = $.templates(templates.VIOLATION_ROW);
 
 
-    function renderSection(violations, key, color, resultsType, sortKey) {
-        var sectionSummary = { label: key, value: 0, color: color };
-        if (!Object.keys(violations).length) {
+    function renderSection(options) {
+        var sectionSummary = { label: options.key, value: 0, color: options.color };
+        if (!Object.keys(options.violations).length) {
             return sectionSummary;
         }
 
-        var isPassedOrDisabled = (resultsType === constants.VIOLATIONS.PASSED || resultsType === constants.VIOLATIONS.DISABLED);
-        var isPassed = resultsType === constants.VIOLATIONS.PASSED;
+        var isNoViolation = options.resultsType === 'RULES';
         var visibleList = '';
         var visibleCount = 0;
         var violationsCount = 0;
         var rendered;
-        var noViolationCount = isPassedOrDisabled ? Object.keys(violations).length : 0;
+        var noViolationCount = isNoViolation ? Object.keys(options.violations).length : 0;
 
-
-        Object.keys(violations).forEach(function (vId) {
-            var options = {
-                resultsType: resultsType,
-                violation: violations[vId],
-                isViolation: !isPassedOrDisabled && violations[vId].resources.length > 0,
-                isPassed: isPassed
+        Object.keys(options.violations).forEach(function (vId) {
+            var violation = options.violations[vId];
+            var isViolation = !isNoViolation && violation.resources.length > 0;
+            var params = {
+                resultsType: options.resultsType,
+                violation: violation,
+                isViolation: isViolation,
+                isVisible: isViolation || violation.isPassed || (!violation.isPassed && options.isDisabledVisible)
             };
 
-            rendered = violationTpl.render(options);
+            rendered = violationTpl.render(params);
             visibleList += rendered;
             visibleCount++;
-            sectionSummary.value += violations[vId].resources.length;
+            sectionSummary.value += options.violations[vId].resources.length;
 
-            if (violations[vId].resources.length) violationsCount += 1;
+            if (options.violations[vId].resources.length) violationsCount += 1;
         });
 
         var headerData = {
-            name: utils.replaceSymbolToSpace(key, '-'),
-            key: key,
+            name: utils.replaceSymbolToSpace(options.key, '-'),
+            key: options.key,
             resultsCount: violationsCount || noViolationCount,
-            resultsType: isPassedOrDisabled ? 'RULES' : 'VIOLATIONS'
+            resultsType: isNoViolation ? 'RULES' : 'VIOLATIONS'
         };
 
         var header = headerTpl.render(headerData);
 
         var html =
-            '<div class="' + (isPassedOrDisabled ? 'bg-light-grey' : 'bg-white') + '" style="border-color: ' + (isPassedOrDisabled ? 'grey' : sectionSummary.color) + '">' +
+            '<div class="' + (isNoViolation ? 'bg-light-grey' : 'bg-white') + '" style="border-color: ' + (isNoViolation ? 'grey' : sectionSummary.color) + '">' +
             visibleList + '</div>';
 
-        if (!AuditUtils.isMetaAttribute(sortKey)) {
+        if (!AuditUtils.isMetaAttribute(options.sortKey)) {
             headerData.resultsCount -= noViolationCount;
-            html = '<div class="' + headerData.key + ' layout-padding ' + (!isPassedOrDisabled ? 'bg-white' : '') + '" style="margin-bottom: 20px;">' + header + html;
+            html = '<div class="' + headerData.key + ' layout-padding ' + (!isNoViolation ? 'bg-white' : '') + '" style="margin-bottom: 20px;">' + header + html;
         }
 
-        if (isPassedOrDisabled) {
+        if (isNoViolation) {
             $(containers.noViolation).append(html);
         } else {
             $(containers.mainDataContainerSelector).append(html);
@@ -118,7 +116,14 @@ window.AuditRender = (function () {
         var violationsCount = 0;
 
         Object.keys(listOfAlerts).forEach(function (key) {
-            violationsCount += renderSection(listOfAlerts[key].alerts, key, listOfAlerts[key].color, 'VIOLATIONS', self.sortKey);
+            violationsCount += renderSection({
+                violations: listOfAlerts[key].alerts,
+                key: key,
+                color: listOfAlerts[key].color,
+                resultsType: 'VIOLATIONS',
+                sortKey: self.sortKey,
+                isDisabledVisible: self.isDisabledViolationsVisible
+            });
         });
 
         if (AuditUtils.isMetaAttribute(self.sortKey)) {
@@ -143,8 +148,9 @@ window.AuditRender = (function () {
     }
 
 
-    function AuditRender(sortKey) {
+    function AuditRender(sortKey, isDisabledViolationsVisible) {
         self = this;
+        self.isDisabledViolationsVisible = isDisabledViolationsVisible;
         self.sortKey = sortKey;
     }
 

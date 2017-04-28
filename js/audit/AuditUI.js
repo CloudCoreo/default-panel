@@ -47,13 +47,7 @@ window.AuditUI = {
     },
 
 
-    fillHtmlSummaryData: function (isError, passedNum, disabledNum) {
-        $('.additional-info .passed').html(isError ? ' Passed' : passedNum + ' Passed');
-        $('.additional-info .disabled').html(disabledNum + ' Disabled');
-    },
-
-
-    refreshClickHandlers: function (listOfAlerts, params, passedViolations) {
+    refreshClickHandlers: function (listOfAlerts, noViolations) {
         $('.resources-link, .resources-title-link').click(function () {
             var _this = $(this);
             var params = AuditUtils.getOrganizedViolationData(_this, listOfAlerts);
@@ -72,7 +66,7 @@ window.AuditUI = {
 
             var params = {
                 violationId: _this.attr('violationId'),
-                suppressions: passedViolations[violationId].suppressions,
+                suppressions: noViolations[violationId].suppressions,
                 color: colorPalette.Passed
             };
 

@@ -42,7 +42,7 @@ window.Audit = (function (Resource, AuditRender) {
             listOfAlerts[sortKey].alerts[violationKey] = noViolations[violationKey];
         });
 
-        listOfAlerts[sortKey].alerts = utils.sortHashOfObjectByField(listOfAlerts[sortKey].alerts, sortKey);
+        listOfAlerts[sortKey].alerts = utils.sortHashOfObjectsByField(listOfAlerts[sortKey].alerts, sortKey);
 
         return listOfAlerts;
     }

@@ -44,7 +44,7 @@ function replaceSymbolToSpace(string, symbol) {
     return string.replace(exp, ' ');
 }
 
-function sortHashOfObjectByField(object, field) {
+function sortHashOfObjectsByField(object, field) {
     var sortedObject = {};
     var tmpArray = [];
 
@@ -72,6 +72,6 @@ window.utils = (function () {
     utils.prototype.formatDate = formatDate;
     utils.prototype.formatTime = formatTime;
     utils.prototype.replaceSymbolToSpace = replaceSymbolToSpace;
-    utils.prototype.sortHashOfObjectByField = sortHashOfObjectByField;
+    utils.prototype.sortHashOfObjectsByField = sortHashOfObjectsByField;
     return new utils();
 }());

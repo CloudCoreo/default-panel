@@ -369,7 +369,7 @@ window.Audit = (function (Resource, AuditRender) {
         }
 
         if (!isSorting) {
-            auditRender.renderSection(passedViolations, 'No-violation', colorPalette.Passed, 'PASSED', sortKey);
+            auditRender.renderSection(passedViolations, 'No-violations', colorPalette.Passed, 'PASSED', sortKey);
             if (isDisabledSectionVisible) {
                 auditRender.renderSection(disabledViolations, 'Disabled', null, 'DISABLED', sortKey);
             }

@@ -54,6 +54,8 @@ function sortHashOfObjectByField(object, field) {
     }));
 
     tmpArray.sort(function (a, b) {
+        if (!a[field]) return 1;
+        if (!b[field]) return -1;
         return a[field] > b[field];
     });
 

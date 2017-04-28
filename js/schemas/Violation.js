@@ -21,6 +21,7 @@ window.Violation = (function () {
     }
 
     function _setValue(data, key) {
+        if (!data[key]) return;
         this[key] = data[key];
     }
 

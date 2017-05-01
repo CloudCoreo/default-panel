@@ -142,6 +142,12 @@ window.AuditRender = (function () {
     }
 
 
+    function clearContainer() {
+        $(containers.mainDataContainerSelector).html('').css('background', '');
+        $(containers.noViolation).html('');
+    }
+
+
     function render(listOfAlerts, sortKey) {
         self.sortKey = sortKey;
         renderResourcesList(listOfAlerts);
@@ -160,6 +166,7 @@ window.AuditRender = (function () {
     AuditRender.prototype.drawPie = drawPie;
     AuditRender.prototype.renderViolationDivider = renderViolationDivider;
     AuditRender.prototype.render = render;
+    AuditRender.prototype.clearContainer = clearContainer;
 
     return AuditRender;
 }());

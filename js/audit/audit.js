@@ -37,7 +37,12 @@ window.Audit = (function (Resource, AuditRender) {
     function organizeForSorting(sortKey) {
         var keys = [sortKey];
         var listOfAlerts = organizeDataForCurrentRender(sortKey, keys, 'sort');
-        
+
+        if (Object.keys(listOfAlerts).length === 0) {
+            listOfAlerts[sortKey] = {};
+            listOfAlerts[sortKey].alerts = {};
+            listOfAlerts[sortKey].color = colorPalette.Disabled;
+        }
         Object.keys(noViolations).forEach(function (violationKey) {
             listOfAlerts[sortKey].alerts[violationKey] = noViolations[violationKey];
         });
@@ -346,14 +351,15 @@ window.Audit = (function (Resource, AuditRender) {
 
     function reRender(sortKey) {
         var listOfAlerts = {};
-
+        var noViolationsIsEmpty = !noViolations || Object.keys(noViolations).length === 0;
         var isSorting = sortKey.indexOf('meta_') !== -1;
+
+        auditRender.clearContainer();
 
         if (isSorting) listOfAlerts = organizeForSorting(sortKey);
         else listOfAlerts = organizeForGrouping(sortKey);
 
-        if (!alerts || !alerts.length) return;
-        if (!alerts.length && !noViolations.length && !errors.length) {
+        if (!alerts.length && noViolationsIsEmpty && !errors.length) {
             showEmptyViolationsMessage();
             return;
         }

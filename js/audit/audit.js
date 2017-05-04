@@ -36,7 +36,7 @@ window.Audit = (function (Resource, AuditRender) {
 
     function organizeForSorting(sortKey) {
         var keys = [sortKey];
-        var listOfAlerts = organizeDataForCurrentRender(sortKey, keys, 'sort');
+        var listOfAlerts = organizeDataForCurrentRender(sortKey, keys, constants.ORGANIZIATION_TYPE.SORT);
 
         if (Object.keys(listOfAlerts).length === 0) {
             listOfAlerts[sortKey] = {};
@@ -55,7 +55,7 @@ window.Audit = (function (Resource, AuditRender) {
 
     function organizeForGrouping(sortKey) {
         var keys = Object.keys(alertData[sortKey]);
-        return organizeDataForCurrentRender(sortKey, keys, 'group');
+        return organizeDataForCurrentRender(sortKey, keys, constants.ORGANIZIATION_TYPE.GROUP);
     }
 
 
@@ -68,7 +68,7 @@ window.Audit = (function (Resource, AuditRender) {
         var suppressedViolations = {};
 
         alerts.forEach(function (alert) {
-            var key = organizeType === 'group' ? alert[sortKey] : sortKey;
+            var key = organizeType === constants.ORGANIZIATION_TYPE.GROUP ? alert[sortKey] : sortKey;
             if (!listOfAlerts[key]) {
                 listOfAlerts[key] = {};
                 listOfAlerts[key].alerts = {};
@@ -145,7 +145,7 @@ window.Audit = (function (Resource, AuditRender) {
             Object.keys(report[region]).forEach(function (resId) {
                  Object.keys(report[region][resId].violations).forEach(function (violationKey) {
                     var rowData = report[region][resId].violations[violationKey];
-                    if (rowData.level === 'Internal') return;
+                    if (rowData.level === constants.VIOLATION_LEVELS.INTERNAL) return;
 
                     if (violations[violationKey]) {
                         rowData.violationId = violations[violationKey]._id;
@@ -260,14 +260,14 @@ window.Audit = (function (Resource, AuditRender) {
 
         data.forEach(function (elem) {
             if (elem.runId !== ccThisData.runId) hasOld = true;
-            if (elem.dataType !== 'ADVISOR_RESOURCE') return;
+            if (elem.dataType !== constants.RESOURCE_TYPE.ADVISOR_RESOURCE) return;
 
             var resource = new Resource(elem);
 
             resource.inputs = elem.inputs.reduce(reduceObject, {});
             resource.outputs = elem.outputs.reduce(reduceObject, {});
 
-            if (resource.inputs.level === 'Internal') return;
+            if (resource.inputs.level === constants.VIOLATION_LEVELS.INTERNAL) return;
             if (resource.outputs.error) {
                 resource.rawInputs = elem.inputs;
                 resource.rawOutputs = elem.outputs;
@@ -376,7 +376,7 @@ window.Audit = (function (Resource, AuditRender) {
                 violations: noViolations,
                 key: 'No-violations',
                 color: colorPalette.Passed,
-                resultsType: 'RULES',
+                resultsType: constants.RESULT_TYPE.RULES,
                 sortKey: sortKey,
                 isDisabledVisible: isDisabledViolationsVisible
             });
@@ -402,7 +402,7 @@ window.Audit = (function (Resource, AuditRender) {
 
         auditRender = new AuditRender(sortKey, isDisabledViolationsVisible);
 
-        if (data.engineStatus == "EXECUTION_ERROR") {
+        if (data.engineStatus === constants.ENGINE_STATUSES.EXECUTION_ERROR) {
             $(containers.warningBlock).removeClass('hidden');
         }
 
@@ -426,7 +426,7 @@ window.Audit = (function (Resource, AuditRender) {
 
 
     function audit(data, sortKey, callback, _errorCallback) {
-        errorCallback = _errorCallback
+        errorCallback = _errorCallback;
         setTimeout(function () {
             init(data, sortKey, function () {
                 setupHandlers();

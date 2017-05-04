@@ -18,7 +18,7 @@ window.AuditRender = (function () {
             return sectionSummary;
         }
 
-        var isNoViolation = options.resultsType === 'RULES';
+        var isNoViolation = options.resultsType === constants.RESULT_TYPE.RULES;
         var visibleList = '';
         var visibleCount = 0;
         var violationsCount = 0;
@@ -47,14 +47,14 @@ window.AuditRender = (function () {
             name: utils.replaceSymbolToSpace(options.key, '-'),
             key: options.key,
             resultsCount: violationsCount || noViolationCount,
-            resultsType: isNoViolation ? 'RULES' : 'VIOLATIONS'
+            resultsType: isNoViolation ? constants.RESULT_TYPE.RULES : constants.RESULT_TYPE.VIOLATIONS
         };
 
         var header = headerTpl.render(headerData);
 
         var html =
-            '<div class="' + (isNoViolation ? 'bg-light-grey' : 'bg-white') + '" style="border-color: ' + (isNoViolation ? 'grey' : sectionSummary.color) + '">' +
-            visibleList + '</div>';
+            '<div class="' + (isNoViolation ? 'bg-light-grey' : 'bg-white') +
+            '" style="border-color: ' + (isNoViolation ? 'grey' : sectionSummary.color) + '">' + visibleList + '</div>';
 
         if (!AuditUtils.isMetaAttribute(options.sortKey)) {
             headerData.resultsCount -= noViolationCount;
@@ -120,7 +120,7 @@ window.AuditRender = (function () {
                 violations: listOfAlerts[key].alerts,
                 key: key,
                 color: listOfAlerts[key].color,
-                resultsType: 'VIOLATIONS',
+                resultsType: constants.RESULT_TYPE.VIOLATIONS,
                 sortKey: self.sortKey,
                 isDisabledVisible: self.isDisabledViolationsVisible
             });
@@ -130,7 +130,7 @@ window.AuditRender = (function () {
             var headerData = {
                 name: 'Sort by ' + AuditUtils.removeMetaPrefix(self.sortKey),
                 resultsCount: violationsCount,
-                resultsType: violationsCount > 1 ? "VIOLATIONS" : "VIOLATION"
+                resultsType: violationsCount > 1 ? constants.UITEXTS.LABELS.VIOLATIONS : constants.UITEXTS.LABELS.VIOLATION
             };
             var header = headerTpl.render(headerData);
             $(containers.mainDataContainerSelector).prepend(header).css('background', '#ffffff');

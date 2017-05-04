@@ -4,25 +4,13 @@ $(document).ready(function () {
     var map;
 
     var viewTypes = {
-        audit: 'audit',
-        map: 'map'
-    };
-
-    var currentSortBy = {
-        audit: 'Severity Level',
-        map: ''
+        audit: constants.VIEW_TYPE.AUDIT,
+        map: constants.VIEW_TYPE.MAP
     };
 
     var currentView;
     var counter = 0;
 
-    var externalActions = {
-        redirectToCommunityComposites: 'redirectToCommunityComposites',
-        showViolationMoreInfo: 'showViolationMoreInfo',
-        showViolationResources: 'showViolationResources',
-        shareViolation: 'shareViolation',
-        showFullResourceData: 'showFullResourceData'
-    };
 
     function getRegion(resource) {
         function getRegionValue() {
@@ -35,17 +23,17 @@ $(document).ready(function () {
 
         if (resource.engineStatus.indexOf(constants.ENGINE_STATUSES.ERROR) !== -1) return 'CloudCoreo';
 
-        if (resource.resourceType.indexOf('coreo_aws_rule') !== -1 ||
-            resource.resourceType.indexOf('coreo_uni_util') !== -1) return 'CloudCoreo';
+        if (resource.resourceType.indexOf(constants.SERVICES.COREO_AWS_RULE) !== -1 ||
+            resource.resourceType.indexOf(constants.SERVICES.COREO_UNI_UTIL) !== -1) return 'CloudCoreo';
 
-        if (resource.resourceType.indexOf('aws_iam_') !== -1 ||
-            resource.resourceType.indexOf('aws_route53_') !== -1) return 'AWS';
+        if (resource.resourceType.indexOf(constants.SERVICES.AWS_IAM) !== -1 ||
+            resource.resourceType.indexOf(constants.SERVICES.AWS_ROUTE53) !== -1) return 'AWS';
 
-        if (resource.resourceType.indexOf('aws_ec2_') !== -1 ||
-            resource.resourceType.indexOf('aws_elasticache_') !== -1 ||
-            resource.resourceType.indexOf('aws_s3_') !== -1 ||
-            resource.resourceType.indexOf('aws_vpc_') !== -1 ||
-            resource.resourceType.indexOf('aws_vpn_') !== -1) {
+        if (resource.resourceType.indexOf(constants.SERVICES.AWS_EC2) !== -1 ||
+            resource.resourceType.indexOf(constants.SERVICES.AWS_ELASTICACHE) !== -1 ||
+            resource.resourceType.indexOf(constants.SERVICES.AWS_S3) !== -1 ||
+            resource.resourceType.indexOf(constants.SERVICES.AWS_VPC) !== -1 ||
+            resource.resourceType.indexOf(constants.SERVICES.AWS_VPN) !== -1) {
             return getRegionValue();
         }
         return undefined;
@@ -78,11 +66,11 @@ $(document).ready(function () {
             var region = getRegion(resource);
             if (!region) return;
 
-            if (region !== 'CloudCoreo') {
+            if (region !== constants.REGIONS.CLOUDCOREO) {
                 if (!mapData[region]) {
                     mapData[region] = { violations: 0, deployed: 0, objects: 0 };
                 }
-                if (resource.dataType === 'ADVISOR_RESOURCE') ++mapData[region].violations;
+                if (resource.dataType === constants.RESOURCE_TYPE.ADVISOR_RESOURCE) ++mapData[region].violations;
                 else ++mapData[region].deployed;
                 return;
             }
@@ -115,8 +103,8 @@ $(document).ready(function () {
         staticMaps(mapData);
     }
 
-    function setupHandlers(data) {
-        $('.resource-type-toggle .resource-type').click(function (e) {
+    function setupHandlers() {
+        $('.resource-type-toggle .resource-type').click(function () {
             var view = $(this).attr('value');
             goToView(view);
         });
@@ -182,16 +170,6 @@ $(document).ready(function () {
         renderMapData(data);
     }
 
-
-    function setupViewData(isFirstLoad) {
-        var violationCount = auditData.getViolationsCount();
-        var $audit = $('.resource-type-toggle .resource-type.audit-res');
-        if (violationCount) $audit.addClass('alert');
-        $audit.addClass('active')
-            .removeClass('hidden');
-        if (isFirstLoad) $('.audit').addClass('active');
-    }
-
     function setCurrentView(isFirstLoad) {
         var violationCount = 0;
         if (auditData) violationCount = auditData.getViolationsCount();
@@ -208,26 +186,6 @@ $(document).ready(function () {
         if (!engineState) return 'queued';
         return (engineState === constants.ENGINE_STATES.EXECUTING ||
                 engineState === constants.ENGINE_STATES.COMPLETED) ? engineState : constants.ENGINE_STATES.COMPILING;
-    }
-
-    function appendNextExecutionTime() {
-        var hoursTillNextExecution = deployData.accountAndGetHoursTillNextExecution();
-        var nextExecutionTime = '';
-        if (hoursTillNextExecution > 1) {
-            nextExecutionTime = 'in ' + hoursTillNextExecution + ' hours';
-        } else {
-            nextExecutionTime = 'will start less than an hour';
-        }
-        $('.error-container .next-execution-time span').html(nextExecutionTime)
-    }
-
-    function countCurrentRunResourcesNumber(data) {
-        var count = 0;
-        if (!data.resourcesArray || !data.resourcesArray.length) return 0;
-        data.resourcesArray.forEach( function (resource) {
-            count += (resource.runId !== data.runId) ? 0 : 1;
-        });
-        return count;
     }
 
     function setExecutionStatusMessage(data) {

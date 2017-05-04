@@ -1,150 +1,5 @@
-var mapRegions;
-var regionsList;
-
-function initVariables() {
-    mapRegions = {
-        'North America': {
-            region: 'North America',
-            img: './images/maps/north-america.svg',
-            cssClass: 'north-america',
-            awsRegions: [
-                'us-east-1',
-                'us-east-2',
-                'us-west-1',
-                'us-west-2',
-                'ca-central-1'
-            ]
-        },
-        'South America': {
-            region: 'South America',
-            img: './images/maps/south-america.svg',
-            cssClass: 'south-america',
-            awsRegions: ['sa-east-1']
-        },
-        'Asia Pacific': {
-            region: 'Asia Pacific',
-            img: './images/maps/asia-pacific.svg',
-            cssClass: 'asia-pacific',
-            awsRegions: [
-                'ap-northeast-1',
-                'ap-southeast-1',
-                'ap-southeast-2',
-                'ap-south-1',
-                'ap-northeast-2']
-        },
-        'Europe / Middle East / Africa': {
-            region: 'Europe / Middle East / Africa',
-            img: './images/maps/europe-middle-east-africa.svg',
-            cssClass: 'europe',
-            awsRegions: [
-                'eu-central-1',
-                'eu-west-1',
-                'eu-west-2'
-            ]
-        },
-        'Global': {
-            region: 'Global',
-            cssClass: 'global-region',
-            awsRegions: [
-                'AWS',
-                'CloudCoreo']
-        }
-    };
-
-    regionsList = {
-        'ca-central-1': {
-            region: 'North America'
-        },
-        'ap-northeast-1': {
-            region: 'Asia Pacific',
-            city: 'Tokyo',
-            latitude: 35.6735763,
-            longitude: 139.4302066,
-            countryId: 'JPN'
-        },
-        'ap-southeast-1': {
-            region: 'Asia Pacific',
-            city: 'Singapore',
-            latitude: 1.3154015,
-            longitude: 103.566832,
-            countryId: 'IDN'
-        },
-        'ap-southeast-2': {
-            region: 'Asia Pacific',
-            city: 'Sydney',
-            latitude: -33.8458826,
-            longitude: 150.3715633,
-            countryId: 'AUS'
-        },
-        'eu-central-1': {
-            region: 'Europe / Middle East / Africa',
-            city: 'Frankfurt',
-            latitude: 50.1213152,
-            longitude: 8.3563887,
-            countryId: 'DEU'
-        },
-        'eu-west-1': {
-            region: 'Europe / Middle East / Africa',
-            city: 'Ireland', latitude: 53.4098083,
-            longitude: -10.5742474,
-            countryId: 'IRL'
-        },
-        'eu-west-2': {
-            region: 'Europe / Middle East / Africa',
-        },
-        'sa-east-1': {
-            region: 'South America',
-            city: 'Sao Paolo',
-            latitude: -23.6815315,
-            longitude: -46.8754815,
-            countryId: 'BRA'
-        },
-        'us-east-1': {
-            region: 'North America',
-            city: 'N. Virginia',
-            latitude: 37.9266816,
-            longitude: -83.9481084,
-            countryId: 'USA'
-        },
-        'us-east-2': {
-            region: 'North America',
-            city: 'Ohio',
-            latitude: 40.1685993,
-            longitude: -84.9182274,
-            countryId: 'USA'
-        },
-        'us-west-1': {
-            region: 'North America',
-            city: 'N. California',
-            latitude: 38.8207129,
-            longitude: -124.5542165,
-            countryId: 'USA'
-        },
-        'us-west-2': {
-            region: 'North America',
-            city: 'Oregon',
-            latitude: 44.061906,
-            longitude: -125.0254052,
-            countryId: 'USA'
-        },
-        'ap-south-1': {
-            region: 'Asia Pacific',
-            city: 'Mumbai',
-            latitude: 19.0830943,
-            longitude: 72.7411199,
-            countryId: 'IND'
-        },
-        'ap-northeast-2': {
-            region: 'Asia Pacific',
-            city: 'Seoul',
-            latitude: 37.5653133,
-            longitude: 126.7093693,
-            countryId: 'KOR'
-        },
-        'CloudCoreo': {region: 'Global'},
-        'AWS': {region: 'Global'}
-    };
-}
+var mapRegions = constants.REGIONS.MAP_REGIONS;
+var regionsList = constants.REGIONS.REGION_LIST;
 
 function moveToFront(elem) {
     return elem.each(function() {
@@ -223,14 +78,14 @@ function showTooltip(position, element, region) {
         return;
     }
     addMessage(element, id, {
-        text: region.deployed + ' Resources Deployed',
+        text: region.deployed + ' ' + constants.UITEXTS.MAP_MESSAGES.RESOURCES_DEPLOYED,
         rectX: rectX,
         rectY: rectY,
         fill: '#2B7AE5',
         stroke: '#2B7AE5'});
 
     addMessage(element, id, {
-        text: region.violations + ' Violations Found in Audit',
+        text: region.violations + ' ' + constants.UITEXTS.MAP_MESSAGES.VIOLATIONS_FOUND,
         rectX: rectX,
         rectY: rectY + 10,
         fill: '#fff',
@@ -238,7 +93,7 @@ function showTooltip(position, element, region) {
 
     if (region.objects) {
         addMessage(element, id, {
-            text: region.objects + ' Cloud Objects Found in Audit',
+            text: region.objects + ' ' + constants.UITEXTS.MAP_MESSAGES.CLOUD_OBJECTS_FOUND,
             rectX: rectX,
             rectY: rectY + 20,
             fill: '#fff',
@@ -403,7 +258,7 @@ function renderGlobalData(regions) {
     regions.forEach(function(region) {
         var mapTpl = $.templates('#global-region-tpl');
         $('.' + data.cssClass).append(mapTpl.render(region));
-        $('.' + data.cssClass).find('img').attr('src', 'images/maps/' + region.key+'.png');
+        $('.' + data.cssClass).find('img').attr('src', 'images/maps/' + region.key + '.png');
 
         var g = d3.select('.' + data.cssClass + ' .' + region.key)
             .append('svg')
@@ -453,7 +308,6 @@ function renderRegions(mapData) {
 
 function render(mapData) {
     initView();
-    initVariables();
     if (!mapData) {
         showResourcesAreBeingLoadedMessage();
         return;

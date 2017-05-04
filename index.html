@@ -181,12 +181,6 @@
         </div>
     </div>
 
-    <div id="show-all-btn-tmpl">
-        <div class="show-all">
-            View all
-        </div>
-    </div>
-
     <div id="resource-row-tmpl">
         <div class="resource-row {{if isOld}}old-data-mask{{/if}}">
             <div class="view-row {{:engineStatusClass}} {{if opened}}opened{{/if}}" resource="{{:_id}}">
@@ -311,7 +305,8 @@
     </div>
 
     <div id="row-tmpl">
-        <div class="violation-row flex-column layout-padding {{if isViolation}} bg-white border-left {{else}} border-no-violation bg-light-grey {{/if}}">
+        {{if isVisible}}
+        <div class="violation-row flex-column layout-padding {{if isViolation }} bg-white border-left {{else}} border-no-violation bg-light-grey {{/if}}">
             <div class="flex-row row-header flex-wrap">
                 <div class="flex-column flex-grow layout-padding-right">
                     <div class="title">{{:violation.title}}</div>
@@ -325,8 +320,12 @@
 
                 <div class="medium-grey layout-padding-left">{{:violation.level}}</div>
                 <div class="medium-grey layout-padding-left">
-                    {{if !isViolation}}
-                    No violation
+                    {{if !isViolation }}
+                        {{if violation.isPassed}}
+                            No violation
+                        {{else}}
+                            Disabled
+                        {{/if}}
                     {{/if}}
                 </div>
                 {{if violation.resources.length || violation.suppressions.length }}
@@ -354,6 +353,7 @@
             </div>
             <div class="details-btn link">+ view details</div>
         </div>
+        {{/if}}
         <div class="row-body hidden-row bg-white  {{if isViolation}}border-left{{/if}}">
             <div class="flex-row separator flex-wrap">
                 <div class="flex-column separator-right flex-grow">
@@ -387,6 +387,8 @@
                     </div>
                     {{/if}}
                     <div class="separator-top layout-margin-top-8 layout-margin-bottom-8"></div>
+
+                    {{if !isPassed}}
                     <div class="link flex share-link"
                          violation="{{:violation.id}}"
                          violationId="{{:violation.violationId}}"
@@ -394,22 +396,30 @@
                         <img src="./images/envelope.svg" class="fa left"/>
                         share
                     </div>
+                    {{/if}}
                 </div>
             </div>
         </div>
     </div>
-
 </div>
-<script type="text/javascript" src="./js/jquery-2.2.4.min.js"></script>
-<script type="text/javascript" src="./js/jsrender.min.js"></script>
+
+<script type="text/javascript" src="js/vendor/jquery-2.2.4.min.js"></script>
+<script type="text/javascript" src="js/vendor/jsrender.min.js"></script>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://d3js.org/d3-selection-multi.v1.min.js"></script>
+<script type="text/javascript" src="./js/configs/constants.js"></script>
 <script type="text/javascript" src="./js/utils.js"></script>
 <script type="text/javascript" src="./js/pie.js"></script>
-<script type="text/javascript" src="./js/static-map.js"></script>
+<script type="text/javascript" src="./js/map/static-map.js"></script>
 <!--<script type="text/javascript" src="./js/map.js"></script>-->
+<script type="text/javascript" src="./js/schemas/Violation.js"></script>
+<script type="text/javascript" src="./js/schemas/Resource.js"></script>
+<script type="text/javascript" src="./js/schemas/AlertData.js"></script>
+<script type="text/javascript" src="./js/audit/AuditUtils.js"></script>
+<script type="text/javascript" src="./js/audit/AuditRender.js"></script>
+<script type="text/javascript" src="./js/audit/AuditUI.js"></script>
 <script type="text/javascript" src="./js/deploy.js"></script>
-<script type="text/javascript" src="./js/audit.js"></script>
+<script type="text/javascript" src="./js/audit/audit.js"></script>
 <script type="text/javascript" src="./js/script.js"></script>
 </body>
 </html>

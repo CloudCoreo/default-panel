@@ -143,7 +143,7 @@ window.Audit = (function (Resource, AuditRender) {
     function reorganizeReportData(report, reportId, timestamp, violations) {
         Object.keys(report).forEach(function (region) {
             Object.keys(report[region]).forEach(function (resId) {
-                Object.keys(report[region][resId].violations).forEach(function (violationKey) {
+                 Object.keys(report[region][resId].violations).forEach(function (violationKey) {
                     var rowData = report[region][resId].violations[violationKey];
                     if (rowData.level === 'Internal') return;
 
@@ -253,18 +253,19 @@ window.Audit = (function (Resource, AuditRender) {
         errors = [];
         hasOld = false;
 
+        function reduceObject(accumulator, current) {
+            accumulator[current.name] = current.value;
+            return accumulator;
+        }
+
         data.forEach(function (elem) {
             if (elem.runId !== ccThisData.runId) hasOld = true;
             if (elem.dataType !== 'ADVISOR_RESOURCE') return;
 
             var resource = new Resource(elem);
 
-            elem.inputs.forEach(function (input) {
-                resource.inputs[input.name] = input.value;
-            });
-            elem.outputs.forEach(function (output) {
-                resource.outputs[output.name] = output.value;
-            });
+            resource.inputs = elem.inputs.reduce(reduceObject, {});
+            resource.outputs = elem.outputs.reduce(reduceObject, {});
 
             if (resource.inputs.level === 'Internal') return;
             if (resource.outputs.error) {

@@ -17,6 +17,7 @@ window.AuditUI = {
 
     showResourcesAreBeingLoadedMessage: function () {
         $(containers.planIsExecuting).removeClass('hidden');
+        $(containers.noAuditResourcesMessageSelector).addClass('hidden');
         $(containers.mainCont).addClass('empty');
     },
 

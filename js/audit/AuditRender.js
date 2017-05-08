@@ -48,7 +48,7 @@ window.AuditRender = (function () {
             resultInfo: {
                 violationsCount: violationsCount,
                 noViolationCount: noViolationCount,
-                resultsType: isNoViolation ? constants.RESULT_TYPE.RULES : constants.RESULT_TYPE.VIOLATIONS
+                resultsType: isNoViolation ? constants.RESULT_TYPE.RULES : constants.UITEXTS.LABELS.VIOLATING_OBJECTS
             },
             isSorting: isSorting
         };

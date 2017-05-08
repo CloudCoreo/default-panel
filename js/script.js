@@ -11,6 +11,8 @@ $(document).ready(function () {
     var currentView;
     var counter = 0;
 
+    var templates = constants.TEMPLATES;
+
 
     function getRegion(resource) {
         function getRegionValue() {
@@ -120,6 +122,10 @@ $(document).ready(function () {
         $('.warning-link').click(function () {
             openPopup(constants.POPUPS.REDIRECT_TO_RESOURCES);
         });
+
+        $('#view-run-error').click(function () {
+            openPopup(constants.POPUPS.SHOW_ERROR);
+        });
     }
 
     function emulateCcThisUpdate() {
@@ -204,7 +210,25 @@ $(document).ready(function () {
         }
     }
 
+    function showErrorBlock(params) {
+        var errorContainter = $.templates(templates.ERROR_BLOCK);
+        var rendered = errorContainter.render({
+            timestamp: utils.formatDate(params.timestamp),
+            engineStatus: params.engineStatus,
+            runId: params.runId
+        });
+        $('.run-error-wrapper').append(rendered);
+    }
+
+    function checkError(ccThis) {
+        var params = {
+            timestamp: ccThis.lastExecutionTime
+        };
+        if (ccThis.engineStatus.indexOf('ERROR') !== -1) showErrorBlock(params);
+    }
+
     function init(data, isFirstLoad) {
+        checkError(data);
         setupHandlers(data);
         initView();
         setupData(data, isFirstLoad);

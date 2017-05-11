@@ -25,14 +25,16 @@ window.Deploy = (function () {
                 var resourceProperty = data[resourceData];
                 if (resourceData == 'engineStatus') {
                     if (resourceProperty == 'OK') {
-                        resource.engineStatus = 'SUCCESS';
+                        resource.engineStatus = constants.ENGINE_STATUSES.SUCCESS;
                         resource.engineStatusClass = 'stable-status';
                     } else {
                         resource.engineStatusClass = 'error-status';
-                        resource.engineStatus = 'ERROR';
+                        resource.engineStatus = constants.ENGINE_STATUSES.ERROR;
 
                         var isCurrentError = data.runId === ccthis.runId;
-                        var showPreviousData = ccthis.engineState === 'INITIALIZED' || (ccthis.engineState === 'PLANNED' && ccthis.engineStatus !== 'OK');
+                        var showPreviousData = ccthis.engineState === constants.ENGINE_STATES.INITIALIZED ||
+                                (ccthis.engineState === constants.ENGINE_STATES.PLANNED &&
+                                ccthis.engineStatus !== constants.ENGINE_STATUSES.OK);
 
                         if (isCurrentError || (showPreviousData && !isCurrentError)) {
                             numberOfFailedResource = data.executionNumber;
@@ -58,7 +60,8 @@ window.Deploy = (function () {
                 }
             });
             resource.isOld = resource.runId !== ccthis.runId;
-            if (resource.isOld && ccthis.engineState === 'COMPLETED' && ccthis.engineStatus === 'OK') {
+            if (resource.isOld && ccthis.engineState === constants.ENGINE_STATES.COMPLETED &&
+                ccthis.engineStatus === constants.ENGINE_STATUSES.OK) {
                 ccThisData.slice(index, index);
                 return;
             }

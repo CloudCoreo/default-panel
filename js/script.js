@@ -4,25 +4,15 @@ $(document).ready(function () {
     var map;
 
     var viewTypes = {
-        audit: 'audit',
-        map: 'map'
-    };
-
-    var currentSortBy = {
-        audit: 'Severity Level',
-        map: ''
+        audit: constants.VIEW_TYPE.AUDIT,
+        map: constants.VIEW_TYPE.MAP
     };
 
     var currentView;
     var counter = 0;
 
-    var externalActions = {
-        redirectToCommunityComposites: 'redirectToCommunityComposites',
-        showViolationMoreInfo: 'showViolationMoreInfo',
-        showViolationResources: 'showViolationResources',
-        shareViolation: 'shareViolation',
-        showFullResourceData: 'showFullResourceData'
-    };
+    var templates = constants.TEMPLATES;
+
 
     function getRegion(resource) {
         function getRegionValue() {
@@ -33,19 +23,19 @@ $(document).ready(function () {
             return undefined;
         }
 
-        if (resource.engineStatus.indexOf('ERROR') !== -1) return 'CloudCoreo';
+        if (resource.engineStatus.indexOf(constants.ENGINE_STATUSES.ERROR) !== -1) return 'CloudCoreo';
 
-        if (resource.resourceType.indexOf('coreo_aws_rule') !== -1 ||
-            resource.resourceType.indexOf('coreo_uni_util') !== -1) return 'CloudCoreo';
+        if (resource.resourceType.indexOf(constants.SERVICES.COREO_AWS_RULE) !== -1 ||
+            resource.resourceType.indexOf(constants.SERVICES.COREO_UNI_UTIL) !== -1) return 'CloudCoreo';
 
-        if (resource.resourceType.indexOf('aws_iam_') !== -1 ||
-            resource.resourceType.indexOf('aws_route53_') !== -1) return 'AWS';
+        if (resource.resourceType.indexOf(constants.SERVICES.AWS_IAM) !== -1 ||
+            resource.resourceType.indexOf(constants.SERVICES.AWS_ROUTE53) !== -1) return 'AWS';
 
-        if (resource.resourceType.indexOf('aws_ec2_') !== -1 ||
-            resource.resourceType.indexOf('aws_elasticache_') !== -1 ||
-            resource.resourceType.indexOf('aws_s3_') !== -1 ||
-            resource.resourceType.indexOf('aws_vpc_') !== -1 ||
-            resource.resourceType.indexOf('aws_vpn_') !== -1) {
+        if (resource.resourceType.indexOf(constants.SERVICES.AWS_EC2) !== -1 ||
+            resource.resourceType.indexOf(constants.SERVICES.AWS_ELASTICACHE) !== -1 ||
+            resource.resourceType.indexOf(constants.SERVICES.AWS_S3) !== -1 ||
+            resource.resourceType.indexOf(constants.SERVICES.AWS_VPC) !== -1 ||
+            resource.resourceType.indexOf(constants.SERVICES.AWS_VPN) !== -1) {
             return getRegionValue();
         }
         return undefined;
@@ -61,9 +51,10 @@ $(document).ready(function () {
     }
 
     function renderMapData(data) {
-        var executionIsFinished =   data.engineState === 'COMPLETED' ||
-                                    data.engineState === 'INITIALIZED' ||
-                                    (data.engineState === 'PLANNED' && data.engineStatus !== 'OK');
+        var executionIsFinished =   data.engineState === constants.ENGINE_STATES.COMPLETED ||
+                                    data.engineState === constants.ENGINE_STATES.INITIALIZED ||
+                                    (data.engineState === constants.ENGINE_STATES.PLANNED &&
+                                    data.engineStatus !== constants.ENGINE_STATUSES.OK);
 
         if (!executionIsFinished && !deployData.hasOldResources() && data.resourcesArray.length < data.numberOfResources) {
             staticMaps();
@@ -77,11 +68,11 @@ $(document).ready(function () {
             var region = getRegion(resource);
             if (!region) return;
 
-            if (region !== 'CloudCoreo') {
+            if (region !== constants.REGIONS.CLOUDCOREO) {
                 if (!mapData[region]) {
                     mapData[region] = { violations: 0, deployed: 0, objects: 0 };
                 }
-                if (resource.dataType === 'ADVISOR_RESOURCE') ++mapData[region].violations;
+                if (resource.dataType === constants.RESOURCE_TYPE.ADVISOR_RESOURCE) ++mapData[region].violations;
                 else ++mapData[region].deployed;
                 return;
             }
@@ -90,7 +81,7 @@ $(document).ready(function () {
                 mapData[region] = { violations: 0, deployed: 0, successMessage: 'Resource', errorMessage: 'Error' };
             }
 
-            if (resource.engineStatus.indexOf('ERROR') !== -1) ++mapData[region].violations;
+            if (resource.engineStatus.indexOf(constants.ENGINE_STATUSES.ERROR) !== -1) ++mapData[region].violations;
             else ++mapData[region].deployed;
         });
 
@@ -114,8 +105,8 @@ $(document).ready(function () {
         staticMaps(mapData);
     }
 
-    function setupHandlers(data) {
-        $('.resource-type-toggle .resource-type').click(function (e) {
+    function setupHandlers() {
+        $('.resource-type-toggle .resource-type').click(function () {
             var view = $(this).attr('value');
             goToView(view);
         });
@@ -129,7 +120,11 @@ $(document).ready(function () {
         });
 
         $('.warning-link').click(function () {
-            openPopup('redirectToResources');
+            openPopup(constants.POPUPS.REDIRECT_TO_RESOURCES);
+        });
+
+        $('#view-run-error').click(function () {
+            openPopup(constants.POPUPS.SHOW_ERROR);
         });
     }
 
@@ -177,18 +172,8 @@ $(document).ready(function () {
         }
         setCurrentView(isFirstLoad);
 
-        if (!isFirstLoad && data.engineState !== 'COMPLETED') return;
+        if (!isFirstLoad && data.engineState !== constants.ENGINE_STATES.COMPLETED) return;
         renderMapData(data);
-    }
-
-
-    function setupViewData(isFirstLoad) {
-        var violationCount = auditData.getViolationsCount();
-        var $audit = $('.resource-type-toggle .resource-type.audit-res');
-        if (violationCount) $audit.addClass('alert');
-        $audit.addClass('active')
-            .removeClass('hidden');
-        if (isFirstLoad) $('.audit').addClass('active');
     }
 
     function setCurrentView(isFirstLoad) {
@@ -205,36 +190,17 @@ $(document).ready(function () {
 
     function getEngineStateMessage(engineState) {
         if (!engineState) return 'queued';
-        return (engineState === "EXECUTING" || engineState === "COMPLETED") ? engineState : "COMPILING";
-    }
-
-    function appendNextExecutionTime() {
-        var hoursTillNextExecution = deployData.accountAndGetHoursTillNextExecution();
-        var nextExecutionTime = '';
-        if (hoursTillNextExecution > 1) {
-            nextExecutionTime = 'in ' + hoursTillNextExecution + ' hours';
-        } else {
-            nextExecutionTime = 'will start less than an hour';
-        }
-        $('.error-container .next-execution-time span').html(nextExecutionTime)
-    }
-
-    function countCurrentRunResourcesNumber(data) {
-        var count = 0;
-        if (!data.resourcesArray || !data.resourcesArray.length) return 0;
-        data.resourcesArray.forEach( function (resource) {
-            count += (resource.runId !== data.runId) ? 0 : 1;
-        });
-        return count;
+        return (engineState === constants.ENGINE_STATES.EXECUTING ||
+                engineState === constants.ENGINE_STATES.COMPLETED) ? engineState : constants.ENGINE_STATES.COMPILING;
     }
 
     function setExecutionStatusMessage(data) {
-        if (data.engineState === 'COMPLETED' || data.engineState === 'INITIALIZED') return;
+        if (data.engineState === constants.ENGINE_STATES.COMPLETED || data.engineState === constants.ENGINE_STATES.INITIALIZED) return;
 
         $('.engine-state').removeClass('hidden');
         $('.engine-state .message').html(getEngineStateMessage(data.engineState));
 
-        if (!data.resourcesArray && data.engineState !== 'EXECUTING') {
+        if (!data.resourcesArray && data.engineState !== constants.ENGINE_STATES.EXECUTING) {
             $('.data-is-loading').removeClass('hidden');
             $('.resource-type-toggle').addClass('hidden');
             $('.scrollable-area').addClass('hidden');
@@ -244,7 +210,25 @@ $(document).ready(function () {
         }
     }
 
+    function showErrorBlock(params) {
+        var errorContainter = $.templates(templates.ERROR_BLOCK);
+        var rendered = errorContainter.render({
+            timestamp: utils.formatDate(params.timestamp),
+            engineStatus: params.engineStatus,
+            runId: params.runId
+        });
+        $('.run-error-wrapper').append(rendered);
+    }
+
+    function checkError(ccThis) {
+        var params = {
+            timestamp: ccThis.lastExecutionTime
+        };
+        if (ccThis.engineStatus.indexOf('ERROR') !== -1) showErrorBlock(params);
+    }
+
     function init(data, isFirstLoad) {
+        checkError(data);
         setupHandlers(data);
         initView();
         setupData(data, isFirstLoad);

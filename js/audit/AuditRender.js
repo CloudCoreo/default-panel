@@ -43,7 +43,7 @@ window.AuditRender = (function () {
         });
 
         var headerData = {
-            name: utils.replaceSymbolsToSpace(options.key, '-_'),
+            name: options.key.replace(/[-_]/g, ' '),
             key: options.key,
             resultInfo: {
                 violationsCount: violationsCount,

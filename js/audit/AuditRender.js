@@ -127,7 +127,7 @@ window.AuditRender = (function () {
         });
 
         if (AuditUtils.isMetaAttribute(self.sortKey)) {
-            $('.pie-data-header .chart-header').text('CIS Rules with Violations');
+            $('.pie-data-header .chart-header').text('Rules with Violations');
         } else {
             $('.pie-data-header .chart-header').text('Violating Cloud Objects');
         }

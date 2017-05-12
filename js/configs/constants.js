@@ -255,7 +255,8 @@ window.constants = {
         },
         LABELS: {
             VIOLATIONS: 'VIOLATIONS',
-            VIOLATION: 'VIOLATION'
+            VIOLATION: 'VIOLATION',
+            VIOLATING_OBJECTS: 'VIOLATING OBJECTS'
         },
         MAP_MESSAGES: {
             RESOURCES_DEPLOYED: 'Resources Deployed',

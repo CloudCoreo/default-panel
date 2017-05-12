@@ -13,21 +13,21 @@ window.AuditRender = (function () {
 
 
     function renderSection(options) {
+
         var sectionSummary = { label: options.key, value: 0, color: options.color };
         if (!Object.keys(options.violations).length) {
             return sectionSummary;
         }
 
         var isNoViolation = options.resultsType === constants.RESULT_TYPE.RULES;
-        var visibleList = '';
-        var visibleCount = 0;
         var violationsCount = 0;
-        var rendered;
-        var noViolationCount = isNoViolation ? Object.keys(options.violations).length : 0;
+        var noViolationCount = 0;
+        var rendered = '';
+        var isSorting = AuditUtils.isMetaAttribute(options.sortKey);
 
         Object.keys(options.violations).forEach(function (vId) {
             var violation = options.violations[vId];
-            var isViolation = !isNoViolation && violation.resources.length > 0;
+            var isViolation = violation.resources && violation.resources.length && violation.resources.length > 0;
             var params = {
                 resultsType: options.resultsType,
                 violation: violation,
@@ -35,31 +35,31 @@ window.AuditRender = (function () {
                 isVisible: isViolation || violation.isPassed || (!violation.isPassed && options.isDisabledVisible)
             };
 
-            rendered = violationTpl.render(params);
-            visibleList += rendered;
-            visibleCount++;
-            sectionSummary.value += options.violations[vId].resources.length;
+            if (isViolation) violationsCount++;
+            else noViolationCount++;
 
-            if (options.violations[vId].resources.length) violationsCount += 1;
+            rendered += violationTpl.render(params);
+            sectionSummary.value += options.violations[vId].resources.length;
         });
 
         var headerData = {
-            name: utils.replaceSymbolToSpace(options.key, '-'),
+            name: options.key.replace(/[-_]/g, ' '),
             key: options.key,
-            resultsCount: violationsCount || noViolationCount,
-            resultsType: isNoViolation ? constants.RESULT_TYPE.RULES : constants.RESULT_TYPE.VIOLATIONS
+            resultInfo: {
+                violationsCount: violationsCount,
+                noViolationCount: noViolationCount,
+                resultsType: isNoViolation ? constants.RESULT_TYPE.RULES : constants.UITEXTS.LABELS.VIOLATING_OBJECTS
+            },
+            isSorting: isSorting
         };
 
         var header = headerTpl.render(headerData);
 
-        var html =
+        var html = '<div class="' + headerData.key + ' layout-padding ' + (!isNoViolation ? 'bg-white' : '') + '" style="margin-bottom: 20px;">' +
+            header +
             '<div class="' + (isNoViolation ? 'bg-light-grey' : 'bg-white') +
-            '" style="border-color: ' + (isNoViolation ? 'grey' : sectionSummary.color) + '">' + visibleList + '</div>';
+            '" style="border-color: ' + (isNoViolation ? 'grey' : sectionSummary.color) + '">' + rendered + '</div>';
 
-        if (!AuditUtils.isMetaAttribute(options.sortKey)) {
-            headerData.resultsCount -= noViolationCount;
-            html = '<div class="' + headerData.key + ' layout-padding ' + (!isNoViolation ? 'bg-white' : '') + '" style="margin-bottom: 20px;">' + header + html;
-        }
 
         if (isNoViolation) {
             $(containers.noViolation).append(html);
@@ -127,15 +127,10 @@ window.AuditRender = (function () {
         });
 
         if (AuditUtils.isMetaAttribute(self.sortKey)) {
-            var headerData = {
-                name: 'Sort by ' + AuditUtils.removeMetaPrefix(self.sortKey),
-                resultsCount: violationsCount,
-                resultsType: violationsCount > 1 ? constants.UITEXTS.LABELS.VIOLATIONS : constants.UITEXTS.LABELS.VIOLATION
-            };
-            var header = headerTpl.render(headerData);
-            $(containers.mainDataContainerSelector).prepend(header).css('background', '#ffffff');
+            $('.pie-data-header .chart-header').text('Rules with Violations');
+        } else {
+            $('.pie-data-header .chart-header').text('Violating Cloud Objects');
         }
-
         $('.pie-data-header .num').html(violationsCount);
 
         return listOfAlerts;

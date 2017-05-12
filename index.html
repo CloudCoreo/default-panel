@@ -40,7 +40,10 @@
                     <div class="hidden audit-data-is-not-ready">Audit data is processing. Full audit report is not available now.</div>
                     <div class="audit-list-block hidden audit-list">
                         <div class="left-column layout-padding-right">
-                            <div class="pie-data-header"><span class="num">0</span> Rules with Violations</div>
+                            <div class="pie-data-header">
+                                <span class="num">0</span>
+                                <span class="chart-header"></span>
+                            </div>
                             <div class="custom-dropdown noselect layout-margin-bottom-20">
                                 <div class="dropdown-button">
                                     <div>SORT BY</div>
@@ -177,7 +180,17 @@
     <div id="list-header-tmpl">
         <div class="flex-row align-center">
             <div class="subheader flex-grow">{{:name}}</div>
-            <div class="font-12 medium-grey">{{if resultsCount}} {{:resultsCount}} {{:resultsType}}{{/if}}
+            <div class="font-12 medium-grey">
+                {{if isSorting }}
+                    {{:resultInfo.violationsCount}} VIOLATING OBJECTS {{:resultInfo.noViolationCount}} RULES
+                {{else}}
+                    {{if resultInfo.resultsType == 'RULES'}}
+                        {{:resultInfo.noViolationCount}}
+                    {{else}}
+                        {{:resultInfo.violationsCount}}
+                    {{/if}}
+                    {{:resultInfo.resultsType}}
+                {{/if}}
             </div>
         </div>
     </div>

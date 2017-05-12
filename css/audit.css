@@ -340,11 +340,6 @@ html, body {
     padding-top: 20px;
 }
 
-.list {
-    width: 98%;
-    padding: 20px;
-}
-
 .list .row-body {
     -webkit-transition: max-height 0.5s;
     -moz-transition: max-height 0.5s;

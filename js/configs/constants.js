@@ -17,7 +17,8 @@ window.constants = {
         LIST_HEADER: '#list-header-tmpl',
         VIOLATION_ROW: '#row-tmpl',
         PASSED_DISABLED_ROW: '#passed-and-disabled-row',
-        VIOLATION_ERROR: '#violation-error-tpl'
+        VIOLATION_ERROR: '#violation-error-tpl',
+        ERROR_BLOCK: '#run-error'
     },
 
     COLORS: {
@@ -187,7 +188,8 @@ window.constants = {
         SHARE_VIOLATION: 'shareViolation',
         VIOLATION_MORE_INFO: 'showViolationMoreInfo',
         REDIRECT_TO_COMPOSITES: 'redirectToCommunityComposites',
-        REDIRECT_TO_RESOURCES: 'redirectToResources'
+        REDIRECT_TO_RESOURCES: 'redirectToResources',
+        SHOW_ERROR: 'showErrorModal'
     },
 
     REQUEST: {

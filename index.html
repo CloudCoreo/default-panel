@@ -14,6 +14,7 @@
 <div class="ccthis"></div>
 <div class="main-container">
     <div class="container">
+        <div class="run-error-wrapper"></div>
         <div class="options-container">
             <div class="data-is-loading hidden">
                 <h2>Waiting for results...</h2>
@@ -41,7 +42,7 @@
                         <div class="left-column layout-padding-right">
                             <div class="pie-data-header">
                                 <span class="num">0</span>
-                                <span class="chart-header">Violating Cloud Objects</span>
+                                <span class="chart-header">Rules with Violations</span>
                             </div>
                             <div class="custom-dropdown noselect layout-margin-bottom-20">
                                 <div class="dropdown-button">
@@ -167,12 +168,12 @@
         </div>
     </div>
 
-    <div id="error-tpl">
-        <div class="error">
-            <div class="label">Error Message:</div>
-            <div class="error-details"><span class="error-label">Error message: </span>{{:error_message}}</div>
-            <div class="error-type"><span class="error-label">Error type: </span> {{:error_type}}</div>
-            <div class="error-resource"><span class="error-label">Resource error: </span> {{:resource_error}}</div>
+    <div id="run-error">
+        <div class="run-error">
+            <span class="label">Failed Run</span>
+            <span class="timestamp">on {{:timestamp}}.</span>
+            <span>Below are the results of the last successful run.</span>
+            <a id="view-run-error" engineStatus="{{:engineStatus}}" runId="{{:runId}}">View error</a>
         </div>
     </div>
 
@@ -348,7 +349,7 @@
                      sortKey="{{:violation.sortKey}}">
 
                         {{if violation.resources.length}}
-                            {{:violation.resources.length}} Cloud Object{{if violation.resources.length !== 1}}s{{/if}}
+                            {{:violation.resources.length}} Violating Cloud Object{{if violation.resources.length !== 1}}s{{/if}}
                         {{/if}}
 
                         {{if violation.suppressions.length}}

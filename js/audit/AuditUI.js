@@ -17,6 +17,7 @@ window.AuditUI = {
 
     showResourcesAreBeingLoadedMessage: function () {
         $(containers.planIsExecuting).removeClass('hidden');
+        $(containers.noAuditResourcesMessageSelector).addClass('hidden');
         $(containers.mainCont).addClass('empty');
     },
 
@@ -51,7 +52,6 @@ window.AuditUI = {
         $('.resources-link, .resources-title-link').click(function () {
             var _this = $(this);
             var params = AuditUtils.getOrganizedViolationData(_this, listOfAlerts);
-            debugger
             openPopup(constants.POPUPS.VIOLATION_RESOURCES, params);
         });
 

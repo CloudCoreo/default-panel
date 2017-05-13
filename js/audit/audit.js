@@ -391,6 +391,7 @@ window.Audit = (function (Resource, AuditRender) {
             hasDisabled = Object.keys(noViolations).find(function (ruleId) {
                 return !noViolations[ruleId].isPassed;
             });
+            hasDisabled = hasDisabled && isDisabledViolationsVisible;
         }
 
         auditRender.clearContainer();

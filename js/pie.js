@@ -46,8 +46,11 @@ function drawPie(pieData, color, cont) {
         .attr("class", "arc");
 
     var onclick = function (d, i) {
+        var elem = $("." +pieData[i].label).offset();
+        if (!elem) return;
+
         $('.scrollable-area').animate({
-            scrollTop: $("." + pieData[i].label).offset().top - tabsHeight
+            scrollTop: elem.top - tabsHeight
         }, 200);
     };
 

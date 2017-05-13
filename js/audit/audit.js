@@ -102,6 +102,8 @@ window.Audit = (function (Resource, AuditRender) {
     function showEmptyViolationsMessage() {
         if (executionIsFinished) {
             AuditUI.showNoViolationsMessage();
+            auditRender.renderAllClearPie(noViolations);
+            auditRender.setChartHeaderText(uiTexts.CHART_HEADER.RULES);
             return;
         }
         AuditUI.showResourcesAreBeingLoadedMessage();
@@ -349,45 +351,67 @@ window.Audit = (function (Resource, AuditRender) {
         });
     }
 
+    function renderNoViolationsSection(sortKey) {
+        auditRender.renderSection({
+            violations: noViolations,
+            key: 'No-violations',
+            color: colorPalette.Passed,
+            resultsType: constants.RESULT_TYPE.RULES,
+            sortKey: sortKey,
+            isDisabledVisible: isDisabledViolationsVisible
+        });
+    }
 
-    function reRender(sortKey) {
+    function renderRules(isSorting, sortKey) {
         var listOfAlerts = {};
-        var noViolationsIsEmpty = !noViolations || Object.keys(noViolations).length === 0;
-        var isSorting = sortKey.indexOf('meta_') !== -1;
-
-        auditRender.clearContainer();
 
         if (isSorting) listOfAlerts = organizeForSorting(sortKey);
         else listOfAlerts = organizeForGrouping(sortKey);
-
-        if (!alerts.length && noViolationsIsEmpty && !errors.length) {
-            showEmptyViolationsMessage();
-            return;
-        }
 
         auditRender.render(listOfAlerts, sortKey);
 
         if (totalViolations) {
             auditRender.renderViolationDivider(sortKey);
         }
-
         if (!isSorting) {
-            auditRender.renderSection({
-                violations: noViolations,
-                key: 'No-violations',
-                color: colorPalette.Passed,
-                resultsType: constants.RESULT_TYPE.RULES,
-                sortKey: sortKey,
-                isDisabledVisible: isDisabledViolationsVisible
+            renderNoViolationsSection(isSorting);
+        }
+        AuditUI.refreshClickHandlers(listOfAlerts, noViolations);
+    }
+
+    function reRender(sortKey) {
+        if (!alerts) {
+            return;
+        }
+        
+        var hasDisabled = false;
+
+        var noEmptyRules = !noViolations || Object.keys(noViolations).length === 0;
+        if (!noEmptyRules) {
+            hasDisabled = Object.keys(noViolations).find(function (ruleId) {
+                return !noViolations[ruleId].isPassed;
             });
         }
 
-        AuditUI.refreshClickHandlers(listOfAlerts, noViolations);
+        auditRender.clearContainer();
+        var listOfAlerts = {};
+
+        var isSorting = sortKey.indexOf('meta_') !== -1;
+        var isClear = !alerts.length && !hasDisabled && !errors.length;
+
+        if (isClear) {
+            showEmptyViolationsMessage();
+            renderNoViolationsSection(sortKey);
+            AuditUI.refreshClickHandlers(listOfAlerts, noViolations);
+            return;
+        }
+
+        renderRules(isSorting, sortKey);
     }
 
 
     function initGlobalVariables() {
-        noViolations = [];
+        noViolations = {};
         errors = [];
         alerts = [];
         alertData = new AlertData();

@@ -206,7 +206,7 @@ window.Audit = (function (Resource, AuditRender) {
 
 
     function fillViolationsList(violations, reports, callback) {
-        if (!Object.keys(violations).length && !Object.keys(noViolations).length) {
+        if (!Object.keys(violations).length) {
             AuditUI.showNoAuditResourcesMessage();
             alerts = undefined;
             callback();
@@ -418,8 +418,9 @@ window.Audit = (function (Resource, AuditRender) {
                 AuditUI.showResourcesAreBeingLoadedMessage();
                 return;
             }
-            
-            reRender(sortKey);
+            if (alerts) {
+                reRender(sortKey);
+            }
             callback();
         });
     }

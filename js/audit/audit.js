@@ -293,8 +293,9 @@ window.Audit = (function (Resource, AuditRender) {
         });
 
         fillViolationsList(rules, reports, function () {
+            const hasData = enabledDefinitions.length;
             setPassedStatus(enabledDefinitions);
-            callback();
+            callback(hasData);
         });
     }
 
@@ -413,13 +414,16 @@ window.Audit = (function (Resource, AuditRender) {
 
         executionIsFinished = isCompleted || isInitialized || (isPlanned && !isStatusOK);
 
-        initResourcesList(data, function () {
+        initResourcesList(data, function (hasData) {
             if (!executionIsFinished && !hasOld) {
                 AuditUI.showResourcesAreBeingLoadedMessage();
                 return;
             }
-            
-            reRender(sortKey);
+
+            if (hasData) {
+                reRender(sortKey);
+            }
+
             callback();
         });
     }

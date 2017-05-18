@@ -32,7 +32,8 @@ window.AuditRender = (function () {
                 resultsType: options.resultsType,
                 violation: violation,
                 isViolation: isViolation,
-                isVisible: isViolation || violation.isPassed || (!violation.isPassed && options.isDisabledVisible)
+                isVisible: isViolation || violation.isPassed || (!violation.isPassed && options.isDisabledVisible),
+                isPassed: violation.isPassed
             };
 
             if (isViolation) violationsCount++;

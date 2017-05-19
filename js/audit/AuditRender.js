@@ -144,6 +144,7 @@ window.AuditRender = (function () {
 
 
     function render(listOfAlerts, sortKey) {
+        if (self.sortKey === sortKey) return;
         self.sortKey = sortKey;
         renderResourcesList(listOfAlerts);
     }

@@ -49,7 +49,7 @@ window.AuditRender = (function () {
             resultInfo: {
                 violationsCount: violationsCount,
                 noViolationCount: noViolationCount,
-                resultsType: isNoViolation ? constants.RESULT_TYPE.RULES : constants.UITEXTS.LABELS.VIOLATING_OBJECTS
+                resultsType: isNoViolation ? constants.RESULT_TYPE.RULES : uiTexts.LABELS.VIOLATING_OBJECTS
             },
             isSorting: isSorting
         };
@@ -71,6 +71,13 @@ window.AuditRender = (function () {
         return violationsCount;
     }
 
+    function renderAllClearPie(emptyRules) {
+        pie.drawPie([{
+            label: "Passed",
+            value: Object.keys(emptyRules).length,
+            color: colorPalette.Passed
+        }]);
+    }
 
     function renderPie(listOfAlerts) {
         var pieData = [];
@@ -128,13 +135,17 @@ window.AuditRender = (function () {
         });
 
         if (AuditUtils.isMetaAttribute(self.sortKey)) {
-            $('.pie-data-header .chart-header').text('Rules with Violations');
+            setChartHeaderText(uiTexts.CHART_HEADER.RULES);
         } else {
-            $('.pie-data-header .chart-header').text('Violating Cloud Objects');
+            setChartHeaderText(uiTexts.CHART_HEADER.CLOUD_OBJECTS);
         }
         $('.pie-data-header .num').html(violationsCount);
 
         return listOfAlerts;
+    }
+
+    function setChartHeaderText(text) {
+        $(containers.CHART_HEADER).text(text);
     }
 
 
@@ -159,6 +170,8 @@ window.AuditRender = (function () {
 
     AuditRender.prototype.renderSection = renderSection;
     AuditRender.prototype.renderPie = renderPie;
+    AuditRender.prototype.renderAllClearPie = renderAllClearPie;
+    AuditRender.prototype.setChartHeaderText = setChartHeaderText;
     AuditRender.prototype.drawPie = drawPie;
     AuditRender.prototype.renderViolationDivider = renderViolationDivider;
     AuditRender.prototype.render = render;

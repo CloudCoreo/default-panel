@@ -119,24 +119,44 @@ window.Audit = (function (Resource, AuditRender) {
         var report = reportData.outputs.report;
         if (typeof report === 'string') report = JSON.parse(report);
 
-        if (!report.truncated) {
+        if (!report.truncated && !reportData.inputs.rules.truncated) {
             callback(report, reportData._id, timestamp);
             return;
         }
-        sendRequest(constants.REQUEST.GET_TRUNCATED_OBJ,
-            { objectKey: report.truncated.object_key, blockUI: blockUI },
-            function (error, retrievedObject) {
-                if (error) {
-                    $(".audit-data-is-not-ready").removeClass("hidden");
-                    onError();
-                    setTimeout(function () {
-                        getReport(reportData, callback, false);
-                    }, 10000);
-                    return;
-                }
-                $(".audit-data-is-not-ready").addClass("hidden");
-                callback(retrievedObject, reportData._id, timestamp);
-            });
+
+        if (report.truncated) {
+            sendRequest(constants.REQUEST.GET_TRUNCATED_OBJ,
+                { objectKey: report.truncated.object_key, blockUI: blockUI },
+                function (error, retrievedObject) {
+                    if (error) {
+                        $(".audit-data-is-not-ready").removeClass("hidden");
+                        onError();
+                        setTimeout(function () {
+                            getReport(reportData, callback, false);
+                        }, 10000);
+                        return;
+                    }
+                    $(".audit-data-is-not-ready").addClass("hidden");
+                    callback(retrievedObject, reportData._id, timestamp);
+                });
+        }
+
+        if (reportData.inputs.rules && reportData.inputs.rules.truncated) {
+            sendRequest(constants.REQUEST.GET_TRUNCATED_OBJ, {
+                    objectKey: reportData.inputs.rules.truncated.object_key,
+                    blockUI: false
+                },
+                function (error, retrievedObject) {
+                    if (error) {
+                        reportData.inputs.rules = [];
+                    }
+                    else {
+                        reportData.inputs.rules = retrievedObject;
+                    }
+                    callback(report, reportData._id, timestamp);
+                });
+        }
+
     }
 
 
@@ -233,7 +253,19 @@ window.Audit = (function (Resource, AuditRender) {
     }
 
 
-    function setPassedStatus(enabledDefinitions) {
+    function setPassedStatus(reports) {
+        var enabledDefinitions = [];
+
+        reports.forEach(function (report) {
+            if (!report.inputs.rules) return;
+
+            if (typeof report.inputs.rules === 'string') {
+                enabledDefinitions = enabledDefinitions.concat(JSON.parse(report.inputs.rules));
+            } else {
+                enabledDefinitions = enabledDefinitions.concat(report.inputs.rules);
+            }
+        });
+
         enabledDefinitions.forEach(function (key) {
             if (!noViolations[key]) return;
             if (noViolations[key].meta_always_show_card) {
@@ -267,24 +299,17 @@ window.Audit = (function (Resource, AuditRender) {
             resource.inputs = elem.inputs.reduce(reduceObject, {});
             resource.outputs = elem.outputs.reduce(reduceObject, {});
 
+            var isRuleRunner = resource.resourceType.indexOf('coreo_aws_rule_runner') !== -1;
+
+
             if (resource.inputs.level === constants.VIOLATION_LEVELS.INTERNAL) return;
             if (resource.outputs.error) {
                 resource.rawInputs = elem.inputs;
                 resource.rawOutputs = elem.outputs;
                 errors.push(resource);
             }
-            else if (resource.outputs.report) {
+            else if (isRuleRunner && resource.outputs.report) {
                 reports.push(resource);
-                if (resource.inputs.rules) {
-                    enabledDefinitions = enabledDefinitions.concat(JSON.parse(resource.inputs.rules));
-                } else if (resource.inputs.alerts) {
-                    if (resource.inputs.alerts instanceof Object) {
-                        enabledDefinitions = enabledDefinitions.concat(resource.inputs.alerts);
-                    } else {
-                        enabledDefinitions = enabledDefinitions.concat(JSON.parse(resource.inputs.alerts));
-                    }
-
-                }
             }
             else {
                 rules[resource.resourceName] = resource;
@@ -293,7 +318,7 @@ window.Audit = (function (Resource, AuditRender) {
         });
 
         fillViolationsList(rules, reports, function () {
-            setPassedStatus(enabledDefinitions);
+            setPassedStatus(reports);
             callback();
         });
     }

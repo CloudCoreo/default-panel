@@ -38,6 +38,7 @@ window.constants = {
     },
 
     REGIONS: {
+        CLOUDCOREO: 'CloudCoreo',
         MAP_REGIONS: {
             'North America': {
                 region: 'North America',

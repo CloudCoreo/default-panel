@@ -38,6 +38,8 @@ window.constants = {
     },
 
     REGIONS: {
+        CLOUDCOREO: 'CloudCoreo',
+        AWS: 'AWS',
         MAP_REGIONS: {
             'North America': {
                 region: 'North America',
@@ -212,6 +214,7 @@ window.constants = {
     ENGINE_STATUSES: {
         OK: 'OK',
         SUCCESS: 'SUCCESS',
+        ERROR: 'ERROR',
         EXECUTION_ERROR: 'EXECUTION_ERROR'
     },
 

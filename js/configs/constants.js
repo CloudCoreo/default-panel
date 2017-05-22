@@ -10,7 +10,8 @@ window.constants = {
         mainCont: '.audit-list',
         planIsExecuting: '.resources-are-loading',
         endOfViolationLabel: '.violation-divider',
-        warningBlock: '.warning-block'
+        warningBlock: '.warning-block',
+        CHART_HEADER: '.pie-data-header .chart-header'
     },
 
     TEMPLATES: {
@@ -267,5 +268,4 @@ window.constants = {
             CLOUD_OBJECTS_FOUND: 'Cloud Objects Found in Audit'
         }
     }
-
 };

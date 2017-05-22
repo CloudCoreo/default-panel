@@ -9,6 +9,7 @@ window.Audit = (function (Resource, AuditRender) {
     var hasOld = false;
     var auditRender;
     var isDisabledViolationsVisible;
+    var ccThisData = {};
 
     var colorPalette = constants.COLORS;
     var containers = constants.CONTAINERS;
@@ -125,6 +126,7 @@ window.Audit = (function (Resource, AuditRender) {
             callback(report, reportData._id, timestamp);
             return;
         }
+
         sendRequest(constants.REQUEST.GET_TRUNCATED_OBJ,
             { objectKey: report.truncated.object_key, blockUI: blockUI },
             function (error, retrievedObject) {
@@ -247,45 +249,38 @@ window.Audit = (function (Resource, AuditRender) {
     }
 
 
-    function initResourcesList(ccThisData, callback) {
-        var data = ccThisData.resourcesArray;
+    function reduceObject(accumulator, current) {
+        accumulator[current.name] = current.value;
+        return accumulator;
+    }
+
+
+    function initResourcesList(resources, sortKey, callback) {
         var rules = {};
         var reports = [];
         var enabledDefinitions = [];
         errors = [];
         hasOld = false;
 
-        function reduceObject(accumulator, current) {
-            accumulator[current.name] = current.value;
-            return accumulator;
-        }
+        resources.forEach(function (resource) {
+            if (resource.runId !== ccThisData.runId) hasOld = true;
+            if (resource.dataType !== constants.RESOURCE_TYPE.ADVISOR_RESOURCE) return;
 
-        data.forEach(function (elem) {
-            if (elem.runId !== ccThisData.runId) hasOld = true;
-            if (elem.dataType !== constants.RESOURCE_TYPE.ADVISOR_RESOURCE) return;
+            var isRuleRunner = resource.resourceType.indexOf('coreo_aws_rule_runner') !== -1;
 
-            var resource = new Resource(elem);
-
-            resource.inputs = elem.inputs.reduce(reduceObject, {});
-            resource.outputs = elem.outputs.reduce(reduceObject, {});
 
             if (resource.inputs.level === constants.VIOLATION_LEVELS.INTERNAL) return;
             if (resource.outputs.error) {
-                resource.rawInputs = elem.inputs;
-                resource.rawOutputs = elem.outputs;
                 errors.push(resource);
             }
-            else if (resource.outputs.report) {
+            else if (isRuleRunner && resource.outputs.report) {
                 reports.push(resource);
-                if (resource.inputs.rules) {
-                    enabledDefinitions = enabledDefinitions.concat(JSON.parse(resource.inputs.rules));
-                } else if (resource.inputs.alerts) {
-                    if (resource.inputs.alerts instanceof Object) {
-                        enabledDefinitions = enabledDefinitions.concat(resource.inputs.alerts);
-                    } else {
-                        enabledDefinitions = enabledDefinitions.concat(JSON.parse(resource.inputs.alerts));
-                    }
 
+                if (!resource.inputs.rules) return;
+                if (typeof resource.inputs.rules === 'string') {
+                    enabledDefinitions = enabledDefinitions.concat(JSON.parse(resource.inputs.rules));
+                } else {
+                    enabledDefinitions = enabledDefinitions.concat(resource.inputs.rules);
                 }
             }
             else {
@@ -296,7 +291,7 @@ window.Audit = (function (Resource, AuditRender) {
 
         fillViolationsList(rules, reports, function () {
             setPassedStatus(enabledDefinitions);
-            callback();
+            callback(sortKey);
         });
     }
 
@@ -411,6 +406,65 @@ window.Audit = (function (Resource, AuditRender) {
     }
 
 
+    function getRulesForRunnerResource(isRuleRunner, rules, callback) {
+
+        if (!isRuleRunner) {
+            callback(rules);
+            return;
+        }
+
+        if (typeof rules === 'string') rules = JSON.parse(rules);
+
+        if (!rules.truncated) {
+            callback(rules);
+            return;
+        }
+
+        sendRequest(constants.REQUEST.GET_TRUNCATED_OBJ, {
+                objectKey: rules.truncated.object_key,
+                blockUI: false
+            },
+            function (error, retrievedObject) {
+                if (error) {
+                    rules = [];
+                }
+                else {
+                    rules = retrievedObject;
+                }
+                callback(rules);
+            });
+    }
+
+
+    function fillTruncatedRules(resources, callback, initRender, sortKey) {
+
+        var handledRulesCount = 0;
+        var changedResources = [];
+
+        resources.forEach(function (item) {
+
+            var resource = new Resource(item);
+            var isRuleRunner = resource.resourceType.indexOf('coreo_aws_rule_runner') !== -1;
+
+            resource.inputs = item.inputs.reduce(reduceObject, {});
+            resource.outputs = item.outputs.reduce(reduceObject, {});
+
+            changedResources.push(resource);
+
+            getRulesForRunnerResource(isRuleRunner, resource.inputs.rules, function (rules) {
+                ++handledRulesCount;
+
+                if (isRuleRunner) {
+                    resource.inputs.rules = rules;
+                }
+                if (handledRulesCount === resources.length) {
+                    callback(changedResources, sortKey, initRender);
+                }
+            });
+        });
+    }
+
+
     function initGlobalVariables() {
         noViolations = {};
         errors = [];
@@ -419,26 +473,29 @@ window.Audit = (function (Resource, AuditRender) {
     }
 
 
-    function init(data, sortKey, callback) {
+    function init(sortKey, callback) {
+        var resources = ccThisData.resourcesArray;
+
         initGlobalVariables();
         AuditUI.initView();
 
-        isDisabledViolationsVisible = !data.globalData || !data.globalData.variables.disable_disabled_card_processing;
+        isDisabledViolationsVisible = !ccThisData.globalData || !ccThisData.globalData.variables.disable_disabled_card_processing;
 
         auditRender = new AuditRender(sortKey, isDisabledViolationsVisible);
 
-        if (data.engineStatus === constants.ENGINE_STATUSES.EXECUTION_ERROR) {
+        if (ccThisData.engineStatus === constants.ENGINE_STATUSES.EXECUTION_ERROR) {
             $(containers.warningBlock).removeClass('hidden');
         }
 
-        var isCompleted = data.engineState === constants.ENGINE_STATES.COMPLETED;
-        var isInitialized = data.engineState === constants.ENGINE_STATES.INITIALIZED;
-        var isPlanned = data.engineState === constants.ENGINE_STATES.PLANNED;
-        var isStatusOK = data.engineState === constants.ENGINE_STATUSES.OK;
+        var initRender = function (sortKey) {
 
-        executionIsFinished = isCompleted || isInitialized || (isPlanned && !isStatusOK);
+            var isCompleted = ccThisData.engineState === constants.ENGINE_STATES.COMPLETED;
+            var isInitialized = ccThisData.engineState === constants.ENGINE_STATES.INITIALIZED;
+            var isPlanned = ccThisData.engineState === constants.ENGINE_STATES.PLANNED;
+            var isStatusOK = ccThisData.engineState === constants.ENGINE_STATUSES.OK;
 
-        initResourcesList(data, function () {
+            executionIsFinished = isCompleted || isInitialized || (isPlanned && !isStatusOK);
+
             if (!executionIsFinished && !hasOld) {
                 AuditUI.showResourcesAreBeingLoadedMessage();
                 return;
@@ -447,14 +504,17 @@ window.Audit = (function (Resource, AuditRender) {
                 reRender(sortKey);
             }
             callback();
-        });
+        };
+
+        fillTruncatedRules(resources, initResourcesList, initRender, sortKey);
     }
 
 
     function audit(data, sortKey, callback, _errorCallback) {
+        ccThisData = data;
         errorCallback = _errorCallback;
         setTimeout(function () {
-            init(data, sortKey, function () {
+            init(sortKey, function () {
                 setupHandlers();
                 callback();
             });
@@ -463,8 +523,9 @@ window.Audit = (function (Resource, AuditRender) {
 
 
     audit.prototype.refreshData = function (data, callback) {
+        ccThisData = data;
         if (data.engineState !== constants.ENGINE_STATES.COMPLETED) return;
-        init(data, $('.audit .chosen-sorting').val(), callback);
+        init($('.audit .chosen-sorting').val(), callback);
     };
 
     audit.prototype.renderResourcesList = render;

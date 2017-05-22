@@ -23,13 +23,13 @@ $(document).ready(function () {
             return undefined;
         }
 
-        if (resource.engineStatus.indexOf(constants.ENGINE_STATUSES.ERROR) !== -1) return constants.REGIONS.CLOUDCOREO;
+        if (resource.engineStatus.indexOf(constants.ENGINE_STATUSES.ERROR) !== -1) return 'CloudCoreo';
 
         if (resource.resourceType.indexOf(constants.SERVICES.COREO_AWS_RULE) !== -1 ||
-            resource.resourceType.indexOf(constants.SERVICES.COREO_UNI_UTIL) !== -1) return constants.REGIONS.CLOUDCOREO;
+            resource.resourceType.indexOf(constants.SERVICES.COREO_UNI_UTIL) !== -1) return 'CloudCoreo';
 
         if (resource.resourceType.indexOf(constants.SERVICES.AWS_IAM) !== -1 ||
-            resource.resourceType.indexOf(constants.SERVICES.AWS_ROUTE53) !== -1) return constants.REGIONS.AWS;
+            resource.resourceType.indexOf(constants.SERVICES.AWS_ROUTE53) !== -1) return 'AWS';
 
         if (resource.resourceType.indexOf(constants.SERVICES.AWS_EC2) !== -1 ||
             resource.resourceType.indexOf(constants.SERVICES.AWS_ELASTICACHE) !== -1 ||
@@ -235,7 +235,7 @@ $(document).ready(function () {
     }
 
     if (typeof ccThisCont === 'undefined') {
-        d3.json("./tmp-data/tmp0.json", function (data) {
+        d3.json("./tmp-data/tmp1.json", function (data) {
             init(data, true);
             // emulateCcThisUpdate(data);
         });

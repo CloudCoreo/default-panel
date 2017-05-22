@@ -10,8 +10,7 @@ window.constants = {
         mainCont: '.audit-list',
         planIsExecuting: '.resources-are-loading',
         endOfViolationLabel: '.violation-divider',
-        warningBlock: '.warning-block',
-        CHART_HEADER: '.pie-data-header .chart-header'
+        warningBlock: '.warning-block'
     },
 
     TEMPLATES: {
@@ -39,7 +38,6 @@ window.constants = {
     },
 
     REGIONS: {
-        CLOUDCOREO: 'CloudCoreo',
         MAP_REGIONS: {
             'North America': {
                 region: 'North America',
@@ -246,5 +244,24 @@ window.constants = {
     ORGANIZIATION_TYPE: {
         SORT: 'sort',
         GROUP: 'group'
+    },
+
+    UITEXTS: {
+        BUTTONS: {
+            SHOW_LESS: 'show less',
+            VIEW_ALL: 'view all',
+            HIDE_DETAILS: '- hide details',
+            VIEW_DETAILS: '+ view details'
+        },
+        LABELS: {
+            VIOLATIONS: 'VIOLATIONS',
+            VIOLATION: 'VIOLATION'
+        },
+        MAP_MESSAGES: {
+            RESOURCES_DEPLOYED: 'Resources Deployed',
+            VIOLATIONS_FOUND: 'Violations Found in Audit',
+            CLOUD_OBJECTS_FOUND: 'Cloud Objects Found in Audit'
+        }
     }
+
 };

@@ -13,54 +13,53 @@ window.AuditRender = (function () {
 
 
     function renderSection(options) {
-
         var sectionSummary = { label: options.key, value: 0, color: options.color };
         if (!Object.keys(options.violations).length) {
             return sectionSummary;
         }
 
         var isNoViolation = options.resultsType === constants.RESULT_TYPE.RULES;
+        var visibleList = '';
+        var visibleCount = 0;
         var violationsCount = 0;
-        var noViolationCount = 0;
-        var rendered = '';
-        var isSorting = AuditUtils.isMetaAttribute(options.sortKey);
+        var rendered;
+        var noViolationCount = isNoViolation ? Object.keys(options.violations).length : 0;
 
         Object.keys(options.violations).forEach(function (vId) {
             var violation = options.violations[vId];
-            var isViolation = violation.resources && violation.resources.length && violation.resources.length > 0;
+            var isViolation = !isNoViolation && violation.resources.length > 0;
             var params = {
                 resultsType: options.resultsType,
                 violation: violation,
                 isViolation: isViolation,
-                isVisible: isViolation || violation.isPassed || (!violation.isPassed && options.isDisabledVisible),
-                isPassed: violation.isPassed
+                isVisible: isViolation || violation.isPassed || (!violation.isPassed && options.isDisabledVisible)
             };
 
-            if (isViolation) violationsCount++;
-            else noViolationCount++;
-
-            rendered += violationTpl.render(params);
+            rendered = violationTpl.render(params);
+            visibleList += rendered;
+            visibleCount++;
             sectionSummary.value += options.violations[vId].resources.length;
+
+            if (options.violations[vId].resources.length) violationsCount += 1;
         });
 
         var headerData = {
-            name: options.key.replace(/[-_]/g, ' '),
+            name: utils.replaceSymbolToSpace(options.key, '-'),
             key: options.key,
-            resultInfo: {
-                violationsCount: violationsCount,
-                noViolationCount: noViolationCount,
-                resultsType: isNoViolation ? constants.RESULT_TYPE.RULES : uiTexts.LABELS.VIOLATING_OBJECTS
-            },
-            isSorting: isSorting
+            resultsCount: violationsCount || noViolationCount,
+            resultsType: isNoViolation ? constants.RESULT_TYPE.RULES : constants.RESULT_TYPE.VIOLATIONS
         };
 
         var header = headerTpl.render(headerData);
 
-        var html = '<div class="' + headerData.key + ' layout-padding ' + (!isNoViolation ? 'bg-white' : '') + '" style="margin-bottom: 20px;">' +
-            header +
+        var html =
             '<div class="' + (isNoViolation ? 'bg-light-grey' : 'bg-white') +
-            '" style="border-color: ' + (isNoViolation ? 'grey' : sectionSummary.color) + '">' + rendered + '</div>';
+            '" style="border-color: ' + (isNoViolation ? 'grey' : sectionSummary.color) + '">' + visibleList + '</div>';
 
+        if (!AuditUtils.isMetaAttribute(options.sortKey)) {
+            headerData.resultsCount -= noViolationCount;
+            html = '<div class="' + headerData.key + ' layout-padding ' + (!isNoViolation ? 'bg-white' : '') + '" style="margin-bottom: 20px;">' + header + html;
+        }
 
         if (isNoViolation) {
             $(containers.noViolation).append(html);
@@ -71,13 +70,6 @@ window.AuditRender = (function () {
         return violationsCount;
     }
 
-    function renderAllClearPie(emptyRules) {
-        pie.drawPie([{
-            label: "Passed",
-            value: Object.keys(emptyRules).length,
-            color: colorPalette.Passed
-        }]);
-    }
 
     function renderPie(listOfAlerts) {
         var pieData = [];
@@ -135,17 +127,18 @@ window.AuditRender = (function () {
         });
 
         if (AuditUtils.isMetaAttribute(self.sortKey)) {
-            setChartHeaderText(uiTexts.CHART_HEADER.RULES);
-        } else {
-            setChartHeaderText(uiTexts.CHART_HEADER.CLOUD_OBJECTS);
+            var headerData = {
+                name: 'Sort by ' + AuditUtils.removeMetaPrefix(self.sortKey),
+                resultsCount: violationsCount,
+                resultsType: violationsCount > 1 ? constants.UITEXTS.LABELS.VIOLATIONS : constants.UITEXTS.LABELS.VIOLATION
+            };
+            var header = headerTpl.render(headerData);
+            $(containers.mainDataContainerSelector).prepend(header).css('background', '#ffffff');
         }
+
         $('.pie-data-header .num').html(violationsCount);
 
         return listOfAlerts;
-    }
-
-    function setChartHeaderText(text) {
-        $(containers.CHART_HEADER).text(text);
     }
 
 
@@ -170,8 +163,6 @@ window.AuditRender = (function () {
 
     AuditRender.prototype.renderSection = renderSection;
     AuditRender.prototype.renderPie = renderPie;
-    AuditRender.prototype.renderAllClearPie = renderAllClearPie;
-    AuditRender.prototype.setChartHeaderText = setChartHeaderText;
     AuditRender.prototype.drawPie = drawPie;
     AuditRender.prototype.renderViolationDivider = renderViolationDivider;
     AuditRender.prototype.render = render;

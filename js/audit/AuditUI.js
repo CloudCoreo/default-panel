@@ -1,7 +1,5 @@
 var colorPalette = constants.COLORS;
 var containers = constants.CONTAINERS;
-var uiTexts = constants.UITEXTS;
-
 
 window.AuditUI = {
 

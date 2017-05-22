@@ -39,11 +39,6 @@ function formatTime(timeInSecondsToFormat) {
     return result;
 }
 
-function replaceSymbolToSpace(string, symbol) {
-    var exp = new RegExp(symbol, 'g');
-    return string.replace(exp, ' ');
-}
-
 function sortHashOfObjectsByField(object, field) {
     var sortedObject = {};
     var tmpArray = [];
@@ -71,7 +66,6 @@ window.utils = (function () {
     function utils () {}
     utils.prototype.formatDate = formatDate;
     utils.prototype.formatTime = formatTime;
-    utils.prototype.replaceSymbolToSpace = replaceSymbolToSpace;
     utils.prototype.sortHashOfObjectsByField = sortHashOfObjectsByField;
     return new utils();
 }());

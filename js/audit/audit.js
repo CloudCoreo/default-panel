@@ -369,7 +369,7 @@ window.Audit = (function (Resource, AuditRender) {
             auditRender.renderViolationDivider(sortKey);
         }
         if (!isSorting) {
-            renderNoViolationsSection(isSorting);
+            renderNoViolationsSection(sortKey);
         }
         AuditUI.refreshClickHandlers(listOfAlerts, noViolations);
     }
@@ -383,8 +383,8 @@ window.Audit = (function (Resource, AuditRender) {
 
         var noEmptyRules = !noViolations || Object.keys(noViolations).length === 0;
         if (!noEmptyRules) {
-            hasDisabled = Object.keys(noViolations).find(function (ruleId) {
-                return !noViolations[ruleId].isPassed;
+            Object.keys(noViolations).forEach(function (ruleId) {
+                if (!noViolations[ruleId].isPassed) hasDisabled = true;
             });
             hasDisabled = hasDisabled && isDisabledViolationsVisible;
         }

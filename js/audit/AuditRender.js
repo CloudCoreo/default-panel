@@ -123,6 +123,8 @@ window.AuditRender = (function () {
 
         var violationsCount = 0;
 
+        listOfAlerts = AuditUtils.sortObjectPropertiesByPriority(listOfAlerts, constants.PRIORITY_OF_LAVELS);
+
         Object.keys(listOfAlerts).forEach(function (key) {
             violationsCount += renderSection({
                 violations: listOfAlerts[key].alerts,

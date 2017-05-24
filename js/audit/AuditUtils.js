@@ -89,6 +89,21 @@ window.AuditUtils = {
             return suppressedDate.getTime() >= now.getTime();
         }
         return false;
+    },
+
+
+    sortObjectPropertiesByPriority: function (object, priorities) {
+        var keys = Object.keys(object);
+        var newObject = {};
+
+        keys.sort(function (keyA, keyB) {
+            return priorities[keyA] > priorities[keyB];
+        });
+
+        keys.forEach(function (key) {
+            newObject[key] = object[key];
+        });
+        return newObject;
     }
 
 };

@@ -84,6 +84,7 @@
                             </div>
 
                             <div class="list"></div>
+                            <div class="informational"></div>
                             <div class="no-violation"></div>
 
                             <div class="warning-block warning-note-2">
@@ -181,16 +182,7 @@
         <div class="flex-row align-center">
             <div class="subheader flex-grow">{{:name}}</div>
             <div class="font-12 medium-grey">
-                {{if isSorting }}
-                    {{:resultInfo.violationsCount}} VIOLATING OBJECTS {{:resultInfo.noViolationCount}} RULES
-                {{else}}
-                    {{if resultInfo.resultsType == 'RULES'}}
-                        {{:resultInfo.noViolationCount}}
-                    {{else}}
-                        {{:resultInfo.violationsCount}}
-                    {{/if}}
-                    {{:resultInfo.resultsType}}
-                {{/if}}
+                {{:label}}
             </div>
         </div>
     </div>

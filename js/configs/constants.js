@@ -2,6 +2,7 @@ window.constants = {
 
     CONTAINERS: {
         mainDataContainerSelector: '.list',
+        informational: '.informational',
         noViolation: '.no-violation',
         noAuditResourcesMessageSelector: '#no-violation-resources',
         noViolationsMessageSelector: '#no-violations-view',
@@ -230,7 +231,8 @@ window.constants = {
 
     RESULT_TYPE: {
         RULES: 'RULES',
-        VIOLATIONS: 'VIOLATIONS'
+        VIOLATIONS: 'VIOLATIONS',
+        INFORMATIONAL: 'Informational'
     },
 
     SERVICES: {
@@ -260,7 +262,9 @@ window.constants = {
         LABELS: {
             VIOLATIONS: 'VIOLATIONS',
             VIOLATION: 'VIOLATION',
-            VIOLATING_OBJECTS: 'VIOLATING OBJECTS'
+            VIOLATING_OBJECTS: 'VIOLATING OBJECTS',
+            CLOUD_OBJECTS: 'CLOUD OBJECTS',
+            RULES: 'RULES'
         },
         MAP_MESSAGES: {
             RESOURCES_DEPLOYED: 'Resources Deployed',

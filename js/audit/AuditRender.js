@@ -12,6 +12,20 @@ window.AuditRender = (function () {
         violationTpl = $.templates(templates.VIOLATION_ROW);
 
 
+    function getCounterLabel(options) {
+        if (options.isInformational) return options.violationsCount + ' ' + constants.UITEXTS.LABELS.CLOUD_OBJECTS;
+        if (options.isSorting) {
+            return options.violationsCount + ' ' + constants.UITEXTS.LABELS.VIOLATING_OBJECTS + ' ' +
+                    options.noViolationCount + ' ' + constants.UITEXTS.LABELS.RULES;
+        }
+        else if (options.isNoViolation) {
+            return options.noViolationCount + ' ' + constants.UITEXTS.LABELS.RULES;
+        }
+        else {
+            return options.violationsCount + ' ' + constants.UITEXTS.LABELS.VIOLATING_OBJECTS;
+        }
+    }
+
     function renderSection(options) {
 
         var sectionSummary = { label: options.key, value: 0, color: options.color };
@@ -20,6 +34,7 @@ window.AuditRender = (function () {
         }
 
         var isNoViolation = options.resultsType === constants.RESULT_TYPE.RULES;
+        var isInformational = options.resultsType === constants.RESULT_TYPE.INFORMATIONAL;
         var violationsCount = 0;
         var noViolationCount = 0;
         var rendered = '';
@@ -46,11 +61,13 @@ window.AuditRender = (function () {
         var headerData = {
             name: options.key.replace(/[-_]/g, ' '),
             key: options.key,
-            resultInfo: {
+            label: getCounterLabel({
+                isSorting: isSorting,
+                isInformational: isInformational,
+                isNoViolation: isNoViolation,
                 violationsCount: violationsCount,
-                noViolationCount: noViolationCount,
-                resultsType: isNoViolation ? constants.RESULT_TYPE.RULES : uiTexts.LABELS.VIOLATING_OBJECTS
-            },
+                noViolationCount: noViolationCount
+            }),
             isSorting: isSorting
         };
 
@@ -64,6 +81,8 @@ window.AuditRender = (function () {
 
         if (isNoViolation) {
             $(containers.noViolation).append(html);
+        } else if (isInformational) {
+            $(containers.informational).append(html);
         } else {
             $(containers.mainDataContainerSelector).append(html);
         }
@@ -111,7 +130,7 @@ window.AuditRender = (function () {
         $(containers.noViolation).html('');
         if (!AuditUtils.isMetaAttribute(sortKey)) {
             var endOfViolationsMsg = '<div class="violation-divider"><div class="text">end of violations</div></div>';
-            $(containers.noViolation).prepend(endOfViolationsMsg);
+            $(containers.informational).prepend(endOfViolationsMsg);
         }
     }
 
@@ -120,6 +139,10 @@ window.AuditRender = (function () {
         $(containers.mainDataContainerSelector).html('').css('background', '');
 
         renderPie(listOfAlerts);
+
+        if (listOfAlerts['Informational']) {
+            delete listOfAlerts['Informational'];
+        }
 
         var violationsCount = 0;
 
@@ -151,6 +174,7 @@ window.AuditRender = (function () {
 
     function clearContainer() {
         $(containers.mainDataContainerSelector).html('').css('background', '');
+        $(containers.informational).html('');
         $(containers.noViolation).html('');
     }
 

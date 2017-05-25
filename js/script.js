@@ -234,9 +234,22 @@ $(document).ready(function () {
         setExecutionStatusMessage(data);
     }
 
+    function parseQueries(queryString) {
+        var queries = queryString.split('&');
+        var parsedQueries = {};
+
+        queries.forEach(function(query) {
+           query = query.split('=');
+           parsedQueries[query[0]] = query[1];
+        });
+
+        return parsedQueries;
+    }
+
     if (typeof ccThisCont === 'undefined') {
-        var tmpFileName = window.location.href.split('?')[1].split('=')[1];
-        d3.json(tmpFileName, function (data) {
+        var queryString = window.location.href.split('?')[1];
+        var parsedQueries = parseQueries(queryString);
+        d3.json(parsedQueries.tmpfile, function (data) {
             init(data, true);
             // emulateCcThisUpdate(data)
         });

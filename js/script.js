@@ -249,6 +249,10 @@ $(document).ready(function () {
     if (typeof ccThisCont === 'undefined') {
         var queryString = window.location.href.split('?')[1];
         var parsedQueries = parseQueries(queryString);
+        if (!parsedQueries.tmpfile) {
+            console.log('Please add tmpFile in url params', 'expamle: ?tmpfile=./tmp-data/tmp0.json');
+            return;
+        }
         d3.json(parsedQueries.tmpfile, function (data) {
             init(data, true);
             // emulateCcThisUpdate(data)

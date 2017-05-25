@@ -235,9 +235,10 @@ $(document).ready(function () {
     }
 
     if (typeof ccThisCont === 'undefined') {
-        d3.json("./tmp-data/tmp0.json", function (data) {
+        var tmpFileName = window.location.href.split('?')[1].split('=')[1];
+        d3.json(tmpFileName, function (data) {
             init(data, true);
-            // emulateCcThisUpdate(data);
+            // emulateCcThisUpdate(data)
         });
     } else {
         init(ccThisCont.ccThis, true);

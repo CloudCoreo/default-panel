@@ -28,7 +28,8 @@ window.constants = {
             Medium: '#E49530',
             Low: '#EAC907',
             Informational: '#6b6b6b',
-            Debug: '#c4c4c4'
+            Debug: '#c4c4c4',
+            Warning: '#582a7f'
         },
         Passed: '#2dbf74',
         Disabled: '#cccccc',

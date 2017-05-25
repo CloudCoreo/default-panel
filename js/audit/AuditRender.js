@@ -73,7 +73,7 @@ window.AuditRender = (function () {
 
     function renderAllClearPie(emptyRules) {
         pie.drawPie([{
-            label: "Passed",
+            label: 'Passed',
             value: Object.keys(emptyRules).length,
             color: colorPalette.Passed
         }]);
@@ -81,27 +81,54 @@ window.AuditRender = (function () {
 
     function renderPie(listOfAlerts) {
         var pieData = [];
+        var unknownLevels = [];
+        var groups = [];
+        var isSorting = AuditUtils.isMetaAttribute(self.sortKey);
+
+        if (isSorting) {
+            groups = listOfAlerts[self.sortKey].levels;
+        }
+        else {
+            groups = listOfAlerts;
+            unknownLevels = Object.keys(listOfAlerts);
+        }
+
+        var countResources = function (key, alerts) {
+            var sortKey = isSorting ? 'level' : self.sortKey;
+
+            return Object.keys(alerts).reduce(function (counter, vId) {
+                if (alerts[vId][sortKey] === key) counter += alerts[vId].resources.length;
+                return counter;
+            }, 0);
+        };
 
         var fillData = function (key) {
-            var summary = { label: key, value: 0, color: listOfAlerts[key].color };
-            Object.keys(listOfAlerts[key].alerts).forEach(function (vId) {
-                summary.value += listOfAlerts[key].alerts[vId].resources.length;
-            });
+            var summary = {};
+            var alerts = {};
+
+            if (isSorting) {
+                summary = { label: key, value: 0, color: listOfAlerts[self.sortKey].levels[key].color };
+                alerts = listOfAlerts[self.sortKey].alerts;
+            }
+            else {
+                summary = { label: key, value: 0, color: listOfAlerts[key].color };
+                alerts = listOfAlerts[key].alerts;
+            }
+            summary.value = countResources(key, alerts);
+
             pieData.push(summary);
         };
 
-        var unknownLevels = Object.keys(listOfAlerts);
-
-        Object.keys(colorPalette.SeverityTones).forEach(function (key) {
-            if (listOfAlerts[key]) {
+        if (self.sortKey === 'level' || isSorting) {
+            Object.keys(colorPalette.SeverityTones).forEach(function (key) {
+                if (groups[key]) fillData(key);
+            });
+        }
+        else {
+            unknownLevels.forEach(function (key) {
                 fillData(key);
-                unknownLevels.splice(unknownLevels.indexOf(key), 1);
-            }
-        });
-
-        unknownLevels.forEach(function (key) {
-            fillData(key);
-        });
+            });
+        }
 
         pie.drawPie(pieData);
     }

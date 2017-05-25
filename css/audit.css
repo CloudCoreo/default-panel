@@ -460,6 +460,7 @@ html, body {
     color: #2b7ae5;
     cursor: pointer;
     white-space: nowrap;
+    width: 190px;
 }
 
 .suppressed {
@@ -517,6 +518,10 @@ html, body {
 .run-error a:hover {
     cursor: pointer;
     color: #4c4c4d;
+}
+
+.violation-name {
+    width: 500px;
 }
 
 @media (max-width: 600px) {

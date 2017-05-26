@@ -56,7 +56,7 @@ window.AuditUtils = {
     getColor: function (level, sortKey, keys, colors) {
         var color;
 
-        if (sortKey === 'level') color = colorPalette.SeverityTones[level];
+        if (sortKey === constants.SORTKEYS.LEVEL) color = colorPalette.SeverityTones[level];
         if (!color) {
             var index = keys.indexOf(level);
             color = colors(index);
@@ -91,20 +91,12 @@ window.AuditUtils = {
     },
 
 
-    sortObjectPropertiesByPriority: function (object, priorities) {
-        var keys = Object.keys(object);
-        var newObject = {};
-
+    sortObjectKeysByPriority: function (keys, priorities) {
         keys.sort(function (keyA, keyB) {
             return priorities[keyA] > priorities[keyB];
         });
-
-        keys.forEach(function (key) {
-            newObject[key] = object[key];
-        });
-        return newObject;
+        return keys;
     },
-
 
     setColorsForLevels: function (levels) {
         var colorsRange = this.getColorRangeByKeys(levels, colorPalette);

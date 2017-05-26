@@ -156,7 +156,7 @@ $(document).ready(function () {
             onDataProcessed(data, isFirstLoad);
         };
         if (isFirstLoad) {
-            auditData = new Audit(data, 'level', onLoad, onAditDataError);
+            auditData = new Audit(data, constants.SORTKEYS.LEVEL, onLoad, onAditDataError);
             deployData = new Deploy(data);
             return;
         }
@@ -234,10 +234,28 @@ $(document).ready(function () {
         setExecutionStatusMessage(data);
     }
 
+    function parseQueries(queryString) {
+        var queries = queryString.split('&');
+        var parsedQueries = {};
+
+        queries.forEach(function(query) {
+           query = query.split('=');
+           parsedQueries[query[0]] = query[1];
+        });
+
+        return parsedQueries;
+    }
+
     if (typeof ccThisCont === 'undefined') {
-        d3.json("./tmp-data/tmp0.json", function (data) {
+        var queryString = window.location.href.split('?')[1];
+        var parsedQueries = parseQueries(queryString);
+        if (!parsedQueries.tmpfile) {
+            console.log('Please add tmpFile in url params', 'expamle: ?tmpfile=./tmp-data/tmp0.json');
+            return;
+        }
+        d3.json(parsedQueries.tmpfile, function (data) {
             init(data, true);
-            // emulateCcThisUpdate(data);
+            // emulateCcThisUpdate(data)
         });
     } else {
         init(ccThisCont.ccThis, true);

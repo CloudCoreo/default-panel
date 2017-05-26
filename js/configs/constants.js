@@ -2,6 +2,7 @@ window.constants = {
 
     CONTAINERS: {
         mainDataContainerSelector: '.list',
+        informational: '.informational',
         noViolation: '.no-violation',
         noAuditResourcesMessageSelector: '#no-violation-resources',
         noViolationsMessageSelector: '#no-violations-view',
@@ -220,7 +221,7 @@ window.constants = {
         EXECUTION_ERROR: 'EXECUTION_ERROR'
     },
 
-    PRIORITY_OF_LAVELS: {
+    PRIORITY_OF_LEVELS: {
         Critical: 1,
         High: 2,
         Medium: 3,
@@ -231,7 +232,8 @@ window.constants = {
     },
 
     VIOLATION_LEVELS: {
-        INTERNAL: 'Internal'
+        INTERNAL: 'Internal',
+        INFORMATIONAL: 'Informational'
     },
 
     VIEW_TYPE: {
@@ -241,7 +243,8 @@ window.constants = {
 
     RESULT_TYPE: {
         RULES: 'RULES',
-        VIOLATIONS: 'VIOLATIONS'
+        VIOLATIONS: 'VIOLATIONS',
+        INFORMATIONAL: 'Informational'
     },
 
     SERVICES: {
@@ -256,9 +259,16 @@ window.constants = {
         AWS_VPN: 'aws_vpn_'
     },
 
-    ORGANIZIATION_TYPE: {
+    ORGANIZATION_TYPE: {
         SORT: 'sort',
         GROUP: 'group'
+    },
+
+    SORTKEYS: {
+        LEVEL: 'level',
+        CATEGORY: 'category',
+        SERVICE: 'service',
+        REGION: 'region'
     },
 
     UITEXTS: {
@@ -271,7 +281,9 @@ window.constants = {
         LABELS: {
             VIOLATIONS: 'VIOLATIONS',
             VIOLATION: 'VIOLATION',
-            VIOLATING_OBJECTS: 'VIOLATING OBJECTS'
+            VIOLATING_OBJECTS: 'VIOLATING OBJECTS',
+            CLOUD_OBJECTS: 'CLOUD OBJECTS',
+            RULES: 'RULES'
         },
         MAP_MESSAGES: {
             RESOURCES_DEPLOYED: 'Resources Deployed',

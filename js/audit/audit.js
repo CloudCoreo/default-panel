@@ -38,7 +38,7 @@ window.Audit = (function (Resource, AuditRender) {
 
     function organizeForSorting(sortKey) {
         var keys = [sortKey];
-        var listOfAlerts = organizeDataForCurrentRender(sortKey, keys, constants.ORGANIZIATION_TYPE.SORT);
+        var listOfAlerts = organizeDataForCurrentRender(sortKey, keys, constants.ORGANIZATION_TYPE.SORT);
 
         if (Object.keys(listOfAlerts).length === 0) {
             listOfAlerts[sortKey] = {};
@@ -57,7 +57,7 @@ window.Audit = (function (Resource, AuditRender) {
 
     function organizeForGrouping(sortKey) {
         var keys = Object.keys(alertData[sortKey]);
-        return organizeDataForCurrentRender(sortKey, keys, constants.ORGANIZIATION_TYPE.GROUP);
+        return organizeDataForCurrentRender(sortKey, keys, constants.ORGANIZATION_TYPE.GROUP);
     }
 
 
@@ -70,7 +70,7 @@ window.Audit = (function (Resource, AuditRender) {
         var suppressedViolations = {};
 
         alerts.forEach(function (alert) {
-            var key = organizeType === constants.ORGANIZIATION_TYPE.GROUP ? alert[sortKey] : sortKey;
+            var key = organizeType === constants.ORGANIZATION_TYPE.GROUP ? alert[sortKey] : sortKey;
             if (!listOfAlerts[key]) {
                 listOfAlerts[key] = {};
                 listOfAlerts[key].alerts = {};
@@ -359,16 +359,35 @@ window.Audit = (function (Resource, AuditRender) {
         });
     }
 
+    function renderInformationalSection(sortKey, object) {
+        auditRender.renderSection({
+            violations: object.alerts,
+            key: constants.RESULT_TYPE.INFORMATIONAL,
+            color: colorPalette.SeverityTones.Informational,
+            resultsType: constants.RESULT_TYPE.INFORMATIONAL,
+            sortKey: sortKey
+        });
+    }
+
     function renderRules(isSorting) {
         var listOfAlerts = {};
+        var informational = {};
 
         if (isSorting) listOfAlerts = organizeForSorting(sortKey);
         else listOfAlerts = organizeForGrouping(sortKey);
+
+        if (listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL] && !isSorting) {
+            informational = listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL];
+            delete listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL];
+        }
 
         auditRender.render(listOfAlerts, sortKey);
 
         if (totalViolations) {
             auditRender.renderViolationDivider(sortKey);
+        }
+        if (informational && !isSorting && sortKey === 'level') {
+            renderInformationalSection(sortKey, informational);
         }
         if (!isSorting) {
             renderNoViolationsSection(sortKey);
@@ -382,7 +401,7 @@ window.Audit = (function (Resource, AuditRender) {
         }
 
         sortKey = _sortKey;
-        
+
         var hasDisabled = false;
 
         var noEmptyRules = !noViolations || Object.keys(noViolations).length === 0;

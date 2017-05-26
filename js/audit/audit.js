@@ -357,16 +357,35 @@ window.Audit = (function (Resource, AuditRender) {
         });
     }
 
+    function renderInformationalSection(sortKey, object) {
+        auditRender.renderSection({
+            violations: object.alerts,
+            key: constants.RESULT_TYPE.INFORMATIONAL,
+            color: colorPalette.SeverityTones.Informational,
+            resultsType: constants.RESULT_TYPE.INFORMATIONAL,
+            sortKey: sortKey
+        });
+    }
+
     function renderRules(isSorting, sortKey) {
         var listOfAlerts = {};
+        var informational = {};
 
         if (isSorting) listOfAlerts = organizeForSorting(sortKey);
         else listOfAlerts = organizeForGrouping(sortKey);
+
+        if (listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL] && !isSorting) {
+            informational = listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL];
+            delete listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL];
+        }
 
         auditRender.render(listOfAlerts, sortKey);
 
         if (totalViolations) {
             auditRender.renderViolationDivider(sortKey);
+        }
+        if (informational && !isSorting && sortKey === 'level') {
+            renderInformationalSection(sortKey, informational);
         }
         if (!isSorting) {
             renderNoViolationsSection(sortKey);

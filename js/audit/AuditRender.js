@@ -124,7 +124,7 @@ window.AuditRender = (function () {
 
         var violationsCount = 0;
 
-        if (self.sortKey === 'level') {
+        if (self.sortKey === constants.SORTKEYS.LEVEL) {
             groupKeys = AuditUtils.sortObjectKeysByPriority(groupKeys, constants.PRIORITY_OF_LEVELS);
         }
 

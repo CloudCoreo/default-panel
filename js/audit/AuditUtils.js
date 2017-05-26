@@ -57,7 +57,7 @@ window.AuditUtils = {
         var color;
         var key = alert[sortKey];
 
-        if (sortKey === 'level') color = colorPalette.SeverityTones[key];
+        if (sortKey === constants.SORTKEYS.LEVEL) color = colorPalette.SeverityTones[key];
         if (!color) {
             var index = keys.indexOf(key);
             color = colors(index);

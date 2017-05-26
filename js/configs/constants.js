@@ -255,9 +255,16 @@ window.constants = {
         AWS_VPN: 'aws_vpn_'
     },
 
-    ORGANIZIATION_TYPE: {
+    ORGANIZATION_TYPE: {
         SORT: 'sort',
         GROUP: 'group'
+    },
+
+    SORTKEYS: {
+        LEVEL: 'level',
+        CATEGORY: 'category',
+        SERVICE: 'service',
+        REGION: 'region'
     },
 
     UITEXTS: {

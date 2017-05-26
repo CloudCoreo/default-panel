@@ -156,7 +156,7 @@ $(document).ready(function () {
             onDataProcessed(data, isFirstLoad);
         };
         if (isFirstLoad) {
-            auditData = new Audit(data, 'level', onLoad, onAditDataError);
+            auditData = new Audit(data, constants.SORTKEYS.LEVEL, onLoad, onAditDataError);
             deployData = new Deploy(data);
             return;
         }

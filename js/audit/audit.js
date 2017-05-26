@@ -37,7 +37,7 @@ window.Audit = (function (Resource, AuditRender) {
 
     function organizeForSorting(sortKey) {
         var keys = [sortKey];
-        var listOfAlerts = organizeDataForCurrentRender(sortKey, keys, constants.ORGANIZIATION_TYPE.SORT);
+        var listOfAlerts = organizeDataForCurrentRender(sortKey, keys, constants.ORGANIZATION_TYPE.SORT);
 
         if (Object.keys(listOfAlerts).length === 0) {
             listOfAlerts[sortKey] = {};
@@ -56,7 +56,7 @@ window.Audit = (function (Resource, AuditRender) {
 
     function organizeForGrouping(sortKey) {
         var keys = Object.keys(alertData[sortKey]);
-        return organizeDataForCurrentRender(sortKey, keys, constants.ORGANIZIATION_TYPE.GROUP);
+        return organizeDataForCurrentRender(sortKey, keys, constants.ORGANIZATION_TYPE.GROUP);
     }
 
 
@@ -69,7 +69,7 @@ window.Audit = (function (Resource, AuditRender) {
         var suppressedViolations = {};
 
         alerts.forEach(function (alert) {
-            var key = organizeType === constants.ORGANIZIATION_TYPE.GROUP ? alert[sortKey] : sortKey;
+            var key = organizeType === constants.ORGANIZATION_TYPE.GROUP ? alert[sortKey] : sortKey;
             if (!listOfAlerts[key]) {
                 listOfAlerts[key] = {};
                 listOfAlerts[key].alerts = {};

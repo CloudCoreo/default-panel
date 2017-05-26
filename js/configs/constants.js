@@ -219,6 +219,16 @@ window.constants = {
         EXECUTION_ERROR: 'EXECUTION_ERROR'
     },
 
+    PRIORITY_OF_LEVELS: {
+        Critical: 1,
+        High: 2,
+        Medium: 3,
+        Warning: 4,
+        Low: 5,
+        Manual: 6,
+        Informational: 7
+    },
+
     VIOLATION_LEVELS: {
         INTERNAL: 'Internal'
     },
@@ -245,9 +255,16 @@ window.constants = {
         AWS_VPN: 'aws_vpn_'
     },
 
-    ORGANIZIATION_TYPE: {
+    ORGANIZATION_TYPE: {
         SORT: 'sort',
         GROUP: 'group'
+    },
+
+    SORTKEYS: {
+        LEVEL: 'level',
+        CATEGORY: 'category',
+        SERVICE: 'service',
+        REGION: 'region'
     },
 
     UITEXTS: {

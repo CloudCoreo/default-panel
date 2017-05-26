@@ -57,7 +57,7 @@ window.AuditUtils = {
         var color;
         var key = alert[sortKey];
 
-        if (sortKey === 'level') color = colorPalette.SeverityTones[key];
+        if (sortKey === constants.SORTKEYS.LEVEL) color = colorPalette.SeverityTones[key];
         if (!color) {
             var index = keys.indexOf(key);
             color = colors(index);
@@ -89,6 +89,14 @@ window.AuditUtils = {
             return suppressedDate.getTime() >= now.getTime();
         }
         return false;
+    },
+
+
+    sortObjectKeysByPriority: function (keys, priorities) {
+        keys.sort(function (keyA, keyB) {
+            return priorities[keyA] > priorities[keyB];
+        });
+        return keys;
     }
 
 };

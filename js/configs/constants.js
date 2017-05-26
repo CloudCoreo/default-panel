@@ -221,7 +221,8 @@ window.constants = {
     },
 
     VIOLATION_LEVELS: {
-        INTERNAL: 'Internal'
+        INTERNAL: 'Internal',
+        INFORMATIONAL: 'Informational'
     },
 
     VIEW_TYPE: {

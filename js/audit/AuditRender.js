@@ -21,9 +21,7 @@ window.AuditRender = (function () {
         else if (options.isNoViolation) {
             return options.noViolationCount + ' ' + constants.UITEXTS.LABELS.RULES;
         }
-        else {
-            return options.violationsCount + ' ' + constants.UITEXTS.LABELS.VIOLATING_OBJECTS;
-        }
+        return options.violationsCount + ' ' + constants.UITEXTS.LABELS.VIOLATING_OBJECTS;
     }
 
     function renderSection(options) {
@@ -140,9 +138,9 @@ window.AuditRender = (function () {
 
         renderPie(listOfAlerts);
 
-        if (listOfAlerts['Informational']) {
-            delete listOfAlerts['Informational'];
-        }
+        // if (listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL]) {
+        //     delete listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL];
+        // }
 
         var violationsCount = 0;
 

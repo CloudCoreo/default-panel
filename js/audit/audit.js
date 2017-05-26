@@ -378,7 +378,6 @@ window.Audit = (function (Resource, AuditRender) {
 
         if (listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL] && !isSorting) {
             informational = listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL];
-            delete listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL];
         }
 
         auditRender.render(listOfAlerts, sortKey);

@@ -25,7 +25,6 @@ window.AuditRender = (function () {
     }
 
     function renderSection(options) {
-
         var sectionSummary = { label: options.key, value: 0, color: options.color };
         if (!Object.keys(options.violations).length) {
             return sectionSummary;
@@ -35,7 +34,7 @@ window.AuditRender = (function () {
         var isInformational = options.resultsType === constants.RESULT_TYPE.INFORMATIONAL;
         var violationsCount = 0;
         var noViolationCount = 0;
-        var rendered = '';
+        var renderedBlock = '';
         var isSorting = AuditUtils.isMetaAttribute(options.sortKey);
 
         Object.keys(options.violations).forEach(function (vId) {
@@ -46,13 +45,14 @@ window.AuditRender = (function () {
                 violation: violation,
                 isViolation: isViolation,
                 isVisible: isViolation || violation.isPassed || (!violation.isPassed && options.isDisabledVisible),
-                isPassed: violation.isPassed
+                isPassed: violation.isPassed,
+                color: isSorting ? options.levels[violation.level].color : options.color
             };
 
             if (isViolation) violationsCount++;
             else noViolationCount++;
 
-            rendered += violationTpl.render(params);
+            renderedBlock += violationTpl.render(params);
             sectionSummary.value += options.violations[vId].resources.length;
         });
 
@@ -71,19 +71,14 @@ window.AuditRender = (function () {
 
         var header = headerTpl.render(headerData);
 
-        var html = '<div class="' + headerData.key + ' layout-padding ' + (!isNoViolation ? 'bg-white' : '') + '" style="margin-bottom: 20px;">' +
-            header +
-            '<div class="' + (isNoViolation ? 'bg-light-grey' : 'bg-white') +
-            '" style="border-color: ' + (isNoViolation ? 'grey' : sectionSummary.color) + '">' + rendered + '</div>';
+        var html = '<div class="' + headerData.key + ' layout-padding ' + (!isNoViolation ? 'bg-white' : '') +
+            '" style="margin-bottom: 20px;">' + header +
+            '<div class="' + (isNoViolation ? 'bg-light-grey' : 'bg-white') + '">' + renderedBlock + '</div>';
 
 
-        if (isNoViolation) {
-            $(containers.noViolation).append(html);
-        } else if (isInformational) {
-            $(containers.informational).append(html);
-        } else {
-            $(containers.mainDataContainerSelector).append(html);
-        }
+        if (isNoViolation) $(containers.noViolation).append(html);
+        else if (isInformational) $(containers.informational).append(html);
+        else $(containers.mainDataContainerSelector).append(html);
 
         return violationsCount;
     }
@@ -161,30 +156,37 @@ window.AuditRender = (function () {
 
 
     function renderResourcesList(listOfAlerts) {
-        var groupKeys = Object.keys(listOfAlerts);
+        var groupKeys = [];
         $(containers.mainDataContainerSelector).html('').css('background', '');
 
         renderPie(listOfAlerts);
 
-        // if (listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL]) {
-        //     delete listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL];
-        // }
+        if (listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL]) {
+            delete listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL];
+        }
 
         var violationsCount = 0;
+        var isSorting = AuditUtils.isMetaAttribute(self.sortKey);
 
         if (self.sortKey === constants.SORTKEYS.LEVEL) {
-            groupKeys = AuditUtils.sortObjectKeysByPriority(groupKeys, constants.PRIORITY_OF_LEVELS);
+            groupKeys = AuditUtils.sortObjectKeysByPriority(Object.keys(listOfAlerts), constants.PRIORITY_OF_LEVELS);
+        } else {
+            groupKeys = Object.keys(listOfAlerts);
         }
 
         groupKeys.forEach(function (key) {
-            violationsCount += renderSection({
+            var renderParams = {
                 violations: listOfAlerts[key].alerts,
                 key: key,
                 color: listOfAlerts[key].color,
                 resultsType: constants.RESULT_TYPE.VIOLATIONS,
                 sortKey: self.sortKey,
                 isDisabledVisible: self.isDisabledViolationsVisible
-            });
+            };
+
+            if (isSorting) renderParams.levels = listOfAlerts[self.sortKey].levels;
+
+            violationsCount += renderSection(renderParams);
         });
 
         if (AuditUtils.isMetaAttribute(self.sortKey)) {

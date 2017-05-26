@@ -520,8 +520,12 @@ html, body {
     color: #4c4c4d;
 }
 
-.violation-name {
-    width: 500px;
+.violation-type {
+    width: 70px;
+}
+
+.violation-timestamp {
+    width: 145px;
 }
 
 @media (max-width: 600px) {
@@ -566,5 +570,15 @@ html, body {
 
     .left-column {
         margin: 0 auto;
+    }
+}
+
+@media (max-width: 1200px) {
+    .resources-title-link {
+        width: 160px;
+    }
+
+    .violation-timestamp {
+        width: 135px;
     }
 }

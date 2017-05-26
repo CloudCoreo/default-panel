@@ -92,18 +92,11 @@ window.AuditUtils = {
     },
 
 
-    sortObjectPropertiesByPriority: function (object, priorities) {
-        var keys = Object.keys(object);
-        var newObject = {};
-
+    sortObjectKeysByPriority: function (keys, priorities) {
         keys.sort(function (keyA, keyB) {
             return priorities[keyA] > priorities[keyB];
         });
-
-        keys.forEach(function (key) {
-            newObject[key] = object[key];
-        });
-        return newObject;
+        return keys;
     }
 
 };

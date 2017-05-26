@@ -117,15 +117,18 @@ window.AuditRender = (function () {
 
 
     function renderResourcesList(listOfAlerts) {
+        var groupKeys = Object.keys(listOfAlerts);
         $(containers.mainDataContainerSelector).html('').css('background', '');
 
         renderPie(listOfAlerts);
 
         var violationsCount = 0;
 
-        listOfAlerts = AuditUtils.sortObjectPropertiesByPriority(listOfAlerts, constants.PRIORITY_OF_LAVELS);
+        if (self.sortKey === 'level') {
+            groupKeys = AuditUtils.sortObjectKeysByPriority(groupKeys, constants.PRIORITY_OF_LEVELS);
+        }
 
-        Object.keys(listOfAlerts).forEach(function (key) {
+        groupKeys.forEach(function (key) {
             violationsCount += renderSection({
                 violations: listOfAlerts[key].alerts,
                 key: key,

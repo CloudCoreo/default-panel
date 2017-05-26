@@ -219,7 +219,7 @@ window.constants = {
         EXECUTION_ERROR: 'EXECUTION_ERROR'
     },
 
-    PRIORITY_OF_LAVELS: {
+    PRIORITY_OF_LEVELS: {
         Critical: 1,
         High: 2,
         Medium: 3,

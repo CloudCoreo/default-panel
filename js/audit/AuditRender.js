@@ -25,6 +25,7 @@ window.AuditRender = (function () {
     }
 
     function renderSection(options) {
+
         var sectionSummary = { label: options.key, value: 0, color: options.color };
         if (!Object.keys(options.violations).length) {
             return sectionSummary;

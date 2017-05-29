@@ -1,6 +1,7 @@
 var colorPalette = constants.COLORS;
 var containers = constants.CONTAINERS;
 
+
 window.AuditUI = {
 
     initView: function () {

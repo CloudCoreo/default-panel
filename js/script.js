@@ -84,6 +84,7 @@ $(document).ready(function () {
             if (resource.engineStatus.indexOf(constants.ENGINE_STATUSES.ERROR) !== -1) ++mapData[region].violations;
             else ++mapData[region].deployed;
         });
+
         var alerts = auditData.getViolationsList();
         if (alerts) {
             alerts.forEach(function (alert) {

@@ -13,15 +13,15 @@ window.AuditRender = (function () {
 
 
     function getCounterLabel(options) {
-        if (options.isInformational) return options.violationsCount + ' ' + constants.UITEXTS.LABELS.CLOUD_OBJECTS;
+        if (options.isInformational) return options.violationsCount + ' ' + uiTexts.LABELS.CLOUD_OBJECTS;
         if (options.isSorting) {
-            return options.violationsCount + ' ' + constants.UITEXTS.LABELS.VIOLATING_OBJECTS + ' ' +
-                    options.noViolationCount + ' ' + constants.UITEXTS.LABELS.RULES;
+            return options.violationsCount + ' ' + uiTexts.LABELS.VIOLATING_OBJECTS + ' ' +
+                    options.noViolationCount + ' ' + uiTexts.LABELS.RULES;
         }
         else if (options.isNoViolation) {
-            return options.noViolationCount + ' ' + constants.UITEXTS.LABELS.RULES;
+            return options.noViolationCount + ' ' + uiTexts.LABELS.RULES;
         }
-        return options.violationsCount + ' ' + constants.UITEXTS.LABELS.VIOLATING_OBJECTS;
+        return options.violationsCount + ' ' + uiTexts.LABELS.VIOLATING_OBJECTS;
     }
 
     function renderSection(options) {

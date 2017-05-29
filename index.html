@@ -341,7 +341,11 @@
                      sortKey="{{:violation.sortKey}}">
 
                     {{if violation.resources.length}}
-                        {{:violation.resources.length}} Violating Cloud Object{{if violation.resources.length !== 1}}s{{/if}}
+                        {{if violation.level === 'Informational'}}
+                            {{:violation.resources.length}} Cloud Object{{if violation.resources.length !== 1}}s{{/if}}
+                        {{else}}
+                            {{:violation.resources.length}} Violating Cloud Object{{if violation.resources.length !== 1}}s{{/if}}
+                        {{/if}}
                     {{/if}}
 
                     {{if violation.suppressions.length}}

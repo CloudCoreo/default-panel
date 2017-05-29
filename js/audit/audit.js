@@ -382,6 +382,7 @@ window.Audit = (function (Resource, AuditRender) {
         if (!isSorting) {
             renderNoViolationsSection(sortKey);
         }
+        if (informational) listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL] = informational;
         AuditUI.refreshClickHandlers(listOfAlerts, noViolations);
     }
 

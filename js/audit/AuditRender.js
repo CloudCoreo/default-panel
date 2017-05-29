@@ -40,8 +40,11 @@ window.AuditRender = (function () {
         Object.keys(options.violations).forEach(function (vId) {
             var renderedViolation = '';
             var violation = options.violations[vId];
+            var color = options.color;
+            violation.level = (!violation.level || violation.level === '') ?
+                constants.VIOLATION_LEVELS.INFORMATIONAL : violation.level;
+
             var isViolation = violation.resources && violation.resources.length && violation.resources.length > 0;
-            var color = isSorting && !isNoViolation ? options.levels[violation.level].color : options.color;
             var params = {
                 resultsType: options.resultsType,
                 violation: violation,
@@ -49,6 +52,10 @@ window.AuditRender = (function () {
                 isVisible: isViolation || violation.isPassed || (!violation.isPassed && options.isDisabledVisible),
                 isPassed: violation.isPassed
             };
+
+            if (isSorting && !isNoViolation && options.levels[violation.level]) {
+                color = options.levels[violation.level].color;
+            }
 
             if (isViolation) violationsCount++;
             else noViolationCount++;

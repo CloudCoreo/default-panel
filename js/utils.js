@@ -40,26 +40,15 @@ function formatTime(timeInSecondsToFormat) {
 }
 
 function sortHashOfObjectsByField(object, field) {
-    var sortedObject = {};
-    var tmpArray = [];
+    var violationKeys = Object.keys(object);
 
-    Object.keys(object).forEach((function (key) {
-        object[key].hashName = key;
-        tmpArray.push(object[key]);
+    violationKeys.sort((function (a, b) {
+        if (!object[a][field]) return 1;
+        if (!object[b][field]) return -1;
+        return parseFloat(object[a][field]) - parseFloat(object[b][field]);
     }));
 
-    tmpArray.sort(function (a, b) {
-        if (!a[field]) return 1;
-        if (!b[field]) return -1;
-        return a[field] > b[field];
-    });
-
-    tmpArray.forEach(function (hash) {
-        sortedObject[hash.hashName] = hash;
-        delete sortedObject[hash.hashName].hashName;
-    });
-
-    return sortedObject;
+    return violationKeys;
 }
 
 window.utils = (function () {

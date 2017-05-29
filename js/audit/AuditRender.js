@@ -36,9 +36,13 @@ window.AuditRender = (function () {
         var violationsCount = 0;
         var noViolationCount = 0;
         var rendered = '';
+        var violationKeys = [];
         var isSorting = AuditUtils.isMetaAttribute(options.sortKey);
 
-        Object.keys(options.violations).forEach(function (vId) {
+        if (isSorting) violationKeys = utils.sortHashOfObjectsByField(options.violations, self.sortKey);
+        else violationKeys = Object.keys(options.violations);
+
+        violationKeys.forEach(function (vId) {
             var violation = options.violations[vId];
             var isViolation = violation.resources && violation.resources.length && violation.resources.length > 0;
             var params = {

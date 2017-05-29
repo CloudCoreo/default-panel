@@ -23,13 +23,13 @@ $(document).ready(function () {
             return undefined;
         }
 
-        if (resource.engineStatus.indexOf(constants.ENGINE_STATUSES.ERROR) !== -1) return 'CloudCoreo';
+        if (resource.engineStatus.indexOf(constants.ENGINE_STATUSES.ERROR) !== -1) return constants.REGIONS.CLOUDCOREO;
 
         if (resource.resourceType.indexOf(constants.SERVICES.COREO_AWS_RULE) !== -1 ||
-            resource.resourceType.indexOf(constants.SERVICES.COREO_UNI_UTIL) !== -1) return 'CloudCoreo';
+            resource.resourceType.indexOf(constants.SERVICES.COREO_UNI_UTIL) !== -1) return constants.REGIONS.CLOUDCOREO;
 
         if (resource.resourceType.indexOf(constants.SERVICES.AWS_IAM) !== -1 ||
-            resource.resourceType.indexOf(constants.SERVICES.AWS_ROUTE53) !== -1) return 'AWS';
+            resource.resourceType.indexOf(constants.SERVICES.AWS_ROUTE53) !== -1) return constants.REGIONS.AWS;
 
         if (resource.resourceType.indexOf(constants.SERVICES.AWS_EC2) !== -1 ||
             resource.resourceType.indexOf(constants.SERVICES.AWS_ELASTICACHE) !== -1 ||
@@ -157,7 +157,7 @@ $(document).ready(function () {
             onDataProcessed(data, isFirstLoad);
         };
         if (isFirstLoad) {
-            auditData = new Audit(data, 'level', onLoad, onAditDataError);
+            auditData = new Audit(data, constants.SORTKEYS.LEVEL, onLoad, onAditDataError);
             deployData = new Deploy(data);
             return;
         }
@@ -235,10 +235,28 @@ $(document).ready(function () {
         setExecutionStatusMessage(data);
     }
 
+    function parseQueries(queryString) {
+        var queries = queryString.split('&');
+        var parsedQueries = {};
+
+        queries.forEach(function(query) {
+           query = query.split('=');
+           parsedQueries[query[0]] = query[1];
+        });
+
+        return parsedQueries;
+    }
+
     if (typeof ccThisCont === 'undefined') {
-        d3.json("./tmp-data/tmp1.json", function (data) {
+        var queryString = window.location.href.split('?')[1];
+        var parsedQueries = parseQueries(queryString);
+        if (!parsedQueries.tmpfile) {
+            console.log('Please add tmpFile in url params', 'expamle: ?tmpfile=./tmp-data/tmp0.json');
+            return;
+        }
+        d3.json(parsedQueries.tmpfile, function (data) {
             init(data, true);
-            // emulateCcThisUpdate(data);
+            // emulateCcThisUpdate(data)
         });
     } else {
         init(ccThisCont.ccThis, true);

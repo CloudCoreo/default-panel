@@ -40,7 +40,10 @@
                     <div class="hidden audit-data-is-not-ready">Audit data is processing. Full audit report is not available now.</div>
                     <div class="audit-list-block hidden audit-list">
                         <div class="left-column layout-padding-right">
-                            <div class="pie-data-header"><span class="num">0</span> CIS Rules with Violations</div>
+                            <div class="pie-data-header">
+                                <span class="num">0</span>
+                                <span class="chart-header"></span>
+                            </div>
                             <div class="custom-dropdown noselect layout-margin-bottom-20">
                                 <div class="dropdown-button">
                                     <div>SORT BY</div>
@@ -81,6 +84,7 @@
                             </div>
 
                             <div class="list"></div>
+                            <div class="informational"></div>
                             <div class="no-violation"></div>
 
                             <div class="warning-block warning-note-2">
@@ -177,7 +181,8 @@
     <div id="list-header-tmpl">
         <div class="flex-row align-center">
             <div class="subheader flex-grow">{{:name}}</div>
-            <div class="font-12 medium-grey">{{if resultsCount}} {{:resultsCount}} {{:resultsType}}{{/if}}
+            <div class="font-12 medium-grey">
+                {{:label}}
             </div>
         </div>
     </div>
@@ -314,7 +319,7 @@
                     <div class="violation-id flex-row">
                         <div class="layout-padding-right">RuleId: {{:violation.id}}</div>
                         {{if violation.meta_cis_id}}
-                        <span>CIS ID: {{:violation.meta_cis_id}}</span>
+                            <span>CIS ID: {{:violation.meta_cis_id}}</span>
                         {{/if}}
                     </div>
                 </div>
@@ -335,14 +340,18 @@
                      violationId="{{:violation.violationId}}"
                      sortKey="{{:violation.sortKey}}">
 
-                        {{if violation.resources.length}}
+                    {{if violation.resources.length}}
+                        {{if violation.level === 'Informational'}}
+                            {{:violation.resources.length}} Cloud Object{{if violation.resources.length !== 1}}s{{/if}}
+                        {{else}}
                             {{:violation.resources.length}} Violating Cloud Object{{if violation.resources.length !== 1}}s{{/if}}
                         {{/if}}
+                    {{/if}}
 
-                        {{if violation.suppressions.length}}
-                        <span class="suppressed"><span
-                                class="value">{{:violation.suppressions.length}} </span>SUPPRESSED</span>
-                        {{/if}}
+                    {{if violation.suppressions.length}}
+                    <span class="suppressed"><span
+                            class="value">{{:violation.suppressions.length}} </span>SUPPRESSED</span>
+                    {{/if}}
                 </div>
                 {{/if}}
 
@@ -387,9 +396,9 @@
                         <img src="./images/right-chevron.svg" class="fa right"/>
                     </div>
                     {{/if}}
-                    <div class="separator-top layout-margin-top-8 layout-margin-bottom-8"></div>
 
                     {{if !isPassed}}
+                    <div class="separator-top layout-margin-top-8 layout-margin-bottom-8"></div>
                     <div class="link flex share-link"
                          violation="{{:violation.id}}"
                          violationId="{{:violation.violationId}}"
@@ -408,6 +417,7 @@
 <script type="text/javascript" src="js/vendor/jsrender.min.js"></script>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://d3js.org/d3-selection-multi.v1.min.js"></script>
+<script type="text/javascript" src="./js/configs/uiTexts.js"></script>
 <script type="text/javascript" src="./js/configs/constants.js"></script>
 <script type="text/javascript" src="./js/utils.js"></script>
 <script type="text/javascript" src="./js/pie.js"></script>

@@ -2,6 +2,7 @@ window.constants = {
 
     CONTAINERS: {
         mainDataContainerSelector: '.list',
+        informational: '.informational',
         noViolation: '.no-violation',
         noAuditResourcesMessageSelector: '#no-violation-resources',
         noViolationsMessageSelector: '#no-violations-view',
@@ -10,7 +11,8 @@ window.constants = {
         mainCont: '.audit-list',
         planIsExecuting: '.resources-are-loading',
         endOfViolationLabel: '.violation-divider',
-        warningBlock: '.warning-block'
+        warningBlock: '.warning-block',
+        CHART_HEADER: '.pie-data-header .chart-header'
     },
 
     TEMPLATES: {
@@ -27,7 +29,9 @@ window.constants = {
             Medium: '#E49530',
             Low: '#EAC907',
             Informational: '#6b6b6b',
-            Debug: '#c4c4c4'
+            Debug: '#c4c4c4',
+            Warning: '#582a7f',
+            Manual: '#005d14'
         },
         Passed: '#2dbf74',
         Disabled: '#cccccc',
@@ -38,6 +42,8 @@ window.constants = {
     },
 
     REGIONS: {
+        CLOUDCOREO: 'CloudCoreo',
+        AWS: 'AWS',
         MAP_REGIONS: {
             'North America': {
                 region: 'North America',
@@ -212,11 +218,23 @@ window.constants = {
     ENGINE_STATUSES: {
         OK: 'OK',
         SUCCESS: 'SUCCESS',
+        ERROR: 'ERROR',
         EXECUTION_ERROR: 'EXECUTION_ERROR'
     },
 
+    PRIORITY_OF_LEVELS: {
+        Critical: 1,
+        High: 2,
+        Medium: 3,
+        Warning: 4,
+        Low: 5,
+        Manual: 6,
+        Informational: 7
+    },
+
     VIOLATION_LEVELS: {
-        INTERNAL: 'Internal'
+        INTERNAL: 'Internal',
+        INFORMATIONAL: 'Informational'
     },
 
     VIEW_TYPE: {
@@ -226,7 +244,8 @@ window.constants = {
 
     RESULT_TYPE: {
         RULES: 'RULES',
-        VIOLATIONS: 'VIOLATIONS'
+        VIOLATIONS: 'VIOLATIONS',
+        INFORMATIONAL: 'Informational'
     },
 
     SERVICES: {
@@ -241,27 +260,15 @@ window.constants = {
         AWS_VPN: 'aws_vpn_'
     },
 
-    ORGANIZIATION_TYPE: {
+    ORGANIZATION_TYPE: {
         SORT: 'sort',
         GROUP: 'group'
     },
 
-    UITEXTS: {
-        BUTTONS: {
-            SHOW_LESS: 'show less',
-            VIEW_ALL: 'view all',
-            HIDE_DETAILS: '- hide details',
-            VIEW_DETAILS: '+ view details'
-        },
-        LABELS: {
-            VIOLATIONS: 'VIOLATIONS',
-            VIOLATION: 'VIOLATION'
-        },
-        MAP_MESSAGES: {
-            RESOURCES_DEPLOYED: 'Resources Deployed',
-            VIOLATIONS_FOUND: 'Violations Found in Audit',
-            CLOUD_OBJECTS_FOUND: 'Cloud Objects Found in Audit'
-        }
+    SORTKEYS: {
+        LEVEL: 'level',
+        CATEGORY: 'category',
+        SERVICE: 'service',
+        REGION: 'region'
     }
-
 };

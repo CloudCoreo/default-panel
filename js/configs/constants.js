@@ -29,7 +29,9 @@ window.constants = {
             Medium: '#E49530',
             Low: '#EAC907',
             Informational: '#6b6b6b',
-            Debug: '#c4c4c4'
+            Debug: '#c4c4c4',
+            Warning: '#582a7f',
+            Manual: '#005d14'
         },
         Passed: '#2dbf74',
         Disabled: '#cccccc',
@@ -268,26 +270,5 @@ window.constants = {
         CATEGORY: 'category',
         SERVICE: 'service',
         REGION: 'region'
-    },
-
-    UITEXTS: {
-        BUTTONS: {
-            SHOW_LESS: 'show less',
-            VIEW_ALL: 'view all',
-            HIDE_DETAILS: '- hide details',
-            VIEW_DETAILS: '+ view details'
-        },
-        LABELS: {
-            VIOLATIONS: 'VIOLATIONS',
-            VIOLATION: 'VIOLATION',
-            VIOLATING_OBJECTS: 'VIOLATING OBJECTS',
-            CLOUD_OBJECTS: 'CLOUD OBJECTS',
-            RULES: 'RULES'
-        },
-        MAP_MESSAGES: {
-            RESOURCES_DEPLOYED: 'Resources Deployed',
-            VIOLATIONS_FOUND: 'Violations Found in Audit',
-            CLOUD_OBJECTS_FOUND: 'Cloud Objects Found in Audit'
-        }
     }
 };

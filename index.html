@@ -319,7 +319,7 @@
                     <div class="violation-id flex-row">
                         <div class="layout-padding-right">RuleId: {{:violation.id}}</div>
                         {{if violation.meta_cis_id}}
-                        <span>CIS ID: {{:violation.meta_cis_id}}</span>
+                            <span>CIS ID: {{:violation.meta_cis_id}}</span>
                         {{/if}}
                     </div>
                 </div>
@@ -340,14 +340,18 @@
                      violationId="{{:violation.violationId}}"
                      sortKey="{{:violation.sortKey}}">
 
-                        {{if violation.resources.length}}
+                    {{if violation.resources.length}}
+                        {{if violation.level === 'Informational'}}
+                            {{:violation.resources.length}} Cloud Object{{if violation.resources.length !== 1}}s{{/if}}
+                        {{else}}
                             {{:violation.resources.length}} Violating Cloud Object{{if violation.resources.length !== 1}}s{{/if}}
                         {{/if}}
+                    {{/if}}
 
-                        {{if violation.suppressions.length}}
-                        <span class="suppressed"><span
-                                class="value">{{:violation.suppressions.length}} </span>SUPPRESSED</span>
-                        {{/if}}
+                    {{if violation.suppressions.length}}
+                    <span class="suppressed"><span
+                            class="value">{{:violation.suppressions.length}} </span>SUPPRESSED</span>
+                    {{/if}}
                 </div>
                 {{/if}}
 

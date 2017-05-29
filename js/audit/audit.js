@@ -181,6 +181,19 @@ window.Audit = (function (Resource, AuditRender) {
                     alert.metas = AuditUtils.getRuleMetasCis(rowData);
                     alerts.push(alert);
 
+                    if (!alertData.level.hasOwnProperty(alert.level)) {
+                        alertData.level[alert.level] = {};
+                        alertData.level[alert.level].count = 0;
+                    }
+                    if (!alertData.category.hasOwnProperty(alert.category)) {
+                        alertData.category[alert.category] = 0;
+                    }
+                    if (!alertData.region.hasOwnProperty(alert.region)) {
+                        alertData.region[alert.region] = 0;
+                    }
+                    if (!alertData.service.hasOwnProperty(alert.service)) {
+                        alertData.service[alert.service] = 0;
+                    }
                     if (!alertData.meta_cis_id.hasOwnProperty(alert.meta_cis_id)) {
                         alertData.meta_cis_id[alert.meta_cis_id] = 0;
                     }

@@ -103,14 +103,12 @@ window.AuditRender = (function () {
     function renderPie(listOfAlerts) {
         var pieData = [];
         var unknownLevels = [];
-        var groups = [];
         var isSorting = AuditUtils.isMetaAttribute(self.sortKey);
 
         if (isSorting) {
-            groups = listOfAlerts[self.sortKey].levels;
+            unknownLevels = Object.keys(listOfAlerts[self.sortKey].levels);
         }
         else {
-            groups = listOfAlerts;
             unknownLevels = Object.keys(listOfAlerts);
         }
 
@@ -140,16 +138,9 @@ window.AuditRender = (function () {
             pieData.push(summary);
         };
 
-        if (self.sortKey === constants.SORTKEYS.LEVEL || isSorting) {
-            Object.keys(colorPalette.SeverityTones).forEach(function (key) {
-                if (groups[key] && (groups[key].alerts || groups[key].count)) fillData(key);
-            });
-        }
-        else {
-            unknownLevels.forEach(function (key) {
-                fillData(key);
-            });
-        }
+        unknownLevels.forEach(function (key) {
+            fillData(key);
+        });
 
         pie.drawPie(pieData);
     }

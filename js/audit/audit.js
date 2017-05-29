@@ -49,7 +49,7 @@ window.Audit = (function (Resource, AuditRender) {
         });
 
         listOfAlerts[sortKey].alerts = utils.sortHashOfObjectsByField(listOfAlerts[sortKey].alerts, sortKey);
-        listOfAlerts[sortKey].levels = AuditUtils.setColorsForLevels(alertData['level'], sortKey);
+        listOfAlerts[sortKey].levels = AuditUtils.setColorsForLevels(alertData[constants.SORTKEYS.LEVEL], sortKey);
 
         return listOfAlerts;
     }
@@ -148,7 +148,7 @@ window.Audit = (function (Resource, AuditRender) {
     function reorganizeReportData(report, reportId, timestamp, violations) {
         Object.keys(report).forEach(function (region) {
             Object.keys(report[region]).forEach(function (resId) {
-                 Object.keys(report[region][resId].violations).forEach(function (violationKey) {
+                Object.keys(report[region][resId].violations).forEach(function (violationKey) {
                     var rowData = report[region][resId].violations[violationKey];
                     if (rowData.level === constants.VIOLATION_LEVELS.INTERNAL) return;
 
@@ -181,19 +181,6 @@ window.Audit = (function (Resource, AuditRender) {
                     alert.metas = AuditUtils.getRuleMetasCis(rowData);
                     alerts.push(alert);
 
-                    if (!alertData.level.hasOwnProperty(alert.level)) {
-                        alertData.level[alert.level] = {};
-                        alertData.level[alert.level].count = 0;
-                    }
-                    if (!alertData.category.hasOwnProperty(alert.category)) {
-                        alertData.category[alert.category] = 0;
-                    }
-                    if (!alertData.region.hasOwnProperty(alert.region)) {
-                        alertData.region[alert.region] = 0;
-                    }
-                    if (!alertData.service.hasOwnProperty(alert.service)) {
-                        alertData.service[alert.service] = 0;
-                    }
                     if (!alertData.meta_cis_id.hasOwnProperty(alert.meta_cis_id)) {
                         alertData.meta_cis_id[alert.meta_cis_id] = 0;
                     }
@@ -242,11 +229,12 @@ window.Audit = (function (Resource, AuditRender) {
     function setPassedStatus(enabledDefinitions) {
         enabledDefinitions.forEach(function (key) {
             if (!noViolations[key]) return;
-            if (noViolations[key].meta_always_show_card) {
-                alerts.push(noViolations[key]);
-            } else {
+            // TODO: Need to figure out how it should be displaying
+            // if (noViolations[key].meta_always_show_card) {
+            //     alerts.push(noViolations[key]);
+            // } else {
                 noViolations[key].isPassed = true;
-            }
+            // }
         });
     }
 
@@ -359,19 +347,9 @@ window.Audit = (function (Resource, AuditRender) {
         });
     }
 
-    function renderInformationalSection(sortKey, object) {
-        auditRender.renderSection({
-            violations: object.alerts,
-            key: constants.RESULT_TYPE.INFORMATIONAL,
-            color: colorPalette.SeverityTones.Informational,
-            resultsType: constants.RESULT_TYPE.INFORMATIONAL,
-            sortKey: sortKey
-        });
-    }
-
     function renderRules(isSorting) {
         var listOfAlerts = {};
-        var informational = {};
+        var informational;
 
         if (isSorting) listOfAlerts = organizeForSorting(sortKey);
         else listOfAlerts = organizeForGrouping(sortKey);
@@ -385,8 +363,8 @@ window.Audit = (function (Resource, AuditRender) {
         if (totalViolations) {
             auditRender.renderViolationDivider(sortKey);
         }
-        if (informational && !isSorting && sortKey === 'level') {
-            renderInformationalSection(sortKey, informational);
+        if (informational && !isSorting && sortKey === constants.SORTKEYS.LEVEL) {
+            auditRender.renderInformationalSection(sortKey, informational);
         }
         if (!isSorting) {
             renderNoViolationsSection(sortKey);

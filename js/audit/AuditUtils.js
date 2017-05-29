@@ -104,7 +104,7 @@ window.AuditUtils = {
         var levelKeys = Object.keys(levels);
 
         levelKeys.forEach(function (level) {
-            levels[level].color = AuditUtils.getColor(level, 'level', levelKeys, colors);
+            levels[level].color = AuditUtils.getColor(level, constants.SORTKEYS.LEVEL, levelKeys, colors);
         });
         return levels;
     }

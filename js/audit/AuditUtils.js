@@ -53,13 +53,12 @@ window.AuditUtils = {
     },
 
 
-    getColor: function (alert, sortKey, keys, colors) {
+    getColor: function (level, sortKey, keys, colors) {
         var color;
-        var key = alert[sortKey];
 
-        if (sortKey === constants.SORTKEYS.LEVEL) color = colorPalette.SeverityTones[key];
+        if (sortKey === constants.SORTKEYS.LEVEL) color = colorPalette.SeverityTones[level];
         if (!color) {
-            var index = keys.indexOf(key);
+            var index = keys.indexOf(level);
             color = colors(index);
         }
 
@@ -97,6 +96,17 @@ window.AuditUtils = {
             return priorities[keyA] > priorities[keyB];
         });
         return keys;
+    },
+
+    setColorsForLevels: function (levels) {
+        var colorsRange = this.getColorRangeByKeys(levels, colorPalette);
+        var colors = d3.scaleOrdinal(colorsRange);
+        var levelKeys = Object.keys(levels);
+
+        levelKeys.forEach(function (level) {
+            levels[level].color = AuditUtils.getColor(level, constants.SORTKEYS.LEVEL, levelKeys, colors);
+        });
+        return levels;
     }
 
 };

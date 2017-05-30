@@ -22,6 +22,8 @@ window.uiTexts = {
     },
     CHART_HEADER: {
         RULES: 'CIS Rules with Violations',
-        CLOUD_OBJECTS: 'Rules With Violations'
+        RULE: 'CIS Rule with Violations',
+        CLOUD_OBJECTS: 'Rules With Violations',
+        CLOUD_OBJECT: 'Rule With Violations'
     }
 };

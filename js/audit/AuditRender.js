@@ -182,6 +182,7 @@ window.AuditRender = (function () {
 
     function renderResourcesList(listOfAlerts) {
         var groupKeys = [];
+        var chartHeader = '';
         $(containers.mainDataContainerSelector).html('').css('background', '');
 
         renderPie(listOfAlerts);
@@ -215,9 +216,11 @@ window.AuditRender = (function () {
         });
 
         if (AuditUtils.isMetaAttribute(self.sortKey)) {
-            setChartHeaderText(uiTexts.CHART_HEADER.RULES);
+            chartHeader = violationsCount === 1 ? uiTexts.CHART_HEADER.RULE : uiTexts.CHART_HEADER.RULES;
+            setChartHeaderText(chartHeader);
         } else {
-            setChartHeaderText(uiTexts.CHART_HEADER.CLOUD_OBJECTS);
+            chartHeader = violationsCount === 1 ? uiTexts.CHART_HEADER.CLOUD_OBJECT : uiTexts.CHART_HEADER.CLOUD_OBJECTS;
+            setChartHeaderText(chartHeader);
         }
         $('.pie-data-header .num').html(violationsCount);
 

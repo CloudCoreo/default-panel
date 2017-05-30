@@ -105,7 +105,7 @@ window.Audit = (function (Resource, AuditRender) {
         if (executionIsFinished) {
             AuditUI.showNoViolationsMessage();
             auditRender.renderAllClearPie(noViolations);
-            auditRender.setChartHeaderText(uiTexts.CHART_HEADER.RULES);
+            auditRender.setChartHeaderText(uiTexts.CHART_HEADER.CLOUD_OBJECTS);
             return;
         }
         AuditUI.showResourcesAreBeingLoadedMessage();

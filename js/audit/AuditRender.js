@@ -13,18 +13,22 @@ window.AuditRender = (function () {
 
 
     function getCounterLabel(options) {
+        var violationCount =  options.violationsCount;
+        var noViolationCount =  options.noViolationCount;
+        var isNotPlural = options.violationsCount === 1;
+
         if (options.isInformational) {
-            return options.violationsCount + ' ' +
-                (options.violationsCount === 1 ? uiTexts.LABELS.CLOUD_OBJECT : uiTexts.LABELS.CLOUD_OBJECTS);
+            return violationCount + ' ' + (isNotPlural ? uiTexts.LABELS.CLOUD_OBJECT : uiTexts.LABELS.CLOUD_OBJECTS);
         }
         if (options.isSorting) {
-            return options.violationsCount + ' ' + uiTexts.LABELS.VIOLATING_OBJECTS + ' ' +
-                    options.noViolationCount + ' ' + uiTexts.LABELS.RULES;
+            return violationCount + ' ' + (violationCount === 1 ? uiTexts.LABELS.VIOLATING_OBJECT : uiTexts.LABELS.VIOLATING_OBJECTS) + ' ' +
+                noViolationCount + ' ' + (noViolationCount === 1 ? uiTexts.LABELS.RULE : uiTexts.LABELS.RULES);
         }
-        else if (options.isNoViolation) {
-            return options.noViolationCount + ' ' + uiTexts.LABELS.RULES;
+        if (options.isNoViolation) {
+            isNotPlural = noViolationCount === 1;
+            return noViolationCount + ' ' + (isNotPlural ? uiTexts.LABELS.RULE : uiTexts.LABELS.RULES);
         }
-        return options.violationsCount + ' ' + uiTexts.LABELS.VIOLATING_OBJECTS;
+        return violationCount + ' ' + (isNotPlural ? uiTexts.LABELS.VIOLATING_OBJECT : uiTexts.LABELS.VIOLATING_OBJECTS);
     }
 
     function renderSection(options) {

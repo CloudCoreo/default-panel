@@ -9,9 +9,11 @@ window.uiTexts = {
         VIOLATIONS: 'VIOLATIONS',
         VIOLATION: 'VIOLATION',
         VIOLATING_OBJECTS: 'VIOLATING OBJECTS',
+        VIOLATING_OBJECT: 'VIOLATING OBJECT',
         CLOUD_OBJECTS: 'OBJECTS',
         CLOUD_OBJECT: 'OBJECT',
-        RULES: 'RULES'
+        RULES: 'RULES',
+        RULE: 'RULE'
     },
     MAP_MESSAGES: {
         RESOURCES_DEPLOYED: 'Resources Deployed',

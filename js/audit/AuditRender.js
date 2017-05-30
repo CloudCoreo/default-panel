@@ -13,7 +13,10 @@ window.AuditRender = (function () {
 
 
     function getCounterLabel(options) {
-        if (options.isInformational) return options.violationsCount + ' ' + uiTexts.LABELS.CLOUD_OBJECTS;
+        if (options.isInformational) {
+            return options.violationsCount + ' ' +
+                (options.violationsCount === 1 ? uiTexts.LABELS.CLOUD_OBJECT : uiTexts.LABELS.CLOUD_OBJECTS);
+        }
         if (options.isSorting) {
             return options.violationsCount + ' ' + uiTexts.LABELS.VIOLATING_OBJECTS + ' ' +
                     options.noViolationCount + ' ' + uiTexts.LABELS.RULES;

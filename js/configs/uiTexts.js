@@ -10,6 +10,7 @@ window.uiTexts = {
         VIOLATION: 'VIOLATION',
         VIOLATING_OBJECTS: 'VIOLATING OBJECTS',
         CLOUD_OBJECTS: 'OBJECTS',
+        CLOUD_OBJECT: 'OBJECT',
         RULES: 'RULES'
     },
     MAP_MESSAGES: {

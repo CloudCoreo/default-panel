@@ -13,26 +13,25 @@ function roundedRect(x, y, width, height, radius) {
 function drawPie(pieData, color, cont) {
     $('.pie').html('');
     var tabsHeight = $('.options-container').height();
-    var w = 300,
-        h = pieData.length * 35 + 10,
-        r = 65;
+    var height = pieData.length * 35 + 10,
+        radius = 65;
 
     var dataSum = 0;
     pieData.forEach(function (elem) {
         dataSum += +elem.value;
     });
 
-    h = (130 < h) ? h : 130;
+    height = (130 < height) ? height : 130;
 
     var vis = d3.select(cont)
         .append("svg:svg")
         .data([pieData])
-        .attr("viewBox", '0 0 330 ' + h)
+        .attr("viewBox", '0 0 330 ' + height)
         .append("svg:g")
-        .attr("transform", "translate(" + r + "," + r + ")");
+        .attr("transform", "translate(" + radius + "," + radius + ")");
 
     var arc = d3.arc()
-        .outerRadius(r)
+        .outerRadius(radius)
         .innerRadius(0);
 
     var pie = d3.pie()
@@ -45,15 +44,15 @@ function drawPie(pieData, color, cont) {
         .enter().append("g")
         .attr("class", "arc");
 
-    var onclick = function (d, i) {
+    var onclick = function (d, index) {
         $('.scrollable-area').animate({
-            scrollTop: $("." + pieData[i].label).offset().top - tabsHeight
+            scrollTop: $("." + pieData[index].label).offset().top - tabsHeight
         }, 200);
     };
 
     g.append("svg:path")
-        .attr("fill", function (d, i) {
-            return pieData[i].color;
+        .attr("fill", function (d, index) {
+            return pieData[index].color;
         })
         .attr("d", arc)
         .style("stroke", "#fff")
@@ -62,31 +61,31 @@ function drawPie(pieData, color, cont) {
         .on("click", onclick);
 
     g.append("svg:text")
-        .attr("transform", function (d, i) {
-            return "translate(" + (r + 50) + ", " + (22 - r + i * 35) + ")";
+        .attr("transform", function (d, index) {
+            return "translate(" + (radius + 50) + ", " + (22 - radius + index * 35) + ")";
         })
         .attr("text-anchor", "start")
-        .style("fill", function (d, i) {
+        .style("fill", function (d, index) {
             return d.value > 0 ? "#000000" : "#C4C4C4";
         })
         .style("font-family", "Arial")
         .style("font-size", "12px")
         .style('text-transform', 'uppercase')
-        .text(function (d, i) {
-            if (pieData[i].value === 0) {
-                return pieData[i].value + ' ' + pieData[i].label
+        .text(function (d, index) {
+            if (pieData[index].value === 0) {
+                return pieData[index].value + ' ' + pieData[index].label
             }
-            return pieData[i].value + ' ' + pieData[i].label + ' (' + (pieData[i].value * 100 / dataSum).toFixed(1) + '%)';
+            return pieData[index].value + ' ' + pieData[index].label + ' (' + (pieData[index].value * 100 / dataSum).toFixed(1) + '%)';
         })
         .style("cursor", 'pointer')
         .on("click", onclick);
 
     g.append("path")
-        .attr("d", function (d, i) {
-            return roundedRect(r + 20, 10 - r + i * 35, 20, 20, 4);
+        .attr("d", function (d, index) {
+            return roundedRect(radius + 20, 10 - radius + index * 35, 20, 20, 4);
         })
-        .attr("fill", function (d, i) {
-            return pieData[i].color || color(i);
+        .attr("fill", function (d, index) {
+            return pieData[index].color || color(index);
         })
         .style("cursor", 'pointer')
         .on("click", onclick);

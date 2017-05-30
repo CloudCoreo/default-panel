@@ -143,6 +143,12 @@ window.AuditRender = (function () {
             fillData(key);
         });
 
+        pieData.sort(function (a, b) {
+            if (!constants.PRIORITY_OF_LEVELS[a.label]) return -1;
+            if (!constants.PRIORITY_OF_LEVELS[b.label]) return 1;
+            return constants.PRIORITY_OF_LEVELS[a.label] > constants.PRIORITY_OF_LEVELS[b.label];
+        });
+
         pie.drawPie(pieData);
     }
 

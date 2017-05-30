@@ -369,7 +369,7 @@ window.Audit = (function (Resource, AuditRender) {
             auditRender.renderViolationDivider(sortKey);
         }
         if (!isSorting) {
-            renderNoViolationsSection(isSorting);
+            renderNoViolationsSection(sortKey);
         }
         AuditUI.refreshClickHandlers(listOfAlerts, noViolations);
     }

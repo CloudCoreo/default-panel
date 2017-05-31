@@ -340,8 +340,9 @@ html, body {
     padding-top: 20px;
 }
 
-.list {
-    width: 98%;
+.list,
+.informational,
+.no-violation {
     padding: 20px;
 }
 
@@ -558,8 +559,10 @@ html, body {
         flex-direction: column;
     }
 
-    .list > div {
-        background: none;
+    .list,
+    .informational,
+    .no-violation {
+        padding: 0;
     }
 
     .data-container .audit {

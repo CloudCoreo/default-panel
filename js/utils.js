@@ -39,28 +39,29 @@ function formatTime(timeInSecondsToFormat) {
     return result;
 }
 
-function replaceSymbolToSpace(string, symbol) {
-    var exp = new RegExp(symbol, 'g');
-    return string.replace(exp, ' ');
-}
-
 function sortHashOfObjectsByField(object, field) {
-    var violationKeys = Object.keys(object);
 
-    violationKeys.sort((function (a, b) {
+    var sortObject = function (a, b) {
         if (!object[a][field]) return 1;
         if (!object[b][field]) return -1;
         return parseFloat(object[a][field]) - parseFloat(object[b][field]);
-    }));
+    };
 
-    return violationKeys;
+    var buildObject = function (orderedObject, key) {
+        orderedObject[key] = object[key];
+        return orderedObject;
+    };
+
+    return Object
+        .keys(object)
+        .sort(sortObject)
+        .reduce(buildObject, {});
 }
 
 window.utils = (function () {
     function utils () {}
     utils.prototype.formatDate = formatDate;
     utils.prototype.formatTime = formatTime;
-    utils.prototype.replaceSymbolToSpace = replaceSymbolToSpace;
     utils.prototype.sortHashOfObjectsByField = sortHashOfObjectsByField;
     return new utils();
 }());

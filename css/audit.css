@@ -58,9 +58,12 @@ html, body {
 }
 
 .left-column {
-    min-width: 300px;
-    width: 20%;
-    padding-top: 0px;
+    width: 300px;
+    padding-top: 0;
+}
+
+.main-column {
+    width: calc(100% - 300px);
 }
 
 .pie .arc path:hover {
@@ -158,6 +161,14 @@ html, body {
     height: 1px;
     border-top: 1px solid #ddd;
     z-index: 1;
+}
+
+.violation-additional {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-start;
+    flex-grow: 1;
 }
 
 .font-12 {
@@ -465,8 +476,7 @@ html, body {
 .resources-title-link {
     color: #2b7ae5;
     cursor: pointer;
-    white-space: nowrap;
-    width: 190px;
+    width: 200px;
 }
 
 .suppressed {
@@ -527,17 +537,21 @@ html, body {
 }
 
 .violation-type {
-    width: 70px;
+
 }
 
 .violation-timestamp {
-    width: 145px;
+
 }
 
 @media (max-width: 600px) {
     .left-column {
         width: 100%;
         padding-bottom: 0;
+    }
+
+    .main-column {
+        width: 100%;
     }
 
     .flex-wrap {
@@ -559,6 +573,10 @@ html, body {
         flex-direction: column;
     }
 
+    .violation-additional {
+        align-items: flex-start !important;
+    }
+
     .list,
     .informational,
     .no-violation {
@@ -570,7 +588,7 @@ html, body {
     }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 900px) {
 
     .audit-list-block {
         flex-direction: column;
@@ -579,14 +597,31 @@ html, body {
     .left-column {
         margin: 0 auto;
     }
+
+    .main-column {
+        width: 100%;
+    }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1000px) {
+
+    .violation-type,
+    .violation-timestamp,
     .resources-title-link {
-        width: 160px;
-    }
-
-    .violation-timestamp {
-        width: 135px;
+        padding: 0;
     }
 }
+
+@media (max-width: 1100px) {
+
+    .violation-additional {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-end;
+    }
+
+    .resources-title-link {
+        width: auto;
+    }
+}
+

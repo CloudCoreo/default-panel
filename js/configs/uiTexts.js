@@ -9,8 +9,11 @@ window.uiTexts = {
         VIOLATIONS: 'VIOLATIONS',
         VIOLATION: 'VIOLATION',
         VIOLATING_OBJECTS: 'VIOLATING OBJECTS',
+        VIOLATING_OBJECT: 'VIOLATING OBJECT',
         CLOUD_OBJECTS: 'OBJECTS',
-        RULES: 'RULES'
+        CLOUD_OBJECT: 'OBJECT',
+        RULES: 'RULES',
+        RULE: 'RULE'
     },
     MAP_MESSAGES: {
         RESOURCES_DEPLOYED: 'Resources Deployed',
@@ -19,6 +22,8 @@ window.uiTexts = {
     },
     CHART_HEADER: {
         RULES: 'CIS Rules with Violations',
-        CLOUD_OBJECTS: 'Rules With Violations'
+        RULE: 'CIS Rule with Violations',
+        CLOUD_OBJECTS: 'Rules With Violations',
+        CLOUD_OBJECT: 'Rule With Violations'
     }
 };

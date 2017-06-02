@@ -93,7 +93,7 @@ function showTooltip(position, element, region) {
 
     if (region.objects) {
         addMessage(element, id, {
-            text: region.objects + ' ' + constants.UITEXTS.MAP_MESSAGES.CLOUD_OBJECTS_FOUND,
+            text: region.objects + ' ' + uiTexts.MAP_MESSAGES.CLOUD_OBJECTS_FOUND,
             rectX: rectX,
             rectY: rectY + 20,
             fill: '#fff',

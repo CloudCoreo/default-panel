@@ -93,6 +93,8 @@ window.AuditUtils = {
 
     sortObjectKeysByPriority: function (keys, priorities) {
         keys.sort(function (keyA, keyB) {
+            if (!priorities[keyA]) return -1;
+            if (!priorities[keyB]) return 1;
             return priorities[keyA] > priorities[keyB];
         });
         return keys;

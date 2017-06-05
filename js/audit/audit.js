@@ -378,6 +378,7 @@ window.Audit = (function (Resource, AuditRender) {
         }
         if (informational && !isSorting && sortKey === constants.SORTKEYS.LEVEL) {
             auditRender.renderInformationalSection(sortKey, informational);
+            AuditUI.showNoViolationsMessage();
         }
         if (!isSorting) {
             renderNoViolationsSection(sortKey);

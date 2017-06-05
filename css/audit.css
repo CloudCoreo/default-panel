@@ -58,7 +58,8 @@ html, body {
 }
 
 .left-column {
-    width: 300px;
+    min-width: 300px;
+    width: 20%;
     padding-top: 0;
 }
 
@@ -506,10 +507,11 @@ html, body {
 }
 
 .meta-info {
+    margin-top: 5px;
     padding: 4px 16px;
 }
 .meta-info i {
-    text-transform: capitalize;
+    text-transform: uppercase;
 }
 
 .run-error {

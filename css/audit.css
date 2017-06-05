@@ -509,7 +509,7 @@ html, body {
     padding: 4px 16px;
 }
 .meta-info i {
-    text-transform: capitalize;
+    text-transform: uppercase;
 }
 
 .run-error {

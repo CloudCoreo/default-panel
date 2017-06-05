@@ -318,9 +318,6 @@
                     <div class="title">{{:violation.title}}</div>
                     <div class="violation-id flex-row">
                         <div class="layout-padding-right">RuleId: {{:violation.id}}</div>
-                        {{if violation.meta_cis_id}}
-                            <span>CIS ID: {{:violation.meta_cis_id}}</span>
-                        {{/if}}
                     </div>
                 </div>
 
@@ -373,6 +370,13 @@
         <div class="row-body hidden-row bg-white  {{if isViolation}}border-left{{/if}}">
             <div class="flex-row separator flex-wrap">
                 <div class="flex-column separator-right flex-grow">
+                    {{for violation.metas}}
+                        {{if value}}
+                        <div class="meta-info">
+                            <i>{{:key}}</i><br/> {{:value}}
+                        </div>
+                        {{/if}}
+                    {{/for}}
                     <div class="layout-padding">
                         <div class="layout-margin-bottom-8">
                             <i>Category</i><br/>
@@ -383,11 +387,6 @@
                             {{:violation.description}}
                         </div>
                     </div>
-                    {{for violation.metas}}
-                    <div class="meta-info">
-                        <i>{{:key}}</i><br/> {{:value}}
-                    </div>
-                    {{/for}}
                     <div class="layout-padding suggestions-block">
                         <i>Suggested Fix</i><br/>
                         {{:violation.suggested_action}}

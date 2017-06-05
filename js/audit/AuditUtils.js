@@ -34,8 +34,8 @@ window.AuditUtils = {
     getRuleMetasCis: function (ruleInputs) {
         var metas = [];
         Object.keys(ruleInputs).forEach(function (key) {
-            if (key !== 'meta_cis_id' && key.indexOf('meta_cis') !== -1) {
-                var metaTitle = key.replace('meta_', '').replace('_', ' ');
+            if (key.indexOf('meta_') !== -1) {
+                var metaTitle = key.replace('meta_', '').replace(/_/g, ' ');
                 metas.push({ key: metaTitle, value: ruleInputs[key] });
             }
         });

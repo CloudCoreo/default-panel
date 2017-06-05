@@ -58,7 +58,8 @@ html, body {
 }
 
 .left-column {
-    width: 300px;
+    min-width: 300px;
+    width: 20%;
     padding-top: 0;
 }
 

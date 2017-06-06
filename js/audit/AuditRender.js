@@ -58,7 +58,8 @@ window.AuditRender = (function () {
                 violation: violation,
                 isViolation: isViolation,
                 isVisible: isViolation || violation.isPassed || (!violation.isPassed && options.isDisabledVisible),
-                isPassed: violation.isPassed
+                isPassed: violation.isPassed,
+                isSorting: isSorting
             };
 
             if (isSorting && !isNoViolation && options.levels[violation.level]) {

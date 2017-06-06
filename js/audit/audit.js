@@ -379,9 +379,9 @@ window.Audit = (function (Resource, AuditRender) {
         if (informational && !isSorting && sortKey === constants.SORTKEYS.LEVEL) {
             auditRender.renderInformationalSection(sortKey, informational);
             var allPassedCardIsShown = true;
-            alertData.level.forEach(function(level) {
+            for (var level in alertData.level) {
                 if (level.isViolation) allPassedCardIsShown = false;
-            });
+            }
             if (allPassedCardIsShown) AuditUI.showNoViolationsMessage();
         }
         if (!isSorting) {

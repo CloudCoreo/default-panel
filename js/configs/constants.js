@@ -233,8 +233,34 @@ window.constants = {
     },
 
     VIOLATION_LEVELS: {
-        INTERNAL: 'Internal',
-        INFORMATIONAL: 'Informational'
+        HIGH: {
+            name: 'High',
+            isViolation: true
+        },
+        MEDIUM: {
+            name: 'Medium',
+            isViolation: true
+        },
+        LOW: {
+            name: 'Low',
+            isViolation: true
+        },
+        WARNING: {
+            name: 'Warning',
+            isViolation: true
+        },
+        MANUAL: {
+            name: 'Manual',
+            isViolation: true
+        },
+        INTERNAL: {
+            name: 'Internal',
+            isViolation: false
+        },
+        INFORMATIONAL: {
+            name: 'Informational',
+            isViolation: false
+        }
     },
 
     VIEW_TYPE: {

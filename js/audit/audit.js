@@ -150,7 +150,7 @@ window.Audit = (function (Resource, AuditRender) {
             Object.keys(report[region]).forEach(function (resId) {
                 Object.keys(report[region][resId].violations).forEach(function (violationKey) {
                     var rowData = report[region][resId].violations[violationKey];
-                    if (rowData.level === constants.VIOLATION_LEVELS.INTERNAL) return;
+                    if (rowData.level === constants.VIOLATION_LEVELS.INTERNAL.name) return;
 
                     if (violations[violationKey]) {
                         rowData.violationId = violations[violationKey]._id;
@@ -272,7 +272,7 @@ window.Audit = (function (Resource, AuditRender) {
             var isRuleRunner = resource.resourceType.indexOf('coreo_aws_rule_runner') !== -1;
 
 
-            if (resource.inputs.level === constants.VIOLATION_LEVELS.INTERNAL) return;
+            if (resource.inputs.level === constants.VIOLATION_LEVELS.INTERNAL.name) return;
             if (resource.outputs.error) {
                 errors.push(resource);
             }
@@ -367,8 +367,8 @@ window.Audit = (function (Resource, AuditRender) {
         if (isSorting) listOfAlerts = organizeForSorting(sortKey);
         else listOfAlerts = organizeForGrouping(sortKey);
 
-        if (listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL] && !isSorting) {
-            informational = listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL];
+        if (listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL.name] && !isSorting) {
+            informational = listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL.name];
         }
 
         auditRender.render(listOfAlerts, sortKey);
@@ -378,12 +378,16 @@ window.Audit = (function (Resource, AuditRender) {
         }
         if (informational && !isSorting && sortKey === constants.SORTKEYS.LEVEL) {
             auditRender.renderInformationalSection(sortKey, informational);
-            AuditUI.showNoViolationsMessage();
+            var allPassedCardIsShown = true;
+            for (var level in alertData.level) {
+                if (level.isViolation) allPassedCardIsShown = false;
+            }
+            if (allPassedCardIsShown) AuditUI.showNoViolationsMessage();
         }
         if (!isSorting) {
             renderNoViolationsSection(sortKey);
         }
-        if (informational) listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL] = informational;
+        if (informational) listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL.name] = informational;
         AuditUI.refreshClickHandlers(listOfAlerts, noViolations);
     }
 

@@ -50,7 +50,7 @@ window.AuditRender = (function () {
             var violation = options.violations[vId];
             var color = options.color;
             violation.level = (!violation.level || violation.level === '') ?
-                constants.VIOLATION_LEVELS.INFORMATIONAL : violation.level;
+                constants.VIOLATION_LEVELS.INFORMATIONAL.name : violation.level;
 
             var isViolation = violation.resources && violation.resources.length && violation.resources.length > 0;
             var params = {
@@ -187,8 +187,8 @@ window.AuditRender = (function () {
 
         renderPie(listOfAlerts);
 
-        if (listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL]) {
-            delete listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL];
+        if (listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL.name]) {
+            delete listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL.name];
         }
 
         var violationsCount = 0;

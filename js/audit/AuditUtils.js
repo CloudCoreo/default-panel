@@ -1,4 +1,4 @@
-var colorPalette = constants.COLORS;
+var colorPalette = Constants.COLORS;
 
 
 window.AuditUtils = {
@@ -43,20 +43,15 @@ window.AuditUtils = {
     },
 
 
-    isMetaAttribute: function (sortKey) {
-        return sortKey.indexOf('meta_') !== -1;
-    },
-
-
-    removeMetaPrefix: function (string) {
-        return string.replace('meta_', '').replace(/_/g, ' ');
+    isSorting: function (sortKey) {
+        return Constants.SORTKEYS[sortKey].isSorting;
     },
 
 
     getColor: function (level, sortKey, keys, colors) {
         var color;
 
-        if (sortKey === constants.SORTKEYS.LEVEL) color = colorPalette.SeverityTones[level];
+        if (sortKey === Constants.SORTKEYS.level.name) color = colorPalette.SeverityTones[level];
         if (!color) {
             var index = keys.indexOf(level);
             color = colors(index);
@@ -106,7 +101,7 @@ window.AuditUtils = {
         var levelKeys = Object.keys(levels);
 
         levelKeys.forEach(function (level) {
-            levels[level].color = AuditUtils.getColor(level, constants.SORTKEYS.LEVEL, levelKeys, colors);
+            levels[level].color = AuditUtils.getColor(level, Constants.SORTKEYS.level.name, levelKeys, colors);
         });
         return levels;
     }

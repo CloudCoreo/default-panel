@@ -2,9 +2,9 @@ window.AuditRender = (function () {
 
     var self;
 
-    var containers = constants.CONTAINERS;
-    var colorPalette = constants.COLORS;
-    var templates = constants.TEMPLATES;
+    var containers = Constants.CONTAINERS;
+    var colorPalette = Constants.COLORS;
+    var templates = Constants.TEMPLATES;
 
     var pie = new ResourcesPie(containers.pieChartSelector);
 
@@ -31,6 +31,31 @@ window.AuditRender = (function () {
         return violationCount + ' ' + (isNotPlural ? uiTexts.LABELS.VIOLATING_OBJECT : uiTexts.LABELS.VIOLATING_OBJECTS);
     }
 
+    function renderHeader(options) {
+        return headerTpl.render({
+            name: options.name,
+            key: options.key,
+            label: getCounterLabel({
+                isSorting: options.isSorting,
+                isInformational: options.isInformational,
+                isNoViolation: options.isNoViolation,
+                violationsCount: options.violationsCount,
+                noViolationCount: options.noViolationCount
+            }),
+            isSorting: options.isSorting
+        });
+    }
+    
+    function renderViolationRow(options) {
+        options.isVisible = options.isViolation || options.violation.isPassed || (!options.violation.isPassed && options.isDisabledVisible);;
+
+        return Templates.violationBlock({
+            renderOptions: options,
+            violationTpl: violationTpl,
+            color: options.color
+        });
+    }
+
     function renderSection(options) {
 
         var sectionSummary = { label: options.key, value: 0, color: options.color };
@@ -38,67 +63,72 @@ window.AuditRender = (function () {
             return sectionSummary;
         }
 
-        var isNoViolation = options.resultsType === constants.RESULT_TYPE.RULES;
-        var isInformational = options.resultsType === constants.RESULT_TYPE.INFORMATIONAL;
+        var isNoViolation = options.resultsType === Constants.RESULT_TYPE.RULES;
+        var isInformational = options.resultsType === Constants.RESULT_TYPE.INFORMATIONAL;
         var violationsCount = 0;
         var noViolationCount = 0;
+        var allViolationsCount = 0;
         var renderedBlock = '';
-        var isSorting = AuditUtils.isMetaAttribute(options.sortKey);
+        var isSorting = AuditUtils.isSorting(options.sortKey);
 
         Object.keys(options.violations).forEach(function (vId) {
             var renderedViolation = '';
             var violation = options.violations[vId];
             var color = options.color;
-            violation.level = (!violation.level || violation.level === '') ?
-                constants.VIOLATION_LEVELS.INFORMATIONAL.name : violation.level;
-
             var isViolation = violation.resources && violation.resources.length && violation.resources.length > 0;
-            var params = {
-                resultsType: options.resultsType,
-                violation: violation,
-                isViolation: isViolation,
-                isVisible: isViolation || violation.isPassed || (!violation.isPassed && options.isDisabledVisible),
-                isPassed: violation.isPassed,
-                isSorting: isSorting
-            };
+
+            violation.level = (!violation.level || violation.level === '') ?
+                Constants.VIOLATION_LEVELS.INFORMATIONAL.name : violation.level;
 
             if (isSorting && !isNoViolation && options.levels[violation.level]) {
                 color = options.levels[violation.level].color;
             }
 
-            if (isViolation) violationsCount++;
-            else noViolationCount++;
+            renderedBlock += renderViolationRow({
+                resultsType: options.resultsType,
+                violation: violation,
+                isViolation: isViolation,
+                isDisabledVisible: options.isDisabledVisible,
+                isPassed: violation.isPassed,
+                isSorting: isSorting,
+                color: color
+            });
 
-            renderedViolation = '<div style="border-color: ' + color + ';">' + violationTpl.render(params) + '</div>';
-            renderedBlock += renderedViolation;
+            if (isSorting) {
+                if (isViolation && (violation.level !== Constants.VIOLATION_LEVELS.INFORMATIONAL.name)) violationsCount++;
+                else noViolationCount++;
+            }
+            else {
+                if (isViolation) violationsCount += violation.resources.length;
+                allViolationsCount = violationsCount;
+            }
+
             sectionSummary.value += options.violations[vId].resources.length;
         });
+        if (isSorting) allViolationsCount = violationsCount;
 
-        var headerData = {
+        var header = renderHeader({
             name: options.key.replace(/[-_]/g, ' '),
             key: options.key,
-            label: getCounterLabel({
-                isSorting: isSorting,
-                isInformational: isInformational,
-                isNoViolation: isNoViolation,
-                violationsCount: violationsCount,
-                noViolationCount: noViolationCount
-            }),
-            isSorting: isSorting
-        };
+            isSorting: isSorting,
+            isInformational: isInformational,
+            isNoViolation: isNoViolation,
+            violationsCount: violationsCount,
+            noViolationCount: noViolationCount
+        });
 
-        var header = headerTpl.render(headerData);
+        var rowLayout = Templates.violationBlockWrapper({
+            header: header,
+            key: options.key,
+            renderedBlock: renderedBlock,
+            isNoViolation: isNoViolation
+        });
 
-        var html = '<div class="' + headerData.key + ' layout-padding ' + (!isNoViolation ? 'bg-white' : '') +
-            '" style="margin-bottom: 20px;">' + header +
-            '<div class="' + (isNoViolation ? 'bg-light-grey' : 'bg-white') + '">' + renderedBlock + '</div>';
+        if (isNoViolation) $(containers.noViolation).append(rowLayout);
+        else if (isInformational) $(containers.informational).append(rowLayout);
+        else $(containers.mainDataContainerSelector).append(rowLayout);
 
-
-        if (isNoViolation) $(containers.noViolation).append(html);
-        else if (isInformational) $(containers.informational).append(html);
-        else $(containers.mainDataContainerSelector).append(html);
-
-        return violationsCount;
+        return allViolationsCount;
     }
 
     function renderAllClearPie(emptyRules) {
@@ -112,7 +142,7 @@ window.AuditRender = (function () {
     function renderPie(listOfAlerts) {
         var pieData = [];
         var unknownLevels = [];
-        var isSorting = AuditUtils.isMetaAttribute(self.sortKey);
+        var isSorting = AuditUtils.isSorting(self.sortKey);
 
         if (isSorting) {
             unknownLevels = Object.keys(listOfAlerts[self.sortKey].levels);
@@ -122,7 +152,7 @@ window.AuditRender = (function () {
         }
 
         var countResources = function (key, alerts) {
-            var sortKey = isSorting ? constants.SORTKEYS.LEVEL : self.sortKey;
+            var sortKey = isSorting ? Constants.SORTKEYS.level.name : self.sortKey;
 
             return Object.keys(alerts).reduce(function (counter, vId) {
                 if (alerts[vId][sortKey] === key) counter += alerts[vId].resources.length;
@@ -152,9 +182,9 @@ window.AuditRender = (function () {
         });
 
         pieData.sort(function (a, b) {
-            if (!constants.PRIORITY_OF_LEVELS[a.label]) return -1;
-            if (!constants.PRIORITY_OF_LEVELS[b.label]) return 1;
-            return constants.PRIORITY_OF_LEVELS[a.label] > constants.PRIORITY_OF_LEVELS[b.label];
+            if (!Constants.PRIORITY_OF_LEVELS[a.label]) return -1;
+            if (!Constants.PRIORITY_OF_LEVELS[b.label]) return 1;
+            return Constants.PRIORITY_OF_LEVELS[a.label] > Constants.PRIORITY_OF_LEVELS[b.label];
         });
 
         pie.drawPie(pieData);
@@ -164,9 +194,9 @@ window.AuditRender = (function () {
     function renderInformationalSection(sortKey, object) {
         renderSection({
             violations: object.alerts,
-            key: constants.RESULT_TYPE.INFORMATIONAL,
+            key: Constants.RESULT_TYPE.INFORMATIONAL,
             color: colorPalette.SeverityTones.Informational,
-            resultsType: constants.RESULT_TYPE.INFORMATIONAL,
+            resultsType: Constants.RESULT_TYPE.INFORMATIONAL,
             sortKey: sortKey
         });
     }
@@ -174,8 +204,8 @@ window.AuditRender = (function () {
 
     function renderViolationDivider (sortKey) {
         $(containers.noViolation).html('');
-        if (!AuditUtils.isMetaAttribute(sortKey)) {
-            var endOfViolationsMsg = '<div class="violation-divider"><div class="text">end of violations</div></div>';
+        if (!AuditUtils.isSorting(sortKey)) {
+            var endOfViolationsMsg = Templates.endOfViolationDivider();
             $(containers.informational).prepend(endOfViolationsMsg);
         }
     }
@@ -188,15 +218,15 @@ window.AuditRender = (function () {
 
         renderPie(listOfAlerts);
 
-        if (listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL.name]) {
-            delete listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL.name];
+        if (listOfAlerts[Constants.VIOLATION_LEVELS.INFORMATIONAL.name]) {
+            delete listOfAlerts[Constants.VIOLATION_LEVELS.INFORMATIONAL.name];
         }
 
         var violationsCount = 0;
-        var isSorting = AuditUtils.isMetaAttribute(self.sortKey);
+        var isSorting = AuditUtils.isSorting(self.sortKey);
 
-        if (self.sortKey === constants.SORTKEYS.LEVEL) {
-            groupKeys = AuditUtils.sortObjectKeysByPriority(Object.keys(listOfAlerts), constants.PRIORITY_OF_LEVELS);
+        if (self.sortKey === Constants.SORTKEYS.level.name) {
+            groupKeys = AuditUtils.sortObjectKeysByPriority(Object.keys(listOfAlerts), Constants.PRIORITY_OF_LEVELS);
         } else {
             groupKeys = Object.keys(listOfAlerts);
         }
@@ -206,7 +236,7 @@ window.AuditRender = (function () {
                 violations: listOfAlerts[key].alerts,
                 key: key,
                 color: listOfAlerts[key].color,
-                resultsType: constants.RESULT_TYPE.VIOLATIONS,
+                resultsType: Constants.RESULT_TYPE.VIOLATIONS,
                 sortKey: self.sortKey,
                 isDisabledVisible: self.isDisabledViolationsVisible
             };
@@ -216,7 +246,7 @@ window.AuditRender = (function () {
             violationsCount += renderSection(renderParams);
         });
 
-        if (AuditUtils.isMetaAttribute(self.sortKey)) {
+        if (AuditUtils.isSorting(self.sortKey)) {
             chartHeader = violationsCount === 1 ? uiTexts.CHART_HEADER.RULE : uiTexts.CHART_HEADER.RULES;
             setChartHeaderText(chartHeader);
         } else {

@@ -100,6 +100,7 @@ window.AuditRender = (function () {
             }
             else {
                 if (isViolation) violationsCount += violation.resources.length;
+                else noViolationCount++;
                 allViolationsCount = violationsCount;
             }
 

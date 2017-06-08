@@ -12,8 +12,8 @@ window.Audit = (function (Resource, AuditRender) {
     var isDisabledViolationsVisible;
     var ccThisData = {};
 
-    var colorPalette = constants.COLORS;
-    var containers = constants.CONTAINERS;
+    var colorPalette = Constants.COLORS;
+    var containers = Constants.CONTAINERS;
 
 
     function removeTotallySuppressedViolations(listOfAlerts, suppressedViolations) {
@@ -38,7 +38,7 @@ window.Audit = (function (Resource, AuditRender) {
 
     function organizeForSorting(sortKey) {
         var keys = [sortKey];
-        var listOfAlerts = organizeDataForCurrentRender(sortKey, keys, constants.ORGANIZATION_TYPE.SORT);
+        var listOfAlerts = organizeDataForCurrentRender(sortKey, keys, Constants.ORGANIZATION_TYPE.SORT);
 
         if (Object.keys(listOfAlerts).length === 0) {
             listOfAlerts[sortKey] = {};
@@ -49,7 +49,7 @@ window.Audit = (function (Resource, AuditRender) {
         });
 
         listOfAlerts[sortKey].alerts = utils.sortHashOfObjectsByField(listOfAlerts[sortKey].alerts, sortKey);
-        listOfAlerts[sortKey].levels = AuditUtils.setColorsForLevels(alertData[constants.SORTKEYS.LEVEL], sortKey);
+        listOfAlerts[sortKey].levels = AuditUtils.setColorsForLevels(alertData[Constants.SORTKEYS.level.name], sortKey);
 
         return listOfAlerts;
     }
@@ -57,7 +57,7 @@ window.Audit = (function (Resource, AuditRender) {
 
     function organizeForGrouping(sortKey) {
         var keys = Object.keys(alertData[sortKey]);
-        return organizeDataForCurrentRender(sortKey, keys, constants.ORGANIZATION_TYPE.GROUP);
+        return organizeDataForCurrentRender(sortKey, keys, Constants.ORGANIZATION_TYPE.GROUP);
     }
 
 
@@ -70,7 +70,7 @@ window.Audit = (function (Resource, AuditRender) {
         var suppressedViolations = {};
 
         alerts.forEach(function (alert) {
-            var key = organizeType === constants.ORGANIZATION_TYPE.GROUP ? alert[sortKey] : sortKey;
+            var key = organizeType === Constants.ORGANIZATION_TYPE.GROUP ? alert[sortKey] : sortKey;
             if (!listOfAlerts[key]) {
                 listOfAlerts[key] = {};
                 listOfAlerts[key].alerts = {};
@@ -128,7 +128,7 @@ window.Audit = (function (Resource, AuditRender) {
             return;
         }
 
-        sendRequest(constants.REQUEST.GET_TRUNCATED_OBJ,
+        sendRequest(Constants.REQUEST.GET_TRUNCATED_OBJ,
             { objectKey: report.truncated.object_key, blockUI: blockUI },
             function (error, retrievedObject) {
                 if (error) {
@@ -150,7 +150,7 @@ window.Audit = (function (Resource, AuditRender) {
             Object.keys(report[region]).forEach(function (resId) {
                 Object.keys(report[region][resId].violations).forEach(function (violationKey) {
                     var rowData = report[region][resId].violations[violationKey];
-                    if (rowData.level === constants.VIOLATION_LEVELS.INTERNAL.name) return;
+                    if (rowData.level === Constants.VIOLATION_LEVELS.INTERNAL.name) return;
 
                     if (violations[violationKey]) {
                         rowData.violationId = violations[violationKey]._id;
@@ -267,12 +267,12 @@ window.Audit = (function (Resource, AuditRender) {
 
         resources.forEach(function (resource) {
             if (resource.runId !== ccThisData.runId) hasOld = true;
-            if (resource.dataType !== constants.RESOURCE_TYPE.ADVISOR_RESOURCE) return;
+            if (resource.dataType !== Constants.RESOURCE_TYPE.ADVISOR_RESOURCE) return;
 
             var isRuleRunner = resource.resourceType.indexOf('coreo_aws_rule_runner') !== -1;
 
 
-            if (resource.inputs.level === constants.VIOLATION_LEVELS.INTERNAL.name) return;
+            if (resource.inputs.level === Constants.VIOLATION_LEVELS.INTERNAL.name) return;
             if (resource.outputs.error) {
                 errors.push(resource);
             }
@@ -335,7 +335,7 @@ window.Audit = (function (Resource, AuditRender) {
         });
 
         $('.browse-composites').click(function () {
-            openPopup(constants.POPUPS.REDIRECT_TO_COMPOSITES);
+            openPopup(Constants.POPUPS.REDIRECT_TO_COMPOSITES);
         });
         $('.link.passed-disabled-link').click(function () {
             var passedLink = $('.Passed');
@@ -354,7 +354,7 @@ window.Audit = (function (Resource, AuditRender) {
             violations: noViolations,
             key: 'No-violations',
             color: colorPalette.Passed,
-            resultsType: constants.RESULT_TYPE.RULES,
+            resultsType: Constants.RESULT_TYPE.RULES,
             sortKey: sortKey,
             isDisabledVisible: isDisabledViolationsVisible
         });
@@ -367,8 +367,8 @@ window.Audit = (function (Resource, AuditRender) {
         if (isSorting) listOfAlerts = organizeForSorting(sortKey);
         else listOfAlerts = organizeForGrouping(sortKey);
 
-        if (listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL.name] && !isSorting) {
-            informational = listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL.name];
+        if (listOfAlerts[Constants.VIOLATION_LEVELS.INFORMATIONAL.name] && !isSorting) {
+            informational = listOfAlerts[Constants.VIOLATION_LEVELS.INFORMATIONAL.name];
         }
 
         auditRender.render(listOfAlerts, sortKey);
@@ -376,7 +376,7 @@ window.Audit = (function (Resource, AuditRender) {
         if (totalViolations) {
             auditRender.renderViolationDivider(sortKey);
         }
-        if (informational && !isSorting && sortKey === constants.SORTKEYS.LEVEL) {
+        if (informational && !isSorting && sortKey === Constants.SORTKEYS.level.name) {
             auditRender.renderInformationalSection(sortKey, informational);
             var allPassedCardIsShown = true;
             for (var level in alertData.level) {
@@ -387,7 +387,7 @@ window.Audit = (function (Resource, AuditRender) {
         if (!isSorting) {
             renderNoViolationsSection(sortKey);
         }
-        if (informational) listOfAlerts[constants.VIOLATION_LEVELS.INFORMATIONAL.name] = informational;
+        if (informational) listOfAlerts[Constants.VIOLATION_LEVELS.INFORMATIONAL.name] = informational;
         AuditUI.refreshClickHandlers(listOfAlerts, noViolations);
     }
 
@@ -411,7 +411,7 @@ window.Audit = (function (Resource, AuditRender) {
         auditRender.clearContainer();
         var listOfAlerts = {};
 
-        var isSorting = sortKey.indexOf('meta_') !== -1;
+        var isSorting = AuditUtils.isSorting(sortKey)
         var isClear = !alerts.length && !hasDisabled && !errors.length;
 
         if (isClear) {
@@ -439,7 +439,7 @@ window.Audit = (function (Resource, AuditRender) {
             return;
         }
 
-        sendRequest(constants.REQUEST.GET_TRUNCATED_OBJ, {
+        sendRequest(Constants.REQUEST.GET_TRUNCATED_OBJ, {
                 objectKey: rules.truncated.object_key,
                 blockUI: false
             },
@@ -502,16 +502,16 @@ window.Audit = (function (Resource, AuditRender) {
 
         auditRender = new AuditRender(sortKey, isDisabledViolationsVisible);
 
-        if (ccThisData.engineStatus === constants.ENGINE_STATUSES.EXECUTION_ERROR) {
+        if (ccThisData.engineStatus === Constants.ENGINE_STATUSES.EXECUTION_ERROR) {
             $(containers.warningBlock).removeClass('hidden');
         }
 
         var initRender = function (sortKey) {
 
-            var isCompleted = ccThisData.engineState === constants.ENGINE_STATES.COMPLETED;
-            var isInitialized = ccThisData.engineState === constants.ENGINE_STATES.INITIALIZED;
-            var isPlanned = ccThisData.engineState === constants.ENGINE_STATES.PLANNED;
-            var isStatusOK = ccThisData.engineState === constants.ENGINE_STATUSES.OK;
+            var isCompleted = ccThisData.engineState === Constants.ENGINE_STATES.COMPLETED;
+            var isInitialized = ccThisData.engineState === Constants.ENGINE_STATES.INITIALIZED;
+            var isPlanned = ccThisData.engineState === Constants.ENGINE_STATES.PLANNED;
+            var isStatusOK = ccThisData.engineState === Constants.ENGINE_STATUSES.OK;
 
             executionIsFinished = isCompleted || isInitialized || (isPlanned && !isStatusOK);
 
@@ -544,7 +544,7 @@ window.Audit = (function (Resource, AuditRender) {
 
     audit.prototype.refreshData = function (data, callback) {
         ccThisData = data;
-        if (data.engineState !== constants.ENGINE_STATES.COMPLETED) return;
+        if (data.engineState !== Constants.ENGINE_STATES.COMPLETED) return;
         init($('.audit .chosen-sorting').val(), callback);
     };
 

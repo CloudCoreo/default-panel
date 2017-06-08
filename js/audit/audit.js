@@ -378,12 +378,16 @@ window.Audit = (function (Resource, AuditRender) {
         }
         if (informational && !isSorting && sortKey === Constants.SORTKEYS.level.name) {
             auditRender.renderInformationalSection(sortKey, informational);
-            var allPassedCardIsShown = true;
-            for (var level in alertData.level) {
-                if (level.isViolation) allPassedCardIsShown = false;
-            }
-            if (allPassedCardIsShown) AuditUI.showNoViolationsMessage();
         }
+        var allPassedCardIsShown = true;
+        for (var level in alertData.level) {
+            if (Constants.VIOLATION_LEVELS[level.toUpperCase()].isViolation) {
+                allPassedCardIsShown = false;
+                break;
+            }
+        }
+
+        if (allPassedCardIsShown) AuditUI.showNoViolationsMessage();
         if (!isSorting) {
             renderNoViolationsSection(sortKey);
         }

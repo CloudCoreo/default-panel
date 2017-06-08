@@ -1,5 +1,5 @@
-var colorPalette = constants.COLORS;
-var containers = constants.CONTAINERS;
+var colorPalette = Constants.COLORS;
+var containers = Constants.CONTAINERS;
 
 
 window.AuditUI = {
@@ -51,13 +51,13 @@ window.AuditUI = {
         $('.resources-link, .resources-title-link').click(function () {
             var _this = $(this);
             var params = AuditUtils.getOrganizedViolationData(_this, listOfAlerts);
-            openPopup(constants.POPUPS.VIOLATION_RESOURCES, params);
+            openPopup(Constants.POPUPS.VIOLATION_RESOURCES, params);
         });
 
         $('.share-link').click(function () {
             var _this = $(this);
             var params = AuditUtils.getOrganizedViolationData(_this, listOfAlerts);
-            openPopup(constants.POPUPS.SHARE_VIOLATION, params);
+            openPopup(Constants.POPUPS.SHARE_VIOLATION, params);
         });
 
         $('.resources-suppressed-link').click(function (event) {
@@ -72,7 +72,7 @@ window.AuditUI = {
 
             event.preventDefault();
             event.stopPropagation();
-            openPopup(constants.POPUPS.VIOLATION_RESOURCES, params);
+            openPopup(Constants.POPUPS.VIOLATION_RESOURCES, params);
         });
 
         $('.more-info-link').click(function () {
@@ -82,7 +82,7 @@ window.AuditUI = {
                 id: id,
                 link: link
             };
-            openPopup(constants.POPUPS.VIOLATION_MORE_INFO, params);
+            openPopup(Constants.POPUPS.VIOLATION_MORE_INFO, params);
         });
 
         $('.details-btn').click(function () {

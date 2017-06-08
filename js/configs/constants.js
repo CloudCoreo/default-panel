@@ -1,4 +1,4 @@
-window.constants = {
+window.Constants = {
 
     CONTAINERS: {
         mainDataContainerSelector: '.list',
@@ -292,9 +292,25 @@ window.constants = {
     },
 
     SORTKEYS: {
-        LEVEL: 'level',
-        CATEGORY: 'category',
-        SERVICE: 'service',
-        REGION: 'region'
+        level: {
+            name: 'level',
+            isSorting: false
+        },
+        category: {
+            name: 'category',
+            isSorting: false
+        },
+        service: {
+            name: 'service',
+            isSorting: false
+        },
+        region: {
+            name: 'region',
+            isSorting: false
+        },
+        meta_cis_id: {
+            name: 'meta_cis_id',
+            isSorting: true
+        }
     }
 };

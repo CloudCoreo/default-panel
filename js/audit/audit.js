@@ -380,7 +380,6 @@ window.Audit = (function (Resource, AuditRender) {
             auditRender.renderInformationalSection(sortKey, informational);
         }
         var allPassedCardIsShown = true;
-        console.log(alertData);
         for (var level in alertData.level) {
             if (constants.VIOLATION_LEVELS[level.toUpperCase()].isViolation) {
                 allPassedCardIsShown = false;

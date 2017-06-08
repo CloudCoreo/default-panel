@@ -251,7 +251,7 @@ window.Constants = {
         },
         MANUAL: {
             name: 'Manual',
-            isViolation: true
+            isViolation: false
         },
         INTERNAL: {
             name: 'Internal',

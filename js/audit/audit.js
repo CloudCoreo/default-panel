@@ -381,11 +381,12 @@ window.Audit = (function (Resource, AuditRender) {
         }
         var allPassedCardIsShown = true;
         for (var level in alertData.level) {
-            if (constants.VIOLATION_LEVELS[level.toUpperCase()].isViolation) {
+            if (Constants.VIOLATION_LEVELS[level.toUpperCase()].isViolation) {
                 allPassedCardIsShown = false;
                 break;
             }
         }
+
         if (allPassedCardIsShown) AuditUI.showNoViolationsMessage();
         if (!isSorting) {
             renderNoViolationsSection(sortKey);

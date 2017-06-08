@@ -12,91 +12,91 @@ window.AuditRender = (function () {
         violationTpl = $.templates(templates.VIOLATION_ROW);
 
 
-    function getCounterLabel(options) {
-        var violationCount =  options.violationsCount;
-        var noViolationCount =  options.noViolationCount;
-        var isNotPlural = options.violationsCount === 1;
+    function getCounterLabel(params) {
+        var violationCount =  params.violationsCount;
+        var noViolationCount =  params.noViolationCount;
+        var isNotPlural = params.violationsCount === 1;
 
-        if (options.isInformational) {
+        if (params.isInformational) {
             return violationCount + ' ' + (isNotPlural ? uiTexts.LABELS.CLOUD_OBJECT : uiTexts.LABELS.CLOUD_OBJECTS);
         }
-        if (options.isSorting) {
+        if (params.isSorting) {
             return violationCount + ' ' + (violationCount === 1 ? uiTexts.LABELS.VIOLATING_OBJECT : uiTexts.LABELS.VIOLATING_OBJECTS) + ' ' +
                 noViolationCount + ' ' + (noViolationCount === 1 ? uiTexts.LABELS.RULE : uiTexts.LABELS.RULES);
         }
-        if (options.isNoViolation) {
+        if (params.isNoViolation) {
             isNotPlural = noViolationCount === 1;
             return noViolationCount + ' ' + (isNotPlural ? uiTexts.LABELS.RULE : uiTexts.LABELS.RULES);
         }
         return violationCount + ' ' + (isNotPlural ? uiTexts.LABELS.VIOLATING_OBJECT : uiTexts.LABELS.VIOLATING_OBJECTS);
     }
 
-    function renderHeader(options) {
+    function getSubHeader(params) {
+        return {
+            label: AuditUtils.removeMetaPrefix(params.sortKey).replace(/[-_]/g, ' '),
+            value: params.violation[params.sortKey] || '-'
+        }
+    }
+
+    function renderHeader(params) {
         return headerTpl.render({
-            name: options.name,
-            key: options.key,
+            name: params.name,
+            key: params.key,
             label: getCounterLabel({
-                isSorting: options.isSorting,
-                isInformational: options.isInformational,
-                isNoViolation: options.isNoViolation,
-                violationsCount: options.violationsCount,
-                noViolationCount: options.noViolationCount
+                isSorting: params.isSorting,
+                isInformational: params.isInformational,
+                isNoViolation: params.isNoViolation,
+                violationsCount: params.violationsCount,
+                noViolationCount: params.noViolationCount
             }),
-            isSorting: options.isSorting
+            isSorting: params.isSorting
         });
     }
     
-    function renderViolationRow(options) {
-        options.isVisible = options.isViolation || options.violation.isPassed || (!options.violation.isPassed && options.isDisabledVisible);;
+    function renderViolationRow(params) {
+        params.isVisible = params.isViolation || params.violation.isPassed || (!params.violation.isPassed && params.isDisabledVisible);;
 
         return Templates.violationBlock({
-            renderOptions: options,
+            renderOptions: params,
             violationTpl: violationTpl,
-            color: options.color
+            color: params.color
         });
     }
 
-    function renderSection(options) {
+    function renderSection(params) {
 
-        var sectionSummary = { label: options.key, value: 0, color: options.color };
-        if (!Object.keys(options.violations).length) {
+        var sectionSummary = { label: params.key, value: 0, color: params.color };
+        if (!Object.keys(params.violations).length) {
             return sectionSummary;
         }
 
-        var isNoViolation = options.resultsType === Constants.RESULT_TYPE.RULES;
-        var isInformational = options.resultsType === Constants.RESULT_TYPE.INFORMATIONAL;
+        var isNoViolation = params.resultsType === Constants.RESULT_TYPE.RULES;
+        var isInformational = params.resultsType === Constants.RESULT_TYPE.INFORMATIONAL;
         var violationsCount = 0;
         var noViolationCount = 0;
         var allViolationsCount = 0;
         var renderedBlock = '';
-        var isSorting = AuditUtils.isSorting(options.sortKey);
+        var isSorting = AuditUtils.isSorting(params.sortKey);
 
-        Object.keys(options.violations).forEach(function (vId) {
+        Object.keys(params.violations).forEach(function (vId) {
             var renderedViolation = '';
-            var violation = options.violations[vId];
-            var color = options.color;
+            var violation = params.violations[vId];
+            var color = params.color;
             var isViolation = violation.resources && violation.resources.length && violation.resources.length > 0;
 
             violation.level = (!violation.level || violation.level === '') ?
                 Constants.VIOLATION_LEVELS.INFORMATIONAL.name : violation.level;
 
-            if (isSorting && !isNoViolation && options.levels[violation.level]) {
-                color = options.levels[violation.level].color;
+            if (isSorting && !isNoViolation && params.levels[violation.level]) {
+                color = params.levels[violation.level].color;
             }
-
-            renderedBlock += renderViolationRow({
-                resultsType: options.resultsType,
-                violation: violation,
-                isViolation: isViolation,
-                isDisabledVisible: options.isDisabledVisible,
-                isPassed: violation.isPassed,
-                isSorting: isSorting,
-                color: color
-            });
 
             if (isSorting) {
                 if (isViolation && (violation.level !== Constants.VIOLATION_LEVELS.INFORMATIONAL.name)) violationsCount++;
                 else noViolationCount++;
+
+                var metaToRemove = AuditUtils.removeMetaPrefix(params.sortKey).replace(/[-_]/g, ' ')
+                violation.metas = AuditUtils.removeFieldByValue(violation.metas, 'key', metaToRemove);
             }
             else {
                 if (isViolation) violationsCount += violation.resources.length;
@@ -104,13 +104,28 @@ window.AuditRender = (function () {
                 allViolationsCount = violationsCount;
             }
 
-            sectionSummary.value += options.violations[vId].resources.length;
+            renderedBlock += renderViolationRow({
+                resultsType: params.resultsType,
+                violation: violation,
+                isViolation: isViolation,
+                isDisabledVisible: params.isDisabledVisible,
+                isPassed: violation.isPassed,
+                isSorting: isSorting,
+                color: color,
+                subHeader: getSubHeader({
+                    violation: violation,
+                    sortKey: params.sortKey
+                })
+            });
+
+            sectionSummary.value += params.violations[vId].resources.length;
         });
+
         if (isSorting) allViolationsCount = violationsCount;
 
         var header = renderHeader({
-            name: options.key.replace(/[-_]/g, ' '),
-            key: options.key,
+            name: AuditUtils.removeMetaPrefix(params.key).replace(/[-_]/g, ' '),
+            key: params.key,
             isSorting: isSorting,
             isInformational: isInformational,
             isNoViolation: isNoViolation,
@@ -120,7 +135,7 @@ window.AuditRender = (function () {
 
         var rowLayout = Templates.violationBlockWrapper({
             header: header,
-            key: options.key,
+            key: params.key,
             renderedBlock: renderedBlock,
             isNoViolation: isNoViolation
         });

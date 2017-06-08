@@ -311,6 +311,10 @@ window.Constants = {
         meta_cis_id: {
             name: 'meta_cis_id',
             isSorting: true
+        },
+        meta_nist_171_id: {
+            name: 'meta_nist_171_id',
+            isSorting: true
         }
     }
 };

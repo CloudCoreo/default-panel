@@ -48,6 +48,22 @@ window.AuditUtils = {
     },
 
 
+    removeMetaPrefix: function (string) {
+        return string.replace('meta_', '').replace(/_/g, ' ');
+    },
+
+
+    removeFieldByValue: function (arr, key, value) {
+        // for (var i = 0; i < arr.length; i++) {
+        //     if (arr[i][key] === value) arr.splice(i, 1);
+        // }
+        // return arr;
+        return arr.filter(function (item) {
+            return item[key] !== value;
+        })
+    },
+
+
     getColor: function (level, sortKey, keys, colors) {
         var color;
 

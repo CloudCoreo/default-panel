@@ -197,6 +197,9 @@ window.Audit = (function (Resource, AuditRender) {
                     if (!alertData.meta_cis_id.hasOwnProperty(alert.meta_cis_id)) {
                         alertData.meta_cis_id[alert.meta_cis_id] = 0;
                     }
+                    if (!alertData.meta_nist_171_id.hasOwnProperty(alert.meta_nist_171_id)) {
+                        alertData.meta_nist_171_id[alert.meta_nist_171_id] = 0;
+                    }
                     ++alertData.level[alert.level].count;
                     ++alertData.category[alert.category];
                     ++alertData.region[alert.region];
@@ -442,20 +445,21 @@ window.Audit = (function (Resource, AuditRender) {
             callback(rules);
             return;
         }
+        callback(rules);
 
-        sendRequest(Constants.REQUEST.GET_TRUNCATED_OBJ, {
-                objectKey: rules.truncated.object_key,
-                blockUI: false
-            },
-            function (error, retrievedObject) {
-                if (error) {
-                    rules = [];
-                }
-                else {
-                    rules = retrievedObject;
-                }
-                callback(rules);
-            });
+        // sendRequest(Constants.REQUEST.GET_TRUNCATED_OBJ, {
+        //         objectKey: rules.truncated.object_key,
+        //         blockUI: false
+        //     },
+        //     function (error, retrievedObject) {
+        //         if (error) {
+        //             rules = [];
+        //         }
+        //         else {
+        //             rules = retrievedObject;
+        //         }
+        //         callback(rules);
+        //     });
     }
 
 

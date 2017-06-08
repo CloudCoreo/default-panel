@@ -13,6 +13,10 @@ html, body {
     display: flex;
 }
 
+.uppercase {
+    text-transform: uppercase;
+}
+
 .align-start {
     align-items: flex-start;
 }

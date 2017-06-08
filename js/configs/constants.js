@@ -15,7 +15,7 @@ window.Constants = {
         CHART_HEADER: '.pie-data-header .chart-header'
     },
 
-    TEMPLATES: {
+    TEMPLATE_IDS: {
         LIST_HEADER: '#list-header-tmpl',
         VIOLATION_ROW: '#row-tmpl',
         PASSED_DISABLED_ROW: '#passed-and-disabled-row',

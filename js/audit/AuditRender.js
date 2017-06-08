@@ -64,9 +64,10 @@ window.AuditRender = (function () {
     }
 
     function renderSection(params) {
+        var violationsCopy = utils.objectDeepCopy(params.violations);
 
         var sectionSummary = { label: params.key, value: 0, color: params.color };
-        if (!Object.keys(params.violations).length) {
+        if (!Object.keys(violationsCopy).length) {
             return sectionSummary;
         }
 
@@ -78,9 +79,9 @@ window.AuditRender = (function () {
         var renderedBlock = '';
         var isSorting = AuditUtils.isSorting(params.sortKey);
 
-        Object.keys(params.violations).forEach(function (vId) {
+        Object.keys(violationsCopy).forEach(function (vId) {
             var renderedViolation = '';
-            var violation = params.violations[vId];
+            var violation = violationsCopy[vId];
             var color = params.color;
             var isViolation = violation.resources && violation.resources.length && violation.resources.length > 0;
 
@@ -118,7 +119,7 @@ window.AuditRender = (function () {
                 })
             });
 
-            sectionSummary.value += params.violations[vId].resources.length;
+            sectionSummary.value += violationsCopy[vId].resources.length;
         });
 
         if (isSorting) allViolationsCount = violationsCount;

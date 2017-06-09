@@ -445,7 +445,6 @@ window.Audit = (function (Resource, AuditRender) {
             callback(rules);
             return;
         }
-        callback(rules);
 
         sendRequest(Constants.REQUEST.GET_TRUNCATED_OBJ, {
                 objectKey: rules.truncated.object_key,
@@ -477,6 +476,8 @@ window.Audit = (function (Resource, AuditRender) {
             resource.outputs = item.outputs.reduce(reduceObject, {});
 
             changedResources.push(resource);
+
+            if (isRuleRunner && !resource.inputs.rules) resource.inputs.rules = [];
 
             getRulesForRunnerResource(isRuleRunner, resource.inputs.rules, function (rules) {
                 ++handledRulesCount;

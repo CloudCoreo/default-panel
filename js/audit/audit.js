@@ -447,19 +447,19 @@ window.Audit = (function (Resource, AuditRender) {
         }
         callback(rules);
 
-        // sendRequest(Constants.REQUEST.GET_TRUNCATED_OBJ, {
-        //         objectKey: rules.truncated.object_key,
-        //         blockUI: false
-        //     },
-        //     function (error, retrievedObject) {
-        //         if (error) {
-        //             rules = [];
-        //         }
-        //         else {
-        //             rules = retrievedObject;
-        //         }
-        //         callback(rules);
-        //     });
+        sendRequest(Constants.REQUEST.GET_TRUNCATED_OBJ, {
+                objectKey: rules.truncated.object_key,
+                blockUI: false
+            },
+            function (error, retrievedObject) {
+                if (error) {
+                    rules = [];
+                }
+                else {
+                    rules = retrievedObject;
+                }
+                callback(rules);
+            });
     }
 
 

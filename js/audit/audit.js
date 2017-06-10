@@ -36,17 +36,36 @@ window.Audit = (function (Resource, AuditRender) {
     }
 
 
-    function organizeForSorting(sortKey) {
-        var keys = [sortKey];
-        var listOfAlerts = organizeDataForCurrentRender(sortKey, keys, Constants.ORGANIZATION_TYPE.SORT);
-
-        if (Object.keys(listOfAlerts).length === 0) {
-            listOfAlerts[sortKey] = {};
-            listOfAlerts[sortKey].alerts = {};
-        }
-        Object.keys(noViolations).forEach(function (violationKey) {
-            listOfAlerts[sortKey].alerts[violationKey] = noViolations[violationKey];
+    function mergeNoViolationsAndViolationsForNist(violations, noViolationsForNistSorting) {
+        Object.keys(noViolationsForNistSorting).forEach(function (violationKey) {
+            violations[sortKey].alerts[violationKey] = noViolationsForNistSorting[violationKey];
         });
+        return violations;
+    }
+
+
+    function separateNoViolationsByNistId() {
+        var noViolationsWithNistId = {};
+
+        Object.keys(noViolations).forEach(function (alertKey) {
+            var alert = noViolations[alertKey];
+            noViolationsWithNistId = cloneAlertByNistID(alert, noViolationsWithNistId);
+        });
+        return noViolationsWithNistId
+    }
+
+
+    function organizeForSorting() {
+        var keys = [sortKey];
+        var listOfAlerts = {};
+        listOfAlerts[sortKey] = {};
+        listOfAlerts[sortKey].alerts = {};
+        var noViolationsToMerge = noViolations;
+
+        if (sortKey === 'meta_nist_171_id') noViolationsToMerge = separateNoViolationsByNistId();
+
+        listOfAlerts = mergeNoViolationsAndViolationsForNist(listOfAlerts, noViolationsToMerge);
+        listOfAlerts = organizeDataForCurrentRender(keys, Constants.ORGANIZATION_TYPE.SORT, listOfAlerts);
 
         listOfAlerts[sortKey].alerts = utils.sortHashOfObjectsByField(listOfAlerts[sortKey].alerts, sortKey);
         listOfAlerts[sortKey].levels = AuditUtils.setColorsForLevels(alertData[Constants.SORTKEYS.level.name], sortKey);
@@ -55,15 +74,57 @@ window.Audit = (function (Resource, AuditRender) {
     }
 
 
-    function organizeForGrouping(sortKey) {
+    function organizeForGrouping() {
         var keys = Object.keys(alertData[sortKey]);
-        return organizeDataForCurrentRender(sortKey, keys, Constants.ORGANIZATION_TYPE.GROUP);
+        return organizeDataForCurrentRender(keys, Constants.ORGANIZATION_TYPE.GROUP);
     }
 
 
-    function organizeDataForCurrentRender(sortKey, keys, organizeType) {
-        var listOfAlerts = {};
+    function cloneAlertByNistID (alert, alertsForKey) {
+        var nistIds = alert.meta_nist_171_id ? alert.meta_nist_171_id.split(',') : [];
+        var newAlerts = alertsForKey || {};
 
+        var pushAlertToList = function (nistId) {
+            var alertObject = alert;
+            alertObject.meta_nist_171_id = nistId;
+            alertObject.sortKey = sortKey;
+            alertObject.resources = [];
+            alertObject.suppressions = [];
+            return alertObject;
+        };
+
+        if (!nistIds.length && !newAlerts[alert.id]) {
+            newAlerts[alert.id] = pushAlertToList('');
+            return newAlerts;
+        }
+
+        return nistIds.reduce(function (newList, nistId) {
+            var nistIdWithoutSpace = nistId.replace(' ', '');
+            var alertIdForNist = alert.id + '-nist-' + nistIdWithoutSpace;
+
+            if (!newList[alertIdForNist]) newList[alertIdForNist] = pushAlertToList(nistId);
+
+            if (!alert.resource) return newList;
+            if (alert.resource.isSuppressed) {
+                newList[alertIdForNist].suppressions.push(alert.resource);
+            } else {
+                newList[alertIdForNist].resources.push(alert.resource);
+            }
+
+            return newList;
+        }, newAlerts);
+    }
+
+
+    function fillSuppressedViolations(alert) {
+        var suppressedViolations = {};
+
+    }
+
+
+    function organizeDataForCurrentRender(keys, organizeType, listOfAlerts) {
+        var listOfAlerts = listOfAlerts || {};
+        var isSortingByNist = sortKey === 'meta_nist_171_id';
         var colorsRange = AuditUtils.getColorRangeByKeys(keys, colorPalette);
         var colors = d3.scaleOrdinal(colorsRange);
 
@@ -77,22 +138,30 @@ window.Audit = (function (Resource, AuditRender) {
                 listOfAlerts[key].color = AuditUtils.getColor(alert[sortKey], sortKey, keys, colors);
             }
 
-            if (!listOfAlerts[key].alerts[alert.id]) {
+            if (isSortingByNist) {
+                listOfAlerts[key].alerts = cloneAlertByNistID(alert, listOfAlerts[key].alerts);
+                return;
+            }
+
+            if (!listOfAlerts[key].alerts[alert.id] && !isSortingByNist) {
                 listOfAlerts[key].alerts[alert.id] = alert;
                 listOfAlerts[key].alerts[alert.id].sortKey = key;
                 listOfAlerts[key].alerts[alert.id].resources = [];
                 listOfAlerts[key].alerts[alert.id].suppressions = [];
             }
-            if (!suppressedViolations[alert.id]) suppressedViolations[alert.id] = {};
+            if (!suppressedViolations[alert.id] && !isSortingByNist) suppressedViolations[alert.id] = {};
+
+
+            // suppressedViolations = fillSuppressedViolations(alert);
 
             if (!alert.resource) return;
             if (alert.resource.isSuppressed) {
                 listOfAlerts[key].alerts[alert.id].suppressions.push(alert.resource);
-                if (typeof suppressedViolations[alert.id][key] === 'undefined') suppressedViolations[alert.id][key] = true;
+                // if (typeof suppressedViolations[alert.id][key] === 'undefined') suppressedViolations[alert.id][key] = true;
             }
             else {
                 listOfAlerts[key].alerts[alert.id].resources.push(alert.resource);
-                suppressedViolations[alert.id][key] = false;
+                // suppressedViolations[alert.id][key] = false;
             }
         });
 
@@ -156,6 +225,7 @@ window.Audit = (function (Resource, AuditRender) {
                         rowData.violationId = violations[violationKey]._id;
                         rowData.service = violations[violationKey].inputs.service;
                         rowData.meta_cis_id = violations[violationKey].inputs.meta_cis_id;
+                        rowData.meta_nist_171_id = violations[violationKey].inputs.meta_nist_171_id;
                     }
 
                     if (typeof rowData.include_violations_in_count === 'undefined') {
@@ -197,7 +267,7 @@ window.Audit = (function (Resource, AuditRender) {
                     if (!alertData.meta_cis_id.hasOwnProperty(alert.meta_cis_id)) {
                         alertData.meta_cis_id[alert.meta_cis_id] = 0;
                     }
-                    if (!alertData.meta_nist_171_id.hasOwnProperty(alert.meta_nist_171_id)) {
+                    if (!alertData.meta_nist_171_id.hasOwnProperty(alert.meta_nist_171_id) && alert.meta_nist_171_id) {
                         alertData.meta_nist_171_id[alert.meta_nist_171_id] = 0;
                     }
                     ++alertData.level[alert.level].count;
@@ -367,8 +437,8 @@ window.Audit = (function (Resource, AuditRender) {
         var listOfAlerts = {};
         var informational;
 
-        if (isSorting) listOfAlerts = organizeForSorting(sortKey);
-        else listOfAlerts = organizeForGrouping(sortKey);
+        if (isSorting) listOfAlerts = organizeForSorting();
+        else listOfAlerts = organizeForGrouping();
 
         if (listOfAlerts[Constants.VIOLATION_LEVELS.INFORMATIONAL.name] && !isSorting) {
             informational = listOfAlerts[Constants.VIOLATION_LEVELS.INFORMATIONAL.name];
@@ -399,9 +469,7 @@ window.Audit = (function (Resource, AuditRender) {
     }
 
     function reRender(_sortKey) {
-        if (!alerts) {
-            return;
-        }
+        if (!alerts) return;
 
         sortKey = _sortKey;
 

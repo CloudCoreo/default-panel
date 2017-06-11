@@ -85,12 +85,12 @@ window.Audit = (function (Resource, AuditRender) {
         var newAlerts = alertsForKey || {};
 
         var pushAlertToList = function (nistId) {
-            var alertObject = alert;
-            alertObject.meta_nist_171_id = nistId;
-            alertObject.sortKey = sortKey;
-            alertObject.resources = [];
-            alertObject.suppressions = [];
-            return alertObject;
+            var alertCopy = utils.objectDeepCopy(alert);
+            alertCopy.meta_nist_171_id = nistId;
+            alertCopy.sortKey = sortKey;
+            alertCopy.resources = [];
+            alertCopy.suppressions = [];
+            return alertCopy;
         };
 
         if (!nistIds.length && !newAlerts[alert.id]) {
@@ -102,7 +102,7 @@ window.Audit = (function (Resource, AuditRender) {
             var nistIdWithoutSpace = nistId.replace(' ', '');
             var alertIdForNist = alert.id + '-nist-' + nistIdWithoutSpace;
 
-            if (!newList[alertIdForNist]) newList[alertIdForNist] = pushAlertToList(nistId);
+            if (!newList[alertIdForNist]) newList[alertIdForNist] = pushAlertToList(nistIdWithoutSpace);
 
             if (!alert.resource) return newList;
             if (alert.resource.isSuppressed) {

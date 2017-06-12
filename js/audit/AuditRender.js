@@ -108,6 +108,7 @@ window.AuditRender = (function () {
             renderedBlock += renderViolationRow({
                 resultsType: params.resultsType,
                 violation: violation,
+                violationId: vId,
                 isViolation: isViolation,
                 isDisabledVisible: params.isDisabledVisible,
                 isPassed: violation.isPassed,

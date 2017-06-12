@@ -178,7 +178,7 @@ window.Audit = (function (Resource, AuditRender) {
                     alert.id = violationKey;
                     alert.resource = resource;
                     alert.timestamp = timestamp;
-                    alert.metas = AuditUtils.getRuleMetasCis(rowData);
+                    alert.metas = AuditUtils.getRuleMetasCis(violations[violationKey].inputs);
                     alerts.push(alert);
 
                     if (!alertData.level.hasOwnProperty(alert.level)) {

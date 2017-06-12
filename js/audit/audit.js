@@ -37,19 +37,22 @@ window.Audit = (function (Resource, AuditRender) {
 
 
     function mergeNoViolationsAndViolationsForNist(violations, noViolationsForNistSorting) {
-        Object.keys(noViolationsForNistSorting).forEach(function (violationKey) {
-            violations[sortKey].alerts[violationKey] = noViolationsForNistSorting[violationKey];
+        Object.keys(noViolationsForNistSorting.alerts).forEach(function (violationKey) {
+            violations[sortKey].alerts[violationKey] = noViolationsForNistSorting.alerts[violationKey];
         });
         return violations;
     }
 
 
     function separateNoViolationsByNistId() {
-        var noViolationsWithNistId = {};
+        var noViolationsWithNistId = {
+            alerts: {},
+            suppressedViolations: {}
+        };
 
         Object.keys(noViolations).forEach(function (alertKey) {
             var alert = noViolations[alertKey];
-            noViolationsWithNistId = cloneAlertByNistID(alert, noViolationsWithNistId);
+            noViolationsWithNistId = cloneAlertByNistID(alert, noViolationsWithNistId.alerts);
         });
         return noViolationsWithNistId
     }
@@ -60,7 +63,10 @@ window.Audit = (function (Resource, AuditRender) {
         var listOfAlerts = {};
         listOfAlerts[sortKey] = {};
         listOfAlerts[sortKey].alerts = {};
-        var noViolationsToMerge = noViolations;
+        var noViolationsToMerge = {
+            alerts: noViolations,
+            suppressedViolations: {}
+        };
 
         if (sortKey === 'meta_nist_171_id') noViolationsToMerge = separateNoViolationsByNistId();
 
@@ -80,9 +86,12 @@ window.Audit = (function (Resource, AuditRender) {
     }
 
 
-    function cloneAlertByNistID (alert, alertsForKey) {
-        var nistIds = alert.meta_nist_171_id ? alert.meta_nist_171_id.split(',') : [];
-        var newAlerts = alertsForKey || {};
+    function cloneAlertByNistID (alert, alertsForKey, suppressedViolations) {
+        var nistIds = alert.meta_nist_171_id ? alert.meta_nist_171_id.split(',') : [''];
+        var newAlerts = {
+            alerts: alertsForKey || {},
+            suppressedViolations: suppressedViolations || {}
+        };
 
         var pushAlertToList = function (nistId) {
             var alertCopy = utils.objectDeepCopy(alert);
@@ -93,32 +102,27 @@ window.Audit = (function (Resource, AuditRender) {
             return alertCopy;
         };
 
-        if (!nistIds.length && !newAlerts[alert.id]) {
-            newAlerts[alert.id] = pushAlertToList('');
-            return newAlerts;
-        }
-
         return nistIds.reduce(function (newList, nistId) {
             var nistIdWithoutSpace = nistId.replace(' ', '');
-            var alertIdForNist = alert.id + '-nist-' + nistIdWithoutSpace;
+            var alertIdForNist = (nistIdWithoutSpace === '') ? alert.id : alert.id + '-nist-' + nistIdWithoutSpace;
 
-            if (!newList[alertIdForNist]) newList[alertIdForNist] = pushAlertToList(nistIdWithoutSpace);
+            if (!newList.alerts[alertIdForNist]) newList.alerts[alertIdForNist] = pushAlertToList(nistIdWithoutSpace);
+
+            if (!newList.suppressedViolations[alertIdForNist]) newList.suppressedViolations[alertIdForNist] = {};
 
             if (!alert.resource) return newList;
             if (alert.resource.isSuppressed) {
-                newList[alertIdForNist].suppressions.push(alert.resource);
+                newList.alerts[alertIdForNist].suppressions.push(alert.resource);
+                if (typeof newList.suppressedViolations[alertIdForNist][sortKey] === 'undefined') {
+                    newList.suppressedViolations[alertIdForNist][sortKey] = true;
+                }
             } else {
-                newList[alertIdForNist].resources.push(alert.resource);
+                newList.alerts[alertIdForNist].resources.push(alert.resource);
+                newList.suppressedViolations[alertIdForNist][sortKey] = false;
             }
 
             return newList;
         }, newAlerts);
-    }
-
-
-    function fillSuppressedViolations(alert) {
-        var suppressedViolations = {};
-
     }
 
 
@@ -139,29 +143,28 @@ window.Audit = (function (Resource, AuditRender) {
             }
 
             if (isSortingByNist) {
-                listOfAlerts[key].alerts = cloneAlertByNistID(alert, listOfAlerts[key].alerts);
+                var clonedAlerts = cloneAlertByNistID(alert, listOfAlerts[key].alerts, suppressedViolations);
+                listOfAlerts[key].alerts = clonedAlerts.alerts;
+                suppressedViolations = clonedAlerts.suppressedViolations;
                 return;
             }
 
-            if (!listOfAlerts[key].alerts[alert.id] && !isSortingByNist) {
+            if (!listOfAlerts[key].alerts[alert.id]) {
                 listOfAlerts[key].alerts[alert.id] = alert;
                 listOfAlerts[key].alerts[alert.id].sortKey = key;
                 listOfAlerts[key].alerts[alert.id].resources = [];
                 listOfAlerts[key].alerts[alert.id].suppressions = [];
             }
-            if (!suppressedViolations[alert.id] && !isSortingByNist) suppressedViolations[alert.id] = {};
-
-
-            // suppressedViolations = fillSuppressedViolations(alert);
+            if (!suppressedViolations[alert.id]) suppressedViolations[alert.id] = {};
 
             if (!alert.resource) return;
             if (alert.resource.isSuppressed) {
                 listOfAlerts[key].alerts[alert.id].suppressions.push(alert.resource);
-                // if (typeof suppressedViolations[alert.id][key] === 'undefined') suppressedViolations[alert.id][key] = true;
+                if (typeof suppressedViolations[alert.id][key] === 'undefined') suppressedViolations[alert.id][key] = true;
             }
             else {
                 listOfAlerts[key].alerts[alert.id].resources.push(alert.resource);
-                // suppressedViolations[alert.id][key] = false;
+                suppressedViolations[alert.id][key] = false;
             }
         });
 

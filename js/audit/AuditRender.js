@@ -83,7 +83,7 @@ window.AuditRender = (function () {
             var renderedViolation = '';
             var violation = violationsCopy[vId];
             var color = params.color;
-            var isViolation = violation.resources && violation.resources.length && violation.resources.length > 0;
+            var isViolation = violation.resources && violation.resources.length !== 0 && (violation.resources.length > 0);
 
             violation.level = (!violation.level || violation.level === '') ?
                 Constants.VIOLATION_LEVELS.INFORMATIONAL.name : violation.level;

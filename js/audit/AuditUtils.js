@@ -54,10 +54,6 @@ window.AuditUtils = {
 
 
     removeFieldByValue: function (arr, key, value) {
-        // for (var i = 0; i < arr.length; i++) {
-        //     if (arr[i][key] === value) arr.splice(i, 1);
-        // }
-        // return arr;
         return arr.filter(function (item) {
             return item[key] !== value;
         })

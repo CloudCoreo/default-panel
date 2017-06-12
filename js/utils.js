@@ -46,9 +46,9 @@ window.utils = {
     sortHashOfObjectsByField: function (object, field) {
 
         var sortObject = function (a, b) {
-            if (!object[a][field]) return 1;
-            if (!object[b][field]) return -1;
-            return parseFloat(object[a][field]) - parseFloat(object[b][field]);
+            if (!object[a][field] || object[a][field] === '') return 1;
+            if (!object[b][field] || object[b][field] === '') return -1;
+            return object[a][field].localeCompare(object[b][field]);
         };
 
         var buildObject = function (orderedObject, key) {

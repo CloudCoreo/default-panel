@@ -5,7 +5,7 @@ window.Audit = (function (Resource, AuditRender) {
     var noViolations = [];
     var alerts = [];
     var alertData = new AlertData();
-    var executionIsFinished;
+    var executionIsFinished = false;
     var errors = [];
     var hasOld = false;
     var auditRender;
@@ -251,7 +251,11 @@ window.Audit = (function (Resource, AuditRender) {
                     alert.id = violationKey;
                     alert.resource = resource;
                     alert.timestamp = timestamp;
-                    alert.metas = AuditUtils.getRuleMetasCis(rowData);
+                    if (violations[violationKey] && violations[violationKey].inputs) {
+                        alert.metas = AuditUtils.getRuleMetasCis(violations[violationKey].inputs);
+                    } else {
+                        alert.metas = AuditUtils.getRuleMetasCis(rowData);
+                    }
                     alerts.push(alert);
 
                     if (!alertData.level.hasOwnProperty(alert.level)) {
@@ -595,19 +599,16 @@ window.Audit = (function (Resource, AuditRender) {
             $(containers.warningBlock).removeClass('hidden');
         }
 
+        var isCompleted = ccThisData.engineState === Constants.ENGINE_STATES.COMPLETED;
+        var isInitialized = ccThisData.engineState === Constants.ENGINE_STATES.INITIALIZED;
+        var isPlanned = ccThisData.engineState === Constants.ENGINE_STATES.PLANNED;
+        var isStatusOK = ccThisData.engineState === Constants.ENGINE_STATUSES.OK;
+
+        executionIsFinished = isCompleted || isInitialized || (isPlanned && !isStatusOK);
+
+        if (!executionIsFinished && !hasOld) AuditUI.showResourcesAreBeingLoadedMessage();
+
         var initRender = function (sortKey) {
-
-            var isCompleted = ccThisData.engineState === Constants.ENGINE_STATES.COMPLETED;
-            var isInitialized = ccThisData.engineState === Constants.ENGINE_STATES.INITIALIZED;
-            var isPlanned = ccThisData.engineState === Constants.ENGINE_STATES.PLANNED;
-            var isStatusOK = ccThisData.engineState === Constants.ENGINE_STATUSES.OK;
-
-            executionIsFinished = isCompleted || isInitialized || (isPlanned && !isStatusOK);
-
-            if (!executionIsFinished && !hasOld) {
-                AuditUI.showResourcesAreBeingLoadedMessage();
-                return;
-            }
             if (alerts) {
                 reRender(sortKey);
             }
@@ -634,7 +635,10 @@ window.Audit = (function (Resource, AuditRender) {
     audit.prototype.refreshData = function (data, callback) {
         ccThisData = data;
         if (data.engineState !== Constants.ENGINE_STATES.COMPLETED) return;
-        init($('.audit .chosen-sorting').val(), callback);
+        init($('.audit .chosen-sorting').val(), function () {
+            setupHandlers();
+            callback();
+        });
     };
 
     audit.prototype.renderResourcesList = render;

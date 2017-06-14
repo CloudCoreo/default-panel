@@ -13,7 +13,9 @@ window.uiTexts = {
         CLOUD_OBJECTS: 'OBJECTS',
         CLOUD_OBJECT: 'OBJECT',
         RULES: 'RULES',
-        RULE: 'RULE'
+        RULE: 'RULE',
+        WITH_VIOLATIONS: 'WITH VIOLATIONS',
+        WITH_VIOLATION: 'WITH VIOLATION'
     },
     MAP_MESSAGES: {
         RESOURCES_DEPLOYED: 'Resources Deployed',

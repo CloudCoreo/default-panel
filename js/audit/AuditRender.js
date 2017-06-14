@@ -21,8 +21,8 @@ window.AuditRender = (function () {
             return violationCount + ' ' + (isNotPlural ? uiTexts.LABELS.CLOUD_OBJECT : uiTexts.LABELS.CLOUD_OBJECTS);
         }
         if (params.isSorting) {
-            return violationCount + ' ' + (violationCount === 1 ? uiTexts.LABELS.VIOLATING_OBJECT : uiTexts.LABELS.VIOLATING_OBJECTS) + ' ' +
-                noViolationCount + ' ' + (noViolationCount === 1 ? uiTexts.LABELS.RULE : uiTexts.LABELS.RULES);
+            return noViolationCount + ' ' + (noViolationCount === 1 ? uiTexts.LABELS.RULE : uiTexts.LABELS.RULES) + ', ' +
+            violationCount + ' ' + (violationCount === 1 ? uiTexts.LABELS.WITH_VIOLATION : uiTexts.LABELS.WITH_VIOLATIONS);
         }
         if (params.isNoViolation) {
             isNotPlural = noViolationCount === 1;
@@ -93,8 +93,8 @@ window.AuditRender = (function () {
             }
 
             if (isSorting) {
+                noViolationCount++;
                 if (isViolation && (violation.level !== Constants.VIOLATION_LEVELS.INFORMATIONAL.name)) violationsCount++;
-                else noViolationCount++;
 
                 var metaToRemove = AuditUtils.removeMetaPrefix(params.sortKey).replace(/[-_]/g, ' ')
                 violation.metas = AuditUtils.removeFieldByValue(violation.metas, 'key', metaToRemove);
@@ -126,7 +126,7 @@ window.AuditRender = (function () {
         if (isSorting) allViolationsCount = violationsCount;
 
         var header = renderHeader({
-            name: AuditUtils.removeMetaPrefix(params.key).replace(/[-_]/g, ' '),
+            name: AuditUtils.getBlockHeader(params.key, params.sortKey, isNoViolation),
             key: params.key,
             isSorting: isSorting,
             isInformational: isInformational,

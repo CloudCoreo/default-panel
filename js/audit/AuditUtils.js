@@ -1,4 +1,5 @@
 var colorPalette = Constants.COLORS;
+var sortkeys = Constants.SORTKEYS;
 
 
 window.AuditUtils = {
@@ -13,6 +14,17 @@ window.AuditUtils = {
             suppressions: listOfAlerts[sortKey].alerts[violationId].suppressions,
             color: listOfAlerts[sortKey].color
         };
+    },
+
+
+    getBlockHeader: function (key, sortKey) {
+        var isNoViolation = key === 'No Violations';
+        var isLevel = sortKey === sortkeys.level.name;
+        var isCategory = sortKey === sortkeys.category.name;
+        var isService = sortKey === sortkeys.service.name;
+        if (isLevel || isCategory || isService || isNoViolation) return key;
+
+        return Constants.BLOCK_HEADERS[key];
     },
 
 

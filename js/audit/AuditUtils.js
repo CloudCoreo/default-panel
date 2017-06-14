@@ -18,7 +18,7 @@ window.AuditUtils = {
 
 
     getBlockHeader: function (key, sortKey) {
-        var isNoViolation = key === 'No-Violations';
+        var isNoViolation = key === 'No-violations';
         var isLevel = sortKey === sortkeys.level.name;
         var isCategory = sortKey === sortkeys.category.name;
         var isService = sortKey === sortkeys.service.name;

@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    window.isLocalRun = typeof ccThisCont === 'undefined';
+
     var auditData;
     var deployData;
     var map;
@@ -249,11 +251,14 @@ $(document).ready(function () {
         setExecutionStatusMessage(data);
     }
 
-    if (typeof ccThisCont === 'undefined') {
+    if (window.isLocalRun) {
         if (!window.parsedQueries.tmpfile) {
             console.log('Please add tmpFile in url params', 'expamle: ?tmpfile=./tmp-data/tmp0.json');
             return;
         }
+
+        var parsedQueries = parseQueries(window.location.href);
+
         d3.json(window.parsedQueries.tmpfile, function (data) {
             init(data, true);
             // emulateCcThisUpdate(data)

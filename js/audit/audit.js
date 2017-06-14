@@ -443,7 +443,7 @@ window.Audit = (function (Resource, AuditRender) {
             return;
         }
 
-        if (window.parsedQueries.tmpfile) {
+        if (window.isLocalRun) {
             $(".audit-data-is-not-ready").removeClass("hidden");
             $('.audit-list').addClass('hidden');
             $('.map-container').addClass('hidden');

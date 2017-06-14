@@ -432,7 +432,7 @@ window.Audit = (function (Resource, AuditRender) {
     function renderNoViolationsSection() {
         auditRender.renderSection({
             violations: noViolations,
-            key: 'No Violations',
+            key: 'No-Violations',
             color: colorPalette.Passed,
             resultsType: Constants.RESULT_TYPE.RULES,
             sortKey: sortKey,

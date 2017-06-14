@@ -18,10 +18,12 @@ window.AuditUtils = {
 
 
     getBlockHeader: function (key, sortKey) {
-        var isNoViolation = key === 'No Violations';
+        var isNoViolation = key === 'No-Violations';
         var isLevel = sortKey === sortkeys.level.name;
         var isCategory = sortKey === sortkeys.category.name;
         var isService = sortKey === sortkeys.service.name;
+
+        if (isNoViolation) return key.replace('-', ' ');
         if (isLevel || isCategory || isService || isNoViolation) return key;
 
         return Constants.BLOCK_HEADERS[key];

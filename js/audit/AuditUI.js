@@ -59,7 +59,6 @@ window.AuditUI = {
 
     refreshClickHandlers: function (options) {
         this.unbindClickHandlers();
-        debugger
 
         $('.resources-link, .resources-title-link').click(function () {
             var _this = $(this);

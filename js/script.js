@@ -16,8 +16,12 @@ $(document).ready(function () {
     var templates = Constants.TEMPLATE_IDS;
 
     function parseQueries(queryString) {
-        var queries = queryString.split('&');
         var parsedQueries = {};
+        var queries = [];
+
+        if (!queryString) return parsedQueries;
+
+        queries = queryString.split('&');
 
         queries.forEach(function(query) {
             query = query.split('=');
@@ -27,8 +31,8 @@ $(document).ready(function () {
         return parsedQueries;
     }
 
-    var queryString = window.location.href.split('?')[1];
-    window.parsedQueries = parseQueries(queryString);
+    var queryString = window.location.href.split('?');
+    window.parsedQueries = parseQueries(queryString[1]);
 
     function getRegion(resource) {
         function getRegionValue() {
@@ -256,8 +260,6 @@ $(document).ready(function () {
             console.log('Please add tmpFile in url params', 'expamle: ?tmpfile=./tmp-data/tmp0.json');
             return;
         }
-
-        var parsedQueries = parseQueries(window.location.href);
 
         d3.json(window.parsedQueries.tmpfile, function (data) {
             init(data, true);

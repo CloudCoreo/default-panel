@@ -303,8 +303,21 @@ window.Audit = (function (Resource, AuditRender) {
     }
 
 
+    function unbindHandlers() {
+        $(document).unbind('click');
+        $('.audit .chosen-sorting').unbind('change');
+        $('.audit .dropdown-button').unbind('click');
+        $('.audit .custom-dropdown li').unbind('click');
+        $('.browse-composites').unbind('click');
+        $('.link.passed-disabled-link').unbind('click');
+    }
+
+
     function setupHandlers() {
+        unbindHandlers();
+
         $('.audit .chosen-sorting').change(function () {
+            console.log('asdas');
             reRender($(this).val());
         });
 
@@ -538,7 +551,7 @@ window.Audit = (function (Resource, AuditRender) {
             callback();
         };
 
-        fillTruncatedRules(resources, initResourcesList, initRender, sortKey);
+        fillTruncatedRules(resources, initResourcesList, initRender);
     }
 
 

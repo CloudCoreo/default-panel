@@ -13,7 +13,7 @@ $(document).ready(function () {
     var currentView;
     var counter = 0;
 
-    var templates = Constants.TEMPLATES;
+    var templates = Constants.TEMPLATE_IDS;
 
     function parseQueries(queryString) {
         var queries = queryString.split('&');

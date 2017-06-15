@@ -37,8 +37,12 @@ window.Audit = (function (Resource, AuditRender) {
 
 
     function mergeNoViolationsAndViolationsForNist(violations, noViolationsForNistSorting) {
-        Object.keys(noViolationsForNistSorting.alerts).forEach(function (violationKey) {
-            violations[sortKey].alerts[violationKey] = noViolationsForNistSorting.alerts[violationKey];
+        var isSorting = AuditUtils.isSorting(sortKey);
+        var alerts = noViolationsForNistSorting.alerts;
+
+        Object.keys(alerts).forEach(function (violationKey) {
+            if (isSorting && (!alerts[violationKey][sortKey] || alerts[violationKey][sortKey] === '')) return;
+            violations[sortKey].alerts[violationKey] = alerts[violationKey];
         });
         return violations;
     }
@@ -131,11 +135,15 @@ window.Audit = (function (Resource, AuditRender) {
         var isSortingByNist = sortKey === 'meta_nist_171_id';
         var colorsRange = AuditUtils.getColorRangeByKeys(keys, colorPalette);
         var colors = d3.scaleOrdinal(colorsRange);
+        var isSorting = AuditUtils.isSorting(sortKey);
 
         var suppressedViolations = {};
 
         alerts.forEach(function (alert) {
             var key = organizeType === Constants.ORGANIZATION_TYPE.GROUP ? alert[sortKey] : sortKey;
+
+            if (isSorting && (!alert[sortKey] || alert[sortKey] === '')) return;
+
             if (!listOfAlerts[key]) {
                 listOfAlerts[key] = {};
                 listOfAlerts[key].alerts = {};
@@ -452,6 +460,13 @@ window.Audit = (function (Resource, AuditRender) {
         }
 
         auditRender.render(listOfAlerts, sortKey);
+
+        if (isSorting && Object.keys(listOfAlerts[sortKey].alerts).length === 0) {
+            var sortLabel = Constants.SORTKEYS[sortKey].label;
+            AuditUI.showNoRulesMessage(sortLabel);
+            auditRender.renderAllClearPie(listOfAlerts[sortKey].alerts);
+            return;
+        }
 
         if (totalViolations) {
             auditRender.renderViolationDivider(sortKey);

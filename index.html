@@ -66,6 +66,11 @@
                             </div>
                         </div>
                         <div class="flex-grow main-column">
+                            <div class="warning-block warning-note-1">
+                                <span class="error-icon"></span>
+                                <span class="message">Violation checks may be incomplete. <a href="#" id="warning-link"
+                                                                                             class="warning-link">Please review</a> the error and run again to ensure completeness.</span>
+                            </div>
                             <div id="advisor-errors"></div>
                             <div id="no-violations-view" class="hidden">
                                 <div class="md-shadow bg-white no-violations-message layout-margin-bottom-20 layout-margin-top">
@@ -77,12 +82,7 @@
                                     <div><img src="./images/moose-cropped_no-violations.png"/></div>
                                 </div>
                             </div>
-
-                            <div class="warning-block warning-note-1">
-                                <span class="error-icon"></span>
-                                <span class="message">Violation checks may be incomplete. <a href="#" id="warning-link"
-                                                                                             class="warning-link">Please review</a> the error and run again to ensure completeness.</span>
-                            </div>
+                            <div id="no-rules-view" class="no-rules-meassge"></div>
 
                             <div class="list"></div>
                             <div class="informational"></div>

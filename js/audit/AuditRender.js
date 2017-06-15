@@ -65,12 +65,7 @@ window.AuditRender = (function () {
 
     function renderSection(params) {
         var violationsCopy = utils.objectDeepCopy(params.violations);
-
         var sectionSummary = { label: params.key, value: 0, color: params.color };
-        if (!Object.keys(violationsCopy).length) {
-            return sectionSummary;
-        }
-
         var isNoViolation = params.resultsType === Constants.RESULT_TYPE.RULES;
         var isInformational = params.resultsType === Constants.RESULT_TYPE.INFORMATIONAL;
         var violationsCount = 0;
@@ -78,6 +73,10 @@ window.AuditRender = (function () {
         var allViolationsCount = 0;
         var renderedBlock = '';
         var isSorting = AuditUtils.isSorting(params.sortKey);
+
+        if (!Object.keys(violationsCopy).length) {
+            return allViolationsCount;
+        }
 
         Object.keys(violationsCopy).forEach(function (vId) {
             var renderedViolation = '';
@@ -232,7 +231,8 @@ window.AuditRender = (function () {
     function renderResourcesList(listOfAlerts) {
         var groupKeys = [];
         var chartHeader = '';
-        $(containers.mainDataContainerSelector).html('').css('background', '');
+
+        initView();
 
         renderPie(listOfAlerts);
 
@@ -276,8 +276,17 @@ window.AuditRender = (function () {
         return listOfAlerts;
     }
 
+
     function setChartHeaderText(text) {
-        $(containers.CHART_HEADER).text(text);
+        var sortLabel = Constants.SORTKEYS[self.sortKey].label;
+        var header = sortLabel + ' ' + text;
+        $(containers.CHART_HEADER).text(header);
+    }
+
+
+    function initView() {
+        $(containers.mainDataContainerSelector).html('').css('background', '');
+        $(containers.noRulesMessageSelector).addClass('hidden');
     }
 
 

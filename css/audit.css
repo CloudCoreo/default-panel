@@ -478,6 +478,13 @@ html, body {
     color: #6b6b6b;
 }
 
+.no-rules-meassge {
+    text-align: center;
+    padding: 100px;
+    font-size: 18pt;
+    font-weight: 500;
+}
+
 .resources-title-link {
     color: #2b7ae5;
     cursor: pointer;

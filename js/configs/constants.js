@@ -6,6 +6,7 @@ window.Constants = {
         noViolation: '.no-violation',
         noAuditResourcesMessageSelector: '#no-violation-resources',
         noViolationsMessageSelector: '#no-violations-view',
+        noRulesMessageSelector: '#no-rules-view',
         pieChartSelector: '.pie',
         errorsContSelector: '#advisor-errors',
         mainCont: '.audit-list',
@@ -297,26 +298,32 @@ window.Constants = {
     SORTKEYS: {
         level: {
             name: 'level',
+            label: 'Level',
             isSorting: false
         },
         category: {
             name: 'category',
+            label: 'Category',
             isSorting: false
         },
         service: {
             name: 'service',
+            label: 'Service',
             isSorting: false
         },
         region: {
             name: 'region',
+            label: 'Region',
             isSorting: false
         },
         meta_cis_id: {
             name: 'meta_cis_id',
+            label: 'CIS',
             isSorting: true
         },
         meta_nist_171_id: {
             name: 'meta_nist_171_id',
+            label: 'NIST',
             isSorting: true
         }
     },

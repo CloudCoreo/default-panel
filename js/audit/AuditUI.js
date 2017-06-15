@@ -47,7 +47,20 @@ window.AuditUI = {
     },
 
 
+    unbindClickHandlers: function () {
+        $('.resources-link, .resources-title-link').unbind('click');
+        $('.share-link').unbind('click');
+        $('.resources-suppressed-link').unbind('click');
+        $('.more-info-link').unbind('click');
+        $('.disabled-link').unbind('click');
+        $('.details-btn').unbind('click');
+    },
+
+
     refreshClickHandlers: function (options) {
+        this.unbindClickHandlers();
+        debugger
+
         $('.resources-link, .resources-title-link').click(function () {
             var _this = $(this);
             var params = AuditUtils.getOrganizedViolationData(_this, options.listOfAlerts);

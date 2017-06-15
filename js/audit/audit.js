@@ -435,15 +435,6 @@ window.Audit = (function (Resource, AuditRender) {
 
     function getRulesForRunnerResource(isRuleRunner, rules, callback) {
 
-        var isLocalRun = /localhost/.test(window.location.href);
-        if (isLocalRun) {
-            $(".audit-data-is-not-ready").removeClass("hidden");
-            $('.audit-list').addClass('hidden');
-            $('.map-container').addClass('hidden');
-            callback(rules);
-            return;
-        }
-
         if (!isRuleRunner) {
             callback(rules);
             return;
@@ -452,6 +443,14 @@ window.Audit = (function (Resource, AuditRender) {
         if (typeof rules === 'string') rules = JSON.parse(rules);
 
         if (!rules.truncated) {
+            callback(rules);
+            return;
+        }
+
+        if (window.isLocalRun) {
+            $(".audit-data-is-not-ready").removeClass("hidden");
+            $('.audit-list').addClass('hidden');
+            $('.map-container').addClass('hidden');
             callback(rules);
             return;
         }

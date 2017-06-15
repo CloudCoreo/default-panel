@@ -47,16 +47,16 @@ window.AuditUI = {
     },
 
 
-    refreshClickHandlers: function (listOfAlerts, noViolations) {
+    refreshClickHandlers: function (options) {
         $('.resources-link, .resources-title-link').click(function () {
             var _this = $(this);
-            var params = AuditUtils.getOrganizedViolationData(_this, listOfAlerts);
+            var params = AuditUtils.getOrganizedViolationData(_this, options.listOfAlerts);
             openPopup(Constants.POPUPS.VIOLATION_RESOURCES, params);
         });
 
         $('.share-link').click(function () {
             var _this = $(this);
-            var params = AuditUtils.getOrganizedViolationData(_this, listOfAlerts);
+            var params = AuditUtils.getOrganizedViolationData(_this, options.listOfAlerts);
             openPopup(Constants.POPUPS.SHARE_VIOLATION, params);
         });
 
@@ -66,7 +66,7 @@ window.AuditUI = {
 
             var params = {
                 violationId: _this.attr('violationId'),
-                suppressions: noViolations[violationId].suppressions,
+                suppressions: options.noViolations[violationId].suppressions,
                 color: colorPalette.Passed
             };
 
@@ -83,6 +83,13 @@ window.AuditUI = {
                 link: link
             };
             openPopup(Constants.POPUPS.VIOLATION_MORE_INFO, params);
+        });
+
+        $('.disabled-link').click(function () {
+            var params = {
+                disabledViolations: options.disabledViolations
+            };
+            openPopup(Constants.POPUPS.SHOW_DISABLED_VIOLATIONS, params);
         });
 
         $('.details-btn').click(function () {

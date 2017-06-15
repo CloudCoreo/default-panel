@@ -47,8 +47,6 @@ window.AuditRender = (function () {
     }
     
     function renderViolationRow(options) {
-        options.isVisible = options.isViolation || options.violation.isPassed || (!options.violation.isPassed && options.isDisabledVisible);;
-
         return Templates.violationBlock({
             renderOptions: options,
             violationTpl: violationTpl,
@@ -88,8 +86,6 @@ window.AuditRender = (function () {
                 resultsType: options.resultsType,
                 violation: violation,
                 isViolation: isViolation,
-                isDisabledVisible: options.isDisabledVisible,
-                isPassed: violation.isPassed,
                 isSorting: isSorting,
                 color: color
             });
@@ -239,7 +235,6 @@ window.AuditRender = (function () {
                 color: listOfAlerts[key].color,
                 resultsType: Constants.RESULT_TYPE.VIOLATIONS,
                 sortKey: self.sortKey,
-                isDisabledVisible: self.isDisabledViolationsVisible
             };
 
             if (isSorting) renderParams.levels = listOfAlerts[self.sortKey].levels;

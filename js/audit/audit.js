@@ -2,7 +2,8 @@ window.Audit = (function (Resource, AuditRender) {
     var errorCallback;
     var sortKey;
     var totalViolations = 0;
-    var noViolations = [];
+    var noViolations = {};
+    var disabledViolations = {};
     var alerts = [];
     var alertData = new AlertData();
     var executionIsFinished = false;
@@ -243,15 +244,11 @@ window.Audit = (function (Resource, AuditRender) {
     }
 
 
-    function setPassedStatus(enabledDefinitions) {
+    function fillDisabledViolations(enabledDefinitions) {
         enabledDefinitions.forEach(function (key) {
             if (!noViolations[key]) return;
-            // TODO: Need to figure out how it should be displaying
-            // if (noViolations[key].meta_always_show_card) {
-            //     alerts.push(noViolations[key]);
-            // } else {
-                noViolations[key].isPassed = true;
-            // }
+            disabledViolations[key] = noViolations[key];
+            delete noViolations[key];
         });
     }
 
@@ -297,7 +294,7 @@ window.Audit = (function (Resource, AuditRender) {
         });
 
         fillViolationsList(rules, reports, function () {
-            setPassedStatus(enabledDefinitions);
+            fillDisabledViolations(enabledDefinitions);
             callback(sortKey);
         });
     }
@@ -351,6 +348,12 @@ window.Audit = (function (Resource, AuditRender) {
                 AuditUI.scrollToElement(disabledLink);
             }
         });
+
+        $('.passed-link').click(function () {
+            $('.scrollable-area').animate({
+                scrollTop: $('.no-violation').offset().top - 50
+            }, 200);
+        });
     }
 
     function renderNoViolationsSection() {
@@ -360,7 +363,6 @@ window.Audit = (function (Resource, AuditRender) {
             color: colorPalette.Passed,
             resultsType: Constants.RESULT_TYPE.RULES,
             sortKey: sortKey,
-            isDisabledVisible: isDisabledViolationsVisible
         });
     }
 
@@ -396,7 +398,12 @@ window.Audit = (function (Resource, AuditRender) {
             renderNoViolationsSection(sortKey);
         }
         if (informational) listOfAlerts[Constants.VIOLATION_LEVELS.INFORMATIONAL.name] = informational;
-        AuditUI.refreshClickHandlers(listOfAlerts, noViolations);
+
+        AuditUI.refreshClickHandlers({
+            listOfAlerts: listOfAlerts,
+            noViolations: noViolations,
+            disabledViolations: disabledViolations
+        });
     }
 
     function reRender(_sortKey) {
@@ -410,14 +417,18 @@ window.Audit = (function (Resource, AuditRender) {
 
         var noEmptyRules = !noViolations || Object.keys(noViolations).length === 0;
         if (!noEmptyRules) {
-            Object.keys(noViolations).forEach(function (ruleId) {
-                if (!noViolations[ruleId].isPassed) hasDisabled = true;
-            });
+            if (disabledViolations.length !== 0) hasDisabled = true;
             hasDisabled = hasDisabled && isDisabledViolationsVisible;
         }
 
         auditRender.clearContainer();
         var listOfAlerts = {};
+
+        AuditUI.refreshClickHandlers({
+            listOfAlerts: listOfAlerts,
+            noViolations: noViolations,
+            disabledViolations: disabledViolations
+        });
 
         var isSorting = AuditUtils.isSorting(sortKey)
         var isClear = !alerts.length && !hasDisabled && !errors.length;
@@ -425,7 +436,6 @@ window.Audit = (function (Resource, AuditRender) {
         if (isClear) {
             showEmptyViolationsMessage();
             renderNoViolationsSection(sortKey);
-            AuditUI.refreshClickHandlers(listOfAlerts, noViolations);
             return;
         }
 
@@ -448,7 +458,7 @@ window.Audit = (function (Resource, AuditRender) {
             callback(rules);
             return;
         }
-
+        if (!rules) rules = [];
         if (typeof rules === 'string') rules = JSON.parse(rules);
 
         if (!rules.truncated) {

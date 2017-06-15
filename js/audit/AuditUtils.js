@@ -25,7 +25,6 @@ window.AuditUtils = {
         data.suppressions = [];
         data.violationId = violation._id;
         data.metas = this.getRuleMetasCis(violation.inputs);
-        data.isPassed = false;
 
         return data;
     },

@@ -266,10 +266,10 @@ window.AuditRender = (function () {
 
         if (AuditUtils.isSorting(self.sortKey)) {
             chartHeader = violationsCount === 1 ? uiTexts.CHART_HEADER.RULE : uiTexts.CHART_HEADER.RULES;
-            setChartHeaderText(chartHeader);
+            setChartHeaderText(chartHeader, self.sortKey);
         } else {
             chartHeader = violationsCount === 1 ? uiTexts.CHART_HEADER.CLOUD_OBJECT : uiTexts.CHART_HEADER.CLOUD_OBJECTS;
-            setChartHeaderText(chartHeader);
+            setChartHeaderText(chartHeader, self.sortKey);
         }
         $('.pie-data-header .num').html(violationsCount);
 
@@ -277,8 +277,9 @@ window.AuditRender = (function () {
     }
 
 
-    function setChartHeaderText(text) {
-        var sortLabel = Constants.SORTKEYS[self.sortKey].label;
+    function setChartHeaderText(text, sortKey) {
+        var isSorting = AuditUtils.isSorting(sortKey);
+        var sortLabel = isSorting ? Constants.SORTKEYS[self.sortKey].label : '';
         var header = sortLabel + ' ' + text;
         $(containers.CHART_HEADER).text(header);
     }

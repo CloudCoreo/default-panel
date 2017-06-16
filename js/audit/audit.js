@@ -246,9 +246,10 @@ window.Audit = (function (Resource, AuditRender) {
 
     function fillDisabledViolations(enabledDefinitions) {
         enabledDefinitions.forEach(function (key) {
-            if (!noViolations[key]) return;
-            disabledViolations[key] = noViolations[key];
-            delete noViolations[key];
+            if (!noViolations[key]) {
+                disabledViolations[key] = noViolations[key];
+                delete noViolations[key];
+            }
         });
     }
 

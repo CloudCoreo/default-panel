@@ -387,8 +387,21 @@ window.Audit = (function (Resource, AuditRender) {
     }
 
 
+    function unbindHandlers() {
+        $(document).unbind('click');
+        $('.audit .chosen-sorting').unbind('change');
+        $('.audit .dropdown-button').unbind('click');
+        $('.audit .custom-dropdown li').unbind('click');
+        $('.browse-composites').unbind('click');
+        $('.link.passed-disabled-link').unbind('click');
+    }
+
+
     function setupHandlers() {
+        unbindHandlers();
+
         $('.audit .chosen-sorting').change(function () {
+            console.log('asdas');
             reRender($(this).val());
         });
 
@@ -524,15 +537,6 @@ window.Audit = (function (Resource, AuditRender) {
 
     function getRulesForRunnerResource(isRuleRunner, rules, callback) {
 
-        var isLocalRun = /localhost/.test(window.location.href);
-        if (isLocalRun) {
-            $(".audit-data-is-not-ready").removeClass("hidden");
-            $('.audit-list').addClass('hidden');
-            $('.map-container').addClass('hidden');
-            callback(rules);
-            return;
-        }
-
         if (!isRuleRunner) {
             callback(rules);
             return;
@@ -541,6 +545,14 @@ window.Audit = (function (Resource, AuditRender) {
         if (typeof rules === 'string') rules = JSON.parse(rules);
 
         if (!rules.truncated) {
+            callback(rules);
+            return;
+        }
+
+        if (window.isLocalRun) {
+            $(".audit-data-is-not-ready").removeClass("hidden");
+            $('.audit-list').addClass('hidden');
+            $('.map-container').addClass('hidden');
             callback(rules);
             return;
         }
@@ -630,7 +642,7 @@ window.Audit = (function (Resource, AuditRender) {
             callback();
         };
 
-        fillTruncatedRules(resources, initResourcesList, initRender, sortKey);
+        fillTruncatedRules(resources, initResourcesList, initRender);
     }
 
 

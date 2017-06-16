@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    window.isLocalRun = typeof ccThisCont === 'undefined';
+
     var auditData;
     var deployData;
     var map;
@@ -13,6 +15,20 @@ $(document).ready(function () {
 
     var templates = Constants.TEMPLATE_IDS;
 
+    function parseQueries(queryString) {
+        var queries = queryString.split('&');
+        var parsedQueries = {};
+
+        queries.forEach(function(query) {
+            query = query.split('=');
+            parsedQueries[query[0]] = query[1];
+        });
+
+        return parsedQueries;
+    }
+
+    var queryString = window.location.href.split('?')[1];
+    window.parsedQueries = parseQueries(queryString);
 
     function getRegion(resource) {
         function getRegionValue() {
@@ -235,26 +251,15 @@ $(document).ready(function () {
         setExecutionStatusMessage(data);
     }
 
-    function parseQueries(queryString) {
-        var queries = queryString.split('&');
-        var parsedQueries = {};
-
-        queries.forEach(function(query) {
-           query = query.split('=');
-           parsedQueries[query[0]] = query[1];
-        });
-
-        return parsedQueries;
-    }
-
-    if (typeof ccThisCont === 'undefined') {
-        var queryString = window.location.href.split('?')[1];
-        var parsedQueries = parseQueries(queryString);
-        if (!parsedQueries.tmpfile) {
+    if (window.isLocalRun) {
+        if (!window.parsedQueries.tmpfile) {
             console.log('Please add tmpFile in url params', 'expamle: ?tmpfile=./tmp-data/tmp0.json');
             return;
         }
-        d3.json(parsedQueries.tmpfile, function (data) {
+
+        var parsedQueries = parseQueries(window.location.href);
+
+        d3.json(window.parsedQueries.tmpfile, function (data) {
             init(data, true);
             // emulateCcThisUpdate(data)
         });

@@ -71,6 +71,10 @@ html, body {
     width: calc(100% - 300px);
 }
 
+.pie {
+    min-height: 150px;
+}
+
 .pie .arc path:hover {
     opacity: .8;
 }

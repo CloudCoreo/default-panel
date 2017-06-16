@@ -155,6 +155,10 @@ window.AuditRender = (function () {
             color: colorPalette.Passed
         }]);
     }
+    
+    function removePieChart() {
+        $('.pie').empty();
+    }
 
     function renderPie(listOfAlerts) {
         var pieData = [];
@@ -264,9 +268,11 @@ window.AuditRender = (function () {
             violationsCount += renderSection(renderParams);
         });
 
-        if (AuditUtils.isSorting(self.sortKey)) {
+        if (isSorting) {
             chartHeader = violationsCount === 1 ? uiTexts.CHART_HEADER.RULE : uiTexts.CHART_HEADER.RULES;
             setChartHeaderText(chartHeader, self.sortKey);
+            var violationNum = Object.keys(listOfAlerts[self.sortKey].alerts).length;
+            if (violationNum === 0) removePieChart(listOfAlerts);
         } else {
             chartHeader = violationsCount === 1 ? uiTexts.CHART_HEADER.CLOUD_OBJECT : uiTexts.CHART_HEADER.CLOUD_OBJECTS;
             setChartHeaderText(chartHeader, self.sortKey);
@@ -279,7 +285,7 @@ window.AuditRender = (function () {
 
     function setChartHeaderText(text, sortKey) {
         var isSorting = AuditUtils.isSorting(sortKey);
-        var sortLabel = isSorting ? Constants.SORTKEYS[self.sortKey].label : '';
+        var sortLabel = isSorting ? Constants.SORTKEYS[sortKey].label : '';
         var header = sortLabel + ' ' + text;
         $(containers.CHART_HEADER).text(header);
     }

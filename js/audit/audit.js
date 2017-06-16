@@ -184,8 +184,7 @@ window.Audit = (function (Resource, AuditRender) {
     function showEmptyViolationsMessage() {
         if (executionIsFinished) {
             AuditUI.showNoViolationsMessage();
-            auditRender.renderAllClearPie(noViolations);
-            auditRender.setChartHeaderText(uiTexts.CHART_HEADER.CLOUD_OBJECTS);
+            auditRender.setChartHeaderText(uiTexts.CHART_HEADER.CLOUD_OBJECTS, sortKey);
             return;
         }
         AuditUI.showResourcesAreBeingLoadedMessage();
@@ -401,7 +400,6 @@ window.Audit = (function (Resource, AuditRender) {
         unbindHandlers();
 
         $('.audit .chosen-sorting').change(function () {
-            console.log('asdas');
             reRender($(this).val());
         });
 
@@ -477,7 +475,6 @@ window.Audit = (function (Resource, AuditRender) {
         if (isSorting && Object.keys(listOfAlerts[sortKey].alerts).length === 0) {
             var sortLabel = Constants.SORTKEYS[sortKey].label;
             AuditUI.showNoRulesMessage(sortLabel);
-            auditRender.renderAllClearPie(listOfAlerts[sortKey].alerts);
             return;
         }
 
@@ -525,8 +522,9 @@ window.Audit = (function (Resource, AuditRender) {
         var isClear = !alerts.length && !hasDisabled && !errors.length;
 
         if (isClear) {
+            if (!isSorting) renderNoViolationsSection(sortKey);
+
             showEmptyViolationsMessage();
-            renderNoViolationsSection(sortKey);
             AuditUI.refreshClickHandlers(listOfAlerts, noViolations);
             return;
         }

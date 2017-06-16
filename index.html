@@ -57,6 +57,7 @@
                                     <li data-value="service">Service</li>
                                     <li data-value="region">Region</li>
                                     <li data-value="meta_cis_id">CIS ID</li>
+                                    <li data-value="meta_nist_171_id">NIST 800-171 ID</li>
                                 </ul>
                             </div>
                             <div class="pie"></div>
@@ -65,6 +66,11 @@
                             </div>
                         </div>
                         <div class="flex-grow main-column">
+                            <div class="warning-block warning-note-1">
+                                <span class="error-icon"></span>
+                                <span class="message">Violation checks may be incomplete. <a href="#" id="warning-link"
+                                                                                             class="warning-link">Please review</a> the error and run again to ensure completeness.</span>
+                            </div>
                             <div id="advisor-errors"></div>
                             <div id="no-violations-view" class="hidden">
                                 <div class="md-shadow bg-white no-violations-message layout-margin-bottom-20 layout-margin-top">
@@ -76,12 +82,7 @@
                                     <div><img src="./images/moose-cropped_no-violations.png"/></div>
                                 </div>
                             </div>
-
-                            <div class="warning-block warning-note-1">
-                                <span class="error-icon"></span>
-                                <span class="message">Violation checks may be incomplete. <a href="#" id="warning-link"
-                                                                                             class="warning-link">Please review</a> the error and run again to ensure completeness.</span>
-                            </div>
+                            <div id="no-rules-view" class="no-rules-meassge"></div>
 
                             <div class="list"></div>
                             <div class="informational"></div>
@@ -319,7 +320,7 @@
                     <div class="violation-id flex-row">
                         <div class="layout-padding-right">
                             {{if isSorting}}
-                                CIS ID: {{:violation.meta_cis_id}}
+                                <span class="uppercase">{{:subHeader.label}}:</span> {{:subHeader.value}}
                             {{else}}
                                 RuleId: {{:violation.id}}
                             {{/if}}
@@ -343,16 +344,16 @@
 
                     {{if violation.resources.length || violation.suppressions.length }}
                         <div class="medium-grey layout-padding-left {{if isViolation}}resources-title-link{{/if}} flex-column"
-                             violation="{{:violation.id}}"
+                             violation="{{:violationId}}"
                              violationId="{{:violation.violationId}}"
                              sortKey="{{:violation.sortKey}}">
 
                             {{if violation.resources.length}}
-                            {{if violation.level === 'Informational'}}
-                            {{:violation.resources.length}} Cloud Object{{if violation.resources.length !== 1}}s{{/if}}
-                            {{else}}
-                            {{:violation.resources.length}} Violating Cloud Object{{if violation.resources.length !== 1}}s{{/if}}
-                            {{/if}}
+                                {{if violation.level === 'Informational'}}
+                                    {{:violation.resources.length}} Cloud Object{{if violation.resources.length !== 1}}s{{/if}}
+                                {{else}}
+                                    {{:violation.resources.length}} Violating Cloud Object{{if violation.resources.length !== 1}}s{{/if}}
+                                {{/if}}
                             {{/if}}
 
                             {{if violation.suppressions.length}}
@@ -376,21 +377,18 @@
         <div class="row-body hidden-row bg-white  {{if isViolation}}border-left{{/if}}">
             <div class="flex-row separator flex-wrap">
                 <div class="flex-column separator-right flex-grow">
-                    {{for violation.metas ~isSorting=isSorting ~violation=violation}}
+                    {{for violation.metas}}
                         {{if value}}
                             <div class="meta-info">
-                                {{if ~isSorting}}
-                                    {{if key === 'cis id'}}
-                                        <i>RULE ID</i><br/> {{:~violation.id}}
-                                    {{else}}
-                                        <i>{{:key}}</i><br/> {{:value}}
-                                    {{/if}}
-                                {{else}}
-                                    <i>{{:key}}</i><br/> {{:value}}
-                                {{/if}}
+                                <i>{{:key}}</i><br/> {{:value}}
                             </div>
                         {{/if}}
                     {{/for}}
+                    {{if isSorting}}
+                        <div class="meta-info">
+                            <i>RULE ID</i><br/> {{:violation.id}}
+                        </div>
+                    {{/if}}
                     <div class="layout-padding">
                         <div class="layout-margin-bottom-8">
                             <i>Category</i><br/>

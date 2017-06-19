@@ -16,8 +16,10 @@ $(document).ready(function () {
     var templates = Constants.TEMPLATE_IDS;
 
     function parseQueries(queryString) {
-        var queries = queryString.split('&');
         var parsedQueries = {};
+        if (!queryString) return parsedQueries;
+
+        var queries = queryString.split('&');
 
         queries.forEach(function(query) {
             query = query.split('=');

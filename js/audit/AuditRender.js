@@ -272,9 +272,8 @@ window.AuditRender = (function () {
     }
 
 
-    function AuditRender(sortKey, isDisabledViolationsVisible) {
+    function AuditRender(sortKey) {
         self = this;
-        self.isDisabledViolationsVisible = isDisabledViolationsVisible;
         self.sortKey = sortKey;
     }
 

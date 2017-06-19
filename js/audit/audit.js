@@ -10,7 +10,6 @@ window.Audit = (function (Resource, AuditRender) {
     var errors = [];
     var hasOld = false;
     var auditRender;
-    var isDisabledViolationsVisible;
     var ccThisData = {};
 
     var colorPalette = Constants.COLORS;
@@ -246,10 +245,10 @@ window.Audit = (function (Resource, AuditRender) {
 
     function fillDisabledViolations(enabledDefinitions) {
         enabledDefinitions.forEach(function (key) {
-            if (!noViolations[key]) {
-                disabledViolations[key] = noViolations[key];
-                delete noViolations[key];
-            }
+            if (!disabledViolations[key]) return;
+
+            noViolations[key] = disabledViolations[key];
+            delete disabledViolations[key];
         });
     }
 
@@ -273,7 +272,6 @@ window.Audit = (function (Resource, AuditRender) {
 
             var isRuleRunner = resource.resourceType.indexOf('coreo_aws_rule_runner') !== -1;
 
-
             if (resource.inputs.level === Constants.VIOLATION_LEVELS.INTERNAL.name) return;
             if (resource.outputs.error) {
                 errors.push(resource);
@@ -290,7 +288,7 @@ window.Audit = (function (Resource, AuditRender) {
             }
             else {
                 rules[resource.resourceName] = resource;
-                noViolations[resource.resourceName] = AuditUtils.organizeDataForAdditionalSections(resource);
+                disabledViolations[resource.resourceName] = AuditUtils.organizeDataForAdditionalSections(resource);
             }
         });
 
@@ -376,7 +374,7 @@ window.Audit = (function (Resource, AuditRender) {
             key: 'No-violations',
             color: colorPalette.Passed,
             resultsType: Constants.RESULT_TYPE.RULES,
-            sortKey: sortKey,
+            sortKey: sortKey
         });
     }
 
@@ -425,18 +423,14 @@ window.Audit = (function (Resource, AuditRender) {
             return;
         }
 
+        var hasDisabled = false;
+        var listOfAlerts = {};
+        var noEmptyRules = !noViolations || Object.keys(noViolations).length === 0;
         sortKey = _sortKey;
 
-        var hasDisabled = false;
-
-        var noEmptyRules = !noViolations || Object.keys(noViolations).length === 0;
-        if (!noEmptyRules) {
-            if (disabledViolations.length !== 0) hasDisabled = true;
-            hasDisabled = hasDisabled && isDisabledViolationsVisible;
-        }
+        if (!noEmptyRules && disabledViolations.length !== 0) hasDisabled = true;
 
         auditRender.clearContainer();
-        var listOfAlerts = {};
 
         AuditUI.refreshClickHandlers({
             listOfAlerts: listOfAlerts,
@@ -444,7 +438,7 @@ window.Audit = (function (Resource, AuditRender) {
             disabledViolations: disabledViolations
         });
 
-        var isSorting = AuditUtils.isSorting(sortKey)
+        var isSorting = AuditUtils.isSorting(sortKey);
         var isClear = !alerts.length && !hasDisabled && !errors.length;
 
         if (isClear) {
@@ -538,9 +532,7 @@ window.Audit = (function (Resource, AuditRender) {
         initGlobalVariables();
         AuditUI.initView();
 
-        isDisabledViolationsVisible = !ccThisData.globalData || !ccThisData.globalData.variables.disable_disabled_card_processing;
-
-        auditRender = new AuditRender(sortKey, isDisabledViolationsVisible);
+        auditRender = new AuditRender(sortKey);
 
         if (ccThisData.engineStatus === Constants.ENGINE_STATUSES.EXECUTION_ERROR) {
             $(containers.warningBlock).removeClass('hidden');

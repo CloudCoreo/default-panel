@@ -267,7 +267,7 @@ window.AuditRender = (function () {
             chartHeader = violationsCount === 1 ? uiTexts.CHART_HEADER.RULE : uiTexts.CHART_HEADER.RULES;
             setChartHeaderText(chartHeader, self.sortKey);
             var violationNum = Object.keys(listOfAlerts[self.sortKey].alerts).length;
-            if (violationNum === 0) removePieChart(listOfAlerts);
+            if (violationNum === 0) removePieChart();
         } else {
             chartHeader = violationsCount === 1 ? uiTexts.CHART_HEADER.CLOUD_OBJECT : uiTexts.CHART_HEADER.CLOUD_OBJECTS;
             setChartHeaderText(chartHeader, self.sortKey);
@@ -314,6 +314,7 @@ window.AuditRender = (function () {
     AuditRender.prototype.renderSection = renderSection;
     AuditRender.prototype.renderInformationalSection = renderInformationalSection;
     AuditRender.prototype.renderPie = renderPie;
+    AuditRender.prototype.removePieChart = removePieChart;
     AuditRender.prototype.renderAllClearPie = renderAllClearPie;
     AuditRender.prototype.setChartHeaderText = setChartHeaderText;
     AuditRender.prototype.drawPie = drawPie;

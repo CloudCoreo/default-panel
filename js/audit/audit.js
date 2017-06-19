@@ -493,7 +493,10 @@ window.Audit = (function (Resource, AuditRender) {
             }
         }
 
-        if (allPassedCardIsShown) AuditUI.showNoViolationsMessage();
+        if (allPassedCardIsShown) {
+            AuditUI.showNoViolationsMessage();
+            auditRender.removePieChart();
+        }
         if (!isSorting) {
             renderNoViolationsSection(sortKey);
         }

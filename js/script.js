@@ -1,6 +1,6 @@
 $(document).ready(function () {
     window.isLocalRun = typeof ccThisCont === 'undefined';
-    console.log(`window.isLocalRun: ${window.isLocalRun}`);
+    console.log('window.isLocalRun: ' + window.isLocalRun);
 
     var auditData;
     var deployData;
@@ -17,7 +17,7 @@ $(document).ready(function () {
     var templates = Constants.TEMPLATE_IDS;
 
     function parseQueries(queryString) {
-        console.log(`queryString: ${queryString}`);
+        console.log('queryString: ' + queryString);
         var queries = queryString.split('&');
         var parsedQueries = {};
 
@@ -266,7 +266,7 @@ $(document).ready(function () {
             // emulateCcThisUpdate(data)
         });
     } else {
-        console.log(`ccThisCont.ccThis: ${ccThisCont.ccthis}`);
+        console.log('ccThisCont.ccThis: ' + ccThisCont.ccthis);
         init(ccThisCont.ccThis, true);
         ccThisCont.watch('ccThis', function (id, oldValue, newValue) {
             init(newValue, false);

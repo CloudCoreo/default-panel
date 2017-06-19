@@ -18,6 +18,7 @@ $(document).ready(function () {
 
     function parseQueries(queryString) {
         $('.debug-info').html($('.debug-info').html() + '<br/>' + 'queryString: ' + queryString);
+        if (!queryString) return '';
         var queries = queryString.split('&');
         var parsedQueries = {};
 

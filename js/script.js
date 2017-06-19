@@ -1,6 +1,5 @@
 $(document).ready(function () {
     window.isLocalRun = typeof ccThisCont === 'undefined';
-    $('.debug-info').html('window.isLocalRun: ' + window.isLocalRun);
 
     var auditData;
     var deployData;
@@ -17,10 +16,10 @@ $(document).ready(function () {
     var templates = Constants.TEMPLATE_IDS;
 
     function parseQueries(queryString) {
-        $('.debug-info').html($('.debug-info').html() + '<br/>' + 'queryString: ' + queryString);
-        if (!queryString) return '';
-        var queries = queryString.split('&');
         var parsedQueries = {};
+        if (!queryString) return parsedQueries;
+
+        var queries = queryString.split('&');
 
         queries.forEach(function(query) {
             query = query.split('=');

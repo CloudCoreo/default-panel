@@ -32,6 +32,13 @@ window.AuditUI = {
     },
 
 
+    showNoRulesMessage: function (sortLabel) {
+        var message = uiTexts.LABELS.NO_RULES + ' ' + sortLabel + ' ID';
+        $(containers.noRulesMessageSelector).text(message);
+        $(containers.noRulesMessageSelector).removeClass('hidden');
+    },
+
+
     scrollToElement: function (element) {
         var tabsHeight = $('.options-container').height();
         $('.scrollable-area').animate({ scrollTop: element.offset().top - tabsHeight }, 200);

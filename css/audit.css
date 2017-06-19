@@ -13,6 +13,10 @@ html, body {
     display: flex;
 }
 
+.uppercase {
+    text-transform: uppercase;
+}
+
 .align-start {
     align-items: flex-start;
 }
@@ -65,6 +69,10 @@ html, body {
 
 .main-column {
     width: calc(100% - 300px);
+}
+
+.pie {
+    min-height: 150px;
 }
 
 .pie .arc path:hover {
@@ -503,6 +511,13 @@ html, body {
 .no-violations-message .messages .message-3 {
     font-size: 14pt;
     color: #6b6b6b;
+}
+
+.no-rules-meassge {
+    text-align: center;
+    padding: 100px;
+    font-size: 18pt;
+    font-weight: 500;
 }
 
 .resources-title-link {

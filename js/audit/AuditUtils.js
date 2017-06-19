@@ -1,4 +1,5 @@
 var colorPalette = Constants.COLORS;
+var sortkeys = Constants.SORTKEYS;
 
 
 window.AuditUtils = {
@@ -13,6 +14,19 @@ window.AuditUtils = {
             suppressions: listOfAlerts[sortKey].alerts[violationId].suppressions,
             color: listOfAlerts[sortKey].color
         };
+    },
+
+
+    getBlockHeader: function (key, sortKey) {
+        var isNoViolation = key === 'No-violations';
+        var isLevel = sortKey === sortkeys.level.name;
+        var isCategory = sortKey === sortkeys.category.name;
+        var isService = sortKey === sortkeys.service.name;
+
+        if (isNoViolation) return key.replace('-', ' ');
+        if (isLevel || isCategory || isService || isNoViolation) return key;
+
+        return Constants.BLOCK_HEADERS[key];
     },
 
 
@@ -44,6 +58,18 @@ window.AuditUtils = {
 
     isSorting: function (sortKey) {
         return Constants.SORTKEYS[sortKey].isSorting;
+    },
+
+
+    removeMetaPrefix: function (string) {
+        return string.replace('meta_', '').replace(/_/g, ' ');
+    },
+
+
+    removeFieldByValue: function (arr, key, value) {
+        return arr.filter(function (item) {
+            return item[key] !== value;
+        })
     },
 
 

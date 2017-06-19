@@ -6,6 +6,7 @@ window.Constants = {
         noViolation: '.no-violation',
         noAuditResourcesMessageSelector: '#no-violation-resources',
         noViolationsMessageSelector: '#no-violations-view',
+        noRulesMessageSelector: '#no-rules-view',
         pieChartSelector: '.pie',
         errorsContSelector: '#advisor-errors',
         mainCont: '.audit-list',
@@ -61,7 +62,9 @@ window.Constants = {
                 region: 'South America',
                 img: './images/maps/south-america.svg',
                 cssClass: 'south-america',
-                awsRegions: ['sa-east-1']
+                awsRegions: [
+                    'sa-east-1'
+                ]
             },
             'Asia Pacific': {
                 region: 'Asia Pacific',
@@ -72,7 +75,8 @@ window.Constants = {
                     'ap-southeast-1',
                     'ap-southeast-2',
                     'ap-south-1',
-                    'ap-northeast-2']
+                    'ap-northeast-2'
+                ]
             },
             'Europe / Middle East / Africa': {
                 region: 'Europe / Middle East / Africa',
@@ -295,23 +299,52 @@ window.Constants = {
     SORTKEYS: {
         level: {
             name: 'level',
+            label: 'Level',
             isSorting: false
         },
         category: {
             name: 'category',
+            label: 'Category',
             isSorting: false
         },
         service: {
             name: 'service',
+            label: 'Service',
             isSorting: false
         },
         region: {
             name: 'region',
+            label: 'Region',
             isSorting: false
         },
         meta_cis_id: {
             name: 'meta_cis_id',
+            label: 'CIS',
+            isSorting: true
+        },
+        meta_nist_171_id: {
+            name: 'meta_nist_171_id',
+            label: 'NIST',
             isSorting: true
         }
+    },
+
+    BLOCK_HEADERS: {
+        'meta_cis_id': 'CIS ID',
+        'meta_nist_171_id': 'NIST 800-171 ID',
+        'us-east-1': 'US East 1',
+        'us-east-2': 'US East 2',
+        'us-west-1': 'US West 1',
+        'us-west-2': 'US West 2',
+        'ca-central-1': 'CA Central 1',
+        'sa-east-1': 'SA East 1',
+        'ap-northeast-1': 'AP Northeast 1',
+        'ap-southeast-1': 'AP Southeast 1',
+        'ap-southeast-2': 'AP Southeast 2',
+        'ap-south-1': 'AP South 1',
+        'ap-northeast-2': 'AP Northeast 2',
+        'eu-central-1': 'EU Central 1',
+        'eu-west-1': 'EU West 1',
+        'eu-west-2': 'EU West 2'
     }
 };

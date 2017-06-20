@@ -54,8 +54,6 @@ window.AuditRender = (function () {
     }
     
     function renderViolationRow(params) {
-        params.isVisible = params.isViolation || params.violation.isPassed || (!params.violation.isPassed && params.isDisabledVisible);;
-
         return Templates.violationBlock({
             renderOptions: params,
             violationTpl: violationTpl,
@@ -109,8 +107,6 @@ window.AuditRender = (function () {
                 violation: violation,
                 violationId: vId,
                 isViolation: isViolation,
-                isDisabledVisible: params.isDisabledVisible,
-                isPassed: violation.isPassed,
                 isSorting: isSorting,
                 color: color,
                 subHeader: getSubHeader({
@@ -155,7 +151,7 @@ window.AuditRender = (function () {
             color: colorPalette.Passed
         }]);
     }
-    
+
     function removePieChart() {
         $('.pie').empty();
     }
@@ -260,7 +256,6 @@ window.AuditRender = (function () {
                 color: listOfAlerts[key].color,
                 resultsType: Constants.RESULT_TYPE.VIOLATIONS,
                 sortKey: self.sortKey,
-                isDisabledVisible: self.isDisabledViolationsVisible
             };
 
             if (isSorting) renderParams.levels = listOfAlerts[self.sortKey].levels;
@@ -272,7 +267,7 @@ window.AuditRender = (function () {
             chartHeader = violationsCount === 1 ? uiTexts.CHART_HEADER.RULE : uiTexts.CHART_HEADER.RULES;
             setChartHeaderText(chartHeader, self.sortKey);
             var violationNum = Object.keys(listOfAlerts[self.sortKey].alerts).length;
-            if (violationNum === 0) removePieChart(listOfAlerts);
+            if (violationNum === 0) removePieChart();
         } else {
             chartHeader = violationsCount === 1 ? uiTexts.CHART_HEADER.CLOUD_OBJECT : uiTexts.CHART_HEADER.CLOUD_OBJECTS;
             setChartHeaderText(chartHeader, self.sortKey);
@@ -310,9 +305,8 @@ window.AuditRender = (function () {
     }
 
 
-    function AuditRender(sortKey, isDisabledViolationsVisible) {
+    function AuditRender(sortKey) {
         self = this;
-        self.isDisabledViolationsVisible = isDisabledViolationsVisible;
         self.sortKey = sortKey;
     }
 
@@ -320,6 +314,7 @@ window.AuditRender = (function () {
     AuditRender.prototype.renderSection = renderSection;
     AuditRender.prototype.renderInformationalSection = renderInformationalSection;
     AuditRender.prototype.renderPie = renderPie;
+    AuditRender.prototype.removePieChart = removePieChart;
     AuditRender.prototype.renderAllClearPie = renderAllClearPie;
     AuditRender.prototype.setChartHeaderText = setChartHeaderText;
     AuditRender.prototype.drawPie = drawPie;

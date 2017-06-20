@@ -199,7 +199,8 @@ window.Constants = {
         VIOLATION_MORE_INFO: 'showViolationMoreInfo',
         REDIRECT_TO_COMPOSITES: 'redirectToCommunityComposites',
         REDIRECT_TO_RESOURCES: 'redirectToResources',
-        SHOW_ERROR: 'showErrorModal'
+        SHOW_ERROR: 'showErrorModal',
+        SHOW_DISABLED_VIOLATIONS: 'showDisabledViolations'
     },
 
     REQUEST: {

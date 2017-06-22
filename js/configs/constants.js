@@ -254,6 +254,10 @@ window.Constants = {
             name: 'Warning',
             isViolation: true
         },
+        INVENTORY: {
+            name: 'Inventory',
+            isViolation: true
+        },
         MANUAL: {
             name: 'Manual',
             isViolation: false

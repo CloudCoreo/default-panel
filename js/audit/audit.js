@@ -77,7 +77,7 @@ window.Audit = (function (Resource, AuditRender) {
         listOfAlerts = mergeNoViolationsAndViolationsForNist(listOfAlerts, noViolationsToMerge);
         listOfAlerts = organizeDataForCurrentRender(keys, Constants.ORGANIZATION_TYPE.SORT, listOfAlerts);
 
-        listOfAlerts[sortKey].alerts = utils.sortHashOfObjectsByField(listOfAlerts[sortKey].alerts, sortKey);
+        listOfAlerts[sortKey].alerts = utils.sortHashOfObjectsBySortId(listOfAlerts[sortKey].alerts, sortKey);
         listOfAlerts[sortKey].levels = AuditUtils.setColorsForLevels(alertData[Constants.SORTKEYS.level.name], sortKey);
 
         return listOfAlerts;

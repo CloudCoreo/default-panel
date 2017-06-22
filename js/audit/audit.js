@@ -535,7 +535,12 @@ window.Audit = (function (Resource, AuditRender) {
 
             showEmptyViolationsMessage();
             renderNoViolationsSection(sortKey);
-            AuditUI.refreshClickHandlers(listOfAlerts, noViolations);
+
+            AuditUI.refreshClickHandlers({
+                listOfAlerts: listOfAlerts,
+                noViolations: noViolations,
+                disabledViolations: disabledViolations
+            });
             return;
         }
 

@@ -258,13 +258,18 @@ window.Audit = (function (Resource, AuditRender) {
                     alert.id = violationKey;
                     alert.resource = resource;
                     alert.timestamp = timestamp;
+
                     if (violations[violationKey] && violations[violationKey].inputs) {
                         alert.metas = AuditUtils.getRuleMetasCis(violations[violationKey].inputs);
                     } else {
                         alert.metas = AuditUtils.getRuleMetasCis(rowData);
                     }
+
                     alerts.push(alert);
 
+                    if (!alert.hasOwnProperty(region)) {
+                        alert.region = region;
+                    }
                     if (!alertData.level.hasOwnProperty(alert.level)) {
                         alertData.level[alert.level] = {};
                         alertData.level[alert.level].count = 0;
@@ -284,9 +289,10 @@ window.Audit = (function (Resource, AuditRender) {
                     if (!alertData.meta_nist_171_id.hasOwnProperty(alert.meta_nist_171_id) && alert.meta_nist_171_id) {
                         alertData.meta_nist_171_id[alert.meta_nist_171_id] = 0;
                     }
+
                     ++alertData.level[alert.level].count;
                     ++alertData.category[alert.category];
-                    ++alertData.region[alert.region];
+                    ++alertData.region[region];
                     ++alertData.service[alert.service];
                     ++alertData.meta_cis_id[alert.meta_cis_id];
 

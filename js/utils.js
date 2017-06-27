@@ -63,16 +63,20 @@ window.utils = {
             if (!idA || idA === '') return 1;
             if (!idB || idB === '') return -1;
 
-            if (sortType === 'meta_cis_id') return parseFloat(idA) - parseFloat(idB);
-
             if (sortType === 'meta_nist_171_id') {
-                idA = parseId(object[a][sortType].replace('3.', ''));
-                idB = parseId(object[b][sortType].replace('3.', ''));
-
-                if (idA.first > idB.first) return 1;
-                else if ((idA.first >= idB.first) && idA.second > idB.second) return 1;
-                else return -1;
+                idA = object[a][sortType].replace('3.', '');
+                idB = object[b][sortType].replace('3.', '');
+            } else {
+                idA = object[a][sortType];
+                idB = object[b][sortType];
             }
+
+            idA = parseId(idA);
+            idB = parseId(idB);
+
+            if (idA.first > idB.first) return 1;
+            else if ((idA.first >= idB.first) && idA.second > idB.second) return 1;
+            else return -1;
         };
 
         var buildObject = function (orderedObject, key) {

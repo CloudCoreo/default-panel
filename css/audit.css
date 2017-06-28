@@ -13,6 +13,10 @@ html, body {
     display: flex;
 }
 
+.uppercase {
+    text-transform: uppercase;
+}
+
 .align-start {
     align-items: flex-start;
 }
@@ -67,6 +71,10 @@ html, body {
     width: calc(100% - 300px);
 }
 
+.pie {
+    min-height: 150px;
+}
+
 .pie .arc path:hover {
     opacity: .8;
 }
@@ -80,7 +88,6 @@ html, body {
 }
 
 .additional-info {
-    text-align: center;
     font-size: 14px;
     color: #6b6b6b;
     justify-content: space-around;
@@ -89,6 +96,34 @@ html, body {
 
 .additional-info .link {
     text-transform: capitalize;
+}
+
+.passed-link {
+    background-color: #ddd;
+    color: #2B7AE5;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    height: 50px;
+}
+.passed-link img,
+.disabled-link img {
+    height: 15px;
+    margin-right: 10px;
+}
+
+.disabled-link {
+    color: #6b6b6b;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    height: 50px;
+}
+
+.passed-link:hover,
+.disabled-link:hover {
+    opacity: .8;
+    cursor: pointer;
 }
 
 .fa {
@@ -260,6 +295,10 @@ html, body {
 
 .separator-top {
     border-top: 1px solid #E4E4E4;
+}
+
+.separator-bottom {
+    border-bottom: 1px solid #E4E4E4;
 }
 
 .separator-right {
@@ -472,6 +511,13 @@ html, body {
 .no-violations-message .messages .message-3 {
     font-size: 14pt;
     color: #6b6b6b;
+}
+
+.no-rules-meassge {
+    text-align: center;
+    padding: 100px;
+    font-size: 18pt;
+    font-weight: 500;
 }
 
 .resources-title-link {

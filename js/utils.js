@@ -61,6 +61,7 @@ window.utils = {
                 if (idA[i] > idB[i]) return 1;
                 return -1;
             }
+            return 1;
         };
 
         var buildObject = function (orderedObject, key) {

@@ -45,34 +45,23 @@ window.utils = {
 
     sortHashOfObjectsBySortId: function (object, sortType) {
 
-        var parseId = function (id) {
-            id = id.split('.');
-            var first = parseInt(id[0]);
-            var second = parseInt(id[1]);
-
-            return {
-                first: first,
-                second: second
-            }
-        };
-
         var compareObjectById = function (a, b) {
-            var idA = object[a][sortType];
-            var idB = object[b][sortType];
+            var idA = object[a][sortType].split('.');
+            var idB = object[b][sortType].split('.');
+            var minLen = (idA.length > idB.length) ? idB.length : idA.length;
 
             if (!idA || idA === '') return 1;
             if (!idB || idB === '') return -1;
 
-            if (sortType === 'meta_cis_id') return parseFloat(idA) - parseFloat(idB);
+            for (var i = 0; i < minLen; i++) {
+                idA[i] = parseInt(idA[i]);
+                idB[i] = parseInt(idB[i]);
 
-            if (sortType === 'meta_nist_171_id') {
-                idA = parseId(object[a][sortType].replace('3.', ''));
-                idB = parseId(object[b][sortType].replace('3.', ''));
-
-                if (idA.first > idB.first) return 1;
-                else if ((idA.first >= idB.first) && idA.second > idB.second) return 1;
-                else return -1;
+                if (idA[i] === idB[i]) continue;
+                if (idA[i] > idB[i]) return 1;
+                return -1;
             }
+            return (idA.length > idB.length) ? 1 : -1;
         };
 
         var buildObject = function (orderedObject, key) {

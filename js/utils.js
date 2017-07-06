@@ -45,38 +45,18 @@ window.utils = {
 
     sortHashOfObjectsBySortId: function (object, sortType) {
 
-        var parseId = function (id) {
-            id = id.split('.');
-            var first = parseInt(id[0]);
-            var second = parseInt(id[1]);
-
-            return {
-                first: first,
-                second: second
-            }
-        };
-
         var compareObjectById = function (a, b) {
-            var idA = object[a][sortType];
-            var idB = object[b][sortType];
+            var idA = object[a][sortType].split('.');
+            var idB = object[b][sortType].split('.');
 
             if (!idA || idA === '') return 1;
             if (!idB || idB === '') return -1;
 
-            if (sortType === 'meta_nist_171_id') {
-                idA = object[a][sortType].replace('3.', '');
-                idB = object[b][sortType].replace('3.', '');
-            } else {
-                idA = object[a][sortType];
-                idB = object[b][sortType];
+            for (var i = 0; i < idA.length; i++) {
+                if (idA[i] === idB[i]) continue;
+                if (idA[i] > idB[i]) return 1;
+                return -1;
             }
-
-            idA = parseId(idA);
-            idB = parseId(idB);
-
-            if (idA.first > idB.first) return 1;
-            else if ((idA.first >= idB.first) && idA.second > idB.second) return 1;
-            else return -1;
         };
 
         var buildObject = function (orderedObject, key) {

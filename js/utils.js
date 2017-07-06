@@ -48,11 +48,15 @@ window.utils = {
         var compareObjectById = function (a, b) {
             var idA = object[a][sortType].split('.');
             var idB = object[b][sortType].split('.');
+            var minLen = (idA.length > idB.length) ? idB.length : idA.length;
 
             if (!idA || idA === '') return 1;
             if (!idB || idB === '') return -1;
 
-            for (var i = 0; i < idA.length; i++) {
+            for (var i = 0; i < minLen; i++) {
+                idA[i] = parseInt(idA[i]);
+                idB[i] = parseInt(idB[i]);
+
                 if (idA[i] === idB[i]) continue;
                 if (idA[i] > idB[i]) return 1;
                 return -1;

@@ -1,6 +1,4 @@
 $(document).ready(function () {
-    window.isLocalRun = typeof ccThisCont === 'undefined';
-
     var auditData;
     var deployData;
     var map;
@@ -13,26 +11,8 @@ $(document).ready(function () {
     var currentView;
     var counter = 0;
 
-    var templates = Constants.TEMPLATE_IDS;
+    var templates = Constants.TEMPLATES;
 
-    function parseQueries(queryString) {
-        var parsedQueries = {};
-        var queries = [];
-
-        if (!queryString) return parsedQueries;
-
-        queries = queryString.split('&');
-
-        queries.forEach(function(query) {
-            query = query.split('=');
-            parsedQueries[query[0]] = query[1];
-        });
-
-        return parsedQueries;
-    }
-
-    var queryString = window.location.href.split('?');
-    window.parsedQueries = parseQueries(queryString[1]);
 
     function getRegion(resource) {
         function getRegionValue() {
@@ -255,13 +235,26 @@ $(document).ready(function () {
         setExecutionStatusMessage(data);
     }
 
-    if (window.isLocalRun) {
-        if (!window.parsedQueries.tmpfile) {
+    function parseQueries(queryString) {
+        var queries = queryString.split('&');
+        var parsedQueries = {};
+
+        queries.forEach(function(query) {
+           query = query.split('=');
+           parsedQueries[query[0]] = query[1];
+        });
+
+        return parsedQueries;
+    }
+
+    if (typeof ccThisCont === 'undefined') {
+        var queryString = window.location.href.split('?')[1];
+        var parsedQueries = parseQueries(queryString);
+        if (!parsedQueries.tmpfile) {
             console.log('Please add tmpFile in url params', 'expamle: ?tmpfile=./tmp-data/tmp0.json');
             return;
         }
-
-        d3.json(window.parsedQueries.tmpfile, function (data) {
+        d3.json(parsedQueries.tmpfile, function (data) {
             init(data, true);
             // emulateCcThisUpdate(data)
         });

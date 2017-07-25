@@ -78,14 +78,14 @@ function showTooltip(position, element, region) {
         return;
     }
     addMessage(element, id, {
-        text: region.deployed + ' ' + uiTexts.MAP_MESSAGES.RESOURCES_DEPLOYED,
+        text: region.deployed + ' ' + Constants.UITEXTS.MAP_MESSAGES.RESOURCES_DEPLOYED,
         rectX: rectX,
         rectY: rectY,
         fill: '#2B7AE5',
         stroke: '#2B7AE5'});
 
     addMessage(element, id, {
-        text: region.violations + ' ' + uiTexts.MAP_MESSAGES.VIOLATIONS_FOUND,
+        text: region.violations + ' ' + Constants.UITEXTS.MAP_MESSAGES.VIOLATIONS_FOUND,
         rectX: rectX,
         rectY: rectY + 10,
         fill: '#fff',

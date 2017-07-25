@@ -13,10 +13,7 @@ window.uiTexts = {
         CLOUD_OBJECTS: 'OBJECTS',
         CLOUD_OBJECT: 'OBJECT',
         RULES: 'RULES',
-        RULE: 'RULE',
-        WITH_VIOLATIONS: 'WITH VIOLATIONS',
-        WITH_VIOLATION: 'WITH VIOLATION',
-        NO_RULES: 'No rules with'
+        RULE: 'RULE'
     },
     MAP_MESSAGES: {
         RESOURCES_DEPLOYED: 'Resources Deployed',
@@ -24,8 +21,8 @@ window.uiTexts = {
         CLOUD_OBJECTS_FOUND: 'Cloud Objects Found in Audit'
     },
     CHART_HEADER: {
-        RULES: 'Rules with Violations',
-        RULE: 'Rule with Violations',
+        RULES: 'CIS Rules with Violations',
+        RULE: 'CIS Rule with Violations',
         CLOUD_OBJECTS: 'Violating objects',
         CLOUD_OBJECT: 'Violating object'
     }

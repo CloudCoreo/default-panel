@@ -6,6 +6,7 @@ window.AlertData = (function () {
         this.region = {};
         this.service = {};
         this.meta_cis_id = {};
+        this.meta_nist_171_id = {};
     }
 
     return AlertData;

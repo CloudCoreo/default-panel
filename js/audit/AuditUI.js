@@ -32,6 +32,13 @@ window.AuditUI = {
     },
 
 
+    showNoRulesMessage: function (sortLabel) {
+        var message = uiTexts.LABELS.NO_RULES + ' ' + sortLabel + ' ID';
+        $(containers.noRulesMessageSelector).text(message);
+        $(containers.noRulesMessageSelector).removeClass('hidden');
+    },
+
+
     scrollToElement: function (element) {
         var tabsHeight = $('.options-container').height();
         $('.scrollable-area').animate({ scrollTop: element.offset().top - tabsHeight }, 200);
@@ -47,16 +54,28 @@ window.AuditUI = {
     },
 
 
-    refreshClickHandlers: function (listOfAlerts, noViolations) {
+    unbindClickHandlers: function () {
+        $('.resources-link, .resources-title-link').unbind('click');
+        $('.share-link').unbind('click');
+        $('.resources-suppressed-link').unbind('click');
+        $('.more-info-link').unbind('click');
+        $('.disabled-link').unbind('click');
+        $('.details-btn').unbind('click');
+    },
+
+
+    refreshClickHandlers: function (options) {
+        this.unbindClickHandlers();
+
         $('.resources-link, .resources-title-link').click(function () {
             var _this = $(this);
-            var params = AuditUtils.getOrganizedViolationData(_this, listOfAlerts);
+            var params = AuditUtils.getOrganizedViolationData(_this, options.listOfAlerts);
             openPopup(Constants.POPUPS.VIOLATION_RESOURCES, params);
         });
 
         $('.share-link').click(function () {
             var _this = $(this);
-            var params = AuditUtils.getOrganizedViolationData(_this, listOfAlerts);
+            var params = AuditUtils.getOrganizedViolationData(_this, options.listOfAlerts);
             openPopup(Constants.POPUPS.SHARE_VIOLATION, params);
         });
 
@@ -66,7 +85,7 @@ window.AuditUI = {
 
             var params = {
                 violationId: _this.attr('violationId'),
-                suppressions: noViolations[violationId].suppressions,
+                suppressions: options.noViolations[violationId].suppressions,
                 color: colorPalette.Passed
             };
 
@@ -83,6 +102,13 @@ window.AuditUI = {
                 link: link
             };
             openPopup(Constants.POPUPS.VIOLATION_MORE_INFO, params);
+        });
+
+        $('.disabled-link').click(function () {
+            var params = {
+                disabledViolations: options.disabledViolations
+            };
+            openPopup(Constants.POPUPS.SHOW_DISABLED_VIOLATIONS, params);
         });
 
         $('.details-btn').click(function () {

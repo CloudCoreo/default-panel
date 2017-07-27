@@ -75,7 +75,10 @@ function drawPie(pieData, color, cont) {
             if (pieData[index].value === 0) {
                 return pieData[index].value + ' ' + pieData[index].label
             }
-            return pieData[index].value + ' ' + pieData[index].label + ' (' + (pieData[index].value * 100 / dataSum).toFixed(1) + '%)';
+            if(pieData[index].label.toLowerCase()=='informational')
+                return 'n/a';
+            else
+                return pieData[index].value + ' ' + pieData[index].label + ' (' + (pieData[index].value * 100 / dataSum).toFixed(1) + '%)';
         })
         .style("cursor", 'pointer')
         .on("click", onclick);

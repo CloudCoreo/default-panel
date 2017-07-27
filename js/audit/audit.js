@@ -183,7 +183,7 @@ window.Audit = (function (Resource, AuditRender) {
 
     function showEmptyViolationsMessage() {
         if (executionIsFinished) {
-            AuditUI.showNoViolationsMessage();
+            // AuditUI.showNoViolationsMessage();
             auditRender.setChartHeaderText(uiTexts.CHART_HEADER.CLOUD_OBJECTS, sortKey);
             return;
         }
@@ -500,8 +500,8 @@ window.Audit = (function (Resource, AuditRender) {
         }
 
         if (allPassedCardIsShown) {
-            AuditUI.showNoViolationsMessage();
-            auditRender.removePieChart();
+            // AuditUI.showNoViolationsMessage();
+            // auditRender.removePieChart();
         }
         if (!isSorting) {
             renderNoViolationsSection(sortKey);

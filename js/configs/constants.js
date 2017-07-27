@@ -29,7 +29,7 @@ window.Constants = {
             High: '#E53E2B',
             Medium: '#E49530',
             Low: '#EAC907',
-            Informational: '#6b6b6b',
+            Informational: '#e4e4e4', //#e6e6e6
             Debug: '#c4c4c4',
             Warning: '#582a7f',
             Manual: '#005d14'

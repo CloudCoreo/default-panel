@@ -16,6 +16,11 @@ window.Audit = (function (Resource, AuditRender) {
     var containers = Constants.CONTAINERS;
 
 
+    function isRuleRunner(resourceType) {
+        return Constants.RULE_RUNNERS[resourceType] || 
+            resourceType.indexOf(Constants.RULE_RUNNERS.SUFFIX) !== -1; // support for deprecated rule runners
+    }
+
     function removeTotallySuppressedViolations(listOfAlerts, suppressedViolations) {
         Object.keys(suppressedViolations).forEach(function (alertId) {
             delete noViolations[alertId];
@@ -359,13 +364,13 @@ window.Audit = (function (Resource, AuditRender) {
             if (resource.runId !== ccThisData.runId) hasOld = true;
             if (resource.dataType !== Constants.RESOURCE_TYPE.ADVISOR_RESOURCE) return;
 
-            var isRuleRunner = resource.resourceType.indexOf('coreo_aws_rule_runner') !== -1;
+            var hasRuleRunnerType = isRuleRunner(resource.resourceType);
 
             if (resource.inputs.level === Constants.VIOLATION_LEVELS.INTERNAL.name) return;
             if (resource.outputs.error) {
                 errors.push(resource);
             }
-            else if (isRuleRunner && resource.outputs.report) {
+            else if (hasRuleRunnerType && resource.outputs.report) {
                 reports.push(resource);
 
                 if (!resource.inputs.rules) return;
@@ -600,19 +605,19 @@ window.Audit = (function (Resource, AuditRender) {
         resources.forEach(function (item) {
 
             var resource = new Resource(item);
-            var isRuleRunner = resource.resourceType.indexOf('coreo_aws_rule_runner') !== -1;
+            var hasRuleRunnerType = isRuleRunner(resource.resourceType);
 
             resource.inputs = item.inputs.reduce(reduceObject, {});
             resource.outputs = item.outputs.reduce(reduceObject, {});
 
             changedResources.push(resource);
 
-            if (isRuleRunner && !resource.inputs.rules) resource.inputs.rules = [];
+            if (hasRuleRunnerType && !resource.inputs.rules) resource.inputs.rules = [];
 
-            getRulesForRunnerResource(isRuleRunner, resource.inputs.rules, function (rules) {
+            getRulesForRunnerResource(hasRuleRunnerType, resource.inputs.rules, function (rules) {
                 ++handledRulesCount;
 
-                if (isRuleRunner) {
+                if (hasRuleRunnerType) {
                     resource.inputs.rules = rules;
                 }
                 if (handledRulesCount === resources.length) {

@@ -354,6 +354,7 @@ window.Constants = {
 
     RULE_RUNNERS: {
         coreo_agent_rule_runner: true,
-        coreo_aws_rule_runner: true
+        coreo_aws_rule_runner: true,
+        SUFFIX: '_rule_runner'
     }
 };

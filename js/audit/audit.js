@@ -17,7 +17,8 @@ window.Audit = (function (Resource, AuditRender) {
 
 
     function isRuleRunner(resourceType) {
-        return Constants.RULE_RUNNERS[resourceType];
+        return Constants.RULE_RUNNERS[resourceType] || 
+            resourceType.indexOf(Constants.RULE_RUNNERS.SUFFIX) !== -1; // support for deprecated rule runners
     }
 
     function removeTotallySuppressedViolations(listOfAlerts, suppressedViolations) {

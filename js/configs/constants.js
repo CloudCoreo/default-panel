@@ -350,5 +350,10 @@ window.Constants = {
         'eu-central-1': 'EU Central 1',
         'eu-west-1': 'EU West 1',
         'eu-west-2': 'EU West 2'
+    },
+
+    RULE_RUNNERS: {
+        coreo_agent_rule_runner: true,
+        coreo_aws_rule_runner: true
     }
 };

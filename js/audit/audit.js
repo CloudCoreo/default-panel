@@ -17,7 +17,7 @@ window.Audit = (function (Resource, AuditRender) {
 
 
     function isRuleRunner(resourceType) {
-        return resourceType.indexOf('_rule_runner') !== -1;
+        return Constants.RULE_RUNNERS[resourceType];
     }
 
     function removeTotallySuppressedViolations(listOfAlerts, suppressedViolations) {

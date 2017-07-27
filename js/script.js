@@ -1,18 +1,38 @@
 $(document).ready(function () {
+    window.isLocalRun = typeof ccThisCont === 'undefined';
+
     var auditData;
     var deployData;
     var map;
 
     var viewTypes = {
-        audit: constants.VIEW_TYPE.AUDIT,
-        map: constants.VIEW_TYPE.MAP
+        audit: Constants.VIEW_TYPE.AUDIT,
+        map: Constants.VIEW_TYPE.MAP
     };
 
     var currentView;
     var counter = 0;
 
-    var templates = constants.TEMPLATES;
+    var templates = Constants.TEMPLATE_IDS;
 
+    function parseQueries(queryString) {
+        var parsedQueries = {};
+        var queries = [];
+
+        if (!queryString) return parsedQueries;
+
+        queries = queryString.split('&');
+
+        queries.forEach(function(query) {
+            query = query.split('=');
+            parsedQueries[query[0]] = query[1];
+        });
+
+        return parsedQueries;
+    }
+
+    var queryString = window.location.href.split('?');
+    window.parsedQueries = parseQueries(queryString[1]);
 
     function getRegion(resource) {
         function getRegionValue() {
@@ -23,19 +43,19 @@ $(document).ready(function () {
             return undefined;
         }
 
-        if (resource.engineStatus.indexOf(constants.ENGINE_STATUSES.ERROR) !== -1) return constants.REGIONS.CLOUDCOREO;
+        if (resource.engineStatus.indexOf(Constants.ENGINE_STATUSES.ERROR) !== -1) return Constants.REGIONS.CLOUDCOREO;
 
-        if (resource.resourceType.indexOf(constants.SERVICES.COREO_AWS_RULE) !== -1 ||
-            resource.resourceType.indexOf(constants.SERVICES.COREO_UNI_UTIL) !== -1) return constants.REGIONS.CLOUDCOREO;
+        if (resource.resourceType.indexOf(Constants.SERVICES.COREO_AWS_RULE) !== -1 ||
+            resource.resourceType.indexOf(Constants.SERVICES.COREO_UNI_UTIL) !== -1) return Constants.REGIONS.CLOUDCOREO;
 
-        if (resource.resourceType.indexOf(constants.SERVICES.AWS_IAM) !== -1 ||
-            resource.resourceType.indexOf(constants.SERVICES.AWS_ROUTE53) !== -1) return constants.REGIONS.AWS;
+        if (resource.resourceType.indexOf(Constants.SERVICES.AWS_IAM) !== -1 ||
+            resource.resourceType.indexOf(Constants.SERVICES.AWS_ROUTE53) !== -1) return Constants.REGIONS.AWS;
 
-        if (resource.resourceType.indexOf(constants.SERVICES.AWS_EC2) !== -1 ||
-            resource.resourceType.indexOf(constants.SERVICES.AWS_ELASTICACHE) !== -1 ||
-            resource.resourceType.indexOf(constants.SERVICES.AWS_S3) !== -1 ||
-            resource.resourceType.indexOf(constants.SERVICES.AWS_VPC) !== -1 ||
-            resource.resourceType.indexOf(constants.SERVICES.AWS_VPN) !== -1) {
+        if (resource.resourceType.indexOf(Constants.SERVICES.AWS_EC2) !== -1 ||
+            resource.resourceType.indexOf(Constants.SERVICES.AWS_ELASTICACHE) !== -1 ||
+            resource.resourceType.indexOf(Constants.SERVICES.AWS_S3) !== -1 ||
+            resource.resourceType.indexOf(Constants.SERVICES.AWS_VPC) !== -1 ||
+            resource.resourceType.indexOf(Constants.SERVICES.AWS_VPN) !== -1) {
             return getRegionValue();
         }
         return undefined;
@@ -51,10 +71,10 @@ $(document).ready(function () {
     }
 
     function renderMapData(data) {
-        var executionIsFinished =   data.engineState === constants.ENGINE_STATES.COMPLETED ||
-                                    data.engineState === constants.ENGINE_STATES.INITIALIZED ||
-                                    (data.engineState === constants.ENGINE_STATES.PLANNED &&
-                                    data.engineStatus !== constants.ENGINE_STATUSES.OK);
+        var executionIsFinished =   data.engineState === Constants.ENGINE_STATES.COMPLETED ||
+                                    data.engineState === Constants.ENGINE_STATES.INITIALIZED ||
+                                    (data.engineState === Constants.ENGINE_STATES.PLANNED &&
+                                    data.engineStatus !== Constants.ENGINE_STATUSES.OK);
 
         if (!executionIsFinished && !deployData.hasOldResources() && data.resourcesArray.length < data.numberOfResources) {
             staticMaps();
@@ -68,11 +88,11 @@ $(document).ready(function () {
             var region = getRegion(resource);
             if (!region) return;
 
-            if (region !== constants.REGIONS.CLOUDCOREO) {
+            if (region !== Constants.REGIONS.CLOUDCOREO) {
                 if (!mapData[region]) {
                     mapData[region] = { violations: 0, deployed: 0, objects: 0 };
                 }
-                if (resource.dataType === constants.RESOURCE_TYPE.ADVISOR_RESOURCE) ++mapData[region].violations;
+                if (resource.dataType === Constants.RESOURCE_TYPE.ADVISOR_RESOURCE) ++mapData[region].violations;
                 else ++mapData[region].deployed;
                 return;
             }
@@ -81,7 +101,7 @@ $(document).ready(function () {
                 mapData[region] = { violations: 0, deployed: 0, successMessage: 'Resource', errorMessage: 'Error' };
             }
 
-            if (resource.engineStatus.indexOf(constants.ENGINE_STATUSES.ERROR) !== -1) ++mapData[region].violations;
+            if (resource.engineStatus.indexOf(Constants.ENGINE_STATUSES.ERROR) !== -1) ++mapData[region].violations;
             else ++mapData[region].deployed;
         });
 
@@ -120,11 +140,11 @@ $(document).ready(function () {
         });
 
         $('.warning-link').click(function () {
-            openPopup(constants.POPUPS.REDIRECT_TO_RESOURCES);
+            openPopup(Constants.POPUPS.REDIRECT_TO_RESOURCES);
         });
 
         $('#view-run-error').click(function () {
-            openPopup(constants.POPUPS.SHOW_ERROR);
+            openPopup(Constants.POPUPS.SHOW_ERROR);
         });
     }
 
@@ -157,7 +177,7 @@ $(document).ready(function () {
             onDataProcessed(data, isFirstLoad);
         };
         if (isFirstLoad) {
-            auditData = new Audit(data, constants.SORTKEYS.LEVEL, onLoad, onAditDataError);
+            auditData = new Audit(data, Constants.SORTKEYS.level.name, onLoad, onAditDataError);
             deployData = new Deploy(data);
             return;
         }
@@ -172,7 +192,7 @@ $(document).ready(function () {
         }
         setCurrentView(isFirstLoad);
 
-        if (!isFirstLoad && data.engineState !== constants.ENGINE_STATES.COMPLETED) return;
+        if (!isFirstLoad && data.engineState !== Constants.ENGINE_STATES.COMPLETED) return;
         renderMapData(data);
     }
 
@@ -190,17 +210,17 @@ $(document).ready(function () {
 
     function getEngineStateMessage(engineState) {
         if (!engineState) return 'queued';
-        return (engineState === constants.ENGINE_STATES.EXECUTING ||
-                engineState === constants.ENGINE_STATES.COMPLETED) ? engineState : constants.ENGINE_STATES.COMPILING;
+        return (engineState === Constants.ENGINE_STATES.EXECUTING ||
+                engineState === Constants.ENGINE_STATES.COMPLETED) ? engineState : Constants.ENGINE_STATES.COMPILING;
     }
 
     function setExecutionStatusMessage(data) {
-        if (data.engineState === constants.ENGINE_STATES.COMPLETED || data.engineState === constants.ENGINE_STATES.INITIALIZED) return;
+        if (data.engineState === Constants.ENGINE_STATES.COMPLETED || data.engineState === Constants.ENGINE_STATES.INITIALIZED) return;
 
         $('.engine-state').removeClass('hidden');
         $('.engine-state .message').html(getEngineStateMessage(data.engineState));
 
-        if (!data.resourcesArray && data.engineState !== constants.ENGINE_STATES.EXECUTING) {
+        if (!data.resourcesArray && data.engineState !== Constants.ENGINE_STATES.EXECUTING) {
             $('.data-is-loading').removeClass('hidden');
             $('.resource-type-toggle').addClass('hidden');
             $('.scrollable-area').addClass('hidden');
@@ -235,26 +255,13 @@ $(document).ready(function () {
         setExecutionStatusMessage(data);
     }
 
-    function parseQueries(queryString) {
-        var queries = queryString.split('&');
-        var parsedQueries = {};
-
-        queries.forEach(function(query) {
-           query = query.split('=');
-           parsedQueries[query[0]] = query[1];
-        });
-
-        return parsedQueries;
-    }
-
-    if (typeof ccThisCont === 'undefined') {
-        var queryString = window.location.href.split('?')[1];
-        var parsedQueries = parseQueries(queryString);
-        if (!parsedQueries.tmpfile) {
+    if (window.isLocalRun) {
+        if (!window.parsedQueries.tmpfile) {
             console.log('Please add tmpFile in url params', 'expamle: ?tmpfile=./tmp-data/tmp0.json');
             return;
         }
-        d3.json(parsedQueries.tmpfile, function (data) {
+
+        d3.json(window.parsedQueries.tmpfile, function (data) {
             init(data, true);
             // emulateCcThisUpdate(data)
         });

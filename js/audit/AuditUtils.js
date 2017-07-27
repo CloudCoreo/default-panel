@@ -1,4 +1,5 @@
-var colorPalette = constants.COLORS;
+var colorPalette = Constants.COLORS;
+var sortkeys = Constants.SORTKEYS;
 
 
 window.AuditUtils = {
@@ -16,6 +17,19 @@ window.AuditUtils = {
     },
 
 
+    getBlockHeader: function (key, sortKey) {
+        var isNoViolation = key === 'No-violations';
+        var isLevel = sortKey === sortkeys.level.name;
+        var isCategory = sortKey === sortkeys.category.name;
+        var isService = sortKey === sortkeys.service.name;
+
+        if (isNoViolation) return key.replace('-', ' ');
+        if (isLevel || isCategory || isService || isNoViolation) return key;
+
+        return Constants.BLOCK_HEADERS[key];
+    },
+
+
     organizeDataForAdditionalSections: function (violation) {
         var data = new Violation(violation.inputs);
 
@@ -25,7 +39,6 @@ window.AuditUtils = {
         data.suppressions = [];
         data.violationId = violation._id;
         data.metas = this.getRuleMetasCis(violation.inputs);
-        data.isPassed = false;
 
         return data;
     },
@@ -34,8 +47,8 @@ window.AuditUtils = {
     getRuleMetasCis: function (ruleInputs) {
         var metas = [];
         Object.keys(ruleInputs).forEach(function (key) {
-            if (key !== 'meta_cis_id' && key.indexOf('meta_cis') !== -1) {
-                var metaTitle = key.replace('meta_', '').replace('_', ' ');
+            if (key.indexOf('meta_') !== -1) {
+                var metaTitle = key.replace('meta_', '').replace(/_/g, ' ');
                 metas.push({ key: metaTitle, value: ruleInputs[key] });
             }
         });
@@ -43,8 +56,8 @@ window.AuditUtils = {
     },
 
 
-    isMetaAttribute: function (sortKey) {
-        return sortKey.indexOf('meta_') !== -1;
+    isSorting: function (sortKey) {
+        return Constants.SORTKEYS[sortKey].isSorting;
     },
 
 
@@ -53,10 +66,17 @@ window.AuditUtils = {
     },
 
 
+    removeFieldByValue: function (arr, key, value) {
+        return arr.filter(function (item) {
+            return item[key] !== value;
+        })
+    },
+
+
     getColor: function (level, sortKey, keys, colors) {
         var color;
 
-        if (sortKey === constants.SORTKEYS.LEVEL) color = colorPalette.SeverityTones[level];
+        if (sortKey === Constants.SORTKEYS.level.name) color = colorPalette.SeverityTones[level];
         if (!color) {
             var index = keys.indexOf(level);
             color = colors(index);
@@ -93,6 +113,8 @@ window.AuditUtils = {
 
     sortObjectKeysByPriority: function (keys, priorities) {
         keys.sort(function (keyA, keyB) {
+            if (!priorities[keyA]) return -1;
+            if (!priorities[keyB]) return 1;
             return priorities[keyA] > priorities[keyB];
         });
         return keys;
@@ -104,7 +126,7 @@ window.AuditUtils = {
         var levelKeys = Object.keys(levels);
 
         levelKeys.forEach(function (level) {
-            levels[level].color = AuditUtils.getColor(level, constants.SORTKEYS.LEVEL, levelKeys, colors);
+            levels[level].color = AuditUtils.getColor(level, Constants.SORTKEYS.level.name, levelKeys, colors);
         });
         return levels;
     }

@@ -1,5 +1,5 @@
-var mapRegions = constants.REGIONS.MAP_REGIONS;
-var regionsList = constants.REGIONS.REGION_LIST;
+var mapRegions = Constants.REGIONS.MAP_REGIONS;
+var regionsList = Constants.REGIONS.REGION_LIST;
 
 function moveToFront(elem) {
     return elem.each(function() {
@@ -78,14 +78,14 @@ function showTooltip(position, element, region) {
         return;
     }
     addMessage(element, id, {
-        text: region.deployed + ' ' + constants.UITEXTS.MAP_MESSAGES.RESOURCES_DEPLOYED,
+        text: region.deployed + ' ' + uiTexts.MAP_MESSAGES.RESOURCES_DEPLOYED,
         rectX: rectX,
         rectY: rectY,
         fill: '#2B7AE5',
         stroke: '#2B7AE5'});
 
     addMessage(element, id, {
-        text: region.violations + ' ' + constants.UITEXTS.MAP_MESSAGES.VIOLATIONS_FOUND,
+        text: region.violations + ' ' + uiTexts.MAP_MESSAGES.VIOLATIONS_FOUND,
         rectX: rectX,
         rectY: rectY + 10,
         fill: '#fff',
@@ -93,7 +93,7 @@ function showTooltip(position, element, region) {
 
     if (region.objects) {
         addMessage(element, id, {
-            text: region.objects + ' ' + constants.UITEXTS.MAP_MESSAGES.CLOUD_OBJECTS_FOUND,
+            text: region.objects + ' ' + uiTexts.MAP_MESSAGES.CLOUD_OBJECTS_FOUND,
             rectX: rectX,
             rectY: rectY + 20,
             fill: '#fff',

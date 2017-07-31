@@ -11,10 +11,18 @@ function roundedRect(x, y, width, height, radius) {
 }
 
 function drawPie(pieData, color, cont) {
+
+    console.log(pieData);
+    console.log(color);
+    console.log(cont);
+    debugger;
+
+
     $('.pie').html('');
     var tabsHeight = $('.options-container').height();
     var height = pieData.length * 35 + 10,
         radius = 65;
+
 
     var dataSum = 0;
     pieData.forEach(function (elem) {

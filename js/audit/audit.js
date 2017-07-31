@@ -183,7 +183,7 @@ window.Audit = (function (Resource, AuditRender) {
 
     function showEmptyViolationsMessage() {
         if (executionIsFinished) {
-            // AuditUI.showNoViolationsMessage();
+            AuditUI.showNoViolationsMessage();
             auditRender.setChartHeaderText(uiTexts.CHART_HEADER.CLOUD_OBJECTS, sortKey);
             return;
         }
@@ -402,6 +402,7 @@ window.Audit = (function (Resource, AuditRender) {
         unbindHandlers();
 
         $('.audit .chosen-sorting').change(function () {
+            console.log($(this).val());
             reRender($(this).val());
         });
 
@@ -500,8 +501,8 @@ window.Audit = (function (Resource, AuditRender) {
         }
 
         if (allPassedCardIsShown) {
-            // AuditUI.showNoViolationsMessage();
-            // auditRender.removePieChart();
+            AuditUI.showNoViolationsMessage();
+           // auditRender.removePieChart();
         }
         if (!isSorting) {
             renderNoViolationsSection(sortKey);
@@ -522,7 +523,7 @@ window.Audit = (function (Resource, AuditRender) {
         var listOfAlerts = {};
         var noEmptyRules = !noViolations || Object.keys(noViolations).length === 0;
         sortKey = _sortKey;
-
+        console.log(_sortKey);
         if (!noEmptyRules && disabledViolations.length !== 0) hasDisabled = true;
 
         auditRender.clearContainer();

@@ -153,7 +153,9 @@ window.AuditRender = (function () {
     }
 
     function removePieChart() {
-        // $('.pie').empty();
+        console.log(this);
+        debugger;
+      //  $('.pie').empty();
     }
 
     function renderPie(listOfAlerts) {
@@ -204,6 +206,7 @@ window.AuditRender = (function () {
             return Constants.PRIORITY_OF_LEVELS[a.label] > Constants.PRIORITY_OF_LEVELS[b.label];
         });
 
+        debugger;
         pie.drawPie(pieData);
     }
 
@@ -234,6 +237,7 @@ window.AuditRender = (function () {
 
         initView();
 
+        debugger;
         renderPie(listOfAlerts);
 
         if (listOfAlerts[Constants.VIOLATION_LEVELS.INFORMATIONAL.name]) {
@@ -255,7 +259,7 @@ window.AuditRender = (function () {
                 key: key,
                 color: listOfAlerts[key].color,
                 resultsType: Constants.RESULT_TYPE.VIOLATIONS,
-                sortKey: self.sortKey,
+                sortKey: self.sortKey
             };
 
             if (isSorting) renderParams.levels = listOfAlerts[self.sortKey].levels;
@@ -267,14 +271,12 @@ window.AuditRender = (function () {
 
         if (isSorting) {
             chartHeader = violationsCount === 1 ? uiTexts.CHART_HEADER.RULE : uiTexts.CHART_HEADER.RULES;
-            if(violationsCount==0)chartHeader="Violating "+chartHeader;
-            setChartHeaderText(chartHeader, self.sortKey);
+            setChartHeaderText(chartHeader, self.sortKey,violationsCount);
             var violationNum = Object.keys(listOfAlerts[self.sortKey].alerts).length;
-            // if (violationNum === 0) removePieChart();
+            if (violationNum === 0) removePieChart();
         } else {
             chartHeader = violationsCount === 1 ? uiTexts.CHART_HEADER.CLOUD_OBJECT : uiTexts.CHART_HEADER.CLOUD_OBJECTS;
-            if(violationsCount==0)chartHeader="Violating "+chartHeader;
-            setChartHeaderText(chartHeader, self.sortKey);
+            setChartHeaderText(chartHeader, self.sortKey, violationsCount);
         }
 
         $('.pie-data-header .num').html(violationsCount);
@@ -283,10 +285,12 @@ window.AuditRender = (function () {
     }
 
 
-    function setChartHeaderText(text, sortKey) {
+    function setChartHeaderText(text, sortKey, violationsCount = 0 ) {
         var isSorting = AuditUtils.isSorting(sortKey);
         var sortLabel = isSorting ? Constants.SORTKEYS[sortKey].label : '';
         var header = sortLabel + ' ' + text;
+        if(violationsCount===0 && sortKey==='level')
+            header="Violating "+header;
         $(containers.CHART_HEADER).text(header);
     }
 
@@ -306,6 +310,8 @@ window.AuditRender = (function () {
 
     function render(listOfAlerts, sortKey) {
         self.sortKey = sortKey;
+        console.log(JSON.stringify(listOfAlerts) + " <<< TO BE RENDERED");
+        debugger;
         renderResourcesList(listOfAlerts);
     }
 

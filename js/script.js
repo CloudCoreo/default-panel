@@ -178,7 +178,6 @@ $(document).ready(function () {
         };
         if (isFirstLoad) {
             auditData = new Audit(data, Constants.SORTKEYS.region.name, onLoad, onAditDataError);
-            console.log("# of Violations:" + auditData.getViolationsCount());
             deployData = new Deploy(data);
             return;
         }
@@ -263,7 +262,7 @@ $(document).ready(function () {
         }
 
         d3.json(window.parsedQueries.tmpfile, function (data) {
-            console.log(data);
+
             init(data, true);
             // emulateCcThisUpdate(data)
         });

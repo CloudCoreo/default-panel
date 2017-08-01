@@ -204,7 +204,6 @@ window.AuditRender = function () {
             return Constants.PRIORITY_OF_LEVELS[a.label] > Constants.PRIORITY_OF_LEVELS[b.label];
         });
 
-        // debugger;
         pie.drawPie(pieData);
     }
 
@@ -235,7 +234,6 @@ window.AuditRender = function () {
 
         initView();
 
-        // debugger;
         renderPie(listOfAlerts);
 
         if (listOfAlerts[Constants.VIOLATION_LEVELS.INFORMATIONAL.name]) {
@@ -307,8 +305,6 @@ window.AuditRender = function () {
 
     function render(listOfAlerts, sortKey) {
         self.sortKey = sortKey;
-        console.log(JSON.stringify(listOfAlerts) + " <<< TO BE RENDERED");
-        // debugger;
         renderResourcesList(listOfAlerts);
     }
 

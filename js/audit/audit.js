@@ -409,7 +409,6 @@ window.Audit = (function (Resource, AuditRender) {
         unbindHandlers();
 
         $('.audit .chosen-sorting').change(function () {
-            console.log($(this).val());
             reRender($(this).val());
         });
 
@@ -506,7 +505,6 @@ window.Audit = (function (Resource, AuditRender) {
                 break;
             }
         }
-        console.log("My MOOSE: " + showMoose);
         if (allPassedCardIsShown && showMoose) {
             AuditUI.showNoViolationsMessage();
            // auditRender.removePieChart();
@@ -530,7 +528,7 @@ window.Audit = (function (Resource, AuditRender) {
         var listOfAlerts = {};
         var noEmptyRules = !noViolations || Object.keys(noViolations).length === 0;
         sortKey = _sortKey;
-        console.log(_sortKey);
+
         if (!noEmptyRules && disabledViolations.length !== 0) hasDisabled = true;
 
         auditRender.clearContainer();

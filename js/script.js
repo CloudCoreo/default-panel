@@ -178,6 +178,7 @@ $(document).ready(function () {
         };
         if (isFirstLoad) {
             auditData = new Audit(data, Constants.SORTKEYS.region.name, onLoad, onAditDataError);
+            console.log("# of Violations:" + auditData.getViolationsCount());
             deployData = new Deploy(data);
             return;
         }

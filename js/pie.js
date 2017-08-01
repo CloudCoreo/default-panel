@@ -12,11 +12,12 @@ function roundedRect(x, y, width, height, radius) {
 
 function drawPie(pieData, color, cont) {
 
-    console.log(pieData);
+    console.log("PIE DATA: " + JSON.stringify(pieData));
+
+    if(pieData.length===0) pieData=[{"label":"informational", "value": 10, color: "#e4e4e4"}];
+    else if(pieData[0].value<=0)pieData[0].value=10;
     console.log(color);
     console.log(cont);
-    debugger;
-
 
     $('.pie').html('');
     var tabsHeight = $('.options-container').height();
@@ -28,6 +29,7 @@ function drawPie(pieData, color, cont) {
     pieData.forEach(function (elem) {
         dataSum += +elem.value;
     });
+    console.log(height+ " "+ radius+ " "+dataSum);
 
     height = (130 < height) ? height : 130;
 

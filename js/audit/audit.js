@@ -11,6 +11,7 @@ window.Audit = (function (Resource, AuditRender) {
     var hasOld = false;
     var auditRender;
     var ccThisData = {};
+    var showMoose=false;
 
     var colorPalette = Constants.COLORS;
     var containers = Constants.CONTAINERS;
@@ -183,7 +184,9 @@ window.Audit = (function (Resource, AuditRender) {
 
     function showEmptyViolationsMessage() {
         if (executionIsFinished) {
-            AuditUI.showNoViolationsMessage();
+            if(showMoose){
+                AuditUI.showNoViolationsMessage();
+            }
             auditRender.setChartHeaderText(uiTexts.CHART_HEADER.CLOUD_OBJECTS, sortKey);
             return;
         }
@@ -253,6 +256,10 @@ window.Audit = (function (Resource, AuditRender) {
                     };
 
                     var alert = new Violation(rowData);
+
+                    if(alert.include_violations_in_count!==false){
+                        showMoose=true;
+                    }
 
                     alert.title = rowData.display_name || violationKey;
                     alert.id = violationKey;
@@ -499,8 +506,8 @@ window.Audit = (function (Resource, AuditRender) {
                 break;
             }
         }
-
-        if (allPassedCardIsShown) {
+        console.log("My MOOSE: " + showMoose);
+        if (allPassedCardIsShown && showMoose) {
             AuditUI.showNoViolationsMessage();
            // auditRender.removePieChart();
         }
@@ -537,7 +544,8 @@ window.Audit = (function (Resource, AuditRender) {
         var isSorting = AuditUtils.isSorting(sortKey);
         var isClear = !alerts.length && !hasDisabled && !errors.length;
 
-        if (isClear) {
+        if (isClear)
+        {
             if (!isSorting) renderNoViolationsSection(sortKey);
 
             showEmptyViolationsMessage();
@@ -548,7 +556,7 @@ window.Audit = (function (Resource, AuditRender) {
                 noViolations: noViolations,
                 disabledViolations: disabledViolations
             });
-            return;
+            // return;
         }
 
         renderRules(isSorting);

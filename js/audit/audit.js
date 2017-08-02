@@ -256,8 +256,8 @@ window.Audit = (function (Resource, AuditRender) {
                     };
 
                     var alert = new Violation(rowData);
-
-                    if(alert.include_violations_in_count!==false){
+                    console.log(alert);
+                    if(alert.include_violations_in_count!==false && alert.level.toLowerCase()!=="inventory"){
                         showMoose=true;
                     }
 

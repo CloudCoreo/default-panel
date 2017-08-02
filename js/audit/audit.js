@@ -11,7 +11,7 @@ window.Audit = (function (Resource, AuditRender) {
     var hasOld = false;
     var auditRender;
     var ccThisData = {};
-    var showMoose=true;
+    var showMoose=false;
 
     var colorPalette = Constants.COLORS;
     var containers = Constants.CONTAINERS;
@@ -256,9 +256,9 @@ window.Audit = (function (Resource, AuditRender) {
                     };
 
                     var alert = new Violation(rowData);
-                    console.log("iam here: " + JSON.stringify(alert));
-                    if(alert.include_violations_in_count!==false && alert.level.toLowerCase()!=="inventory"){
-                        showMoose=false;
+                    console.log(alert);
+                    if(alert.include_violations_in_count!==false && (alert.category.toLowerCase()=="inventory" || alert.category.toLowerCase()=="informational")){
+                        showMoose=true;
                     }
 
                     alert.title = rowData.display_name || violationKey;

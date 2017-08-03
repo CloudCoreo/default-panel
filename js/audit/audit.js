@@ -11,7 +11,7 @@ window.Audit = (function (Resource, AuditRender) {
     var hasOld = false;
     var auditRender;
     var ccThisData = {};
-    var showMoose=false;
+    var showMoose=1;
 
     var colorPalette = Constants.COLORS;
     var containers = Constants.CONTAINERS;
@@ -256,12 +256,13 @@ window.Audit = (function (Resource, AuditRender) {
                     };
 
                     var alert = new Violation(rowData);
-                    // console.log(alert);
-                    if(alert.include_violations_in_count!==false){
-                        showMoose=true;
+                    console.log(alert);
+                    if(alert.include_violations_in_count===false && showMoose==1){
+                        showMoose=0;
                     }
+                    if(alert.include_violations_in_count!==false)showMoose=2;
 
-                    alert.title = rowData.display_name || violationKey;
+                        alert.title = rowData.display_name || violationKey;
                     alert.id = violationKey;
                     alert.resource = resource;
                     alert.timestamp = timestamp;

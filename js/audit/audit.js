@@ -241,7 +241,7 @@ window.Audit = (function (Resource, AuditRender) {
                         rowData.meta_nist_171_id = violations[violationKey].inputs.meta_nist_171_id;
                     }
 
-                    if (typeof rowData.include_violations_in_count === 'undefined') {
+                    if (typeof rowData.include_violations_in_count === 'undefined' || rowData.include_violations_in_count=='') {
                         rowData.include_violations_in_count = true;
                     }
 
@@ -256,8 +256,8 @@ window.Audit = (function (Resource, AuditRender) {
                     };
 
                     var alert = new Violation(rowData);
-                    console.log(alert);
-                    if(alert.include_violations_in_count!==false && (alert.category.toLowerCase()=="inventory" || alert.category.toLowerCase()=="informational")){
+                    // console.log(alert);
+                    if(alert.include_violations_in_count!==false){
                         showMoose=true;
                     }
 

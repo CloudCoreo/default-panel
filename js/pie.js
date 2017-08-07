@@ -12,8 +12,8 @@ function roundedRect(x, y, width, height, radius) {
 
 function drawPie(pieData, color, cont) {
 
-    if(pieData.length===0) pieData=[{"label":"informational", "value": 10, color: "#e4e4e4"}];
-    else if(pieData[0].value<=0)pieData[0].value=10;
+    if(pieData.length===0) pieData=[{"label":"informational", "value": 1, color: "#e4e4e4"}];
+    else if(pieData[0].value<=0)pieData[0].value=1;
 
     $('.pie').html('');
     var tabsHeight = $('.options-container').height();
@@ -80,10 +80,10 @@ function drawPie(pieData, color, cont) {
             if (pieData[index].value === 0) {
                 return pieData[index].value + ' ' + pieData[index].label
             }
-            if(pieData[index].label.toLowerCase()=='informational')
+            else if(pieData[index].label.toLowerCase()==Constants.VIOLATION_LEVELS.INFORMATIONAL.toLowerCase()){
                 return 'n/a';
-            else
-                return pieData[index].value + ' ' + pieData[index].label + ' (' + (pieData[index].value * 100 / dataSum).toFixed(1) + '%)';
+            }
+            return pieData[index].value + ' ' + pieData[index].label + ' (' + (pieData[index].value * 100 / dataSum).toFixed(1) + '%)';
         })
         .style("cursor", 'pointer')
         .on("click", onclick);

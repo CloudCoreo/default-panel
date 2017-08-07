@@ -34,7 +34,6 @@
                         This composite has no audit resources.<br/>
                         <span class="browse-composites">Browse featured Composites</span> to see available audits.
                     </div>
-                    <!--    TODO    -->
                     <div class="resources-are-loading hidden">
                         <img src="images/audit-layout_loading-4.gif"/>
                     </div>
@@ -80,7 +79,6 @@
                                                                                              class="warning-link">Please review</a> the error and run again to ensure completeness.</span>
                             </div>
                             <div id="advisor-errors"></div>
-                            <!--TODO hide this div tag -->
                             <div id="no-violations-view" class="hidden">
                                 <div class="md-shadow bg-white no-violations-message layout-margin-bottom-20 layout-margin-top">
                                     <div class="messages layout-padding">
@@ -349,7 +347,6 @@
                              violation="{{:violationId}}"
                              violationId="{{:violation.violationId}}"
                              sortKey="{{:violation.sortKey}}">
-                        <!--TODO-->
                             {{if violation.resources.length}}
                                 {{if violation.level === 'Informational'}}
                                     {{:violation.resources.length}} Cloud Object{{if violation.resources.length !== 1}}s{{/if}}

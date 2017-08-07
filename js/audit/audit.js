@@ -11,7 +11,7 @@ window.Audit = (function (Resource, AuditRender) {
     var hasOld = false;
     var auditRender;
     var ccThisData = {};
-    var showMoose=1;
+    var showNoViolationsView=1;
 
     var colorPalette = Constants.COLORS;
     var containers = Constants.CONTAINERS;
@@ -184,7 +184,7 @@ window.Audit = (function (Resource, AuditRender) {
 
     function showEmptyViolationsMessage() {
         if (executionIsFinished) {
-            if(showMoose){
+            if(showNoViolationsView){
                 AuditUI.showNoViolationsMessage();
             }
             auditRender.setChartHeaderText(uiTexts.CHART_HEADER.CLOUD_OBJECTS, sortKey);
@@ -241,7 +241,7 @@ window.Audit = (function (Resource, AuditRender) {
                         rowData.meta_nist_171_id = violations[violationKey].inputs.meta_nist_171_id;
                     }
 
-                    if (typeof rowData.include_violations_in_count === 'undefined' || rowData.include_violations_in_count=='') {
+                    if (typeof rowData.include_violations_in_count !== 'boolean') {
                         rowData.include_violations_in_count = true;
                     }
 
@@ -256,13 +256,12 @@ window.Audit = (function (Resource, AuditRender) {
                     };
 
                     var alert = new Violation(rowData);
-                    console.log(alert);
-                    if(alert.include_violations_in_count===false && showMoose==1){
-                        showMoose=0;
+                    if(alert.include_violations_in_count===false && showNoViolationsView==1){
+                        showNoViolationsView=0;
                     }
-                    if(alert.include_violations_in_count!==false)showMoose=2;
+                    if(alert.include_violations_in_count!==false)showNoViolationsView=2;
 
-                        alert.title = rowData.display_name || violationKey;
+                    alert.title = rowData.display_name || violationKey;
                     alert.id = violationKey;
                     alert.resource = resource;
                     alert.timestamp = timestamp;
@@ -506,9 +505,8 @@ window.Audit = (function (Resource, AuditRender) {
                 break;
             }
         }
-        if (allPassedCardIsShown && showMoose) {
+        if (allPassedCardIsShown && showNoViolationsView) {
             AuditUI.showNoViolationsMessage();
-           // auditRender.removePieChart();
         }
         if (!isSorting) {
             renderNoViolationsSection(sortKey);
@@ -543,8 +541,8 @@ window.Audit = (function (Resource, AuditRender) {
         var isSorting = AuditUtils.isSorting(sortKey);
         var isClear = !alerts.length && !hasDisabled && !errors.length;
 
-        if (isClear)
-        {
+        if (isClear){
+
             if (!isSorting) renderNoViolationsSection(sortKey);
 
             showEmptyViolationsMessage();
@@ -555,7 +553,7 @@ window.Audit = (function (Resource, AuditRender) {
                 noViolations: noViolations,
                 disabledViolations: disabledViolations
             });
-            // return;
+            return;
         }
 
         renderRules(isSorting);

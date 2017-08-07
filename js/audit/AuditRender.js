@@ -1,4 +1,4 @@
-window.AuditRender = function () {
+window.AuditRender = (function () {
 
     var self;
 
@@ -152,10 +152,6 @@ window.AuditRender = function () {
         }]);
     }
 
-    function removePieChart() {
-        //  $('.pie').empty();
-    }
-
     function renderPie(listOfAlerts) {
         var pieData = [];
         var unknownLevels = [];
@@ -268,7 +264,6 @@ window.AuditRender = function () {
             chartHeader = violationsCount === 1 ? uiTexts.CHART_HEADER.RULE : uiTexts.CHART_HEADER.RULES;
             setChartHeaderText(chartHeader, self.sortKey, violationsCount);
             var violationNum = Object.keys(listOfAlerts[self.sortKey].alerts).length;
-            // if (violationNum === 0) removePieChart();
         } else {
             chartHeader = violationsCount === 1 ? uiTexts.CHART_HEADER.CLOUD_OBJECT : uiTexts.CHART_HEADER.CLOUD_OBJECTS;
             setChartHeaderText(chartHeader, self.sortKey, violationsCount);
@@ -280,12 +275,16 @@ window.AuditRender = function () {
     }
 
 
-    function setChartHeaderText(text, sortKey, violationsCount = 0) {
+    function setChartHeaderText(text, sortKey, violationsCount) {
+
+        violationsCount = typeof violationsCount !== 'undefined' ? violationsCount : 0;
+
         var isSorting = AuditUtils.isSorting(sortKey);
         var sortLabel = isSorting ? Constants.SORTKEYS[sortKey].label : '';
         var header = sortLabel + ' ' + text;
-        if (violationsCount === 0 && sortKey === 'level')
+        if (violationsCount === 0 && sortKey === 'level'){
             header = "Violating " + header;
+        }
         $(containers.CHART_HEADER).text(header);
     }
 
@@ -318,7 +317,6 @@ window.AuditRender = function () {
     AuditRender.prototype.renderSection = renderSection;
     AuditRender.prototype.renderInformationalSection = renderInformationalSection;
     AuditRender.prototype.renderPie = renderPie;
-    AuditRender.prototype.removePieChart = removePieChart;
     AuditRender.prototype.renderAllClearPie = renderAllClearPie;
     AuditRender.prototype.setChartHeaderText = setChartHeaderText;
     AuditRender.prototype.drawPie = drawPie;
@@ -327,4 +325,4 @@ window.AuditRender = function () {
     AuditRender.prototype.clearContainer = clearContainer;
 
     return AuditRender;
-}();
+}());

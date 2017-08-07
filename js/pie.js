@@ -80,7 +80,7 @@ function drawPie(pieData, color, cont) {
             if (pieData[index].value === 0) {
                 return pieData[index].value + ' ' + pieData[index].label
             }
-            else if(pieData[index].label.toLowerCase()==Constants.VIOLATION_LEVELS.INFORMATIONAL.toLowerCase()){
+            else if(pieData[index].label.toLowerCase()===Constants.VIOLATION_LEVELS.INFORMATIONAL.name.toLowerCase()){
                 return 'n/a';
             }
             return pieData[index].value + ' ' + pieData[index].label + ' (' + (pieData[index].value * 100 / dataSum).toFixed(1) + '%)';

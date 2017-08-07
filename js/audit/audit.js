@@ -553,7 +553,6 @@ window.Audit = (function (Resource, AuditRender) {
                 noViolations: noViolations,
                 disabledViolations: disabledViolations
             });
-            return;
         }
 
         renderRules(isSorting);

@@ -254,7 +254,7 @@ window.Audit = (function (Resource, AuditRender) {
                         region: region,
                         isSuppressed: isSuppressed,
                         expiresAt: rowData.suppression_until,
-                        reportId: reportId
+                        reportId: reportId || rowData.reportId
                     };
 
                     var alert = new Violation(rowData);
@@ -262,7 +262,7 @@ window.Audit = (function (Resource, AuditRender) {
                     alert.title = rowData.display_name || violationKey;
                     alert.id = violationKey;
                     alert.resource = resource;
-                    alert.timestamp = timestamp;
+                    alert.timestamp = timestamp || rowData.timestamp;
 
                     if (violations[violationKey] && violations[violationKey].inputs) {
                         alert.metas = AuditUtils.getRuleMetasCis(violations[violationKey].inputs);
@@ -316,8 +316,13 @@ window.Audit = (function (Resource, AuditRender) {
             callback();
             return;
         }
-        var totalChecks = 0;
         totalViolations = 0;
+        if (ccThisData.auditResults && Object.keys(ccThisData.auditResults).length) {
+            reorganizeReportData(ccThisData.auditResults, undefined, undefined, violations);
+            callback();
+            return;
+        }
+
 
         var handledReports = 0;
         var checkFetchedReport = function (report, reportId, timestamp) {
@@ -329,11 +334,8 @@ window.Audit = (function (Resource, AuditRender) {
         };
 
         reports.forEach(function (reportData) {
-            totalChecks += reportData.outputs.number_checks;
             getReport(reportData, checkFetchedReport, true);
         });
-
-        $('.additional-info .checks').html(totalChecks + ' Checks');
     }
 
 

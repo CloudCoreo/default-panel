@@ -254,7 +254,8 @@ window.Audit = (function (Resource, AuditRender) {
                         region: region,
                         isSuppressed: isSuppressed,
                         expiresAt: rowData.suppression_until,
-                        reportId: reportId
+                        reportId: reportId,
+                        ruleId: violationKey
                     };
 
                     var alert = new Violation(rowData);

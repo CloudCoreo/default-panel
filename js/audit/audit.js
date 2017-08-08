@@ -187,7 +187,9 @@ window.Audit = (function (Resource, AuditRender) {
 
 
     function showEmptyViolationsMessage() {
-        if (executionIsFinished) {
+        var isExecuting = ccThisData.engineState === Constants.ENGINE_STATES.EXECUTING;
+
+        if (executionIsFinished || (!executionIsFinished && hasOld && !isExecuting)) {
             AuditUI.showNoViolationsMessage();
             auditRender.setChartHeaderText(uiTexts.CHART_HEADER.CLOUD_OBJECTS, sortKey);
             return;
@@ -378,6 +380,13 @@ window.Audit = (function (Resource, AuditRender) {
                 disabledViolations[resource.resourceName] = AuditUtils.organizeDataForAdditionalSections(resource);
             }
         });
+
+        if (!executionIsFinished && !hasOld){
+            AuditUI.showResourcesAreBeingLoadedMessage();
+            alerts = undefined;
+            callback(sortKey);
+            return;
+        }
 
         if (!hasAuditResources) {
             AuditUI.showNoAuditResourcesMessage();
@@ -650,14 +659,11 @@ window.Audit = (function (Resource, AuditRender) {
         }
 
         var isCompleted = ccThisData.engineState === Constants.ENGINE_STATES.COMPLETED;
-        var isInitialized = ccThisData.engineState === Constants.ENGINE_STATES.INITIALIZED;
         var isPlanned = ccThisData.engineState === Constants.ENGINE_STATES.PLANNED;
         var isStatusOK = ccThisData.engineStatus === Constants.ENGINE_STATUSES.OK;
+        executionIsFinished = isCompleted || (isPlanned && !isStatusOK);
 
         hasExecutionError = ccThisData.engineStatus === Constants.ENGINE_STATUSES.EXECUTION_ERROR;
-        executionIsFinished = isCompleted || isInitialized || (isPlanned && !isStatusOK);
-
-        if (!executionIsFinished && !hasOld) AuditUI.showResourcesAreBeingLoadedMessage();
 
         var initRender = function (sortKey) {
             if (alerts) {

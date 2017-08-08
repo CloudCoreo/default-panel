@@ -318,7 +318,9 @@ window.Audit = (function (Resource, AuditRender) {
         }
         totalViolations = 0;
         if (ccThisData.auditResults && Object.keys(ccThisData.auditResults).length) {
-            reorganizeReportData(ccThisData.auditResults, undefined, undefined, violations);
+            Object.keys(ccThisData.auditResults).forEach( function (reportId) {
+                checkFetchedReport(ccThisData.auditResults[reportId], reportId, undefined, violations);
+            });
             callback();
             return;
         }

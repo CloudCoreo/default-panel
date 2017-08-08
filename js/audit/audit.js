@@ -317,16 +317,6 @@ window.Audit = (function (Resource, AuditRender) {
             return;
         }
         totalViolations = 0;
-        if (ccThisData.auditResults && Object.keys(ccThisData.auditResults).length) {
-            Object.keys(ccThisData.auditResults).forEach( function (reportId) {
-                checkFetchedReport(ccThisData.auditResults[reportId], reportId, undefined, violations);
-            });
-            callback();
-            return;
-        }
-
-
-        var handledReports = 0;
         var checkFetchedReport = function (report, reportId, timestamp) {
             ++handledReports;
             reorganizeReportData(report, reportId, timestamp, violations);
@@ -334,6 +324,18 @@ window.Audit = (function (Resource, AuditRender) {
                 callback();
             }
         };
+
+        if (ccThisData.auditResults && Object.keys(ccThisData.auditResults).length) {
+            Object.keys(ccThisData.auditResults).forEach( function (reportId) {
+                reorganizeReportData(ccThisData.auditResults[reportId], reportId, undefined, violations);
+            });
+            callback();
+            return;
+        }
+
+
+        var handledReports = 0;
+
 
         reports.forEach(function (reportData) {
             getReport(reportData, checkFetchedReport, true);

@@ -7,7 +7,7 @@ window.Audit = (function (Resource, AuditRender) {
     var alerts = [];
     var alertData = new AlertData();
     var executionIsFinished = false;
-    var errors = [];
+    var hasExecutionError;
     var hasOld = false;
     var auditRender;
     var ccThisData = {};
@@ -311,12 +311,6 @@ window.Audit = (function (Resource, AuditRender) {
 
 
     function fillViolationsList(violations, reports, callback) {
-        if (!Object.keys(violations).length) {
-            AuditUI.showNoAuditResourcesMessage();
-            alerts = undefined;
-            callback();
-            return;
-        }
         var totalChecks = 0;
         totalViolations = 0;
 
@@ -358,20 +352,18 @@ window.Audit = (function (Resource, AuditRender) {
         var rules = {};
         var reports = [];
         var enabledDefinitions = [];
-        errors = [];
+        var hasAuditResources = false;
         hasOld = false;
 
         resources.forEach(function (resource) {
             if (resource.runId !== ccThisData.runId) hasOld = true;
             if (resource.dataType !== Constants.RESOURCE_TYPE.ADVISOR_RESOURCE) return;
+            hasAuditResources = true;
 
             var hasRuleRunnerType = isRuleRunner(resource.resourceType);
 
             if (resource.inputs.level === Constants.VIOLATION_LEVELS.INTERNAL.name) return;
-            if (resource.outputs.error) {
-                errors.push(resource);
-            }
-            else if (hasRuleRunnerType && resource.outputs.report) {
+            if (hasRuleRunnerType && resource.outputs.report) {
                 reports.push(resource);
 
                 if (!resource.inputs.rules) return;
@@ -386,6 +378,13 @@ window.Audit = (function (Resource, AuditRender) {
                 disabledViolations[resource.resourceName] = AuditUtils.organizeDataForAdditionalSections(resource);
             }
         });
+
+        if (!hasAuditResources) {
+            AuditUI.showNoAuditResourcesMessage();
+            alerts = undefined;
+            callback(sortKey);
+            return;
+        }
 
         fillViolationsList(rules, reports, function () {
             fillDisabledViolations(enabledDefinitions);
@@ -499,7 +498,8 @@ window.Audit = (function (Resource, AuditRender) {
         }
         var allPassedCardIsShown = true;
         for (var level in alertData.level) {
-            if (Constants.VIOLATION_LEVELS[level.toUpperCase()].isViolation) {
+            if (!Constants.VIOLATION_LEVELS[level.toUpperCase()] ||
+                 Constants.VIOLATION_LEVELS[level.toUpperCase()].isViolation) {
                 allPassedCardIsShown = false;
                 break;
             }
@@ -540,7 +540,7 @@ window.Audit = (function (Resource, AuditRender) {
         });
 
         var isSorting = AuditUtils.isSorting(sortKey);
-        var isClear = !alerts.length && !hasDisabled && !errors.length;
+        var isClear = !alerts.length && !hasDisabled && !hasExecutionError;
 
         if (isClear) {
             if (!isSorting) renderNoViolationsSection(sortKey);
@@ -631,7 +631,7 @@ window.Audit = (function (Resource, AuditRender) {
 
     function initGlobalVariables() {
         noViolations = {};
-        errors = [];
+        hasExecutionError = false;
         alerts = [];
         alertData = new AlertData();
     }
@@ -652,8 +652,9 @@ window.Audit = (function (Resource, AuditRender) {
         var isCompleted = ccThisData.engineState === Constants.ENGINE_STATES.COMPLETED;
         var isInitialized = ccThisData.engineState === Constants.ENGINE_STATES.INITIALIZED;
         var isPlanned = ccThisData.engineState === Constants.ENGINE_STATES.PLANNED;
-        var isStatusOK = ccThisData.engineState === Constants.ENGINE_STATUSES.OK;
+        var isStatusOK = ccThisData.engineStatus === Constants.ENGINE_STATUSES.OK;
 
+        hasExecutionError = ccThisData.engineStatus === Constants.ENGINE_STATUSES.EXECUTION_ERROR;
         executionIsFinished = isCompleted || isInitialized || (isPlanned && !isStatusOK);
 
         if (!executionIsFinished && !hasOld) AuditUI.showResourcesAreBeingLoadedMessage();

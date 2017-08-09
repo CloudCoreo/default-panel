@@ -254,7 +254,6 @@ window.Audit = (function (Resource, AuditRender) {
                         expiresAt: rowData.suppression_until,
                         reportId: reportId
                     };
-
                     var alert = new Violation(rowData);
                     if(alert.include_violations_in_count===false && showNoViolationsView==1){
                         showNoViolationsView=0;

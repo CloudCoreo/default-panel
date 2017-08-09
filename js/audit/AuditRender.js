@@ -144,14 +144,6 @@ window.AuditRender = (function () {
         return allViolationsCount;
     }
 
-    function renderAllClearPie(emptyRules) {
-        pie.drawPie([{
-            label: 'Passed',
-            value: Object.keys(emptyRules).length,
-            color: colorPalette.Passed
-        }]);
-    }
-
     function renderPie(listOfAlerts) {
         var pieData = [];
         var unknownLevels = [];
@@ -174,6 +166,7 @@ window.AuditRender = (function () {
         };
 
         var fillData = function (key) {
+
             var summary = {};
             var alerts = {};
 
@@ -191,7 +184,9 @@ window.AuditRender = (function () {
         };
 
         unknownLevels.forEach(function (key) {
-            fillData(key);
+            if(self.sortKey!="level" || key.toLowerCase()!=Constants.VIOLATION_LEVELS.INFORMATIONAL.name.toLowerCase()){
+                fillData(key);
+            }
         });
 
         pieData.sort(function (a, b) {
@@ -317,7 +312,6 @@ window.AuditRender = (function () {
     AuditRender.prototype.renderSection = renderSection;
     AuditRender.prototype.renderInformationalSection = renderInformationalSection;
     AuditRender.prototype.renderPie = renderPie;
-    AuditRender.prototype.renderAllClearPie = renderAllClearPie;
     AuditRender.prototype.setChartHeaderText = setChartHeaderText;
     AuditRender.prototype.drawPie = drawPie;
     AuditRender.prototype.renderViolationDivider = renderViolationDivider;

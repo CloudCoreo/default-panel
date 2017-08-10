@@ -63,7 +63,7 @@ window.AuditRender = (function () {
 
     function renderSection(params) {
         var violationsCopy = utils.objectDeepCopy(params.violations);
-        var sectionSummary = {label: params.key, value: 0, color: params.color};
+        var sectionSummary = { label: params.key, value: 0, color: params.color };
         var isNoViolation = params.resultsType === Constants.RESULT_TYPE.RULES;
         var isInformational = params.resultsType === Constants.RESULT_TYPE.INFORMATIONAL;
         var violationsCount = 0;
@@ -171,11 +171,11 @@ window.AuditRender = (function () {
             var alerts = {};
 
             if (isSorting) {
-                summary = {label: key, value: 0, color: listOfAlerts[self.sortKey].levels[key].color};
+                summary = { label: key, value: 0, color: listOfAlerts[self.sortKey].levels[key].color };
                 alerts = listOfAlerts[self.sortKey].alerts;
             }
             else {
-                summary = {label: key, value: 0, color: listOfAlerts[key].color};
+                summary = { label: key, value: 0, color: listOfAlerts[key].color };
                 alerts = listOfAlerts[key].alerts;
             }
             summary.value = countResources(key, alerts);
@@ -184,9 +184,10 @@ window.AuditRender = (function () {
         };
 
         unknownLevels.forEach(function (key) {
-            if(self.sortKey!="level" || key.toLowerCase()!=Constants.VIOLATION_LEVELS.INFORMATIONAL.name.toLowerCase()){
-                fillData(key);
+            if (self.sortKey === "level" && key.toLowerCase() === Constants.VIOLATION_LEVELS.INFORMATIONAL.name.toLowerCase()) {
+                return;
             }
+            fillData(key);
         });
 
         pieData.sort(function (a, b) {
@@ -277,7 +278,7 @@ window.AuditRender = (function () {
         var isSorting = AuditUtils.isSorting(sortKey);
         var sortLabel = isSorting ? Constants.SORTKEYS[sortKey].label : '';
         var header = sortLabel + ' ' + text;
-        if (violationsCount === 0 && sortKey === 'level'){
+        if (violationsCount === 0 && sortKey === 'level') {
             header = "Violating " + header;
         }
         $(containers.CHART_HEADER).text(header);

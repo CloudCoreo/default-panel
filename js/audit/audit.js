@@ -11,7 +11,7 @@ window.Audit = (function (Resource, AuditRender) {
     var hasOld = false;
     var auditRender;
     var ccThisData = {};
-    var showNoViolationsView=1;
+    var showNoViolationsView = false;
 
     var colorPalette = Constants.COLORS;
     var containers = Constants.CONTAINERS;
@@ -91,7 +91,7 @@ window.Audit = (function (Resource, AuditRender) {
     }
 
 
-    function cloneAlertByNistID (alert, alertsForKey, suppressedViolations) {
+    function cloneAlertByNistID(alert, alertsForKey, suppressedViolations) {
         var nistIds = alert.meta_nist_171_id ? alert.meta_nist_171_id.split(',') : [''];
         var newAlerts = {
             alerts: alertsForKey || {},
@@ -184,7 +184,7 @@ window.Audit = (function (Resource, AuditRender) {
 
     function showEmptyViolationsMessage() {
         if (executionIsFinished) {
-            if(showNoViolationsView){
+            if (showNoViolationsView) {
                 AuditUI.showNoViolationsMessage();
             }
             auditRender.setChartHeaderText(uiTexts.CHART_HEADER.CLOUD_OBJECTS, sortKey);
@@ -255,10 +255,7 @@ window.Audit = (function (Resource, AuditRender) {
                         reportId: reportId
                     };
                     var alert = new Violation(rowData);
-                    if(alert.include_violations_in_count===false && showNoViolationsView==1){
-                        showNoViolationsView=0;
-                    }
-                    if(alert.include_violations_in_count!==false)showNoViolationsView=2;
+                    showNoViolationsView = true;
 
                     alert.title = rowData.display_name || violationKey;
                     alert.id = violationKey;
@@ -540,7 +537,7 @@ window.Audit = (function (Resource, AuditRender) {
         var isSorting = AuditUtils.isSorting(sortKey);
         var isClear = !alerts.length && !hasDisabled && !errors.length;
 
-        if (isClear){
+        if (isClear) {
 
             if (!isSorting) renderNoViolationsSection(sortKey);
 

@@ -364,10 +364,8 @@ window.Audit = (function (Resource, AuditRender) {
         var reports = [];
         var enabledDefinitions = [];
         errors = [];
-        hasOld = false;
 
         resources.forEach(function (resource) {
-            if (resource.runId !== ccThisData.runId) hasOld = true;
             if (resource.dataType !== Constants.RESOURCE_TYPE.ADVISOR_RESOURCE) return;
 
             var hasRuleRunnerType = isRuleRunner(resource.resourceType);
@@ -641,9 +639,19 @@ window.Audit = (function (Resource, AuditRender) {
         alertData = new AlertData();
     }
 
+    function isOldResource(resource) {
+       return resource.runId !== ccThisData.runId;
+    }
 
     function init(sortKey, callback) {
         var resources = ccThisData.resourcesArray;
+
+        if (!ccThisData.auditResultsRunId) {
+            hasOld = resources.filter(isOldResource).length;
+        } else {
+            hasOld = ccThisData.runId !== ccThisData.auditResultsRunId;
+        }
+
 
         initGlobalVariables();
         AuditUI.initView();
@@ -688,8 +696,19 @@ window.Audit = (function (Resource, AuditRender) {
 
 
     audit.prototype.refreshData = function (data, callback) {
+        if (data.auditResultsRunId && data.auditResultsRunId === ccThisData.auditResultsRunId) {
+            if (ccThisData.runId !== data.runId && data.auditResultsRunId !== data.runId) {
+                hasOld = true;
+                render($('.audit .chosen-sorting').val());
+            }
+            return;
+        }
+
+        if (ccThisData.runId === data.runId && data.engineState !== Constants.ENGINE_STATES.COMPLETED){
+            return;
+        }
+
         ccThisData = data;
-        if (data.engineState !== Constants.ENGINE_STATES.COMPLETED) return;
         init($('.audit .chosen-sorting').val(), function () {
             setupHandlers();
             callback();
@@ -702,6 +721,9 @@ window.Audit = (function (Resource, AuditRender) {
     };
     audit.prototype.getViolationsCount = function () {
         return totalViolations;
+    };
+    audit.prototype.hasOldResources = function () {
+        return hasOld;
     };
     return audit;
 }(Resource, AuditRender));

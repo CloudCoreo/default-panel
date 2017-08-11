@@ -505,12 +505,9 @@ window.Audit = (function (Resource, AuditRender) {
     function reRender(_sortKey) {
         if (!alerts) return;
 
-        var hasDisabled = false;
         var listOfAlerts = {};
         var noEmptyRules = !noViolations || Object.keys(noViolations).length === 0;
         sortKey = _sortKey;
-
-        if (!noEmptyRules && disabledViolations.length !== 0) hasDisabled = true;
 
         auditRender.clearContainer();
 
@@ -521,13 +518,11 @@ window.Audit = (function (Resource, AuditRender) {
         });
 
         var isSorting = AuditUtils.isSorting(sortKey);
-        var isClear = !alerts.length && !hasDisabled && !errors.length;
+        var isClear = !alerts.length && !errors.length;
 
         if (isClear) {
 
-            if (!isSorting) renderNoViolationsSection(sortKey);
             showEmptyViolationsMessage();
-            renderNoViolationsSection(sortKey);
 
             AuditUI.refreshClickHandlers({
                 listOfAlerts: listOfAlerts,

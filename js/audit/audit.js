@@ -701,10 +701,12 @@ window.Audit = (function (Resource, AuditRender) {
                 hasOld = true;
                 render($('.audit .chosen-sorting').val());
             }
+            callback();
             return;
         }
 
         if (ccThisData.runId === data.runId && data.engineState !== Constants.ENGINE_STATES.COMPLETED){
+            callback();
             return;
         }
 

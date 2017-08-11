@@ -11,8 +11,6 @@ window.Audit = (function (Resource, AuditRender) {
     var hasOld = false;
     var auditRender;
     var ccThisData = {};
-    var showNoViolationsView = false;
-
     var colorPalette = Constants.COLORS;
     var containers = Constants.CONTAINERS;
 
@@ -184,9 +182,7 @@ window.Audit = (function (Resource, AuditRender) {
 
     function showEmptyViolationsMessage() {
         if (executionIsFinished) {
-            if (showNoViolationsView) {
-                AuditUI.showNoViolationsMessage();
-            }
+            AuditUI.showNoViolationsMessage();
             auditRender.setChartHeaderText(uiTexts.CHART_HEADER.CLOUD_OBJECTS, sortKey);
             return;
         }
@@ -255,7 +251,6 @@ window.Audit = (function (Resource, AuditRender) {
                         reportId: reportId
                     };
                     var alert = new Violation(rowData);
-                    showNoViolationsView = true;
 
                     alert.title = rowData.display_name || violationKey;
                     alert.id = violationKey;
@@ -494,16 +489,7 @@ window.Audit = (function (Resource, AuditRender) {
         if (informational && !isSorting && sortKey === Constants.SORTKEYS.level.name) {
             auditRender.renderInformationalSection(sortKey, informational);
         }
-        var allPassedCardIsShown = true;
-        for (var level in alertData.level) {
-            if (Constants.VIOLATION_LEVELS[level.toUpperCase()].isViolation) {
-                allPassedCardIsShown = false;
-                break;
-            }
-        }
-        if (allPassedCardIsShown && showNoViolationsView) {
-            AuditUI.showNoViolationsMessage();
-        }
+
         if (!isSorting) {
             renderNoViolationsSection(sortKey);
         }
@@ -540,7 +526,6 @@ window.Audit = (function (Resource, AuditRender) {
         if (isClear) {
 
             if (!isSorting) renderNoViolationsSection(sortKey);
-
             showEmptyViolationsMessage();
             renderNoViolationsSection(sortKey);
 

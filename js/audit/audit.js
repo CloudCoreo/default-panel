@@ -11,7 +11,6 @@ window.Audit = (function (Resource, AuditRender) {
     var hasOld = false;
     var auditRender;
     var ccThisData = {};
-
     var colorPalette = Constants.COLORS;
     var containers = Constants.CONTAINERS;
 
@@ -95,7 +94,7 @@ window.Audit = (function (Resource, AuditRender) {
     }
 
 
-    function cloneAlertByNistID (alert, alertsForKey, suppressedViolations) {
+    function cloneAlertByNistID(alert, alertsForKey, suppressedViolations) {
         var nistIds = alert.meta_nist_171_id ? alert.meta_nist_171_id.split(',') : [''];
         var newAlerts = {
             alerts: alertsForKey || {},
@@ -243,7 +242,7 @@ window.Audit = (function (Resource, AuditRender) {
                         rowData.meta_nist_171_id = violations[violationKey].inputs.meta_nist_171_id;
                     }
 
-                    if (typeof rowData.include_violations_in_count === 'undefined') {
+                    if (typeof rowData.include_violations_in_count !== 'boolean') {
                         rowData.include_violations_in_count = true;
                     }
 
@@ -256,7 +255,6 @@ window.Audit = (function (Resource, AuditRender) {
                         expiresAt: rowData.suppression_until,
                         reportId: reportId
                     };
-
                     var alert = new Violation(rowData);
 
                     alert.title = rowData.display_name || violationKey;
@@ -496,18 +494,7 @@ window.Audit = (function (Resource, AuditRender) {
         if (informational && !isSorting && sortKey === Constants.SORTKEYS.level.name) {
             auditRender.renderInformationalSection(sortKey, informational);
         }
-        var allPassedCardIsShown = true;
-        for (var level in alertData.level) {
-            if (Constants.VIOLATION_LEVELS[level.toUpperCase()].isViolation) {
-                allPassedCardIsShown = false;
-                break;
-            }
-        }
 
-        if (allPassedCardIsShown) {
-            AuditUI.showNoViolationsMessage();
-            auditRender.removePieChart();
-        }
         if (!isSorting) {
             renderNoViolationsSection(sortKey);
         }
@@ -523,12 +510,9 @@ window.Audit = (function (Resource, AuditRender) {
     function reRender(_sortKey) {
         if (!alerts) return;
 
-        var hasDisabled = false;
         var listOfAlerts = {};
         var noEmptyRules = !noViolations || Object.keys(noViolations).length === 0;
         sortKey = _sortKey;
-
-        if (!noEmptyRules && disabledViolations.length !== 0) hasDisabled = true;
 
         auditRender.clearContainer();
 
@@ -539,20 +523,25 @@ window.Audit = (function (Resource, AuditRender) {
         });
 
         var isSorting = AuditUtils.isSorting(sortKey);
-        var isClear = !alerts.length && !hasDisabled && !errors.length;
+        var isClear = !alerts.length && !errors.length;
 
-        if (isClear) {
-            if (!isSorting) renderNoViolationsSection(sortKey);
+        var allPassedCardIsShown = true;
+        for (var level in alertData.level) {
+            if (Constants.VIOLATION_LEVELS[level.toUpperCase()].isViolation) {
+                allPassedCardIsShown = false;
+                break;
+            }
+        }
+
+        if (allPassedCardIsShown && alerts.length>0) {
 
             showEmptyViolationsMessage();
-            renderNoViolationsSection(sortKey);
 
             AuditUI.refreshClickHandlers({
                 listOfAlerts: listOfAlerts,
                 noViolations: noViolations,
                 disabledViolations: disabledViolations
             });
-            return;
         }
 
         renderRules(isSorting);

@@ -177,7 +177,7 @@ $(document).ready(function () {
             onDataProcessed(data, isFirstLoad);
         };
         if (isFirstLoad) {
-            auditData = new Audit(data, Constants.SORTKEYS.level.name, onLoad, onAditDataError);
+            auditData = new Audit(data, Constants.SORTKEYS.region.name, onLoad, onAditDataError);
             deployData = new Deploy(data);
             return;
         }
@@ -257,11 +257,12 @@ $(document).ready(function () {
 
     if (window.isLocalRun) {
         if (!window.parsedQueries.tmpfile) {
-            console.log('Please add tmpFile in url params', 'expamle: ?tmpfile=./tmp-data/tmp0.json');
+            console.log('Please add tmpFile in url params', 'example: ?tmpfile=./tmp-data/tmp0.json');
             return;
         }
 
         d3.json(window.parsedQueries.tmpfile, function (data) {
+
             init(data, true);
             // emulateCcThisUpdate(data)
         });

@@ -13,8 +13,8 @@ window.AuditRender = (function () {
 
 
     function getCounterLabel(params) {
-        var violationCount =  params.violationsCount;
-        var noViolationCount =  params.noViolationCount;
+        var violationCount = params.violationsCount;
+        var noViolationCount = params.noViolationCount;
         var isNotPlural = params.violationsCount === 1;
 
         if (params.isInformational) {
@@ -22,7 +22,7 @@ window.AuditRender = (function () {
         }
         if (params.isSorting) {
             return noViolationCount + ' ' + (noViolationCount === 1 ? uiTexts.LABELS.RULE : uiTexts.LABELS.RULES) + ', ' +
-            violationCount + ' ' + (violationCount === 1 ? uiTexts.LABELS.WITH_VIOLATION : uiTexts.LABELS.WITH_VIOLATIONS);
+                violationCount + ' ' + (violationCount === 1 ? uiTexts.LABELS.WITH_VIOLATION : uiTexts.LABELS.WITH_VIOLATIONS);
         }
         if (params.isNoViolation) {
             isNotPlural = noViolationCount === 1;
@@ -52,7 +52,7 @@ window.AuditRender = (function () {
             isSorting: params.isSorting
         });
     }
-    
+
     function renderViolationRow(params) {
         return Templates.violationBlock({
             renderOptions: params,
@@ -144,18 +144,6 @@ window.AuditRender = (function () {
         return allViolationsCount;
     }
 
-    function renderAllClearPie(emptyRules) {
-        pie.drawPie([{
-            label: 'Passed',
-            value: Object.keys(emptyRules).length,
-            color: colorPalette.Passed
-        }]);
-    }
-
-    function removePieChart() {
-        $('.pie').empty();
-    }
-
     function renderPie(listOfAlerts) {
         var pieData = [];
         var unknownLevels = [];
@@ -178,6 +166,7 @@ window.AuditRender = (function () {
         };
 
         var fillData = function (key) {
+
             var summary = {};
             var alerts = {};
 
@@ -195,6 +184,9 @@ window.AuditRender = (function () {
         };
 
         unknownLevels.forEach(function (key) {
+            if (self.sortKey === "level" && key.toLowerCase() === Constants.VIOLATION_LEVELS.INFORMATIONAL.name.toLowerCase()) {
+                return;
+            }
             fillData(key);
         });
 
@@ -219,7 +211,7 @@ window.AuditRender = (function () {
     }
 
 
-    function renderViolationDivider (sortKey) {
+    function renderViolationDivider(sortKey) {
         $(containers.noViolation).html('');
         if (!AuditUtils.isSorting(sortKey)) {
             var endOfViolationsMsg = Templates.endOfViolationDivider();
@@ -255,7 +247,7 @@ window.AuditRender = (function () {
                 key: key,
                 color: listOfAlerts[key].color,
                 resultsType: Constants.RESULT_TYPE.VIOLATIONS,
-                sortKey: self.sortKey,
+                sortKey: self.sortKey
             };
 
             if (isSorting) renderParams.levels = listOfAlerts[self.sortKey].levels;
@@ -263,25 +255,32 @@ window.AuditRender = (function () {
             violationsCount += renderSection(renderParams);
         });
 
+
         if (isSorting) {
             chartHeader = violationsCount === 1 ? uiTexts.CHART_HEADER.RULE : uiTexts.CHART_HEADER.RULES;
-            setChartHeaderText(chartHeader, self.sortKey);
+            setChartHeaderText(chartHeader, self.sortKey, violationsCount);
             var violationNum = Object.keys(listOfAlerts[self.sortKey].alerts).length;
-            if (violationNum === 0) removePieChart();
         } else {
             chartHeader = violationsCount === 1 ? uiTexts.CHART_HEADER.CLOUD_OBJECT : uiTexts.CHART_HEADER.CLOUD_OBJECTS;
-            setChartHeaderText(chartHeader, self.sortKey);
+            setChartHeaderText(chartHeader, self.sortKey, violationsCount);
         }
+
         $('.pie-data-header .num').html(violationsCount);
 
         return listOfAlerts;
     }
 
 
-    function setChartHeaderText(text, sortKey) {
+    function setChartHeaderText(text, sortKey, violationsCount) {
+
+        violationsCount = typeof violationsCount !== 'undefined' ? violationsCount : 0;
+
         var isSorting = AuditUtils.isSorting(sortKey);
         var sortLabel = isSorting ? Constants.SORTKEYS[sortKey].label : '';
         var header = sortLabel + ' ' + text;
+        if (violationsCount === 0 && sortKey === 'level') {
+            header = "Violating " + header;
+        }
         $(containers.CHART_HEADER).text(header);
     }
 
@@ -314,8 +313,6 @@ window.AuditRender = (function () {
     AuditRender.prototype.renderSection = renderSection;
     AuditRender.prototype.renderInformationalSection = renderInformationalSection;
     AuditRender.prototype.renderPie = renderPie;
-    AuditRender.prototype.removePieChart = removePieChart;
-    AuditRender.prototype.renderAllClearPie = renderAllClearPie;
     AuditRender.prototype.setChartHeaderText = setChartHeaderText;
     AuditRender.prototype.drawPie = drawPie;
     AuditRender.prototype.renderViolationDivider = renderViolationDivider;

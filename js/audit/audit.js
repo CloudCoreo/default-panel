@@ -7,7 +7,7 @@ window.Audit = (function (Resource, AuditRender) {
     var alerts = [];
     var alertData = new AlertData();
     var executionIsFinished = false;
-    var errors = [];
+    var hasExecutionError;
     var hasOld = false;
     var auditRender;
     var ccThisData = {};
@@ -186,7 +186,9 @@ window.Audit = (function (Resource, AuditRender) {
 
 
     function showEmptyViolationsMessage() {
-        if (executionIsFinished) {
+        var isExecuting = ccThisData.engineState === Constants.ENGINE_STATES.EXECUTING;
+
+        if (executionIsFinished || (!executionIsFinished && hasOld && !isExecuting)) {
             AuditUI.showNoViolationsMessage();
             auditRender.setChartHeaderText(uiTexts.CHART_HEADER.CLOUD_OBJECTS, sortKey);
             return;
@@ -253,7 +255,8 @@ window.Audit = (function (Resource, AuditRender) {
                         region: region,
                         isSuppressed: isSuppressed,
                         expiresAt: rowData.suppression_until,
-                        reportId: reportId
+                        reportId: reportId,
+                        ruleId: violationKey
                     };
                     var alert = new Violation(rowData);
 
@@ -308,12 +311,6 @@ window.Audit = (function (Resource, AuditRender) {
 
 
     function fillViolationsList(violations, reports, callback) {
-        if (!Object.keys(violations).length) {
-            AuditUI.showNoAuditResourcesMessage();
-            alerts = undefined;
-            callback();
-            return;
-        }
         var totalChecks = 0;
         totalViolations = 0;
 
@@ -355,20 +352,18 @@ window.Audit = (function (Resource, AuditRender) {
         var rules = {};
         var reports = [];
         var enabledDefinitions = [];
-        errors = [];
+        var hasAuditResources = false;
         hasOld = false;
 
         resources.forEach(function (resource) {
             if (resource.runId !== ccThisData.runId) hasOld = true;
             if (resource.dataType !== Constants.RESOURCE_TYPE.ADVISOR_RESOURCE) return;
+            hasAuditResources = true;
 
             var hasRuleRunnerType = isRuleRunner(resource.resourceType);
 
             if (resource.inputs.level === Constants.VIOLATION_LEVELS.INTERNAL.name) return;
-            if (resource.outputs.error) {
-                errors.push(resource);
-            }
-            else if (hasRuleRunnerType && resource.outputs.report) {
+            if (hasRuleRunnerType && resource.outputs.report) {
                 reports.push(resource);
 
                 if (!resource.inputs.rules) return;
@@ -383,6 +378,20 @@ window.Audit = (function (Resource, AuditRender) {
                 disabledViolations[resource.resourceName] = AuditUtils.organizeDataForAdditionalSections(resource);
             }
         });
+
+        if (!executionIsFinished && !hasOld){
+            AuditUI.showResourcesAreBeingLoadedMessage();
+            alerts = undefined;
+            callback(sortKey);
+            return;
+        }
+
+        if (!hasAuditResources) {
+            AuditUI.showNoAuditResourcesMessage();
+            alerts = undefined;
+            callback(sortKey);
+            return;
+        }
 
         fillViolationsList(rules, reports, function () {
             fillDisabledViolations(enabledDefinitions);
@@ -523,7 +532,7 @@ window.Audit = (function (Resource, AuditRender) {
         });
 
         var isSorting = AuditUtils.isSorting(sortKey);
-        var isClear = !alerts.length && !errors.length;
+        var isClear = alerts.length && !hasExecutionError;
 
         var allPassedCardIsShown = true;
         for (var level in alertData.level) {
@@ -533,7 +542,7 @@ window.Audit = (function (Resource, AuditRender) {
             }
         }
 
-        if (allPassedCardIsShown && alerts.length>0) {
+        if (allPassedCardIsShown && isClear) {
 
             showEmptyViolationsMessage();
 
@@ -619,7 +628,7 @@ window.Audit = (function (Resource, AuditRender) {
 
     function initGlobalVariables() {
         noViolations = {};
-        errors = [];
+        hasExecutionError = false;
         alerts = [];
         alertData = new AlertData();
     }
@@ -638,13 +647,11 @@ window.Audit = (function (Resource, AuditRender) {
         }
 
         var isCompleted = ccThisData.engineState === Constants.ENGINE_STATES.COMPLETED;
-        var isInitialized = ccThisData.engineState === Constants.ENGINE_STATES.INITIALIZED;
         var isPlanned = ccThisData.engineState === Constants.ENGINE_STATES.PLANNED;
-        var isStatusOK = ccThisData.engineState === Constants.ENGINE_STATUSES.OK;
+        var isStatusOK = ccThisData.engineStatus === Constants.ENGINE_STATUSES.OK;
+        executionIsFinished = isCompleted || (isPlanned && !isStatusOK);
 
-        executionIsFinished = isCompleted || isInitialized || (isPlanned && !isStatusOK);
-
-        if (!executionIsFinished && !hasOld) AuditUI.showResourcesAreBeingLoadedMessage();
+        hasExecutionError = ccThisData.engineStatus === Constants.ENGINE_STATUSES.EXECUTION_ERROR;
 
         var initRender = function (sortKey) {
             if (alerts) {

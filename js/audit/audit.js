@@ -317,7 +317,6 @@ window.Audit = (function (Resource, AuditRender) {
             callback();
             return;
         }
-        var totalChecks = 0;
         totalViolations = 0;
         var checkFetchedReport = function (report, reportId, timestamp) {
             ++handledReports;
@@ -366,8 +365,6 @@ window.Audit = (function (Resource, AuditRender) {
         var reports = [];
         var enabledDefinitions = [];
         var hasAuditResources = false;
-        hasOld = false;
-        errors = [];
 
         resources.forEach(function (resource) {
             if (resource.dataType !== Constants.RESOURCE_TYPE.ADVISOR_RESOURCE) return;

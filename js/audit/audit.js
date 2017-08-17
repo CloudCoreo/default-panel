@@ -532,7 +532,7 @@ window.Audit = (function (Resource, AuditRender) {
         });
 
         var isSorting = AuditUtils.isSorting(sortKey);
-        var isClear = !alerts.length && !errors.length;
+        var isClear = alerts.length && !hasExecutionError;
 
         var allPassedCardIsShown = true;
         for (var level in alertData.level) {
@@ -542,7 +542,7 @@ window.Audit = (function (Resource, AuditRender) {
             }
         }
 
-        if (allPassedCardIsShown && alerts.length>0) {
+        if (allPassedCardIsShown && isClear) {
 
             showEmptyViolationsMessage();
 

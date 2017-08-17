@@ -26,7 +26,7 @@ window.uiTexts = {
     CHART_HEADER: {
         RULES: 'Rules with Violations',
         RULE: 'Rule with Violations',
-        CLOUD_OBJECTS: 'Violating objects',
-        CLOUD_OBJECT: 'Violating object'
+        CLOUD_OBJECTS: 'Cloud Objects',
+        CLOUD_OBJECT: 'Cloud Object'
     }
 };

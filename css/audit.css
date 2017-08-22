@@ -394,7 +394,7 @@ html, body {
 .list,
 .informational,
 .no-violation {
-    padding: 20px;
+    /*padding: 20px;*/
 }
 
 .list .row-body {

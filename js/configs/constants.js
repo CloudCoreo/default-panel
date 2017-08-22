@@ -29,7 +29,7 @@ window.Constants = {
             High: '#E53E2B',
             Medium: '#E49530',
             Low: '#EAC907',
-            Informational: '#6b6b6b',
+            Informational: '#e4e4e4',
             Debug: '#c4c4c4',
             Warning: '#582a7f',
             Manual: '#005d14'
@@ -350,5 +350,11 @@ window.Constants = {
         'eu-central-1': 'EU Central 1',
         'eu-west-1': 'EU West 1',
         'eu-west-2': 'EU West 2'
+    },
+
+    RULE_RUNNERS: {
+        coreo_agent_rule_runner: true,
+        coreo_aws_rule_runner: true,
+        SUFFIX: '_rule_runner'
     }
 };

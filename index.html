@@ -47,8 +47,8 @@
                             <div class="custom-dropdown noselect layout-margin-bottom-20">
                                 <div class="dropdown-button">
                                     <div>SORT BY</div>
-                                    <div class="chosen-item-text">Severity Level</div>
-                                    <input type="hidden" class="chosen-item-value chosen-sorting" value="level">
+                                    <div class="chosen-item-text">Region</div>
+                                    <input type="hidden" class="chosen-item-value chosen-sorting" value="region">
                                     <input type="hidden" class="chosen-item-is-reverse" value="true">
                                 </div>
                                 <ul class="hidden">
@@ -347,7 +347,6 @@
                              violation="{{:violationId}}"
                              violationId="{{:violation.violationId}}"
                              sortKey="{{:violation.sortKey}}">
-
                             {{if violation.resources.length}}
                                 {{if violation.level === 'Informational'}}
                                     {{:violation.resources.length}} Cloud Object{{if violation.resources.length !== 1}}s{{/if}}

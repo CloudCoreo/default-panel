@@ -255,7 +255,7 @@ window.Audit = (function (Resource, AuditRender) {
                         region: region,
                         isSuppressed: isSuppressed,
                         expiresAt: rowData.suppression_until,
-                        reportId: reportId,
+                        reportId: reportId || rowData.reportId,
                         ruleId: violationKey
                     };
                     var alert = new Violation(rowData);
@@ -263,7 +263,7 @@ window.Audit = (function (Resource, AuditRender) {
                     alert.title = rowData.display_name || violationKey;
                     alert.id = violationKey;
                     alert.resource = resource;
-                    alert.timestamp = timestamp;
+                    alert.timestamp = timestamp || rowData.timestamp;
 
                     if (violations[violationKey] && violations[violationKey].inputs) {
                         alert.metas = AuditUtils.getRuleMetasCis(violations[violationKey].inputs);
@@ -311,10 +311,13 @@ window.Audit = (function (Resource, AuditRender) {
 
 
     function fillViolationsList(violations, reports, callback) {
-        var totalChecks = 0;
+        if (!Object.keys(violations).length) {
+            AuditUI.showNoAuditResourcesMessage();
+            alerts = undefined;
+            callback();
+            return;
+        }
         totalViolations = 0;
-
-        var handledReports = 0;
         var checkFetchedReport = function (report, reportId, timestamp) {
             ++handledReports;
             reorganizeReportData(report, reportId, timestamp, violations);
@@ -323,12 +326,21 @@ window.Audit = (function (Resource, AuditRender) {
             }
         };
 
+        if (ccThisData.auditResults && Object.keys(ccThisData.auditResults).length) {
+            Object.keys(ccThisData.auditResults).forEach( function (reportId) {
+                reorganizeReportData(ccThisData.auditResults[reportId], reportId, undefined, violations);
+            });
+            callback();
+            return;
+        }
+
+
+        var handledReports = 0;
+
+
         reports.forEach(function (reportData) {
-            totalChecks += reportData.outputs.number_checks;
             getReport(reportData, checkFetchedReport, true);
         });
-
-        $('.additional-info .checks').html(totalChecks + ' Checks');
     }
 
 
@@ -353,10 +365,8 @@ window.Audit = (function (Resource, AuditRender) {
         var reports = [];
         var enabledDefinitions = [];
         var hasAuditResources = false;
-        hasOld = false;
 
         resources.forEach(function (resource) {
-            if (resource.runId !== ccThisData.runId) hasOld = true;
             if (resource.dataType !== Constants.RESOURCE_TYPE.ADVISOR_RESOURCE) return;
             hasAuditResources = true;
 
@@ -633,9 +643,19 @@ window.Audit = (function (Resource, AuditRender) {
         alertData = new AlertData();
     }
 
+    function isOldResource(resource) {
+       return resource.runId !== ccThisData.runId;
+    }
 
     function init(sortKey, callback) {
         var resources = ccThisData.resourcesArray;
+
+        if (!ccThisData.auditResultsRunId) {
+            hasOld = resources.filter(isOldResource).length;
+        } else {
+            hasOld = ccThisData.runId !== ccThisData.auditResultsRunId;
+        }
+
 
         initGlobalVariables();
         AuditUI.initView();
@@ -678,8 +698,21 @@ window.Audit = (function (Resource, AuditRender) {
 
 
     audit.prototype.refreshData = function (data, callback) {
+        if (data.auditResultsRunId && data.auditResultsRunId === ccThisData.auditResultsRunId) {
+            if (ccThisData.runId !== data.runId && data.auditResultsRunId !== data.runId) {
+                hasOld = true;
+                render($('.audit .chosen-sorting').val());
+            }
+            callback();
+            return;
+        }
+
+        if (ccThisData.runId === data.runId && data.engineState !== Constants.ENGINE_STATES.COMPLETED){
+            callback();
+            return;
+        }
+
         ccThisData = data;
-        if (data.engineState !== Constants.ENGINE_STATES.COMPLETED) return;
         init($('.audit .chosen-sorting').val(), function () {
             setupHandlers();
             callback();
@@ -692,6 +725,9 @@ window.Audit = (function (Resource, AuditRender) {
     };
     audit.prototype.getViolationsCount = function () {
         return totalViolations;
+    };
+    audit.prototype.hasOldResources = function () {
+        return hasOld;
     };
     return audit;
 }(Resource, AuditRender));

@@ -12,6 +12,7 @@ $(document).ready(function () {
 
     var currentView;
     var counter = 0;
+    var MAX_COUNTER;
 
     var templates = Constants.TEMPLATE_IDS;
 
@@ -151,7 +152,9 @@ $(document).ready(function () {
     function emulateCcThisUpdate() {
         setTimeout(function () {
             ++counter;
-            if (counter > 3) return;
+            if (counter > MAX_COUNTER) {
+                return;
+            }
             d3.json("./tmp-data/tmp" + counter + ".json", function (data) {
                 init(data, false);
                 emulateCcThisUpdate();
@@ -186,7 +189,7 @@ $(document).ready(function () {
     }
 
     function onDataProcessed(data, isFirstLoad) {
-        if (deployData.hasOldResources()) {
+        if (deployData.hasOldResources() || auditData.hasOldResources()) {
             $('.audit').addClass('old-data-mask');
             $('.map').addClass('old-data-mask');
         }
@@ -264,7 +267,10 @@ $(document).ready(function () {
         d3.json(window.parsedQueries.tmpfile, function (data) {
 
             init(data, true);
-            // emulateCcThisUpdate(data)
+            if (window.parsedQueries.emulateUpdate) {
+                MAX_COUNTER = window.parsedQueries.emulationCounter || 2;
+                emulateCcThisUpdate(data)
+            }
         });
     } else {
         init(ccThisCont.ccThis, true);

@@ -173,6 +173,8 @@ $(document).ready(function () {
     }
 
     function setupData(data, isFirstLoad) {
+        console.log("ccThisData");
+        console.log(data);
         var onAditDataError = function () {
             setCurrentView(isFirstLoad);
         };
@@ -223,7 +225,10 @@ $(document).ready(function () {
         $('.engine-state').removeClass('hidden');
         $('.engine-state .message').html(getEngineStateMessage(data.engineState));
 
+        console.log(data.resourcesArray);
+        console.log(!data.resourcesArray && data.engineState !== Constants.ENGINE_STATES.EXECUTING);
         if (!data.resourcesArray && data.engineState !== Constants.ENGINE_STATES.EXECUTING) {
+
             $('.data-is-loading').removeClass('hidden');
             $('.resource-type-toggle').addClass('hidden');
             $('.scrollable-area').addClass('hidden');

@@ -187,13 +187,6 @@ window.Audit = (function (Resource, AuditRender) {
 
     function showEmptyViolationsMessage() {
         var isExecuting = ccThisData.engineState === Constants.ENGINE_STATES.EXECUTING;
-
-        console.log("ShowEmptyViolations");
-        console.log(executionIsFinished);
-        console.log(hasOld);
-        console.log(isExecuting);
-        // console.log((!executionIsFinished && hasOld && !isExecuting));
-
         if (executionIsFinished || (!executionIsFinished && hasOld && !isExecuting)) {
             AuditUI.showNoViolationsMessage();
             auditRender.setChartHeaderText(uiTexts.CHART_HEADER.CLOUD_OBJECTS, sortKey);
@@ -396,10 +389,6 @@ window.Audit = (function (Resource, AuditRender) {
                 disabledViolations[resource.resourceName] = AuditUtils.organizeDataForAdditionalSections(resource);
             }
         });
-
-
-        console.log("executionIsFinished: "+ executionIsFinished);
-        console.log("hasOld: "+ hasOld);
 
         if (!executionIsFinished && !hasOld){
             AuditUI.showResourcesAreBeingLoadedMessage();
@@ -667,7 +656,6 @@ window.Audit = (function (Resource, AuditRender) {
         } else {
             hasOld = ccThisData.runId !== ccThisData.auditResultsRunId;
         }
-        console.log("hasOld: "  + hasOld);
         initGlobalVariables();
         AuditUI.initView();
 

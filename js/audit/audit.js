@@ -187,13 +187,14 @@ window.Audit = (function (Resource, AuditRender) {
 
     function showEmptyViolationsMessage() {
         var isExecuting = ccThisData.engineState === Constants.ENGINE_STATES.EXECUTING;
-
         if (executionIsFinished || (!executionIsFinished && hasOld && !isExecuting)) {
             AuditUI.showNoViolationsMessage();
             auditRender.setChartHeaderText(uiTexts.CHART_HEADER.CLOUD_OBJECTS, sortKey);
             return;
         }
-        AuditUI.showResourcesAreBeingLoadedMessage();
+        if(!hasOld){
+            AuditUI.showResourcesAreBeingLoadedMessage();
+        }
     }
 
 
@@ -402,6 +403,7 @@ window.Audit = (function (Resource, AuditRender) {
             callback(sortKey);
             return;
         }
+
 
         fillViolationsList(rules, reports, function () {
             fillDisabledViolations(enabledDefinitions);
@@ -649,14 +651,11 @@ window.Audit = (function (Resource, AuditRender) {
 
     function init(sortKey, callback) {
         var resources = ccThisData.resourcesArray;
-
         if (!ccThisData.auditResultsRunId) {
             hasOld = resources.filter(isOldResource).length;
         } else {
             hasOld = ccThisData.runId !== ccThisData.auditResultsRunId;
         }
-
-
         initGlobalVariables();
         AuditUI.initView();
 

@@ -224,6 +224,7 @@ $(document).ready(function () {
         $('.engine-state .message').html(getEngineStateMessage(data.engineState));
 
         if (!data.resourcesArray && data.engineState !== Constants.ENGINE_STATES.EXECUTING) {
+
             $('.data-is-loading').removeClass('hidden');
             $('.resource-type-toggle').addClass('hidden');
             $('.scrollable-area').addClass('hidden');

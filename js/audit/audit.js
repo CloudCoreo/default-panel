@@ -13,10 +13,10 @@ window.Audit = (function (Resource, AuditRender) {
     var ccThisData = {};
     var colorPalette = Constants.COLORS;
     var containers = Constants.CONTAINERS;
-
+    var allRules;
 
     function isRuleRunner(resourceType) {
-        return Constants.RULE_RUNNERS[resourceType] || 
+        return Constants.RULE_RUNNERS[resourceType] ||
             resourceType.indexOf(Constants.RULE_RUNNERS.SUFFIX) !== -1; // support for deprecated rule runners
     }
 
@@ -192,7 +192,7 @@ window.Audit = (function (Resource, AuditRender) {
             auditRender.setChartHeaderText(uiTexts.CHART_HEADER.CLOUD_OBJECTS, sortKey);
             return;
         }
-        if(!hasOld){
+        if (!hasOld) {
             AuditUI.showResourcesAreBeingLoadedMessage();
         }
     }
@@ -328,7 +328,7 @@ window.Audit = (function (Resource, AuditRender) {
         };
 
         if (ccThisData.auditResults && Object.keys(ccThisData.auditResults).length) {
-            Object.keys(ccThisData.auditResults).forEach( function (reportId) {
+            Object.keys(ccThisData.auditResults).forEach(function (reportId) {
                 reorganizeReportData(ccThisData.auditResults[reportId], reportId, undefined, violations);
             });
             callback();
@@ -390,7 +390,9 @@ window.Audit = (function (Resource, AuditRender) {
             }
         });
 
-        if (!executionIsFinished && !hasOld){
+        allRules = rules;
+
+        if (!executionIsFinished && !hasOld) {
             AuditUI.showResourcesAreBeingLoadedMessage();
             alerts = undefined;
             callback(sortKey);
@@ -407,6 +409,11 @@ window.Audit = (function (Resource, AuditRender) {
 
         fillViolationsList(rules, reports, function () {
             fillDisabledViolations(enabledDefinitions);
+            var hasViolations = checkForIncludeViolationsInCount(allRules, alerts);
+            if (hasViolations) {
+                sortKey = "region";
+                $(".audit").find('.chosen-item-text').html("Region");
+            }
             callback(sortKey);
         });
     }
@@ -528,11 +535,29 @@ window.Audit = (function (Resource, AuditRender) {
         });
     }
 
+    function checkForIncludeViolationsInCount(allRules, alerts) {
+        var allPassedCardIsShown = false;
+        for (var key in allRules) {
+            if (allRules[key].inputs.include_violations_in_count !== "false") {
+                allPassedCardIsShown = true;
+                break;
+            }
+        }
+
+        for (var i = 0; i < alerts.length; i++) {
+            var alert = alerts[i];
+            if (alert.include_violations_in_count) {
+                allPassedCardIsShown = false;
+                break;
+            }
+        }
+        return allPassedCardIsShown;
+    }
+
     function reRender(_sortKey) {
         if (!alerts) return;
 
         var listOfAlerts = {};
-        var noEmptyRules = !noViolations || Object.keys(noViolations).length === 0;
         sortKey = _sortKey;
 
         auditRender.clearContainer();
@@ -544,17 +569,9 @@ window.Audit = (function (Resource, AuditRender) {
         });
 
         var isSorting = AuditUtils.isSorting(sortKey);
-        var isClear = alerts.length && !hasExecutionError;
+        var allPassedCardIsShown = checkForIncludeViolationsInCount(allRules, alerts);
 
-        var allPassedCardIsShown = true;
-        for (var level in alertData.level) {
-            if (Constants.VIOLATION_LEVELS[level.toUpperCase()].isViolation) {
-                allPassedCardIsShown = false;
-                break;
-            }
-        }
-
-        if (allPassedCardIsShown && isClear) {
+        if (allPassedCardIsShown && !hasExecutionError) {
 
             showEmptyViolationsMessage();
 
@@ -646,7 +663,7 @@ window.Audit = (function (Resource, AuditRender) {
     }
 
     function isOldResource(resource) {
-       return resource.runId !== ccThisData.runId;
+        return resource.runId !== ccThisData.runId;
     }
 
     function init(sortKey, callback) {
@@ -706,7 +723,7 @@ window.Audit = (function (Resource, AuditRender) {
             return;
         }
 
-        if (ccThisData.runId === data.runId && data.engineState !== Constants.ENGINE_STATES.COMPLETED){
+        if (ccThisData.runId === data.runId && data.engineState !== Constants.ENGINE_STATES.COMPLETED) {
             callback();
             return;
         }

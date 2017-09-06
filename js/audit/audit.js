@@ -272,11 +272,18 @@ window.Audit = (function (Resource, AuditRender) {
                         alert.metas = AuditUtils.getRuleMetasCis(rowData);
                     }
 
-                    alerts.push(alert);
-
                     if (!alert.hasOwnProperty(region)) {
                         alert.region = region;
                     }
+
+                    alerts.push(alert);
+
+                    for (var prop in Constants.SORTKEYS){
+                        if(alert[prop]){
+                            alert[prop] = alert[prop].toUpperCase();
+                        }
+                    }
+
                     if (!alertData.level.hasOwnProperty(alert.level)) {
                         alertData.level[alert.level] = {};
                         alertData.level[alert.level].count = 0;

@@ -16,7 +16,7 @@ window.Audit = (function (Resource, AuditRender) {
 
 
     function isRuleRunner(resourceType) {
-        return Constants.RULE_RUNNERS[resourceType] || 
+        return Constants.RULE_RUNNERS[resourceType] ||
             resourceType.indexOf(Constants.RULE_RUNNERS.SUFFIX) !== -1; // support for deprecated rule runners
     }
 
@@ -192,7 +192,7 @@ window.Audit = (function (Resource, AuditRender) {
             auditRender.setChartHeaderText(uiTexts.CHART_HEADER.CLOUD_OBJECTS, sortKey);
             return;
         }
-        if(!hasOld){
+        if (!hasOld) {
             AuditUI.showResourcesAreBeingLoadedMessage();
         }
     }
@@ -335,7 +335,7 @@ window.Audit = (function (Resource, AuditRender) {
         };
 
         if (ccThisData.auditResults && Object.keys(ccThisData.auditResults).length) {
-            Object.keys(ccThisData.auditResults).forEach( function (reportId) {
+            Object.keys(ccThisData.auditResults).forEach(function (reportId) {
                 reorganizeReportData(ccThisData.auditResults[reportId], reportId, undefined, violations);
             });
             callback();
@@ -397,7 +397,7 @@ window.Audit = (function (Resource, AuditRender) {
             }
         });
 
-        if (!executionIsFinished && !hasOld){
+        if (!executionIsFinished && !hasOld) {
             AuditUI.showResourcesAreBeingLoadedMessage();
             alerts = undefined;
             callback(sortKey);
@@ -653,7 +653,7 @@ window.Audit = (function (Resource, AuditRender) {
     }
 
     function isOldResource(resource) {
-       return resource.runId !== ccThisData.runId;
+        return resource.runId !== ccThisData.runId;
     }
 
     function init(sortKey, callback) {
@@ -678,6 +678,10 @@ window.Audit = (function (Resource, AuditRender) {
         executionIsFinished = isCompleted || (isPlanned && !isStatusOK);
 
         hasExecutionError = ccThisData.engineStatus === Constants.ENGINE_STATUSES.EXECUTION_ERROR;
+
+        if (!executionIsFinished && !hasOld) {
+            AuditUI.showResourcesAreBeingLoadedMessage();
+        }
 
         var initRender = function (sortKey) {
             if (alerts) {
@@ -713,7 +717,7 @@ window.Audit = (function (Resource, AuditRender) {
             return;
         }
 
-        if (ccThisData.runId === data.runId && data.engineState !== Constants.ENGINE_STATES.COMPLETED){
+        if (ccThisData.runId === data.runId && data.engineState !== Constants.ENGINE_STATES.COMPLETED) {
             callback();
             return;
         }

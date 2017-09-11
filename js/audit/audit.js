@@ -13,7 +13,7 @@ window.Audit = (function (Resource, AuditRender) {
     var ccThisData = {};
     var colorPalette = Constants.COLORS;
     var containers = Constants.CONTAINERS;
-    var allRules;
+
 
     function isRuleRunner(resourceType) {
         return Constants.RULE_RUNNERS[resourceType] ||
@@ -272,11 +272,18 @@ window.Audit = (function (Resource, AuditRender) {
                         alert.metas = AuditUtils.getRuleMetasCis(rowData);
                     }
 
-                    alerts.push(alert);
-
                     if (!alert.hasOwnProperty(region)) {
                         alert.region = region;
                     }
+
+                    alerts.push(alert);
+
+                    for (var prop in Constants.SORTKEYS) {
+                        if (alert[prop]) {
+                            alert[prop] = alert[prop].charAt(0).toUpperCase() + alert[prop].substr(1).toLowerCase();
+                        }
+                    }
+
                     if (!alertData.level.hasOwnProperty(alert.level)) {
                         alertData.level[alert.level] = {};
                         alertData.level[alert.level].count = 0;
@@ -389,8 +396,6 @@ window.Audit = (function (Resource, AuditRender) {
                 disabledViolations[resource.resourceName] = AuditUtils.organizeDataForAdditionalSections(resource);
             }
         });
-
-        allRules = rules;
 
         if (!executionIsFinished && !hasOld) {
             AuditUI.showResourcesAreBeingLoadedMessage();
@@ -688,6 +693,10 @@ window.Audit = (function (Resource, AuditRender) {
         executionIsFinished = isCompleted || (isPlanned && !isStatusOK);
 
         hasExecutionError = ccThisData.engineStatus === Constants.ENGINE_STATUSES.EXECUTION_ERROR;
+
+        if (!executionIsFinished && !hasOld) {
+            AuditUI.showResourcesAreBeingLoadedMessage();
+        }
 
         var initRender = function (sortKey) {
             if (alerts) {

@@ -13,7 +13,7 @@ window.Audit = (function (Resource, AuditRender) {
     var ccThisData = {};
     var colorPalette = Constants.COLORS;
     var containers = Constants.CONTAINERS;
-
+    var allRules;
 
     function isRuleRunner(resourceType) {
         return Constants.RULE_RUNNERS[resourceType] ||
@@ -397,6 +397,7 @@ window.Audit = (function (Resource, AuditRender) {
             }
         });
 
+        allRules = rules;
         if (!executionIsFinished && !hasOld) {
             AuditUI.showResourcesAreBeingLoadedMessage();
             alerts = undefined;
@@ -414,8 +415,10 @@ window.Audit = (function (Resource, AuditRender) {
 
         fillViolationsList(rules, reports, function () {
             fillDisabledViolations(enabledDefinitions);
-            var hasViolations = checkForIncludeViolationsInCount(allRules, alerts);
-            if (hasViolations) {
+            console.log("Here");
+            console.log(alerts);
+            var alertHasViolation = alertHasViolationsInCountSetToTrue(alerts);
+            if (!alertHasViolation) {
                 sortKey = "region";
                 $(".audit").find('.chosen-item-text').html("Region");
             }
@@ -540,23 +543,35 @@ window.Audit = (function (Resource, AuditRender) {
         });
     }
 
-    function checkForIncludeViolationsInCount(allRules, alerts) {
-        var allPassedCardIsShown = false;
-        for (var key in allRules) {
-            if (allRules[key].inputs.include_violations_in_count !== "false") {
-                allPassedCardIsShown = true;
-                break;
+    function ruleHasViolationsInCountSetToTrue(rules) {
+        console.log("# Rules #");
+        for (var rule in rules) {
+            console.log(rule);
+            if (rules[rule].inputs.include_violations_in_count !== "false") {
+                return true;
             }
         }
+        return false;
+    }
 
-        for (var i = 0; i < alerts.length; i++) {
-            var alert = alerts[i];
-            if (alert.include_violations_in_count) {
-                allPassedCardIsShown = false;
-                break;
+    function alertHasViolationsInCountSetToTrue(alerts) {
+        for (var alert in alerts) {
+            if (alerts[alert].include_violations_in_count) {
+                return true;
             }
         }
-        return allPassedCardIsShown;
+        return false;
+    }
+
+    function displayShowNoViolationsSection(rules, alerts) {
+
+        var ruleHasViolation = ruleHasViolationsInCountSetToTrue(rules);
+        var alertHasViolation = alertHasViolationsInCountSetToTrue(alerts);
+
+        if (ruleHasViolation && !alertHasViolation) {
+            return true;
+        }
+        return false;
     }
 
     function reRender(_sortKey) {
@@ -574,7 +589,7 @@ window.Audit = (function (Resource, AuditRender) {
         });
 
         var isSorting = AuditUtils.isSorting(sortKey);
-        var allPassedCardIsShown = checkForIncludeViolationsInCount(allRules, alerts);
+        var allPassedCardIsShown = displayShowNoViolationsSection(allRules, alerts);
 
         if (allPassedCardIsShown && !hasExecutionError) {
 

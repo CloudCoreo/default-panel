@@ -415,8 +415,6 @@ window.Audit = (function (Resource, AuditRender) {
 
         fillViolationsList(rules, reports, function () {
             fillDisabledViolations(enabledDefinitions);
-            console.log("Here");
-            console.log(alerts);
             var alertHasViolation = alertHasViolationsInCountSetToTrue(alerts);
             if (!alertHasViolation) {
                 sortKey = "region";
@@ -544,9 +542,7 @@ window.Audit = (function (Resource, AuditRender) {
     }
 
     function ruleHasViolationsInCountSetToTrue(rules) {
-        console.log("# Rules #");
         for (var rule in rules) {
-            console.log(rule);
             if (rules[rule].inputs.include_violations_in_count !== "false") {
                 return true;
             }

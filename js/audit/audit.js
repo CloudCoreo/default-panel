@@ -264,7 +264,7 @@ window.Audit = (function (Resource, AuditRender) {
                     alert.title = rowData.display_name || violationKey;
                     alert.id = violationKey;
                     alert.resource = resource;
-                    alert.timestamp = timestamp || rowData.timestamp;
+                    alert.timestamp = utils.formatDate(timestamp || rowData.timestamp);
 
                     if (violations[violationKey] && violations[violationKey].inputs) {
                         alert.metas = AuditUtils.getRuleMetasCis(violations[violationKey].inputs);

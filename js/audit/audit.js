@@ -261,6 +261,7 @@ window.Audit = (function (Resource, AuditRender) {
                     };
                     var alert = new Violation(rowData);
 
+                    alert.isViolation = alert.include_violations_in_count && !isSuppressed;
                     alert.title = rowData.display_name || violationKey;
                     alert.id = violationKey;
                     alert.resource = resource;
@@ -310,7 +311,7 @@ window.Audit = (function (Resource, AuditRender) {
                     ++alertData.service[alert.service];
                     ++alertData.meta_cis_id[alert.meta_cis_id];
 
-                    if (alert.include_violations_in_count && !isSuppressed) ++totalViolations;
+                    if (alert.isViolation) ++totalViolations;
                     if (noViolations[violationKey]) delete noViolations[violationKey];
                 });
             });
@@ -415,11 +416,6 @@ window.Audit = (function (Resource, AuditRender) {
 
         fillViolationsList(rules, reports, function () {
             fillDisabledViolations(enabledDefinitions);
-            var alertHasViolation = alertHasViolationsInCountSetToTrue(alerts);
-            if (!alertHasViolation) {
-                sortKey = "region";
-                $(".audit").find('.chosen-item-text').html("Region");
-            }
             callback(sortKey);
         });
     }
@@ -541,7 +537,7 @@ window.Audit = (function (Resource, AuditRender) {
         });
     }
 
-    function ruleHasViolationsInCountSetToTrue(rules) {
+    function hasAuditRules(rules) {
         for (var rule in rules) {
             if (rules[rule].inputs.include_violations_in_count !== "false") {
                 return true;
@@ -550,9 +546,9 @@ window.Audit = (function (Resource, AuditRender) {
         return false;
     }
 
-    function alertHasViolationsInCountSetToTrue(alerts) {
+    function hasViolatingCloudObjects(alerts) {
         for (var alert in alerts) {
-            if (alerts[alert].include_violations_in_count) {
+            if (alerts[alert].isViolation) {
                 return true;
             }
         }
@@ -560,14 +556,10 @@ window.Audit = (function (Resource, AuditRender) {
     }
 
     function displayShowNoViolationsSection(rules, alerts) {
-
-        var ruleHasViolation = ruleHasViolationsInCountSetToTrue(rules);
-        var alertHasViolation = alertHasViolationsInCountSetToTrue(alerts);
-
-        if (ruleHasViolation && !alertHasViolation) {
-            return true;
+        if (!hasAuditRules(rules)){
+            return false;
         }
-        return false;
+        return !hasViolatingCloudObjects(alerts);
     }
 
     function reRender(_sortKey) {
@@ -727,6 +719,11 @@ window.Audit = (function (Resource, AuditRender) {
         setTimeout(function () {
             init(sortKey, function () {
                 setupHandlers();
+                if (!hasViolatingCloudObjects(alerts)) {
+                    $(".audit").find('.chosen-item-text').html('Regions');
+                    reRender(Constants.SORTKEYS.region.name);
+                }
+
                 callback();
             });
         });
@@ -761,6 +758,10 @@ window.Audit = (function (Resource, AuditRender) {
     };
     audit.prototype.getViolationsCount = function () {
         return totalViolations;
+    };
+
+    audit.prototype.hasViolations = function () {
+        return hasViolatingCloudObjects(alerts);
     };
     audit.prototype.hasOldResources = function () {
         return hasOld;

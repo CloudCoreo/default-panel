@@ -180,7 +180,7 @@ $(document).ready(function () {
             onDataProcessed(data, isFirstLoad);
         };
         if (isFirstLoad) {
-            auditData = new Audit(data, Constants.SORTKEYS.region.name, onLoad, onAditDataError);
+            auditData = new Audit(data, Constants.SORTKEYS.level.name, onLoad, onAditDataError);
             deployData = new Deploy(data);
             return;
         }

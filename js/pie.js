@@ -46,9 +46,12 @@ function drawPie(pieData, color, cont) {
         .attr("class", "arc");
 
     var onclick = function (d, index) {
-        $('.scrollable-area').animate({
-            scrollTop: $("." + pieData[index].label).offset().top - tabsHeight
-        }, 200);
+        try {
+            $('.scrollable-area').animate({
+                scrollTop: $("." + pieData[index].label).offset().top - tabsHeight
+            }, 200);
+        } catch (e) {
+        }
     };
 
     g.append("svg:path")

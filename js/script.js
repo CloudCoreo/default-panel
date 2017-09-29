@@ -180,7 +180,7 @@ $(document).ready(function () {
             onDataProcessed(data, isFirstLoad);
         };
         if (isFirstLoad) {
-            auditData = new Audit(data, Constants.SORTKEYS.region.name, onLoad, onAditDataError);
+            auditData = new Audit(data, Constants.SORTKEYS.level.name, onLoad, onAditDataError);
             deployData = new Deploy(data);
             return;
         }
@@ -224,6 +224,7 @@ $(document).ready(function () {
         $('.engine-state .message').html(getEngineStateMessage(data.engineState));
 
         if (!data.resourcesArray && data.engineState !== Constants.ENGINE_STATES.EXECUTING) {
+
             $('.data-is-loading').removeClass('hidden');
             $('.resource-type-toggle').addClass('hidden');
             $('.scrollable-area').addClass('hidden');

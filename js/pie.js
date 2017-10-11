@@ -46,7 +46,7 @@ function drawPie(pieData, color, cont) {
         .attr("class", "arc");
 
     var onclick = function (d, index) {
-        const labelName = pieData[index].label;
+        var labelName = pieData[index].label;
         var classNameRegex = new RegExp('-?[_a-zA-Z]+[_a-zA-Z0-9-]*');
         if (classNameRegex.test(labelName) && labelName.indexOf('/') < 0 && $("." + labelName).length > 0) {
             $('.scrollable-area').animate({

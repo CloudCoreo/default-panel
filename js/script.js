@@ -252,6 +252,8 @@ $(document).ready(function () {
     }
 
     function init(data, isFirstLoad) {
+        console.log('init');
+        console.log(data);
         checkError(data);
         setupHandlers(data);
         initView();

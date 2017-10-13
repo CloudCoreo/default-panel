@@ -21,6 +21,7 @@ window.Audit = (function (Resource, AuditRender) {
     }
 
     function removeTotallySuppressedViolations(listOfAlerts, suppressedViolations) {
+        // console.log(listOfAlerts);
         Object.keys(suppressedViolations).forEach(function (alertId) {
             delete noViolations[alertId];
             Object.keys(suppressedViolations[alertId]).forEach(function (key) {
@@ -43,6 +44,8 @@ window.Audit = (function (Resource, AuditRender) {
     function mergeNoViolationsAndViolationsForNist(violations, noViolationsForNistSorting) {
         var isSorting = AuditUtils.isSorting(sortKey);
         var alerts = noViolationsForNistSorting.alerts;
+        console.log('merge merge');
+        console.log(alerts);
 
         Object.keys(alerts).forEach(function (violationKey) {
             if (isSorting && (!alerts[violationKey][sortKey] || alerts[violationKey][sortKey] === '')) return;
@@ -120,6 +123,7 @@ window.Audit = (function (Resource, AuditRender) {
 
             if (!alert.resource) return newList;
             if (alert.resource.isSuppressed) {
+                // console.log(alert);
                 newList.alerts[alertIdForNist].suppressions.push(alert.resource);
                 if (typeof newList.suppressedViolations[alertIdForNist][sortKey] === 'undefined') {
                     newList.suppressedViolations[alertIdForNist][sortKey] = true;
@@ -142,7 +146,8 @@ window.Audit = (function (Resource, AuditRender) {
         var isSorting = AuditUtils.isSorting(sortKey);
 
         var suppressedViolations = {};
-
+        console.log('organizeDataForCurrentRender');
+        console.log(listOfAlerts);
         alerts.forEach(function (alert) {
             var key = organizeType === Constants.ORGANIZATION_TYPE.GROUP ? alert[sortKey] : sortKey;
 
@@ -170,6 +175,7 @@ window.Audit = (function (Resource, AuditRender) {
             if (!suppressedViolations[alert.id]) suppressedViolations[alert.id] = {};
 
             if (!alert.resource) return;
+            console.log(alert.resource);
             if (alert.resource.isSuppressed) {
                 listOfAlerts[key].alerts[alert.id].suppressions.push(alert.resource);
                 if (typeof suppressedViolations[alert.id][key] === 'undefined') suppressedViolations[alert.id][key] = true;
@@ -209,6 +215,8 @@ window.Audit = (function (Resource, AuditRender) {
         var report = reportData.outputs.report;
         if (typeof report === 'string') report = JSON.parse(report);
 
+        console.log('getReport');
+        console.log(report);
         if (!report.truncated) {
             callback(report, reportData._id, timestamp);
             return;
@@ -232,12 +240,14 @@ window.Audit = (function (Resource, AuditRender) {
 
 
     function reorganizeReportData(report, reportId, timestamp, violations) {
+        console.log('reorganizeReportData ----- rowData');
+        console.log(report);
         Object.keys(report).forEach(function (region) {
             Object.keys(report[region]).forEach(function (resId) {
                 Object.keys(report[region][resId].violations).forEach(function (violationKey) {
                     var rowData = report[region][resId].violations[violationKey];
                     if (rowData.level === Constants.VIOLATION_LEVELS.INTERNAL.name) return;
-
+                    console.log(rowData);
                     if (violations[violationKey]) {
                         rowData.violationId = violations[violationKey]._id;
                         rowData.service = violations[violationKey].inputs.service;
@@ -248,6 +258,8 @@ window.Audit = (function (Resource, AuditRender) {
                     if (typeof rowData.include_violations_in_count !== 'boolean') {
                         rowData.include_violations_in_count = true;
                     }
+
+                    // TODO checkSuppressionsHere()
 
                     var isSuppressed = rowData.suppressed || AuditUtils.checkIfResourceIsSuppressed(rowData.suppression_until);
                     var resource = {
@@ -318,6 +330,18 @@ window.Audit = (function (Resource, AuditRender) {
         });
     }
 
+    function getSuppressions(reports) {
+        console.log('getSuppressions called');
+        console.log(reports);
+        reports.forEach(function (reportData) {
+            console.log('report >>>'+ reportData.resourceId);
+            var report = reportData.outputs.report;
+            if (typeof report === 'string') {
+                report = JSON.parse(report);
+                console.log(report);
+            }
+        });
+    }
 
     function fillViolationsList(violations, reports, callback) {
         if (!Object.keys(violations).length) {
@@ -335,8 +359,13 @@ window.Audit = (function (Resource, AuditRender) {
             }
         };
 
+        getSuppressions(reports);
+
+        console.log('fillViolationsList');
+        console.log(ccThisData.auditResults);
         if (ccThisData.auditResults && Object.keys(ccThisData.auditResults).length) {
             Object.keys(ccThisData.auditResults).forEach(function (reportId) {
+                console.log(reportId);
                 reorganizeReportData(ccThisData.auditResults[reportId], reportId, undefined, violations);
             });
             callback();
@@ -345,9 +374,12 @@ window.Audit = (function (Resource, AuditRender) {
 
 
         var handledReports = 0;
-
+        console.log('all reports');
+        console.log(reports);
 
         reports.forEach(function (reportData) {
+            console.log('reportData');
+            console.log(reportData);
             getReport(reportData, checkFetchedReport, true);
         });
     }
@@ -374,7 +406,6 @@ window.Audit = (function (Resource, AuditRender) {
         var reports = [];
         var enabledDefinitions = [];
         var hasAuditResources = false;
-
         resources.forEach(function (resource) {
             if (resource.dataType !== Constants.RESOURCE_TYPE.ADVISOR_RESOURCE) return;
             hasAuditResources = true;
@@ -384,7 +415,6 @@ window.Audit = (function (Resource, AuditRender) {
             if (resource.inputs.level === Constants.VIOLATION_LEVELS.INTERNAL.name) return;
             if (hasRuleRunnerType && resource.outputs.report) {
                 reports.push(resource);
-
                 if (!resource.inputs.rules) return;
                 if (typeof resource.inputs.rules === 'string') {
                     enabledDefinitions = enabledDefinitions.concat(JSON.parse(resource.inputs.rules));
@@ -397,7 +427,6 @@ window.Audit = (function (Resource, AuditRender) {
                 disabledViolations[resource.resourceName] = AuditUtils.organizeDataForAdditionalSections(resource);
             }
         });
-
         allRules = rules;
         if (!executionIsFinished && !hasOld) {
             AuditUI.showResourcesAreBeingLoadedMessage();

@@ -5,6 +5,7 @@ var sortkeys = Constants.SORTKEYS;
 window.AuditUtils = {
 
     getOrganizedViolationData: function (_this, listOfAlerts) {
+        console.log(listOfAlerts);
         var violationId = _this.attr('violation');
         var sortKey = _this.attr('sortKey');
 
@@ -101,6 +102,7 @@ window.AuditUtils = {
     checkIfResourceIsSuppressed: function (date) {
         if (date === undefined) return false;
 
+        //TODO  fix here , if date is empty => infinity
         var now = new Date();
 
         if (date.length) {

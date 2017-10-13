@@ -5,7 +5,6 @@ var sortkeys = Constants.SORTKEYS;
 window.AuditUtils = {
 
     getOrganizedViolationData: function (_this, listOfAlerts) {
-        console.log(listOfAlerts);
         var violationId = _this.attr('violation');
         var sortKey = _this.attr('sortKey');
 

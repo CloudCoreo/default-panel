@@ -108,7 +108,7 @@ window.ResourcesPie = (function () {
     }
 
     ResourcesPie.prototype.drawPie = function (pieData, color) {
-        if (pieData.length === 0 || pieData[0].value === 0) {
+        if (pieData.length === 0 || (pieData[0].value === 0 && pieData.length===1)) {
             pieData = [{ "label": "n/a", "value": 1, color: "#e4e4e4" }];
         }
         drawPie(pieData, color, cont);

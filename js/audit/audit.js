@@ -734,7 +734,7 @@ window.Audit = (function (Resource, AuditRender) {
         if (data.auditResultsRunId && data.auditResultsRunId === ccThisData.auditResultsRunId) {
             if (ccThisData.runId !== data.runId && data.auditResultsRunId !== data.runId) {
                 hasOld = true;
-                render($('.audit .chosen-sorting').val());
+                reRender($('.audit .chosen-sorting').val());
             }
             callback();
             return;
@@ -752,7 +752,6 @@ window.Audit = (function (Resource, AuditRender) {
         });
     };
 
-    audit.prototype.renderResourcesList = render;
     audit.prototype.getViolationsList = function () {
         return alerts;
     };

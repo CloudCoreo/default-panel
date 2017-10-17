@@ -46,9 +46,14 @@ function drawPie(pieData, color, cont) {
         .attr("class", "arc");
 
     var onclick = function (d, index) {
-        $('.scrollable-area').animate({
-            scrollTop: $("." + pieData[index].label).offset().top - tabsHeight
-        }, 200);
+        var labelName = pieData[index].label;
+        var classNameRegex = new RegExp('-?[_a-zA-Z]+[_a-zA-Z0-9-]*');
+        if (classNameRegex.test(labelName) && labelName.indexOf('/') < 0 && $("." + labelName).length > 0) {
+            $('.scrollable-area').animate({
+                scrollTop: $("." + pieData[index].label).offset().top - tabsHeight
+            }, 200);
+        }
+
     };
 
     g.append("svg:path")

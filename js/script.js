@@ -245,6 +245,9 @@ $(document).ready(function () {
     }
 
     function checkError(ccThis) {
+        if(Object.keys(ccThis).length==0){
+            AuditUI.showNoAuditResourcesMessage();
+        }
         var params = {
             timestamp: ccThis.lastExecutionTime
         };

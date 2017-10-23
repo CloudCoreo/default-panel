@@ -252,10 +252,12 @@ $(document).ready(function () {
     }
 
     function init(data, isFirstLoad) {
+        console.log(data);
         if(Object.keys(data).length==0){
             AuditUI.showNoAuditResourcesMessage();
             return;
         }
+        console.log("dfsdaf");
         checkError(data);
         setupHandlers(data);
         initView();

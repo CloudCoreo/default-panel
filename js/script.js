@@ -245,9 +245,6 @@ $(document).ready(function () {
     }
 
     function checkError(ccThis) {
-        if(Object.keys(ccThis).length==0){
-            AuditUI.showNoAuditResourcesMessage();
-        }
         var params = {
             timestamp: ccThis.lastExecutionTime
         };
@@ -255,6 +252,10 @@ $(document).ready(function () {
     }
 
     function init(data, isFirstLoad) {
+        if(Object.keys(data).length==0){
+            AuditUI.showNoAuditResourcesMessage();
+            return;
+        }
         checkError(data);
         setupHandlers(data);
         initView();

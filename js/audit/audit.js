@@ -281,7 +281,7 @@ window.Audit = (function (Resource, AuditRender) {
 
                     for (var prop in Constants.SORTKEYS) {
                         if (alert[prop]) {
-                            alert[prop] = alert[prop].toLowerCase();
+                            alert[prop] = alert[prop].charAt(0).toUpperCase() + alert[prop].substr(1).toLowerCase();
                         }
                     }
 

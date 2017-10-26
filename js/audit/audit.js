@@ -280,10 +280,11 @@ window.Audit = (function (Resource, AuditRender) {
                     alerts.push(alert);
 
                     for (var prop in Constants.SORTKEYS) {
-                        if (alert[prop]) {
-                            alert[prop] = alert[prop].toLowerCase();
+                        if (alert[prop] && prop!="region") {
+                            alert[prop] = alert[prop].charAt(0).toUpperCase() + alert[prop].substr(1).toLowerCase();
                         }
                     }
+                    console.log(alert.level);
 
                     if (!alertData.level.hasOwnProperty(alert.level)) {
                         alertData.level[alert.level] = {};

@@ -280,7 +280,7 @@ window.Audit = (function (Resource, AuditRender) {
                     alerts.push(alert);
 
                     for (var prop in Constants.SORTKEYS) {
-                        if (alert[prop]) {
+                        if (alert[prop] && prop!="region") {
                             alert[prop] = alert[prop].charAt(0).toUpperCase() + alert[prop].substr(1).toLowerCase();
                         }
                     }

@@ -241,7 +241,7 @@ $(document).ready(function () {
             engineStatus: params.engineStatus,
             runId: params.runId
         });
-        $('.run-error-wrapper').append(rendered);
+        $('.run-error-wrapper').html(rendered);
     }
 
     function checkError(ccThis) {

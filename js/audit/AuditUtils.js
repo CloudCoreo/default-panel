@@ -99,15 +99,13 @@ window.AuditUtils = {
 
 
     checkIfResourceIsSuppressed: function (date) {
-        if (date === undefined) return false;
+        if (!date) {
+            return false;
+        }
 
         var now = new Date();
-
-        if (date.length) {
-            var suppressedDate = new Date(date);
-            return suppressedDate.getTime() >= now.getTime();
-        }
-        return false;
+        var suppressedDate = new Date(date);
+        return suppressedDate.getTime() >= now.getTime();
     },
 
 

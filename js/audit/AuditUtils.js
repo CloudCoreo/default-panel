@@ -7,11 +7,19 @@ window.AuditUtils = {
     getOrganizedViolationData: function (_this, listOfAlerts) {
         var violationId = _this.attr('violation');
         var sortKey = _this.attr('sortKey');
+        var resources = [];
+        var suppressions = [];
+        if (listOfAlerts[sortKey].alerts[violationId]) {
+            resources = listOfAlerts[sortKey].alerts[violationId].resources;
+        }
+        if (listOfAlerts[sortKey].alerts[violationId]) {
+            suppressions = listOfAlerts[sortKey].alerts[violationId].suppressions;
+        }
 
         return {
             violationId: _this.attr('violationId'),
-            resources: listOfAlerts[sortKey].alerts[violationId].resources,
-            suppressions: listOfAlerts[sortKey].alerts[violationId].suppressions,
+            resources: resources,
+            suppressions: suppressions,
             color: listOfAlerts[sortKey].color
         };
     },

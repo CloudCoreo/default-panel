@@ -12,14 +12,12 @@ window.AuditUtils = {
         var resources = [];
         var suppressions = [];
 
-        if (listOfAlerts[sortKey].alerts[violationId]) {
+        if (listOfAlerts[sortKey].alerts.hasOwnProperty(violationId)) {
             resources = listOfAlerts[sortKey].alerts[violationId].resources;
-        }
-        if (listOfAlerts[sortKey].alerts[violationId]) {
             suppressions = listOfAlerts[sortKey].alerts[violationId].suppressions;
         }
 
-        if(suppressions.length === 0 && noViolations[violationId].suppressions.length>0){
+        if(suppressions.length === 0 && noViolations.hasOwnProperty(violationId)){
             suppressions = noViolations[violationId].suppressions;
         }
 

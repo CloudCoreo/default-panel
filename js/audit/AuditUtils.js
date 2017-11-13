@@ -4,16 +4,29 @@ var sortkeys = Constants.SORTKEYS;
 
 window.AuditUtils = {
 
-    getOrganizedViolationData: function (_this, listOfAlerts) {
+    getOrganizedViolationData: function (_this, options) {
+        var listOfAlerts = options.listOfAlerts;
+        var noViolations = options.noViolations;
         var violationId = _this.attr('violation');
         var sortKey = _this.attr('sortKey');
         var resources = [];
         var suppressions = [];
+        console.log("Violation Id: " + violationId);
+        console.log("Level: " + sortKey);
+        console.log("List of alerts");
+        console.log(listOfAlerts);
+        console.log("List of noViolations");
+        console.log(noViolations);
+
         if (listOfAlerts[sortKey].alerts[violationId]) {
             resources = listOfAlerts[sortKey].alerts[violationId].resources;
         }
         if (listOfAlerts[sortKey].alerts[violationId]) {
             suppressions = listOfAlerts[sortKey].alerts[violationId].suppressions;
+        }
+
+        if(suppressions.length === 0 && noViolations[violationId].suppressions.length>0){
+            suppressions = noViolations[violationId].suppressions;
         }
 
         return {

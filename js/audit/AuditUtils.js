@@ -11,12 +11,6 @@ window.AuditUtils = {
         var sortKey = _this.attr('sortKey');
         var resources = [];
         var suppressions = [];
-        console.log("Violation Id: " + violationId);
-        console.log("Level: " + sortKey);
-        console.log("List of alerts");
-        console.log(listOfAlerts);
-        console.log("List of noViolations");
-        console.log(noViolations);
 
         if (listOfAlerts[sortKey].alerts[violationId]) {
             resources = listOfAlerts[sortKey].alerts[violationId].resources;

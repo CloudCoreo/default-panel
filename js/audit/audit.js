@@ -280,7 +280,7 @@ window.Audit = (function (Resource, AuditRender) {
                     alerts.push(alert);
 
                     for (var prop in Constants.SORTKEYS) {
-                        if (alert[prop]) {
+                        if (alert[prop] && prop!="region") {
                             alert[prop] = alert[prop].charAt(0).toUpperCase() + alert[prop].substr(1).toLowerCase();
                         }
                     }
@@ -734,7 +734,7 @@ window.Audit = (function (Resource, AuditRender) {
         if (data.auditResultsRunId && data.auditResultsRunId === ccThisData.auditResultsRunId) {
             if (ccThisData.runId !== data.runId && data.auditResultsRunId !== data.runId) {
                 hasOld = true;
-                render($('.audit .chosen-sorting').val());
+                reRender($('.audit .chosen-sorting').val());
             }
             callback();
             return;
@@ -752,7 +752,6 @@ window.Audit = (function (Resource, AuditRender) {
         });
     };
 
-    audit.prototype.renderResourcesList = render;
     audit.prototype.getViolationsList = function () {
         return alerts;
     };
